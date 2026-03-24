@@ -19,23 +19,38 @@ The top-level view showing all scanned objects with their latest quality scores.
 
 ### Level 2: Object
 
-Shows all definitions for a selected object. Compare different scan configurations and their results side by side.
+Shows all definitions for a selected object with the overall quality score, last scan date, status, and definition cards. Compare different scan configurations and their results side by side.
+
+![Object view for Case — overall score 64.7%, 2 definitions with individual scores and scan counts](../../../assets/screenshots/object-with-definitions.png)
 
 ### Level 3: Definition
 
-The main dashboard for a single definition. Displays:
-- Overall quality score
-- Dimension breakdown (scores per capability)
-- Recent scan history
-- Trend sparklines
+The main dashboard for a single definition. It has four tabs:
+
+- **Overview** — Overall quality score, dimension score bars, Score Trend chart, and Record Scores panel
+- **Fields** — Field Health Matrix with per-field scores across dimensions
+- **Scans** — Full scan history with per-run results
+- **Exports** — Download violation details as CSV per dimension and field
+
+![Definition dashboard — 85.8% overall score, dimension breakdown, Score Trend chart, and Record Scores](../../../assets/screenshots/object-with-latest-scans.png)
+
+The **Fields** tab shows each field's score per dimension in a color-coded matrix — red for poor, green for good. Use it to quickly spot the weakest fields.
+
+![Fields tab — Field Health Matrix with scores per dimension, color-coded by grade](../../../assets/screenshots/object-fields-section.png)
+
+The **Exports** tab lists available exports per dimension and field, with download buttons and export history.
+
+![Exports tab — export history and per-field export buttons for each dimension](../../../assets/screenshots/object-exports-tab.png)
+
+From the Overview tab, click **Compare** on the Score Trend chart to compare two scans side by side — see dimension-level and field-level deltas between a baseline and comparison scan.
+
+![Compare Results modal — baseline vs comparison with dimension changes and top field deltas](../../../assets/screenshots/object-compare-results.png)
 
 ### Level 4: Scan
 
-Detailed results for a specific scan execution. Shows:
-- Timestamp and duration
-- Per-dimension scores
-- Comparison with previous scan
-- Field-level breakdown
+Detailed results for a specific scan execution. The **Scans** tab shows the full scan history with status indicators, scores, and per-dimension breakdowns for each run.
+
+![Scans tab showing scan history with dates, scores, status, and per-dimension results](../../../assets/screenshots/object-scans-tab.png)
 
 ### Level 5: Field
 
