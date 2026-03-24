@@ -60,12 +60,18 @@ Results for a single field across all dimensions. Useful for understanding why a
 
 The deepest level — individual metric results for one field in one dimension. Shows the raw evaluation data.
 
-## Sidebar Navigation
+## Sidebar Panel
 
-The sidebar provides:
-- **Definition cards** — Click to navigate to a definition
-- **Filters** — Filter results by dimension, score range, or field type
-- **Breakdowns** — Group results by different criteria
+The right-hand sidebar shows context and actions for the current definition:
+
+- **Header** — Definition name, overall score with grade, scan count, and a refresh button
+- **Run Scan** — Trigger a scan manually, with last scan date displayed below
+- **Analyze** — **Export Report** to download results
+- **Configure** — **Manage Schedule** with countdown to the next scheduled run (e.g., "Next in 8h 28m")
+- **Navigate** — **Open in Salesforce** (external link to the definition record) and **View Records** (browse scanned records)
+- **Quick Fix** — Highlights the worst-performing field with its score (e.g., "Description at 9.6% — worst field") and a direct **Investigate** link to drill into it
+
+![Sidebar panel with Run Scan, Analyze, Configure, Navigate, and Quick Fix sections](../../../assets/screenshots/sidebar-panel.png)
 
 ## Breadcrumb Navigation
 
