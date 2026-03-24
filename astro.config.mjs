@@ -4,8 +4,7 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://tucario.gitlab.io',
-	base: '/dqs-documentation',
+	site: 'https://dqs-documentation-f8780a.gitlab.io',
 	outDir: './public',
 	publicDir: './static',
 	integrations: [
@@ -14,7 +13,7 @@ export default defineConfig({
 			logo: {
 				src: './src/assets/logo.svg',
 			},
-			favicon: '/favicon.svg',
+			favicon: 'favicon.svg',
 			customCss: ['./src/styles/custom.css'],
 			components: {
 				ThemeSelect: './src/components/ThemeSelect.astro',
