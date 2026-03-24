@@ -133,6 +133,7 @@ export default defineConfig({
 						ar: 'المرجع',
 					},
 					items: [
+						{ label: 'Regex Tester', slug: 'reference/regex-tester' },
 						{ label: 'Data Model', slug: 'reference/data-model' },
 						{ label: 'Limits', slug: 'reference/limits' },
 						{ label: 'FAQ', slug: 'reference/faq' },

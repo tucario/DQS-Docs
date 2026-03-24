@@ -45,6 +45,10 @@ Exclude specific fields from PII scanning (e.g., a field where phone numbers are
 PII Detection uses pattern matching, not AI classification. It may produce false positives (e.g., a number that looks like an SSN but isn't). Review flagged records before taking action.
 </Aside>
 
+## PII Regex Patterns
+
+DQS uses **Java-compatible regular expressions** to detect PII in free-text fields. See the [Regex Tester](/reference/regex-tester/) for an interactive tester and a full library of PII patterns — including SSN, credit cards (Visa, Mastercard, Amex), IBAN, passport numbers, PESEL, NIP, and more.
+
 ## Use Cases
 
 - Audit Description and Notes fields for accidentally stored credit card numbers

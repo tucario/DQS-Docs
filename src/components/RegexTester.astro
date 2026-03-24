@@ -1,0 +1,241 @@
+---
+---
+
+<div class="regex-tester" id="regex-tester">
+	<div class="regex-field">
+		<label for="regex-input">Regular Expression</label>
+		<div class="regex-input-row">
+			<span class="regex-delim">/</span>
+			<input type="text" id="regex-input" placeholder="enter your regex here" spellcheck="false" autocomplete="off" />
+			<span class="regex-delim">/</span>
+			<input type="text" id="regex-flags" value="gm" placeholder="flags" spellcheck="false" autocomplete="off" class="regex-flags" />
+		</div>
+		<div class="regex-status" id="regex-status"></div>
+	</div>
+
+	<div class="regex-field">
+		<label for="test-input">Test String</label>
+		<textarea id="test-input" rows="6" placeholder="enter your test string here" spellcheck="false"></textarea>
+	</div>
+
+	<div class="regex-results" id="regex-results">
+		<div class="regex-match-info" id="match-info">Enter a regex and test string above.</div>
+		<div class="regex-highlighted" id="highlighted-output"></div>
+	</div>
+</div>
+
+<script>
+	function initRegexTester() {
+		const regexInput = document.getElementById('regex-input') as HTMLInputElement;
+		const flagsInput = document.getElementById('regex-flags') as HTMLInputElement;
+		const testInput = document.getElementById('test-input') as HTMLTextAreaElement;
+		const status = document.getElementById('regex-status')!;
+		const matchInfo = document.getElementById('match-info')!;
+		const highlighted = document.getElementById('highlighted-output')!;
+
+		if (!regexInput || !testInput) return;
+
+		function evaluate() {
+			const pattern = regexInput.value;
+			const flags = flagsInput.value;
+			const testStr = testInput.value;
+
+			status.textContent = '';
+			status.className = 'regex-status';
+			matchInfo.textContent = '';
+			highlighted.innerHTML = '';
+
+			if (!pattern) {
+				matchInfo.textContent = 'Enter a regex and test string above.';
+				return;
+			}
+
+			let re: RegExp;
+			try {
+				re = new RegExp(pattern, flags);
+				status.textContent = '✓ Valid pattern';
+				status.className = 'regex-status valid';
+			} catch (e: any) {
+				status.textContent = '✗ ' + e.message;
+				status.className = 'regex-status invalid';
+				matchInfo.textContent = 'Fix the regex error above.';
+				return;
+			}
+
+			if (!testStr) {
+				matchInfo.textContent = 'Enter a test string to see matches.';
+				return;
+			}
+
+			// Find all matches
+			const matches: { start: number; end: number; text: string }[] = [];
+			if (flags.includes('g')) {
+				let m: RegExpExecArray | null;
+				const safeRe = new RegExp(pattern, flags);
+				while ((m = safeRe.exec(testStr)) !== null) {
+					if (m[0].length === 0) { safeRe.lastIndex++; continue; }
+					matches.push({ start: m.index, end: m.index + m[0].length, text: m[0] });
+					if (matches.length > 500) break;
+				}
+			} else {
+				const m = re.exec(testStr);
+				if (m) {
+					matches.push({ start: m.index, end: m.index + m[0].length, text: m[0] });
+				}
+			}
+
+			// Match info
+			if (matches.length === 0) {
+				matchInfo.textContent = 'No matches found.';
+			} else {
+				matchInfo.textContent = `${matches.length} match${matches.length > 1 ? 'es' : ''} found.`;
+			}
+
+			// Build highlighted output
+			let html = '';
+			let lastIndex = 0;
+			for (const match of matches) {
+				html += escapeHtml(testStr.slice(lastIndex, match.start));
+				html += '<mark>' + escapeHtml(match.text) + '</mark>';
+				lastIndex = match.end;
+			}
+			html += escapeHtml(testStr.slice(lastIndex));
+			highlighted.innerHTML = html || escapeHtml(testStr);
+		}
+
+		function escapeHtml(str: string) {
+			return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
+		}
+
+		regexInput.addEventListener('input', evaluate);
+		flagsInput.addEventListener('input', evaluate);
+		testInput.addEventListener('input', evaluate);
+	}
+
+	initRegexTester();
+	document.addEventListener('astro:page-load', initRegexTester);
+</script>
+
+<style>
+	.regex-tester {
+		border: 1px solid var(--sl-color-hairline-light);
+		border-radius: 0.75rem;
+		padding: 1.5rem;
+		margin: 1.5rem 0;
+		background: var(--sl-color-bg-nav);
+	}
+
+	.regex-field {
+		margin-bottom: 1rem;
+	}
+
+	.regex-field label {
+		display: block;
+		font-weight: 600;
+		font-size: var(--sl-text-sm);
+		margin-bottom: 0.375rem;
+		color: var(--sl-color-white);
+	}
+
+	.regex-input-row {
+		display: flex;
+		align-items: center;
+		gap: 0;
+		background: var(--sl-color-black);
+		border: 1px solid var(--sl-color-hairline-light);
+		border-radius: 0.5rem;
+		overflow: hidden;
+	}
+
+	.regex-delim {
+		padding: 0.5rem 0.25rem;
+		color: var(--sl-color-gray-3);
+		font-family: var(--sl-font-system-mono);
+		font-size: var(--sl-text-sm);
+		user-select: none;
+	}
+
+	.regex-delim:first-child { padding-left: 0.75rem; }
+
+	#regex-input {
+		flex: 1;
+		background: transparent;
+		border: none;
+		outline: none;
+		color: var(--sl-color-white);
+		font-family: var(--sl-font-system-mono);
+		font-size: var(--sl-text-sm);
+		padding: 0.5rem 0;
+	}
+
+	.regex-flags {
+		width: 2.5rem;
+		background: transparent;
+		border: none;
+		border-left: 1px solid var(--sl-color-hairline-light);
+		outline: none;
+		color: var(--sl-color-gray-3);
+		font-family: var(--sl-font-system-mono);
+		font-size: var(--sl-text-sm);
+		padding: 0.5rem;
+		text-align: center;
+	}
+
+	#test-input {
+		width: 100%;
+		background: var(--sl-color-black);
+		border: 1px solid var(--sl-color-hairline-light);
+		border-radius: 0.5rem;
+		color: var(--sl-color-white);
+		font-family: var(--sl-font-system-mono);
+		font-size: var(--sl-text-sm);
+		padding: 0.75rem;
+		resize: vertical;
+		outline: none;
+		box-sizing: border-box;
+	}
+
+	#test-input:focus, .regex-input-row:focus-within {
+		border-color: var(--sl-color-accent);
+	}
+
+	.regex-status {
+		font-size: var(--sl-text-xs);
+		margin-top: 0.375rem;
+		min-height: 1.25rem;
+		font-family: var(--sl-font-system-mono);
+	}
+
+	.regex-status.valid { color: #22c55e; }
+	.regex-status.invalid { color: #ef4444; }
+
+	.regex-results {
+		background: var(--sl-color-black);
+		border: 1px solid var(--sl-color-hairline-light);
+		border-radius: 0.5rem;
+		padding: 0.75rem;
+	}
+
+	.regex-match-info {
+		font-size: var(--sl-text-xs);
+		color: var(--sl-color-gray-3);
+		margin-bottom: 0.5rem;
+	}
+
+	.regex-highlighted {
+		font-family: var(--sl-font-system-mono);
+		font-size: var(--sl-text-sm);
+		color: var(--sl-color-white);
+		white-space: pre-wrap;
+		word-break: break-all;
+		line-height: 1.6;
+	}
+
+	.regex-highlighted :global(mark) {
+		background: rgba(79, 70, 229, 0.35);
+		color: inherit;
+		border-radius: 2px;
+		padding: 1px 0;
+		border-bottom: 2px solid var(--sl-color-accent);
+	}
+</style>
