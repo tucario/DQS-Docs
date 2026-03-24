@@ -20,23 +20,23 @@ The Validity strategy evaluates each field value against expected rules:
 
 ### Global Settings
 
+The **Defaults** section controls global validation options that apply to all fields:
+
 | Setting | Description |
 |---------|-------------|
-| **Validation Mode** | Type of validation to apply (format, range, picklist) |
+| **Include blank values in validation** | When enabled, blank/null values will fail validation |
+| **Case-sensitive matching** | Pattern matching considers uppercase/lowercase |
+| **Pattern Selection** | Choose a default validation pattern (Email, URL, Fixed Length, or Custom regex) |
+
+The **Field Overrides** table below lists each field in scope with its current pattern and status. Fields marked "Default" use the global settings, "None" means no pattern is assigned yet.
+
+![Validity configuration with Defaults (Validation Options, Pattern Selection) and Field Overrides table](../../../assets/screenshots/validity-generic-view.png)
 
 ### Per-Field Overrides
 
-Customize validation rules for specific fields:
-- **Custom regex patterns** for text fields — use the [Regex Tester](/reference/regex-tester/) to validate your patterns before applying them
-- **Value ranges** for number fields
-- **Allowed values** for picklist fields (import from metadata)
+Click on a field in the Field Overrides table to open its configuration modal. Here you can assign a specific validation pattern for that field — choose from predefined patterns (Email, URL, Fixed Length) or select **Custom** to enter your own regex. Each field override also lets you toggle **Include blank values** and **Case-sensitive matching** independently from the global defaults. Use the **Revert to Global** link to reset the field back to the global settings.
 
-## Import from Field Metadata
-
-For picklist fields, DQS can automatically **import all valid values** from the field's metadata. This includes:
-- Standard picklist values defined in the schema
-- Live value counts showing how many records use each value
-- Inactive values that exist in data but are no longer active in the picklist
+![Per-field configuration modal for the Name field with predefined pattern options (Email, URL, Fixed Length, Custom)](../../../assets/screenshots/validity-field-regex.png)
 
 ## Scoring
 
@@ -49,7 +49,11 @@ For picklist fields, DQS can automatically **import all valid values** from the 
 
 ## Regex Patterns
 
-DQS uses **Java-compatible regular expressions** for text field validation. See the [Regex Tester](/reference/regex-tester/) for an interactive tester and a library of ready-to-use patterns for email, phone, URL, postal codes, and more.
+DQS uses **Java-compatible regular expressions** for text field validation. When you select **Custom** in the pattern picker, a text field appears where you can enter your own regex pattern.
+
+![Custom regex pattern input in the per-field configuration modal](../../../assets/screenshots/validity-field-custom-regex.png)
+
+See the [Regex Tester](/reference/regex-tester/) for an interactive tester and a library of ready-to-use patterns for email, phone, URL, postal codes, and more.
 
 ## Use Cases
 
