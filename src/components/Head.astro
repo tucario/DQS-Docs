@@ -1,0 +1,63 @@
+---
+import type { Props } from '@astrojs/starlight/props';
+import Default from '@astrojs/starlight/components/Head.astro';
+---
+
+<Default {...Astro.props}><slot /></Default>
+
+<script>
+	function initLightbox() {
+		// Create lightbox element
+		let lightbox = document.querySelector('.img-lightbox') as HTMLDivElement;
+		if (!lightbox) {
+			lightbox = document.createElement('div');
+			lightbox.className = 'img-lightbox';
+			lightbox.innerHTML = '<img src="" alt="" />';
+			document.body.appendChild(lightbox);
+
+			lightbox.addEventListener('click', () => {
+				lightbox.classList.remove('active');
+			});
+
+			document.addEventListener('keydown', (e) => {
+				if (e.key === 'Escape') lightbox.classList.remove('active');
+			});
+		}
+
+		const lightboxImg = lightbox.querySelector('img')!;
+
+		// Wrap content images and add caption + click handler
+		document.querySelectorAll('.sl-markdown-content img').forEach((img) => {
+			const el = img as HTMLImageElement;
+
+			// Skip if already wrapped
+			if (el.parentElement?.classList.contains('img-wrapper')) return;
+
+			// Create wrapper
+			const wrapper = document.createElement('span');
+			wrapper.className = 'img-wrapper';
+			wrapper.style.display = 'block';
+			el.parentElement?.insertBefore(wrapper, el);
+			wrapper.appendChild(el);
+
+			// Add caption
+			const caption = document.createElement('span');
+			caption.className = 'img-caption';
+			caption.textContent = 'click to enlarge';
+			wrapper.appendChild(caption);
+
+			// Click to open lightbox
+			el.addEventListener('click', () => {
+				lightboxImg.src = el.src;
+				lightboxImg.alt = el.alt;
+				lightbox.classList.add('active');
+			});
+		});
+	}
+
+	// Run on initial load
+	initLightbox();
+
+	// Re-run on Astro page transitions (View Transitions)
+	document.addEventListener('astro:page-load', initLightbox);
+</script>

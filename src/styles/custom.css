@@ -11,3 +11,56 @@
 	--sl-color-accent: #4338ca;
 	--sl-color-accent-high: #312e81;
 }
+
+/* Click-to-enlarge images */
+.sl-markdown-content img {
+	cursor: pointer;
+	transition: opacity 0.2s;
+	border-radius: 0.5rem;
+	border: 1px solid var(--sl-color-hairline-light);
+}
+
+.sl-markdown-content img:hover {
+	opacity: 0.9;
+}
+
+.img-caption {
+	display: block;
+	text-align: center;
+	font-style: italic;
+	font-size: var(--sl-text-xs);
+	color: var(--sl-color-gray-3);
+	margin-top: 0.25rem;
+	margin-bottom: 1.5rem;
+	opacity: 0;
+	transition: opacity 0.2s;
+}
+
+.img-wrapper:hover .img-caption {
+	opacity: 1;
+}
+
+/* Lightbox modal */
+.img-lightbox {
+	display: none;
+	position: fixed;
+	inset: 0;
+	z-index: 100;
+	background: rgba(0, 0, 0, 0.85);
+	cursor: zoom-out;
+	align-items: center;
+	justify-content: center;
+	padding: 2rem;
+}
+
+.img-lightbox.active {
+	display: flex;
+}
+
+.img-lightbox img {
+	max-width: 95vw;
+	max-height: 90vh;
+	object-fit: contain;
+	border-radius: 0.5rem;
+	box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
