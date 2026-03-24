@@ -1,0 +1,49 @@
+---
+title: Exports
+description: Export scan results and violation details to CSV.
+---
+
+## CSV Export
+
+Insight Studio supports **CSV export** of violation details for all dimensions. This lets you take action on data quality issues outside of Salesforce.
+
+## What Gets Exported
+
+Each export contains the specific records that failed quality checks for a given dimension:
+
+| Dimension | Export Contains |
+|-----------|----------------|
+| **Completeness** | Records with blank/null fields |
+| **Validity** | Records with invalid values |
+| **Uniqueness** | Records with duplicate values |
+| **Timeliness** | Records with stale dates |
+| **Consistency** | Records with contradicting fields |
+| **PII Detection** | Records with detected PII |
+| **AI Readiness** | Records failing AI readiness checks |
+
+## Export Columns
+
+Each CSV includes:
+- **Record ID** — Salesforce record identifier
+- **Record Name** — Display name of the record
+- **Field** — The field that failed the check
+- **Current Value** — The value that triggered the violation
+- **Violation Type** — Specific type of quality issue
+- **Score** — The field's score for this dimension
+
+## How to Export
+
+1. Navigate to the dimension or field view in Insight Studio
+2. Click the **Export** button
+3. The CSV file downloads to your browser
+
+## Completion Notification
+
+For large datasets, the export runs as a background process. You receive a **notification** when the export is ready for download.
+
+## Use Cases
+
+- Share data quality reports with stakeholders who don't have Salesforce access
+- Import violation lists into data cleansing tools
+- Create action items in project management tools
+- Compliance documentation and audit trails

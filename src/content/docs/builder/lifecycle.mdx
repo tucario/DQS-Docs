@@ -1,0 +1,64 @@
+---
+title: Definition Lifecycle
+description: Understanding the lifecycle stages of a scan definition.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Lifecycle Stages
+
+Every scan definition progresses through a series of stages:
+
+```
+Draft  →  Ready  →  Active  →  Obsolete
+```
+
+### Draft
+
+The initial state when a definition is created. In Draft status:
+- The definition can be freely edited
+- Fields and capabilities can be added or removed
+- No scans can be executed
+- The definition is not visible in Insight Studio
+
+### Ready
+
+A transitional state indicating the definition has been reviewed. In Ready status:
+- All required configuration is complete
+- The definition has passed validation
+- It can be activated
+
+### Active
+
+The operational state. In Active status:
+- Scans can be executed against the definition
+- Results appear in Insight Studio
+- The definition can be scheduled for recurring scans
+- Editing is still possible — changes take effect on the next scan
+
+### Obsolete
+
+The retired state. In Obsolete status:
+- No new scans can be triggered
+- Existing results remain visible in Insight Studio for historical analysis
+- The definition can be reactivated if needed
+
+## Activation Validation
+
+Before a definition can be activated, DQS validates:
+
+| Rule | Description |
+|------|-------------|
+| **Fields selected** | At least one field must be selected |
+| **Capabilities enabled** | At least one capability must be enabled |
+| **Configuration complete** | All required capability settings must be filled |
+
+<Aside type="note">
+When you click **Activate**, the definition moves directly to Active status. The Ready state is used internally for validation gating.
+</Aside>
+
+## Changing Status
+
+- **Draft → Active**: Click "Activate" on the summary screen
+- **Active → Obsolete**: Use the definition settings to retire it
+- **Obsolete → Active**: Reactivate from the definition settings

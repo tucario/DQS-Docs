@@ -1,0 +1,50 @@
+---
+title: Insight Studio Overview
+description: Explore data quality results with rich dashboards and analytics.
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## What is Insight Studio?
+
+Insight Studio (DIS) is the **visualization and analytics layer** of Data Quality Sense. It consumes scan results and presents them as interactive dashboards, charts, and recommendations.
+
+## Workspace Layout
+
+Insight Studio uses a **3-zone layout**:
+
+- **Sidebar** — Object/definition navigation, filters, and breakdown options
+- **Stage** — Main content area with scores, charts, and data tables
+- **Mentor Panel** — AI-powered recommendations and contextual actions
+
+<CardGrid>
+	<Card title="Score Overview" icon="open-book">
+		At-a-glance quality scores for each dimension, with overall ratings and grade indicators.
+	</Card>
+	<Card title="Trend Analysis" icon="open-book">
+		Sparklines and trend charts showing how data quality changes over time across scans.
+	</Card>
+	<Card title="Field Health" icon="open-book">
+		Matrix view of every field's quality score per dimension. Quickly spot the weakest fields.
+	</Card>
+	<Card title="AI Mentor" icon="open-book">
+		Contextual recommendations based on scan results. Suggests actions to improve data quality.
+	</Card>
+</CardGrid>
+
+## Key Features
+
+| Feature | Description |
+|---------|-------------|
+| **Multi-level navigation** | Drill from Home → Object → Definition → Scan → Field → Dimension |
+| **Score comparison** | Compare results between two scans to see improvement or regression |
+| **CSV export** | Export violation details for any dimension |
+| **Scan trigger** | Manually trigger a scan from the dashboard |
+| **Schedule management** | Create and manage scan schedules |
+
+## Learn More
+
+- [Navigation](/dqs-documentation/insight-studio/navigation/)
+- [Scores & Trends](/dqs-documentation/insight-studio/scores-trends/)
+- [Field Health](/dqs-documentation/insight-studio/field-health/)
+- [Exports](/dqs-documentation/insight-studio/exports/)

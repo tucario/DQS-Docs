@@ -1,0 +1,65 @@
+---
+title: Data Model
+description: Custom objects, Custom Metadata Types, and their relationships.
+---
+
+## Custom Objects
+
+DQS uses a set of custom objects to store definitions, results, and scheduling data. All objects use the `dqssens` namespace prefix.
+
+### Definition Objects
+
+| Object | Purpose | Key Fields |
+|--------|---------|------------|
+| `DQS_Definition__c` | Scan configuration | Name, Object API Name, Status, Description |
+| `DQS_Definition_Detail__c` | Field-level config | Definition (lookup), Field API Name, Overrides |
+
+### Result Objects
+
+| Object | Purpose | Relationship |
+|--------|---------|-------------|
+| `DQS_Dimension_Result__c` | Per-dimension scan result | Definition (lookup) |
+| `DQS_Field_Result__c` | Per-field result within a dimension | Dimension Result (master-detail) |
+| `DQS_Metric_Result__c` | Detailed metric per field | Field Result (master-detail) |
+
+### Scheduling Objects
+
+| Object | Purpose |
+|--------|---------|
+| `DQS_Batch_Schedule__c` | Stores schedule configuration per definition |
+
+## Object Relationships
+
+```
+DQS_Definition__c
+  ├── DQS_Definition_Detail__c (1:N)
+  ├── DQS_Batch_Schedule__c (1:1)
+  └── DQS_Dimension_Result__c (1:N per scan)
+       └── DQS_Field_Result__c (1:N, master-detail)
+            └── DQS_Metric_Result__c (1:N, master-detail)
+```
+
+## Custom Metadata Types
+
+CMTs drive the configuration of capabilities and their evaluation logic. They are package-controlled and not editable by subscribers (except where noted).
+
+| CMT | Purpose | Records |
+|-----|---------|---------|
+| `DQS_Capability__mdt` | Defines available quality dimensions | 7 (one per capability) |
+| `DQS_Dimension__mdt` | Dimension display configuration | 7 |
+| `DQS_Metric__mdt` | Metric definitions per capability | Multiple per dimension |
+| `DQS_Input_Configuration__mdt` | Input configurator settings | Per-capability config fields |
+| `DQS_Configuration__mdt` | General app settings | Retention, feature flags |
+
+## Platform Events
+
+| Event | Purpose |
+|-------|---------|
+| `Calculation_Complete__e` | Fired when a scan finishes processing |
+| `DQS_Processing_Error__e` | Fired when an error occurs during batch processing |
+
+## Feature Parameters
+
+| Parameter | Purpose |
+|-----------|---------|
+| `DQS_AppEnabled` | Controls activation gate — whether the app is licensed and active |

@@ -1,0 +1,49 @@
+---
+title: Consistency
+description: Check logical consistency between related fields.
+---
+
+## What is Consistency?
+
+Consistency measures whether **related fields contain logically compatible values**. Data can be complete and valid individually, but still be inconsistent when fields contradict each other.
+
+## How It Works
+
+The Consistency strategy evaluates relationships between pairs or groups of fields:
+
+1. Identifies configured consistency rules (field relationships)
+2. For each record, checks whether the related fields satisfy the rule
+3. Calculates the percentage of records passing all consistency checks
+
+## Configuration
+
+### Global Settings
+
+| Setting | Description |
+|---------|-------------|
+| **Consistency Rules** | Define which fields should be checked together and what logic applies |
+
+### Rule Examples
+
+| Rule | Fields | Logic |
+|------|--------|-------|
+| Close date after open date | `OpenDate`, `CloseDate` | CloseDate ≥ OpenDate |
+| Country matches phone prefix | `Country`, `Phone` | Phone prefix corresponds to country |
+| Stage matches probability | `Stage`, `Probability` | Probability aligns with stage expectations |
+| Billing matches shipping | `BillingCity`, `ShippingCity` | Values match when "same as billing" is indicated |
+
+## Scoring
+
+| Result | Score |
+|--------|-------|
+| All records consistent | 100 |
+| Some inconsistencies | Proportional to consistent percentage |
+| All records inconsistent | 0 |
+| No data | 0 |
+
+## Use Cases
+
+- Detect opportunities where Close Date is before Created Date
+- Find accounts where Billing and Shipping addresses contradict
+- Identify leads where Country doesn't match the phone number format
+- Monitor cross-field data entry quality

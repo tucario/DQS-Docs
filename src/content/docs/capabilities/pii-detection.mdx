@@ -1,0 +1,53 @@
+---
+title: PII Detection
+description: Scan for personally identifiable information in free-text fields.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## What is PII Detection?
+
+PII Detection scans free-text fields for **personally identifiable information** that shouldn't be stored in those fields. It helps organizations comply with data privacy regulations like GDPR, CCPA, and HIPAA.
+
+## How It Works
+
+The PII Detection strategy analyzes text content for patterns that match:
+
+1. **Social Security Numbers** (SSN) — numeric patterns like XXX-XX-XXXX
+2. **Credit Card Numbers** — 13–19 digit sequences matching card network patterns
+3. **Email Addresses** — in fields where email storage is not expected
+4. **Phone Numbers** — in free-text fields (not dedicated phone fields)
+5. **National ID Numbers** — country-specific patterns
+
+## Configuration
+
+### Global Settings
+
+| Setting | Description |
+|---------|-------------|
+| **PII Categories** | Which types of PII to scan for |
+| **Sensitivity Level** | How aggressively to flag potential matches |
+
+### Per-Field Overrides
+
+Exclude specific fields from PII scanning (e.g., a field where phone numbers are expected to appear in notes).
+
+## Scoring
+
+| Result | Score |
+|--------|-------|
+| No PII detected | 100 |
+| Some PII found | Proportional to clean percentage |
+| PII in all records | 0 |
+| No data | 0 |
+
+<Aside type="caution">
+PII Detection uses pattern matching, not AI classification. It may produce false positives (e.g., a number that looks like an SSN but isn't). Review flagged records before taking action.
+</Aside>
+
+## Use Cases
+
+- Audit Description and Notes fields for accidentally stored credit card numbers
+- Monitor free-text fields for social security numbers
+- Compliance reporting for data privacy regulations
+- Pre-migration data cleansing

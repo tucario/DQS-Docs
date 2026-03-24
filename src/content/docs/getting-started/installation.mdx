@@ -1,0 +1,50 @@
+---
+title: Installation
+description: How to install Data Quality Sense on your Salesforce org.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Prerequisites
+
+- Salesforce org (Enterprise, Unlimited, or Developer Edition)
+- System Administrator profile or equivalent permissions
+- Lightning Experience enabled
+
+## Install the Package
+
+1. **Get the installation link**
+
+   Contact us at [dataqualitysense.com](https://dataqualitysense.com) to receive the managed package installation URL for your org.
+
+2. **Choose installation scope**
+
+   Select who should have access:
+   - **Install for Admins Only** — recommended for initial setup
+   - **Install for All Users** — if all users need immediate access
+   - **Install for Specific Profiles** — for granular control
+
+3. **Approve third-party access**
+
+   The package does not require any external callouts. All processing happens within your Salesforce org.
+
+4. **Verify installation**
+
+   Navigate to **Setup → Installed Packages** and confirm `Data Quality Sense` appears with namespace `dqssens`.
+
+<Aside type="tip">
+After installation, proceed to [Permissions](/dqs-documentation/getting-started/permissions/) to configure user access.
+</Aside>
+
+## Post-Installation
+
+The package installs:
+- Custom objects for definitions, results, and scheduling
+- Custom Metadata Types for capabilities, metrics, and configuration
+- Lightning Web Components for Builder and Insight Studio
+- Apex classes for batch processing and API controllers
+- Permission sets for role-based access
+
+## Updating the Package
+
+To upgrade to a newer version, use the same installation link — Salesforce will detect the existing package and offer an upgrade path. Your scan definitions and results are preserved during upgrades.

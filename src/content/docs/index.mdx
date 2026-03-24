@@ -1,0 +1,56 @@
+---
+title: Introduction
+description: Data Quality Sense — Salesforce-native platform for data quality management.
+---
+
+## What is Data Quality Sense?
+
+Data Quality Sense (DQS) is a **Salesforce-native managed package** for monitoring, measuring, and improving the quality of your CRM data. It runs entirely within your Salesforce org — no external integrations, no data leaving your environment.
+
+The standard Salesforce platform doesn't provide built-in tools for measuring data quality at scale. DQS fills this gap with automated scanning, configurable quality dimensions, and rich analytics.
+
+## Core Components
+
+### DQS Builder
+
+A multi-step wizard for creating scan configurations. Select objects, pick fields, choose quality dimensions, and set thresholds — all through a guided UI.
+
+### Insight Studio
+
+Dashboards and analytics for scan results. Scores, trends, field health matrices, scan comparison, CSV exports, and AI-powered recommendations.
+
+### Processing Engine
+
+Automated batch scanning with flexible scheduling, data retention policies, error management, and platform event notifications.
+
+## Quality Dimensions
+
+DQS evaluates data across **7 quality dimensions**:
+
+| Dimension | What It Measures |
+|-----------|-----------------|
+| **Completeness** | Are fields populated? |
+| **Validity** | Do values match expected formats? |
+| **Uniqueness** | Are there duplicate values? |
+| **Timeliness** | Is data up to date? |
+| **Consistency** | Are related fields logically consistent? |
+| **PII Detection** | Is personal data properly handled? |
+| **AI Readiness** | Is data suitable for AI/ML use? |
+
+Each dimension can be configured globally or overridden per field, with configurable thresholds and scoring.
+
+## Key Features
+
+- **100% Salesforce-native** — no external dependencies or callouts
+- **Any SObject** — scan standard and custom objects
+- **Automated scheduling** — CRON-based recurring scans
+- **Data retention** — configurable auto-purge of old results
+- **CSV export** — download violation details for any dimension
+- **Error management** — dedicated console for monitoring scan issues
+- **Managed package** — installs cleanly with `dqssens` namespace
+
+## Next Steps
+
+- [Install the package](/dqs-documentation/getting-started/installation/)
+- [Configure permissions](/dqs-documentation/getting-started/permissions/)
+- [Create your first scan](/dqs-documentation/getting-started/quick-start/)

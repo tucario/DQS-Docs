@@ -1,0 +1,68 @@
+---
+title: Scheduling
+description: Set up automated recurring scans with flexible scheduling options.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Scan Scheduling
+
+DQS supports **automated recurring scans** via CRON-based scheduling. Once configured, scans run automatically without manual intervention.
+
+## Creating a Schedule
+
+1. Navigate to the definition in **Insight Studio**
+2. Open the **Scheduler Modal** from the sidebar or scan trigger area
+3. Configure the schedule:
+
+| Setting | Description | Example |
+|---------|-------------|---------|
+| **Frequency** | How often the scan runs | Daily, Weekly, Monthly |
+| **Time** | What time of day to run | 2:00 AM |
+| **Day of Week** | For weekly schedules | Monday |
+| **Day of Month** | For monthly schedules | 1st |
+
+## CRON Expressions
+
+Under the hood, schedules use Salesforce CRON expressions. DQS provides a **user-friendly UI** that generates the CRON expression for you, but advanced users can also set custom expressions.
+
+### Common Schedules
+
+| Schedule | CRON Expression |
+|----------|----------------|
+| Daily at 2 AM | `0 0 2 * * ?` |
+| Weekly on Monday at 6 AM | `0 0 6 ? * MON` |
+| Monthly on 1st at midnight | `0 0 0 1 * ?` |
+| Every weekday at 5 AM | `0 0 5 ? * MON-FRI` |
+
+## Schedule Management
+
+### Viewing Schedules
+
+The Insight Studio sidebar shows the next scheduled run time with a countdown timer (e.g., "Next scan in 4h 23m").
+
+### Editing Schedules
+
+Open the scheduler modal and modify the settings. The existing schedule is replaced with the new configuration.
+
+### Deleting Schedules
+
+Remove a schedule to stop automatic scans. Manual scans remain available.
+
+<Aside type="note">
+Schedule times use your Salesforce org's timezone. The countdown display shows the correct local time.
+</Aside>
+
+## Audit Trail
+
+Every scan records who triggered it:
+- **Manual scans** — Records the user who clicked "Run Scan"
+- **Scheduled scans** — Records "Scheduled" as the trigger source
+- **Timestamp** — When the scan started and completed
+
+## Considerations
+
+- Only **Active** definitions can be scheduled
+- Running scans consume Salesforce governor limits (batch Apex)
+- Schedule scans during off-peak hours to minimize impact
+- Multiple definitions can be scheduled at different times

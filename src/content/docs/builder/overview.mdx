@@ -1,0 +1,51 @@
+---
+title: Builder Overview
+description: Learn about the DQS Builder — the configuration wizard for data quality scans.
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## What is the Builder?
+
+The DQS Builder is a **multi-step configuration wizard** that lets you define exactly how your data quality should be measured. It guides you through selecting objects, picking fields, choosing quality dimensions, and setting thresholds.
+
+## Builder Workspace
+
+The Builder uses a **3-zone layout**:
+
+- **Sidebar** — Navigation tree showing your definitions and their configuration stages
+- **Stage** — Main content area where you configure each step of the definition
+- **Mentor Panel** — Contextual help and guidance that adapts to your current step
+
+## Key Concepts
+
+<CardGrid>
+	<Card title="Definition" icon="document">
+		A scan configuration that specifies which object, fields, and quality capabilities to evaluate. Each definition produces a set of results when scanned.
+	</Card>
+	<Card title="Capability" icon="approve-check-circle">
+		A quality dimension like Completeness or Validity. Each capability can be configured globally or overridden per field.
+	</Card>
+	<Card title="Definition Detail" icon="list-format">
+		A record linking a specific field to a definition, storing per-field configuration overrides for each capability.
+	</Card>
+	<Card title="Lifecycle" icon="setting">
+		Definitions progress through stages: Draft → Ready → Active → Obsolete. Only Active definitions can be scanned.
+	</Card>
+</CardGrid>
+
+## Builder Stages
+
+1. **Getting Started** — Select the target Salesforce object
+2. **Field Selection** — Pick which fields to include in the scan
+3. **Capability Configuration** — Enable and configure quality dimensions
+4. **Summary** — Review the complete definition before activation
+
+Each stage validates your input before allowing you to proceed to the next step.
+
+## Learn More
+
+- [Creating a Definition](/dqs-documentation/builder/creating-definition/)
+- [Field Selection](/dqs-documentation/builder/field-selection/)
+- [Configuring Capabilities](/dqs-documentation/builder/capabilities/)
+- [Definition Lifecycle](/dqs-documentation/builder/lifecycle/)

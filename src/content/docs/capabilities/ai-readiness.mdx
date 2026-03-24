@@ -1,0 +1,55 @@
+---
+title: AI Readiness
+description: Assess whether your data is suitable for AI and machine learning use cases.
+---
+
+## What is AI Readiness?
+
+AI Readiness evaluates whether your data meets the **quality standards required for AI and machine learning** applications. Poor data quality is the leading cause of AI project failures — this capability helps you identify issues before feeding data into AI models.
+
+## How It Works
+
+The AI Readiness strategy assesses multiple quality signals:
+
+1. **Value distribution** — Is there sufficient variety in the data?
+2. **Completeness** — Are there too many gaps for ML training?
+3. **Consistency** — Are values standardized enough for pattern recognition?
+4. **Volume** — Is there enough data to train on?
+
+## Configuration
+
+### Global Settings
+
+| Setting | Description |
+|---------|-------------|
+| **Target Use Case** | What type of AI/ML application (classification, prediction, NLP) |
+| **Minimum Data Points** | Minimum records needed for a meaningful assessment |
+
+### Per-Field Overrides
+
+Adjust AI Readiness thresholds for fields that are more or less critical to your AI pipeline.
+
+## Scoring
+
+| Result | Score |
+|--------|-------|
+| Excellent data for AI | 100 |
+| Usable with some issues | 50–99 |
+| Significant quality gaps | 1–49 |
+| Unsuitable for AI | 0 |
+
+## Key Signals
+
+| Signal | What It Means |
+|--------|--------------|
+| **Low cardinality** | Too few distinct values for meaningful classification |
+| **High null rate** | Too many missing values for training data |
+| **Skewed distribution** | Imbalanced data that could bias models |
+| **Inconsistent formats** | Mixed formats that require extensive preprocessing |
+
+## Use Cases
+
+- Pre-qualify data before an Einstein AI implementation
+- Assess CRM data readiness for predictive lead scoring
+- Evaluate data quality for customer segmentation models
+- Identify fields that need enrichment before AI projects

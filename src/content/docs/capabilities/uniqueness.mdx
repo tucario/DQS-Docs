@@ -1,0 +1,57 @@
+---
+title: Uniqueness
+description: Identify duplicate values across records in your Salesforce data.
+---
+
+## What is Uniqueness?
+
+Uniqueness measures whether field values are **distinct across records**. High uniqueness means each record has a different value for the field — low uniqueness indicates duplicates.
+
+## How It Works
+
+For each field, the Uniqueness strategy:
+
+1. Collects all non-null values across records in scope
+2. Identifies duplicate values
+3. Calculates: `(unique values / total populated values) × 100`
+
+## Configuration
+
+### Global Settings
+
+| Setting | Description |
+|---------|-------------|
+| **Case Sensitivity** | Whether "ABC" and "abc" count as the same value |
+
+### Per-Field Overrides
+
+Configure uniqueness thresholds per field. Fields like Email or external IDs should have near-100% uniqueness, while Status or Type fields naturally have low uniqueness.
+
+## Scoring
+
+| Result | Score |
+|--------|-------|
+| All values unique | 100 |
+| Some duplicates | Proportional to unique percentage |
+| All values identical | Near 0 |
+| No data | 0 |
+
+## Applicable Field Types
+
+Uniqueness is most meaningful for:
+- **Email** — should be unique per contact/lead
+- **Phone** — often unique per person
+- **External IDs** — must be unique by definition
+- **Text fields** — names, descriptions
+
+Less meaningful for:
+- **Boolean** — only two possible values
+- **Picklist** — limited value set by design
+- **Date** — many records may share dates
+
+## Use Cases
+
+- Detect duplicate email addresses across Contacts or Leads
+- Verify external ID fields are truly unique
+- Identify data entry issues where the same value is copied across records
+- Monitor deduplication efforts over time

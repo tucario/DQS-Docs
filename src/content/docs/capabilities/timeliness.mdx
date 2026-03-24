@@ -1,0 +1,60 @@
+---
+title: Timeliness
+description: Evaluate whether your data is current and up-to-date.
+---
+
+## What is Timeliness?
+
+Timeliness measures whether date and datetime fields contain **recent, up-to-date values**. It answers the question: "Is this data still fresh?"
+
+## How It Works
+
+For each date field, the Timeliness strategy:
+
+1. Reads the date/datetime value
+2. Calculates the age (difference between the value and the current date)
+3. Compares the age against the configured freshness window
+4. Marks values older than the window as "stale"
+
+## Configuration
+
+### Global Settings
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| **Freshness Window** | Maximum age (in days) before data is considered stale | 30 days |
+
+### Per-Field Overrides
+
+Different date fields may have different freshness requirements:
+
+| Field Example | Recommended Window |
+|--------------|-------------------|
+| `LastActivityDate` | 7 days |
+| `LastModifiedDate` | 30 days |
+| `Contract_End_Date__c` | 90 days |
+| `Annual_Review_Date__c` | 365 days |
+
+## Relative Date Picker
+
+DQS includes a **relative date picker** for configuring freshness windows. Instead of absolute dates, you set windows like:
+- Last 7 days
+- Last 30 days
+- Last quarter
+- Custom number of days
+
+## Scoring
+
+| Result | Score |
+|--------|-------|
+| All dates within window | 100 |
+| Some stale dates | Proportional to fresh percentage |
+| All dates stale | 0 |
+| No data | 0 |
+
+## Use Cases
+
+- Monitor whether sales reps are keeping opportunity dates current
+- Track stale contacts that haven't been updated recently
+- Ensure compliance-related dates are being maintained
+- Identify "dead" records that may need cleanup or archival

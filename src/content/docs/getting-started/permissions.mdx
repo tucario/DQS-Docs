@@ -1,0 +1,55 @@
+---
+title: Permissions
+description: Configure permission sets and user access for Data Quality Sense.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Permission Sets
+
+Data Quality Sense ships with permission sets that control access to different parts of the application.
+
+### DQS Admin
+
+Full access to all features:
+- Create, edit, and delete scan definitions
+- Configure capabilities and thresholds
+- Run and schedule scans
+- View all results in Insight Studio
+- Access the Error Management Console
+- Manage data retention settings
+
+### DQS User
+
+Read-only access to results:
+- View scan results in Insight Studio
+- Export data to CSV
+- View scan schedules
+
+## Assigning Permission Sets
+
+1. Navigate to **Setup → Permission Sets**
+2. Find the DQS permission sets (prefixed with `dqssens__`)
+3. Click **Manage Assignments → Add Assignment**
+4. Select the users who need access
+
+<Aside type="caution">
+Users without any DQS permission set assigned will see an activation gate when accessing the application. The Getting Started tab will appear automatically to guide administrators through the setup process.
+</Aside>
+
+## Object Permissions
+
+The permission sets automatically grant access to DQS custom objects:
+
+| Object | Admin | User |
+|--------|-------|------|
+| `DQS_Definition__c` | Read/Create/Edit/Delete | Read |
+| `DQS_Definition_Detail__c` | Read/Create/Edit/Delete | Read |
+| `DQS_Dimension_Result__c` | Read | Read |
+| `DQS_Field_Result__c` | Read | Read |
+| `DQS_Metric_Result__c` | Read | Read |
+| `DQS_Batch_Schedule__c` | Read/Create/Edit/Delete | Read |
+
+## Field-Level Security
+
+All fields on DQS objects are visible to both permission sets. Metric results, scores, and configuration fields are read-only for DQS User.

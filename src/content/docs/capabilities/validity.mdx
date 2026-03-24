@@ -1,0 +1,55 @@
+---
+title: Validity
+description: Check whether field values conform to expected formats and patterns.
+---
+
+## What is Validity?
+
+Validity measures whether field values **conform to expected formats, ranges, and patterns**. A field can be populated (complete) but still contain invalid data — Validity catches these issues.
+
+## How It Works
+
+The Validity strategy evaluates each field value against expected rules:
+
+1. **Picklist fields** — Checks that values match the defined picklist values (including metadata and live values)
+2. **Text fields** — Validates against format patterns (e.g., email format, phone format)
+3. **Number fields** — Validates against expected ranges
+4. **Date fields** — Checks for reasonable date ranges
+
+## Configuration
+
+### Global Settings
+
+| Setting | Description |
+|---------|-------------|
+| **Validation Mode** | Type of validation to apply (format, range, picklist) |
+
+### Per-Field Overrides
+
+Customize validation rules for specific fields:
+- **Custom regex patterns** for text fields
+- **Value ranges** for number fields
+- **Allowed values** for picklist fields (import from metadata)
+
+## Import from Field Metadata
+
+For picklist fields, DQS can automatically **import all valid values** from the field's metadata. This includes:
+- Standard picklist values defined in the schema
+- Live value counts showing how many records use each value
+- Inactive values that exist in data but are no longer active in the picklist
+
+## Scoring
+
+| Result | Score |
+|--------|-------|
+| All values valid | 100 |
+| Some invalid | Proportional to valid percentage |
+| All invalid | 0 |
+| No data | 0 |
+
+## Use Cases
+
+- Ensure email fields contain properly formatted email addresses
+- Verify picklist fields only contain approved values
+- Detect free-text entries in fields that should use controlled vocabularies
+- Validate phone number formats across regions

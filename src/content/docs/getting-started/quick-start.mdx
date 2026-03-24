@@ -1,0 +1,51 @@
+---
+title: Quick Start
+description: Create and run your first data quality scan in 5 minutes.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Your First Scan in 5 Minutes
+
+1. **Open DQS Builder**
+
+   Navigate to the **Data Quality Sense** app in Salesforce. If permissions are configured correctly, the Builder tab loads automatically.
+
+2. **Create a new definition**
+
+   Click **New Definition**. Give it a name (e.g., "Account Quality Check") and select the target object — for example, `Account`.
+
+3. **Select fields**
+
+   The field picker shows all available fields on the selected object. Pick the fields you want to monitor. You can use the search bar to filter, and sort by field type or label.
+
+4. **Choose capabilities**
+
+   Select which quality dimensions to evaluate:
+   - **Completeness** — are the fields populated?
+   - **Validity** — do values match expected formats?
+   - **Uniqueness** — are there duplicate values?
+
+   Start with Completeness for the quickest setup.
+
+5. **Review and activate**
+
+   Review your configuration on the summary screen. Click **Activate** to move the definition from Draft to Active status.
+
+6. **Run the scan**
+
+   Go to **Insight Studio** and trigger a scan manually, or set up a [schedule](/dqs-documentation/processing/scheduling/).
+
+7. **View results**
+
+   After the scan completes, Insight Studio shows your data quality scores with drill-down to field-level details.
+
+<Aside type="tip">
+You can always go back and add more capabilities or fields to your definition later. The Builder supports editing Active definitions.
+</Aside>
+
+## What's Next?
+
+- Learn about all [7 quality capabilities](/dqs-documentation/capabilities/overview/)
+- Explore [Insight Studio dashboards](/dqs-documentation/insight-studio/overview/)
+- Set up [automated scan schedules](/dqs-documentation/processing/scheduling/)

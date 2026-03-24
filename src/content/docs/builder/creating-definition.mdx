@@ -1,0 +1,59 @@
+---
+title: Creating a Definition
+description: How to create a new scan definition in DQS Builder.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## What is a Definition?
+
+A **definition** is the core configuration unit in DQS. It specifies:
+- Which Salesforce object to scan
+- Which fields to evaluate
+- Which quality dimensions (capabilities) to measure
+- Optional per-field threshold overrides
+
+## Creating a New Definition
+
+1. **Open the Builder**
+
+   Navigate to the Data Quality Sense app and select the **Builder** tab.
+
+2. **Click "New Definition"**
+
+   A modal dialog appears asking for the definition name and target object.
+
+3. **Enter a name**
+
+   Choose a descriptive name, e.g., "Account Data Quality" or "Lead Completeness Check".
+
+4. **Select the target object**
+
+   Choose from any standard or custom SObject in your org. The dropdown shows objects you have access to read.
+
+5. **Confirm creation**
+
+   The definition is created in **Draft** status and opens in the Builder wizard.
+
+<Aside type="note">
+Technical objects (those with API names starting with common internal prefixes) are filtered out by default to keep the object list manageable.
+</Aside>
+
+## Definition Settings
+
+After creation, you can configure:
+
+| Setting | Description |
+|---------|-------------|
+| **Name** | Display name shown in lists and Insight Studio |
+| **Object** | The target SObject (cannot be changed after creation) |
+| **Description** | Optional notes about the scan's purpose |
+| **Status** | Current lifecycle stage (Draft, Ready, Active, Obsolete) |
+
+## Editing Existing Definitions
+
+Open any definition from the **Home** tab's recent activity table, or from the Builder's sidebar navigation tree. Active definitions can be edited — changes take effect on the next scan.
+
+## Deleting Definitions
+
+Deletion is restricted to users with admin permissions. Deleting a definition also removes all associated definition details, but preserves historical scan results for audit purposes.

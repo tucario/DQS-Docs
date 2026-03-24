@@ -1,0 +1,70 @@
+---
+title: Quality Capabilities
+description: Overview of the 7 data quality dimensions in Data Quality Sense.
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## The 7 Dimensions of Data Quality
+
+Data Quality Sense evaluates your data across **7 distinct quality dimensions** (capabilities). Each dimension focuses on a different aspect of data quality and produces independent scores that roll up into an overall quality rating.
+
+<CardGrid>
+	<Card title="Completeness" icon="approve-check-circle">
+		Measures whether fields contain values. Detects null, blank, and missing data across your selected fields.
+		[Learn more →](/dqs-documentation/capabilities/completeness/)
+	</Card>
+	<Card title="Validity" icon="approve-check-circle">
+		Checks whether values conform to expected formats, ranges, and patterns. Supports picklist validation and regex matching.
+		[Learn more →](/dqs-documentation/capabilities/validity/)
+	</Card>
+	<Card title="Uniqueness" icon="approve-check-circle">
+		Identifies duplicate values across records. Flags fields where unique values are expected but duplicates exist.
+		[Learn more →](/dqs-documentation/capabilities/uniqueness/)
+	</Card>
+	<Card title="Timeliness" icon="approve-check-circle">
+		Evaluates whether data is current and up-to-date. Measures freshness based on configurable time windows.
+		[Learn more →](/dqs-documentation/capabilities/timeliness/)
+	</Card>
+	<Card title="Consistency" icon="approve-check-circle">
+		Checks logical consistency between related fields. Detects contradictions like a closed date before an open date.
+		[Learn more →](/dqs-documentation/capabilities/consistency/)
+	</Card>
+	<Card title="PII Detection" icon="approve-check-circle">
+		Scans for personally identifiable information in free-text fields. Helps with data privacy compliance.
+		[Learn more →](/dqs-documentation/capabilities/pii-detection/)
+	</Card>
+	<Card title="AI Readiness" icon="approve-check-circle">
+		Assesses whether your data is suitable for AI and machine learning use cases. Evaluates data distribution and quality signals.
+		[Learn more →](/dqs-documentation/capabilities/ai-readiness/)
+	</Card>
+</CardGrid>
+
+## How Scoring Works
+
+Each capability produces a **score from 0 to 100** for every scanned field:
+
+- **100** — Perfect quality for this dimension
+- **75–99** — Good, with minor issues
+- **50–74** — Moderate quality, attention recommended
+- **0–49** — Poor quality, action required
+- **0** — No data to measure (e.g., all fields empty)
+
+Scores are aggregated:
+1. **Field Score** — Individual field result per capability
+2. **Dimension Score** — Average across all fields for one capability
+3. **Definition Score** — Weighted average across all dimensions
+
+## Capability Applicability
+
+Not all capabilities apply to all field types. DQS automatically handles non-applicable combinations:
+
+| Field Type | Completeness | Validity | Uniqueness | Timeliness | Consistency | PII Detection | AI Readiness |
+|------------|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| Text | ✓ | ✓ | ✓ | — | ✓ | ✓ | ✓ |
+| Number | ✓ | ✓ | ✓ | — | ✓ | — | ✓ |
+| Date | ✓ | ✓ | — | ✓ | ✓ | — | ✓ |
+| Picklist | ✓ | ✓ | — | — | ✓ | — | ✓ |
+| Boolean | ✓ | — | — | — | ✓ | — | ✓ |
+| Email | ✓ | ✓ | ✓ | — | — | ✓ | ✓ |
+| Phone | ✓ | ✓ | ✓ | — | — | ✓ | ✓ |

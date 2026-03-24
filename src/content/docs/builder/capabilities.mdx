@@ -1,0 +1,52 @@
+---
+title: Configuring Capabilities
+description: How to enable and configure quality dimensions in DQS Builder.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Capability Configuration
+
+The third stage of the Builder wizard lets you enable quality dimensions and configure their settings. Each capability evaluates a different aspect of your data quality.
+
+## Available Capabilities
+
+| Capability | What It Measures |
+|------------|-----------------|
+| [Completeness](/dqs-documentation/capabilities/completeness/) | Are fields populated? |
+| [Validity](/dqs-documentation/capabilities/validity/) | Do values match expected formats? |
+| [Uniqueness](/dqs-documentation/capabilities/uniqueness/) | Are there duplicate values? |
+| [Timeliness](/dqs-documentation/capabilities/timeliness/) | Is data up to date? |
+| [Consistency](/dqs-documentation/capabilities/consistency/) | Are related fields logically consistent? |
+| [PII Detection](/dqs-documentation/capabilities/pii-detection/) | Is personal data properly handled? |
+| [AI Readiness](/dqs-documentation/capabilities/ai-readiness/) | Is data suitable for AI/ML use? |
+
+## Enabling a Capability
+
+Select a capability from the list to enable it. Each capability has:
+
+- **Global configuration** — Default settings applied to all fields
+- **Per-field overrides** — Custom settings for individual fields that differ from the global defaults
+
+## Global vs. Per-Field Configuration
+
+Most capabilities allow you to set global thresholds and then override them for specific fields. For example:
+
+- **Completeness**: Set a global "expected fill rate" of 90%, but require 100% for Email fields
+- **Validity**: Define global format rules, but set custom regex patterns for specific text fields
+- **Timeliness**: Set a global freshness window of 30 days, but use 7 days for critical date fields
+
+## Configuration Workflow
+
+1. **Enable the capability** — Toggle it on from the capability list
+2. **Set global settings** — Configure defaults that apply to all selected fields
+3. **Add field overrides** (optional) — Click on individual fields to customize their settings
+4. **Review** — The summary shows which fields have overrides
+
+<Aside type="tip">
+You can use **bulk configuration** for capabilities like Completeness to quickly set the same override across multiple fields at once.
+</Aside>
+
+## Removing a Capability
+
+Click the remove button on any enabled capability to disable it. This clears all global and per-field configurations for that capability. The action requires confirmation.

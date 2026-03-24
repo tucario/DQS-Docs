@@ -1,0 +1,63 @@
+---
+title: Error Management
+description: Monitor and resolve scan errors using the Error Management Console.
+---
+
+## Error Management Console (EMC)
+
+The EMC is a **dedicated interface** for monitoring and resolving errors that occur during scan processing. It provides visibility into batch failures, strategy errors, and platform issues.
+
+## Layout
+
+The EMC uses a 3-zone layout:
+
+- **Sidebar** — Filters (by error type, date range, severity) and breakdown options
+- **Main Area** — Error table with sortable columns and row-click detail modal
+- **Mentor Panel** — Suggested actions and retention information
+
+## Error Table
+
+| Column | Description |
+|--------|-------------|
+| **Timestamp** | When the error occurred |
+| **Error Type** | Category (Batch, Strategy, Platform, Validation) |
+| **Message** | Short error description |
+| **Definition** | Which scan definition triggered the error |
+| **Severity** | Error severity level |
+
+### Row Detail Modal
+
+Click any error row to open a detailed modal showing:
+- Full error message and stack trace
+- Affected definition and scan details
+- Suggested resolution steps
+
+## Error Sources
+
+| Source | Examples |
+|--------|---------|
+| **Batch Processing** | Governor limit exceeded, query timeout |
+| **Dimension Strategy** | Invalid field access, null pointer in strategy logic |
+| **Platform Events** | Event publish failure |
+| **Scheduling** | CRON expression issues, permission errors |
+
+## Platform Event Integration
+
+DQS uses `DQS_Processing_Error__e` platform events to surface errors in real time. When an error occurs during batch processing:
+
+1. The error is caught and logged
+2. A platform event is published
+3. The EMC receives the event and displays it
+
+This replaces silent `catch` blocks with visible error reporting.
+
+## Error Retention
+
+Error logs are automatically purged based on the [retention policy](/dqs-documentation/processing/data-retention/). Default retention is **7 days**.
+
+## Best Practices
+
+- Check the EMC regularly after setting up new scan definitions
+- Review errors after changing capability configurations
+- Use error patterns to identify systematic issues (e.g., field access permissions)
+- Contact support if platform errors persist across multiple scans
