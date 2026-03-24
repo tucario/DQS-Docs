@@ -19,13 +19,22 @@ For each field, the Uniqueness strategy:
 
 ### Global Settings
 
+The **Defaults** section controls global uniqueness options:
+
 | Setting | Description |
 |---------|-------------|
-| **Case Sensitivity** | Whether "ABC" and "abc" count as the same value |
+| **Case-sensitive matching** | When enabled, "John Smith" and "john smith" are considered different values for comparison. When disabled, they count as duplicates. |
+| **Include blanks in uniqueness checks** | When enabled, blank and null values are treated as distinct values in comparison calculations. |
+
+The **Field Overrides** table below lists each field with its current Case Sensitive, Include Blanks settings, and status.
+
+![Uniqueness configuration with Defaults (Matching Options, Blank Handling) and Field Overrides table](../../../assets/screenshots/unqueness-generic-view.png)
 
 ### Per-Field Overrides
 
-Configure uniqueness thresholds per field. Fields like Email or external IDs should have near-100% uniqueness, while Status or Type fields naturally have low uniqueness.
+Click on a field in the Field Overrides table to open its configuration modal. You can toggle **Case-sensitive matching** and **Include blanks in uniqueness checks** independently from the global defaults. Use the **Revert to Global** link to reset the field back to global settings.
+
+![Per-field configuration modal for the Phone field with Case Sensitivity and Blank Handling options](../../../assets/screenshots/generic-per-field-override.png)
 
 ## Scoring
 
@@ -35,6 +44,10 @@ Configure uniqueness thresholds per field. Fields like Email or external IDs sho
 | Some duplicates | Proportional to unique percentage |
 | All values identical | Near 0 |
 | No data | 0 |
+
+## Analysis Limit
+
+Uniqueness analysis processes up to **40,000 records per scan**. For objects with more records, results reflect a representative sample. This limit exists to prevent Salesforce heap memory overflow, since the engine builds an in-memory map of value counts per field. Fields that exceed 40,000 distinct values are flagged as high cardinality fields.
 
 ## Applicable Field Types
 
