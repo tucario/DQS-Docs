@@ -19,6 +19,8 @@ The field picker is the second stage of the Builder wizard. It displays all avai
 - **Field Type Filter** — Show only specific field types (Text, Number, Picklist, etc.)
 - **Sortable Columns** — Sort by field label, API name, or field type
 
+![Filtered field view showing search results after typing a query — only matching fields are displayed](../../../assets/screenshots/def-builder-step2-scope-filtered.png)
+
 ### Field Information
 
 For each field, the picker displays:
@@ -32,7 +34,11 @@ For each field, the picker displays:
 
 ### Bulk Selection
 
-Use the checkbox in the header row to select or deselect all visible fields. Selections persist across pages — you can select fields on page 1, navigate to page 2, and your selections are preserved.
+Use the **Select All** link to add all available fields to your scope at once — the link shows the total field count (e.g., "Select All (71)"). To remove all selections, click **Clear All**. The header bar displays live counters for **Selected** and **Available** fields so you always know how many fields are in scope.
+
+Selections persist across pages — you can select fields on page 1, navigate to page 2, and your selections are preserved. The **Scope Stats** panel on the right summarizes your current selection.
+
+![Select All link in the field picker header to bulk-select all available fields](../../../assets/screenshots/select-all-fields.png)
 
 ## Field Considerations
 
@@ -55,8 +61,20 @@ For a comprehensive scan, include:
 - Formula fields — their values are computed, not entered by users
 - Encrypted fields — may not be readable by the scan engine
 
-![Filtered field view showing a single selected field after applying search](../../../assets/screenshots/def-builder-step2-scope-filtered.png)
-
 ## Scope View
 
-After selecting fields, the **Scope View** shows a summary of your selections grouped by field type, making it easy to verify your configuration before proceeding to capability selection.
+The Scope view is the main workspace for selecting and reviewing fields:
+
+1. **Scope step** — Click the **Scope** step in the Builder wizard sidebar to load all fields for the target object. This is where you define which fields will be included in your data quality scan.
+
+2. **All Fields** — The default view showing every field on the object. Use this tab to browse the full list, check or uncheck fields, and see each field's label, API name, type, and whether it's a standard or custom field. Fields you select are highlighted in the list.
+
+3. **Selected filter** — Switch to this view to see only the fields you've already added to scope. The counter shows how many fields are selected (e.g., "Selected: 2"). Use it to quickly review your choices and remove any fields you no longer need.
+
+4. **Available filter** — Shows only the fields that are not yet in your scope. The counter displays how many remain (e.g., "Available: 16"). Useful when you want to browse what's left to add without scrolling past already-selected fields.
+
+5. **Type filter** — The **All Types** dropdown lets you narrow the field list to a specific data type — Text, Number, Date, Picklist, Boolean, Lookup, and more. Combine it with the other filters to quickly find the exact fields you need (e.g., show only available Picklist fields).
+
+The **Scope Stats** panel on the right summarizes your selection with a field count and shows a **Ready to proceed** indicator when at least one field is selected.
+
+![Scope view with field list, search, type filter, and selection counters](../../../assets/screenshots/field-scope-view.png)

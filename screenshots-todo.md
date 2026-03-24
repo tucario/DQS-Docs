@@ -69,16 +69,6 @@ Status:
 | 35 | Quick Start Guide | Ekran DQS po otwarciu — New Definition button | Step 4: Install DQS | P0 | `quick-start-new-definition.png` | TODO |
 | 36 | Quick Start Guide | Wyniki pierwszego skanu — dashboard z wynikami | Step 6: Run Your First Scan | P1 | `quick-start-first-results.png` | TODO |
 
-## AI Readiness
-
-| # | Artykul | Co pokazac | Sekcja | Priorytet | Nazwa pliku | Status |
-|---|---------|-----------|--------|-----------|-------------|--------|
-| 37 | PII Detection | Preset picker: Standard (4 patterny), Critical (2), Extended (9) | Detection Presets | P1 | `pii-preset-picker.png` | TODO |
-| 38 | PII Detection | Wyniki skanu: Records with PII count + PII Exposure Rate % | Scan Results | P1 | `pii-scan-results.png` | TODO |
-| 39 | PII Detection | Per-field override — tabela z pattern selectorem per pole | Per-Field Overrides | P2 | `pii-per-field-overrides.png` | TODO |
-| 40 | Agentforce Prep | Dashboard z 5 wymiarami + PII w jednym widoku | Assessment Phase | P1 | `agentforce-full-dashboard.png` | TODO |
-| 41 | Agentforce Prep | Porownanie skanow: baseline vs post-remediation | Validation Phase | P2 | `agentforce-scan-comparison.png` | TODO |
-
 ## Best Practices
 
 | # | Artykul | Co pokazac | Sekcja | Priorytet | Nazwa pliku | Status |
@@ -134,5 +124,5 @@ Status:
 
 1. Najpierw P0 TODO w **Using DQS** — 8 zrzutow (Definition Builder wizard, Running Scans, Results Dashboard)
 2. Potem P1 w **Data Quality dimensions** — 12 zrzutow (konfiguracja + metryki per wymiar)
-3. Nastepnie P1 w **Getting Started** i **AI Readiness** — 8 zrzutow
+3. Nastepnie P1 w **Getting Started** — 3 zrzuty
 4. Na koniec P2 (Use Cases, Best Practices) — 17 zrzutow

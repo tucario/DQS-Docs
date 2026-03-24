@@ -21,16 +21,25 @@ The PII Detection strategy analyzes text content for patterns that match:
 
 ## Configuration
 
-### Global Settings
+### Detection Patterns
 
-| Setting | Description |
-|---------|-------------|
-| **PII Categories** | Which types of PII to scan for |
-| **Sensitivity Level** | How aggressively to flag potential matches |
+The **Defaults** section provides three preset groups of detection patterns:
+
+| Preset | Description |
+|--------|-------------|
+| **Standard** | Core PII patterns — Social Security Number, Credit Card Number, Email Address, US Phone Number |
+| **Critical** | High-risk financial and identity patterns |
+| **Extended** | Full set including IP Address, IBAN, Date of Birth, International Phone, and more |
+
+Each pattern shows its regex expression and can be individually enabled or disabled. You can also add your own patterns in the **Add Custom Pattern** section by entering a regex and a label.
+
+![PII Detection configuration with Detection Patterns presets (Standard, Critical, Extended), pattern list, and Field Overrides](../../../assets/screenshots/pii-generic-view.png)
 
 ### Per-Field Overrides
 
-Exclude specific fields from PII scanning (e.g., a field where phone numbers are expected to appear in notes).
+Click on a field in the Field Overrides table to open its configuration modal. You can select which detection patterns apply to that field — choose a preset or enable/disable individual patterns. The modal also lets you add **custom patterns** specific to that field. Use the **Revert to Global** link to reset.
+
+![Per-field configuration modal for the Description field with detection patterns and custom pattern input](../../../assets/screenshots/pii-field-override.png)
 
 ## Scoring
 

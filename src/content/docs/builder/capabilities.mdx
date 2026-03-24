@@ -19,9 +19,8 @@ The third stage of the Builder wizard lets you enable quality dimensions and con
 | [Timeliness](/capabilities/timeliness/) | Is data up to date? |
 | [Consistency](/capabilities/consistency/) | Are related fields logically consistent? |
 | [PII Detection](/capabilities/pii-detection/) | Is personal data properly handled? |
-| [AI Readiness](/capabilities/ai-readiness/) | Is data suitable for AI/ML use? |
 
-![Capability selection showing 7 quality dimensions — Completeness, Validity, Uniqueness, Timeliness, Consistency, PII Safety, and Data & AI Readiness](../../../assets/screenshots/def-builder-step1-capabilities.png)
+![Capability selection showing quality dimensions — Completeness, Validity, Uniqueness, Timeliness, Consistency, and PII Safety](../../../assets/screenshots/def-builder-step1-capabilities.png)
 
 ## Enabling a Capability
 
@@ -37,6 +36,14 @@ Most capabilities allow you to set global thresholds and then override them for 
 - **Completeness**: Set a global "expected fill rate" of 90%, but require 100% for Email fields
 - **Validity**: Define global format rules, but set custom regex patterns for specific text fields
 - **Timeliness**: Set a global freshness window of 30 days, but use 7 days for critical date fields
+
+The **Defaults** section at the top controls global settings for the capability (e.g., Blank Handling and Placeholder Detection for Completeness). These apply to all fields unless overridden. The **Field Overrides** table below lists each field in scope with its current status — "Default" means the field uses the global settings.
+
+![Capability defaults and field overrides table — all fields using global settings](../../../assets/screenshots/field-default-settings-override.png)
+
+To override a specific field, click on it in the Field Overrides table. Its status changes to indicate a custom configuration. The red arrow below points to the Reason field after applying a per-field override.
+
+![Field override applied to the Reason field — status changed from Default to custom](../../../assets/screenshots/field-settings-override.png)
 
 ## Configuration Workflow
 

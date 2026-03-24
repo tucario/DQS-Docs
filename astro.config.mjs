@@ -9,7 +9,7 @@ export default defineConfig({
 	publicDir: './static',
 	integrations: [
 		starlight({
-			title: 'Data Quality Sense Docs',
+			title: 'Data Quality Sense Documentation',
 			logo: {
 				src: './src/assets/logo.svg',
 			},
@@ -90,7 +90,6 @@ export default defineConfig({
 						{ label: 'Timeliness', slug: 'capabilities/timeliness' },
 						{ label: 'Consistency', slug: 'capabilities/consistency' },
 						{ label: 'PII Detection', slug: 'capabilities/pii-detection' },
-						{ label: 'AI Readiness', slug: 'capabilities/ai-readiness' },
 					],
 				},
 				{

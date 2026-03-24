@@ -5,9 +5,9 @@ description: Overview of the 7 data quality dimensions in Data Quality Sense.
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
 
-## The 7 Dimensions of Data Quality
+## The 6 Dimensions of Data Quality
 
-Data Quality Sense evaluates your data across **7 distinct quality dimensions** (capabilities). Each dimension focuses on a different aspect of data quality and produces independent scores that roll up into an overall quality rating.
+Data Quality Sense evaluates your data across **6 distinct quality dimensions** (capabilities). Each dimension focuses on a different aspect of data quality and produces independent scores that roll up into an overall quality rating.
 
 <CardGrid>
 	<Card title="Completeness" icon="approve-check-circle">
@@ -34,10 +34,6 @@ Data Quality Sense evaluates your data across **7 distinct quality dimensions** 
 		Scans for personally identifiable information in free-text fields. Helps with data privacy compliance.
 		[Learn more →](/capabilities/pii-detection/)
 	</Card>
-	<Card title="AI Readiness" icon="approve-check-circle">
-		Assesses whether your data is suitable for AI and machine learning use cases. Evaluates data distribution and quality signals.
-		[Learn more →](/capabilities/ai-readiness/)
-	</Card>
 </CardGrid>
 
 ## How Scoring Works
@@ -59,12 +55,12 @@ Scores are aggregated:
 
 Not all capabilities apply to all field types. DQS automatically handles non-applicable combinations:
 
-| Field Type | Completeness | Validity | Uniqueness | Timeliness | Consistency | PII Detection | AI Readiness |
-|------------|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| Text | ✓ | ✓ | ✓ | — | ✓ | ✓ | ✓ |
-| Number | ✓ | ✓ | ✓ | — | ✓ | — | ✓ |
-| Date | ✓ | ✓ | — | ✓ | ✓ | — | ✓ |
-| Picklist | ✓ | ✓ | — | — | ✓ | — | ✓ |
-| Boolean | ✓ | — | — | — | ✓ | — | ✓ |
-| Email | ✓ | ✓ | ✓ | — | — | ✓ | ✓ |
-| Phone | ✓ | ✓ | ✓ | — | — | ✓ | ✓ |
+| Field Type | Completeness | Validity | Uniqueness | Timeliness | Consistency | PII Detection |
+|------------|:---:|:---:|:---:|:---:|:---:|:---:|
+| Text | ✓ | ✓ | ✓ | — | ✓ | ✓ |
+| Number | ✓ | ✓ | ✓ | — | ✓ | — |
+| Date | ✓ | ✓ | — | ✓ | ✓ | — |
+| Picklist | ✓ | ✓ | — | — | ✓ | — |
+| Boolean | ✓ | — | — | — | ✓ | — |
+| Email | ✓ | ✓ | ✓ | — | — | ✓ |
+| Phone | ✓ | ✓ | ✓ | — | — | ✓ |
