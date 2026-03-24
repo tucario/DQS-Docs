@@ -19,18 +19,30 @@ The Consistency strategy evaluates relationships between pairs or groups of fiel
 
 ### Global Settings
 
+The **Defaults** section controls global consistency options:
+
 | Setting | Description |
 |---------|-------------|
-| **Consistency Rules** | Define which fields should be checked together and what logic applies |
+| **Default Allowed Values** | No defaults are set globally — configure allowed values per field to define what's considered consistent. |
+| **Case-sensitive matching** | When enabled, "Active" and "active" are treated as different values. Disabled by default. |
+| **Top N Values** | *(PRO)* Analyze only the top N most frequent values for consistency checks. |
+| **Minimum Frequency** | *(PRO)* Ignore values that appear fewer times than this threshold. |
 
-### Rule Examples
+The **Field Overrides** table lists each field with its current allowed values source, case sensitivity setting, and status.
 
-| Rule | Fields | Logic |
-|------|--------|-------|
-| Close date after open date | `OpenDate`, `CloseDate` | CloseDate ≥ OpenDate |
-| Country matches phone prefix | `Country`, `Phone` | Phone prefix corresponds to country |
-| Stage matches probability | `Stage`, `Probability` | Probability aligns with stage expectations |
-| Billing matches shipping | `BillingCity`, `ShippingCity` | Values match when "same as billing" is indicated |
+![Consistency configuration with Defaults (Allowed Values, Matching Options, Advanced Analysis) and Field Overrides table](../../../assets/screenshots/consistency-generic-view.png)
+
+### Per-Field Overrides
+
+Click on a field in the Field Overrides table to open its configuration modal. You can define **allowed values** for that field by adding them manually or importing from field metadata. Toggle **Case-sensitive matching** and configure **Advanced Analysis** settings (Top N Values, Min Frequency) independently from the global defaults. Use the **Revert to Global** link to reset.
+
+![Per-field configuration modal for the Reason field with Values Added, Matching Options, and Advanced Analysis](../../../assets/screenshots/consistency-field-override.png)
+
+### Import from Field
+
+For picklist fields, click **Import from Field** to load all existing values directly from the field metadata. The import dialog shows each value with a checkbox and the number of records using it, so you can select which values to treat as valid. Click **Apply Selection** to confirm.
+
+![Import from Field dialog showing picklist values with record counts and checkboxes](../../../assets/screenshots/consistency-picklist-override.png)
 
 ## Scoring
 
