@@ -27,7 +27,7 @@ The Validity strategy evaluates each field value against expected rules:
 ### Per-Field Overrides
 
 Customize validation rules for specific fields:
-- **Custom regex patterns** for text fields
+- **Custom regex patterns** for text fields — use the [Regex Tester](/reference/regex-tester/) to validate your patterns before applying them
 - **Value ranges** for number fields
 - **Allowed values** for picklist fields (import from metadata)
 
@@ -46,6 +46,10 @@ For picklist fields, DQS can automatically **import all valid values** from the 
 | Some invalid | Proportional to valid percentage |
 | All invalid | 0 |
 | No data | 0 |
+
+## Regex Patterns
+
+DQS uses **Java-compatible regular expressions** for text field validation. See the [Regex Tester](/reference/regex-tester/) for an interactive tester and a library of ready-to-use patterns for email, phone, URL, postal codes, and more.
 
 ## Use Cases
 
