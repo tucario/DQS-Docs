@@ -15,27 +15,23 @@ A **definition** is the core configuration unit in DQS. It specifies:
 
 ## Creating a New Definition
 
-1. **Open the Builder**
+1. **Click "New Definition"**
 
-   Navigate to the Data Quality Sense app and select the **Builder** tab.
+   In the Builder tab, click the **New Definition** button in the top-left corner. A creation dialog opens with object search, recent definitions, and suggested objects.
 
-2. **Click "New Definition"**
+2. **Select the target object**
 
-   A modal dialog appears asking for the definition name and target object.
+   Pick the SObject you want to scan. You can search all objects in your org, choose from **Recent Definitions** (objects you've already built definitions for), or select from the **Suggested** list (Account, Opportunity, Contact, Case, Lead). The dialog shows how many records and existing definitions each object has.
 
-3. **Enter a name**
+3. **Enter a definition name**
 
-   Choose a descriptive name, e.g., "Account Data Quality" or "Lead Completeness Check".
+   Once you select an object, the right-hand panel shows a name field with auto-generated **suggestions** based on the object (e.g., "Opportunity Quality Profile", "Opportunity Completeness Audit"). Pick a suggestion or type your own name.
 
-4. **Select the target object**
-
-   Choose from any standard or custom SObject in your org. The dropdown shows objects you have access to read.
-
-5. **Confirm creation**
+4. **Click "+ Create"**
 
    The definition is created in **Draft** status and opens in the Builder wizard.
 
-![New Definition dialog with object picker, recent definitions, and naming](../../../assets/screenshots/def-builder-start-new.png)
+![New Definition dialog — select an object, name your definition, and click Create](../../../assets/screenshots/def-builder-start-new.png)
 
 <Aside type="note">
 Technical objects (those with API names starting with common internal prefixes) are filtered out by default to keep the object list manageable.
