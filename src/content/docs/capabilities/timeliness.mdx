@@ -20,11 +20,22 @@ For each date field, the Timeliness strategy:
 
 ### Global Settings
 
-| Setting | Description | Default |
-|---------|-------------|---------|
-| **Freshness Window** | Maximum age (in days) before data is considered stale | 30 days |
+The **Defaults** section controls global timeliness options:
+
+| Setting | Description |
+|---------|-------------|
+| **Freshness Threshold** | The Default Freshness Window in days — records older than this threshold are considered stale. |
+| **Null Handling** | **Treat null dates as stale** — when enabled, records with no date value count as stale data. |
+| **Overdue Tracking** | Enable overdue tracking by default. Flags records past their expected date. *(PRO)* |
+| **Operational Range** | Enable operational range validation by default. Checks whether dates fall within an acceptable time span. *(PRO)* |
+
+The **Field Overrides** table lists each date field with its current threshold, overdue, and window settings.
+
+![Timeliness configuration with Defaults (Freshness Threshold, Null Handling, Overdue Tracking, Operational Range) and Field Overrides table](../../../assets/screenshots/timeliness-generic-view.png)
 
 ### Per-Field Overrides
+
+Click on a field in the Field Overrides table to open its configuration modal. You can set a custom **Freshness Threshold** (in days), toggle **Null Handling**, **Overdue Tracking**, and **Operational Range** independently from the global defaults. Use the **Revert to Global** link to reset the field back to global settings.
 
 Different date fields may have different freshness requirements:
 
@@ -35,13 +46,7 @@ Different date fields may have different freshness requirements:
 | `Contract_End_Date__c` | 90 days |
 | `Annual_Review_Date__c` | 365 days |
 
-## Relative Date Picker
-
-DQS includes a **relative date picker** for configuring freshness windows. Instead of absolute dates, you set windows like:
-- Last 7 days
-- Last 30 days
-- Last quarter
-- Custom number of days
+![Per-field configuration modal for ClosedDate with Freshness Threshold, Null Handling, Overdue Tracking, and Operational Range](../../../assets/screenshots/timeliness-field-override.png)
 
 ## Scoring
 
