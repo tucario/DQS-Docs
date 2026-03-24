@@ -12,17 +12,30 @@ DQS supports **automated recurring scans** via CRON-based scheduling. Once confi
 ## Creating a Schedule
 
 1. Navigate to the definition in **Insight Studio**
-2. Open the **Scheduler Modal** from the sidebar or scan trigger area
-3. Configure the schedule:
+2. Open the **Scan Schedules** modal from the sidebar
+3. Click **Create Schedule**
+
+![Scan Schedules modal — no schedules configured yet](../../../assets/screenshots/scan-schedule.png)
+
+4. Configure the schedule — set the frequency, time, and optionally a name:
+
+![New Schedule form with frequency and time configuration](../../../assets/screenshots/screate-schedule2.png)
+
+5. Review and **Save** the schedule:
+
+![Completed schedule form with name "Case SLA Daily Check"](../../../assets/screenshots/scan-schedule3.png)
+
+<video src="/videos/manage-schedule.mp4" controls muted loop style="width:100%;border-radius:0.5rem;border:1px solid var(--sl-color-hairline-light)">Your browser does not support the video tag.</video>
+
+## Schedule Settings
 
 | Setting | Description | Example |
 |---------|-------------|---------|
+| **Name** | Display name for the schedule | Case SLA Daily Check |
 | **Frequency** | How often the scan runs | Daily, Weekly, Monthly |
-| **Time** | What time of day to run | 2:00 AM |
+| **Time** | What time of day to run | 06:30 |
 | **Day of Week** | For weekly schedules | Monday |
 | **Day of Month** | For monthly schedules | 1st |
-
-<video src="/videos/manage-schedule.mp4" controls muted loop style="width:100%;border-radius:0.5rem;border:1px solid var(--sl-color-hairline-light)">Your browser does not support the video tag.</video>
 
 ## CRON Expressions
 
@@ -39,19 +52,29 @@ Under the hood, schedules use Salesforce CRON expressions. DQS provides a **user
 
 ## Schedule Management
 
-![Manage Schedule option in the Insight Studio sidebar with countdown display](../../../assets/screenshots/scan-schedule5.png)
-
 ### Viewing Schedules
 
-The Insight Studio sidebar shows the next scheduled run time with a countdown timer (e.g., "Next scan in 4h 23m").
+The Scan Schedules modal shows all configured schedules with their status, frequency, and next run time. The counter shows how many scheduled jobs are used out of the Salesforce limit (e.g., 2/100).
+
+![Manage Schedule option in the Insight Studio sidebar](../../../assets/screenshots/scan-schedule5.png)
 
 ### Editing Schedules
 
-Open the scheduler modal and modify the settings. The existing schedule is replaced with the new configuration.
+Click the edit icon to modify schedule settings. The existing schedule is replaced with the new configuration.
+
+![Edit schedule — click the pencil icon](../../../assets/screenshots/schedule-edit.png)
+
+### Activating / Deactivating
+
+Use the **Active** toggle to temporarily pause a schedule without deleting it.
+
+![Deactivate schedule — click the Active toggle](../../../assets/screenshots/schedule-deactivate.png)
 
 ### Deleting Schedules
 
-Remove a schedule to stop automatic scans. Manual scans remain available.
+Click the delete icon to remove a schedule. Manual scans remain available.
+
+![Remove schedule — click the trash icon](../../../assets/screenshots/schedule-remove.png)
 
 <Aside type="note">
 Schedule times use your Salesforce org's timezone. The countdown display shows the correct local time.
