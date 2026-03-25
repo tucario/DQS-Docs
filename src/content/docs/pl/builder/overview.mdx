@@ -1,0 +1,53 @@
+---
+title: Przegląd Builder
+description: Poznaj DQS Builder — kreator konfiguracji skanów jakości danych.
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Czym jest Builder?
+
+DQS Builder to **wieloetapowy kreator konfiguracji**, który pozwala precyzyjnie zdefiniować sposób pomiaru jakości danych. Prowadzi Cię przez wybór obiektów, pól, wymiarów jakości i ustawianie progów.
+
+## Przestrzeń robocza Builder
+
+Builder wykorzystuje **układ 3-strefowy**:
+
+- **Sidebar** — Drzewo nawigacji z definicjami i ich etapami konfiguracji
+- **Stage** — Główny obszar roboczy, w którym konfigurujesz każdy krok definicji
+- **Mentor Panel** — Kontekstowa pomoc i wskazówki dostosowane do bieżącego kroku
+
+{/* TODO: Screenshot — Full Builder workspace showing the 3-zone layout: sidebar with definition nav tree on the left, main stage area in the center, and mentor panel on the right. Show it on the capability configuration step for maximum visual impact. */}
+
+## Kluczowe pojęcia
+
+<CardGrid>
+	<Card title="Definicja" icon="document">
+		Konfiguracja skanu określająca, który obiekt, pola i zdolności jakości mają być oceniane. Każda definicja generuje zestaw wyników po zeskanowaniu.
+	</Card>
+	<Card title="Zdolność" icon="approve-check-circle">
+		Wymiar jakości, taki jak Completeness lub Validity. Każda zdolność może być konfigurowana globalnie lub nadpisywana dla poszczególnych pól.
+	</Card>
+	<Card title="Szczegół definicji" icon="list-format">
+		Rekord łączący konkretne pole z definicją, przechowujący nadpisania konfiguracji per pole dla każdej zdolności.
+	</Card>
+	<Card title="Cykl życia" icon="setting">
+		Definicje przechodzą przez etapy: Draft → Ready → Active → Obsolete. Tylko aktywne definicje mogą być skanowane.
+	</Card>
+</CardGrid>
+
+## Etapy Builder
+
+1. **Getting Started** — Wybór docelowego obiektu Salesforce
+2. **Field Selection** — Wybór pól do uwzględnienia w skanie
+3. **Capability Configuration** — Włączanie i konfiguracja wymiarów jakości
+4. **Summary** — Przegląd kompletnej definicji przed aktywacją
+
+Każdy etap waliduje dane wejściowe przed przejściem do następnego kroku.
+
+## Dowiedz się więcej
+
+- [Tworzenie definicji](/pl/builder/creating-definition/)
+- [Wybór pól](/pl/builder/field-selection/)
+- [Konfiguracja zdolności](/pl/builder/capabilities/)
+- [Cykl życia definicji](/pl/builder/lifecycle/)

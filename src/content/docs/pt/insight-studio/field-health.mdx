@@ -1,0 +1,45 @@
+---
+title: Saude dos Campos
+description: Use a matriz de saude dos campos para identificar os pontos mais fracos dos seus dados.
+---
+
+## Matriz de Saude dos Campos
+
+A matriz de saude dos campos e uma **visualizacao em grade** mostrando cada campo varrido contra cada dimensao habilitada. Cada celula exibe a pontuacao do campo para aquela dimensao, codificada por cor de acordo com a nota.
+
+![Detalhamento de resultado de varredura — resultados de campo com pontuacoes por dimensao, codificados em verde para alto e vermelho para baixo](../../../../assets/screenshots/insight-studio-result-drilldown.png)
+
+## Lendo a Matriz
+
+| Eixo | Conteudo |
+|------|----------|
+| **Linhas** | Campos individuais (ordenados por pontuacao geral, piores primeiro) |
+| **Colunas** | Dimensoes de qualidade (Completeness, Validity, etc.) |
+| **Celulas** | Pontuacao (0-100) com indicador de cor |
+
+### Codificacao por Cores
+
+- **Celulas verdes** — Pontuacao ≥ 90 (Excelente)
+- **Celulas amarelas** — Pontuacao 50-89 (Regular a Bom)
+- **Celulas vermelhas** — Pontuacao < 50 (Ruim a Critico)
+- **Celulas cinzas** — Nao aplicavel (dimensao nao se aplica a este tipo de campo)
+
+## Usando a Matriz
+
+### Identificar Campos Problematicos
+
+Examine a matriz em busca de linhas com multiplas celulas vermelhas/amarelas. Esses campos possuem problemas de qualidade em multiplas dimensoes.
+
+### Identificar Dimensoes Problematicas
+
+Procure colunas com muitas celulas vermelhas. Essas dimensoes precisam de atencao em todo o seu conjunto de dados.
+
+### Aprofundar
+
+Clique em qualquer celula para navegar ate a visualizacao detalhada campo-dimensao, mostrando as metricas especificas e registros que contribuem para aquela pontuacao.
+
+## Ordenacao e Filtragem
+
+- **Ordenar por pontuacao** — Mostre os campos com pior desempenho primeiro
+- **Filtrar por dimensao** — Foque em uma dimensao de qualidade especifica
+- **Filtrar por tipo de campo** — Mostre apenas campos Text, Number ou Date

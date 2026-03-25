@@ -1,0 +1,65 @@
+---
+title: Timeliness
+description: Avalie se seus dados estao atualizados.
+---
+
+## O que e Timeliness?
+
+Timeliness mede se campos de data e datetime contem **valores recentes e atualizados**. Responde a pergunta: "Estes dados ainda estao frescos?"
+
+## Como Funciona
+
+Para cada campo de data, a estrategia de Timeliness:
+
+1. Le o valor de data/datetime
+2. Calcula a idade (diferenca entre o valor e a data atual)
+3. Compara a idade com a janela de atualidade configurada
+4. Marca valores mais antigos que a janela como "desatualizados"
+
+## Configuracao
+
+### Configuracoes Globais
+
+A secao **Defaults** controla as opcoes globais de timeliness:
+
+| Configuracao | Descricao |
+|--------------|-----------|
+| **Freshness Threshold** | A Janela de Atualidade Padrao em dias — registros mais antigos que este limite sao considerados desatualizados. |
+| **Null Handling** | **Treat null dates as stale** — quando habilitado, registros sem valor de data contam como dados desatualizados. |
+| **Overdue Tracking** | Habilitar rastreamento de atraso por padrao. Sinaliza registros que passaram da data esperada. *(PRO)* |
+| **Operational Range** | Habilitar validacao de intervalo operacional por padrao. Verifica se as datas estao dentro de um periodo aceitavel. *(PRO)* |
+
+A tabela **Field Overrides** lista cada campo de data com seu limite, atraso e configuracoes de janela atuais.
+
+![Configuracao de Timeliness com Defaults (Freshness Threshold, Null Handling, Overdue Tracking, Operational Range) e tabela de Field Overrides](../../../../assets/screenshots/timeliness-generic-view.png)
+
+### Substituicoes por Campo
+
+Clique em um campo na tabela Field Overrides para abrir seu modal de configuracao. Voce pode definir um **Freshness Threshold** (em dias) personalizado, alternar **Null Handling**, **Overdue Tracking** e **Operational Range** independentemente dos padroes globais. Use o link **Revert to Global** para redefinir o campo de volta as configuracoes globais.
+
+Diferentes campos de data podem ter diferentes requisitos de atualidade:
+
+| Exemplo de Campo | Janela Recomendada |
+|-------------------|-------------------|
+| `LastActivityDate` | 7 dias |
+| `LastModifiedDate` | 30 dias |
+| `Contract_End_Date__c` | 90 dias |
+| `Annual_Review_Date__c` | 365 dias |
+
+![Modal de configuracao por campo para ClosedDate com Freshness Threshold, Null Handling, Overdue Tracking e Operational Range](../../../../assets/screenshots/timeliness-field-override.png)
+
+## Pontuacao
+
+| Resultado | Pontuacao |
+|-----------|-----------|
+| Todas as datas dentro da janela | 100 |
+| Algumas datas desatualizadas | Proporcional a porcentagem de atualizados |
+| Todas as datas desatualizadas | 0 |
+| Sem dados | 0 |
+
+## Casos de Uso
+
+- Monitorar se representantes de vendas estao mantendo as datas de oportunidades atualizadas
+- Rastrear contatos desatualizados que nao foram atualizados recentemente
+- Garantir que datas relacionadas a conformidade estejam sendo mantidas
+- Identificar registros "mortos" que podem precisar de limpeza ou arquivamento

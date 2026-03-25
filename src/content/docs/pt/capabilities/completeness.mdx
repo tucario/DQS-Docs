@@ -1,0 +1,60 @@
+---
+title: Completeness
+description: Meça se os campos do Salesforce contem valores.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## O que e Completeness?
+
+Completeness mede a **taxa de preenchimento** dos seus campos — a porcentagem de registros onde um campo contem um valor nao nulo e nao vazio.
+
+## Como Funciona
+
+Para cada campo incluido na varredura, a estrategia de Completeness:
+
+1. Conta o numero total de registros no escopo
+2. Conta quantos registros possuem um valor nao vazio para aquele campo
+3. Calcula a taxa de preenchimento: `(registros preenchidos / total de registros) × 100`
+
+## Configuracao
+
+![Configuracao de Completeness com Defaults (Blank Handling, Placeholder Detection), tabela de Field Overrides e painel de orientacao](../../../../assets/screenshots/completness-scope-view.png)
+
+### Configuracoes Globais
+
+| Configuracao | Descricao | Padrao |
+|--------------|-----------|--------|
+| **Expected Fill Rate** | A porcentagem minima aceitavel de registros preenchidos | 80% |
+
+### Substituicoes por Campo
+
+Substitua a taxa de preenchimento esperada para campos individuais. Substituicoes comuns:
+- **Campos obrigatorios** (Email, Name) → 100%
+- **Campos opcionais** (Description, Notes) → 50%
+- **Campos raramente utilizados** → 20%
+
+## Pontuacao
+
+| Taxa de Preenchimento | Pontuacao |
+|-----------------------|-----------|
+| ≥ Esperado | 100 |
+| Abaixo do esperado | Proporcional (por exemplo, 70% de preenchimento com meta de 80% = pontuacao 87.5) |
+| 0% | 0 |
+
+<Aside type="note">
+Uma pontuacao de 0 significa que o denominador era zero (nenhum registro para medir), nao que todos os campos estao vazios.
+</Aside>
+
+## Casos de Uso
+
+- Identificar campos que sao frequentemente deixados em branco por representantes de vendas
+- Monitorar a conformidade de entrada de dados para campos obrigatorios
+- Acompanhar tendencias de completude ao longo do tempo apos iniciativas de qualidade de dados
+- Garantir que campos criticos (Email, Phone) estejam consistentemente preenchidos
+
+## Configuracao em Massa
+
+Use a opcao **Bulk Config** para definir a mesma substituicao de taxa de preenchimento em multiplos campos de uma vez — util quando voce tem muitos campos que compartilham o mesmo requisito de completude.
+
+![Secao Defaults destacada com Blank Handling e Placeholder Detection, e tabela de Field Overrides abaixo](../../../../assets/screenshots/field-default-settings-override.png)

@@ -1,0 +1,68 @@
+---
+title: Cykl życia definicji
+description: Zrozumienie etapów cyklu życia definicji skanu.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Etapy cyklu życia
+
+Każda definicja skanu przechodzi przez serię etapów:
+
+```
+Draft  →  Ready  →  Active  →  Obsolete
+```
+
+### Draft
+
+Stan początkowy po utworzeniu definicji. W statusie Draft:
+- Definicja może być swobodnie edytowana
+- Pola i zdolności mogą być dodawane lub usuwane
+- Skany nie mogą być wykonywane
+- Definicja nie jest widoczna w Insight Studio
+
+### Ready
+
+Stan przejściowy wskazujący, że definicja została zweryfikowana. W statusie Ready:
+- Cała wymagana konfiguracja jest kompletna
+- Definicja przeszła walidację
+- Może zostać aktywowana
+
+### Active
+
+Stan operacyjny. W statusie Active:
+- Skany mogą być wykonywane na podstawie definicji
+- Wyniki pojawiają się w Insight Studio
+- Definicja może być zaplanowana do cyklicznych skanów
+- Edycja jest nadal możliwa — zmiany zostaną uwzględnione przy następnym skanie
+
+### Obsolete
+
+Stan wycofany. W statusie Obsolete:
+- Nowe skany nie mogą być wyzwalane
+- Istniejące wyniki pozostają widoczne w Insight Studio do analizy historycznej
+- Definicja może zostać ponownie aktywowana w razie potrzeby
+
+![Definicja w statusie Draft — edytowalna, jeszcze nie do skanowania](../../../../assets/screenshots/remove-definition-as-admin.png)
+
+## Walidacja aktywacji
+
+Przed aktywacją definicji DQS sprawdza:
+
+| Reguła | Opis |
+|--------|------|
+| **Wybrane pola** | Musi być zaznaczone co najmniej jedno pole |
+| **Włączone zdolności** | Musi być włączona co najmniej jedna zdolność |
+| **Kompletna konfiguracja** | Wszystkie wymagane ustawienia zdolności muszą być wypełnione |
+
+<Aside type="note">
+Po kliknięciu **Activate** definicja przechodzi bezpośrednio do statusu Active. Stan Ready jest używany wewnętrznie jako bramka walidacyjna.
+</Aside>
+
+## Zmiana statusu
+
+- **Draft → Active**: Kliknij „Mark as Complete" na ekranie podsumowania — wybierz między Complete Only, Complete & Schedule lub Complete & Run Scan
+- **Active → Obsolete**: Użyj ustawień definicji, aby ją wycofać
+- **Obsolete → Active**: Ponowna aktywacja z poziomu ustawień definicji
+
+![Okno dialogowe Complete Definition — trzy opcje aktywacji](../../../../assets/screenshots/def-builder-step5-review.png)

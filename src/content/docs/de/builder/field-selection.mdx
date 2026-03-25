@@ -1,0 +1,80 @@
+---
+title: Feldauswahl
+description: So wählen Sie Felder für Ihre Datenqualitäts-Scan-Definition aus.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Feldauswahl
+
+Die Feldauswahl ist die zweite Stufe des Builder-Assistenten. Sie zeigt alle verfügbaren Felder des ausgewählten Objekts in einer paginierten Tabelle an.
+
+![Feldauswahl mit allen Feldern des Opportunity-Objekts mit Suche, Typfilter und Auswahlkontrollkästchen](../../../../assets/screenshots/def-builder-step2-scope.png)
+
+## Funktionen
+
+### Suchen und Filtern
+
+- **Suche** — Felder nach Bezeichnung oder API-Name filtern
+- **Feldtypfilter** — Nur bestimmte Feldtypen anzeigen (Text, Number, Picklist usw.)
+- **Sortierbare Spalten** — Nach Feldbezeichnung, API-Name oder Feldtyp sortieren
+
+![Gefilterte Feldansicht mit Suchergebnissen nach Eingabe einer Abfrage — nur übereinstimmende Felder werden angezeigt](../../../../assets/screenshots/def-builder-step2-scope-filtered.png)
+
+### Feldinformationen
+
+Für jedes Feld zeigt die Auswahl an:
+
+| Spalte | Beschreibung |
+|--------|-------------|
+| **Label** | Der Anzeigename des Feldes |
+| **API Name** | Der Entwicklername (z. B. `BillingCity`) |
+| **Type** | Felddatentyp (Text, Number, Date, Picklist usw.) |
+| **Required** | Ob das Feld im Layout erforderlich ist |
+
+### Massenauswahl
+
+Verwenden Sie den Link **Select All**, um alle verfügbaren Felder auf einmal zu Ihrem Umfang hinzuzufügen — der Link zeigt die Gesamtanzahl der Felder an (z. B. „Select All (71)"). Um alle Auswahlen zu entfernen, klicken Sie auf **Clear All**. Die Kopfzeile zeigt Echtzeit-Zähler für **Selected** und **Available** Felder an, damit Sie immer wissen, wie viele Felder im Umfang sind.
+
+Auswahlen bleiben seitenübergreifend erhalten — Sie können Felder auf Seite 1 auswählen, zu Seite 2 navigieren, und Ihre Auswahlen bleiben bestehen. Das **Scope Stats**-Panel auf der rechten Seite fasst Ihre aktuelle Auswahl zusammen.
+
+![Link „Select All" in der Feldauswahl-Kopfzeile zur Massenauswahl aller verfügbaren Felder](../../../../assets/screenshots/select-all-fields.png)
+
+## Feld-Überlegungen
+
+<Aside type="tip">
+Nicht alle Feldtypen sind für alle Capabilities anwendbar. Zum Beispiel ist Uniqueness für Boolean-Felder möglicherweise nicht aussagekräftig. DQS behandelt nicht anwendbare Kombinationen automatisch.
+</Aside>
+
+### Empfohlene Felder
+
+Für einen umfassenden Scan sollten Sie einbeziehen:
+- **Schlüssel-Identifikationsfelder** — Name, Email, Phone
+- **Adressfelder** — für Completeness und Validity
+- **Datumsfelder** — für Timeliness
+- **Picklist-Felder** — für Validity und Consistency
+- **Freitextfelder** — für Completeness und PII Detection
+
+### Zu vermeidende Felder
+
+- Systemgenerierte Felder (Id, CreatedDate, LastModifiedDate) — diese sind immer befüllt
+- Formelfelder — deren Werte werden berechnet, nicht von Benutzern eingegeben
+- Verschlüsselte Felder — sind möglicherweise nicht vom Scan-Engine lesbar
+
+## Scope-Ansicht
+
+Die Scope-Ansicht ist der Hauptarbeitsbereich für die Auswahl und Überprüfung von Feldern:
+
+1. **Scope-Schritt** — Klicken Sie auf den **Scope**-Schritt in der Builder-Assistenten-Seitenleiste, um alle Felder für das Zielobjekt zu laden. Hier legen Sie fest, welche Felder in Ihren Datenqualitäts-Scan einbezogen werden.
+
+2. **All Fields** — Die Standardansicht, die jedes Feld des Objekts anzeigt. Verwenden Sie diese Registerkarte, um die vollständige Liste zu durchsuchen, Felder an- oder abzuwählen und die Bezeichnung, den API-Namen, den Typ und ob es sich um ein Standard- oder benutzerdefiniertes Feld handelt, anzuzeigen. Ausgewählte Felder werden in der Liste hervorgehoben.
+
+3. **Selected-Filter** — Wechseln Sie zu dieser Ansicht, um nur die Felder anzuzeigen, die Sie bereits zum Umfang hinzugefügt haben. Der Zähler zeigt an, wie viele Felder ausgewählt sind (z. B. „Selected: 2"). Verwenden Sie ihn, um Ihre Auswahl schnell zu überprüfen und nicht mehr benötigte Felder zu entfernen.
+
+4. **Available-Filter** — Zeigt nur die Felder an, die noch nicht in Ihrem Umfang sind. Der Zähler zeigt an, wie viele übrig sind (z. B. „Available: 16"). Nützlich, wenn Sie sehen möchten, was noch hinzugefügt werden kann, ohne an bereits ausgewählten Feldern vorbeiscrollen zu müssen.
+
+5. **Typfilter** — Das Dropdown **All Types** ermöglicht es Ihnen, die Feldliste auf einen bestimmten Datentyp einzugrenzen — Text, Number, Date, Picklist, Boolean, Lookup und mehr. Kombinieren Sie ihn mit den anderen Filtern, um schnell die gewünschten Felder zu finden (z. B. nur verfügbare Picklist-Felder anzeigen).
+
+Das **Scope Stats**-Panel auf der rechten Seite fasst Ihre Auswahl mit einer Feldanzahl zusammen und zeigt einen **Ready to proceed**-Indikator an, wenn mindestens ein Feld ausgewählt ist.
+
+![Scope-Ansicht mit Feldliste, Suche, Typfilter und Auswahlzählern](../../../../assets/screenshots/field-scope-view.png)

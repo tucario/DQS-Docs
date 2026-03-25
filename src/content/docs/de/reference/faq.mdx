@@ -1,0 +1,80 @@
+---
+title: FAQ
+description: Häufig gestellte Fragen zu Data Quality Sense.
+---
+
+## Allgemein
+
+### Welche Salesforce-Editionen werden unterstützt?
+
+Data Quality Sense funktioniert mit **Enterprise**, **Unlimited** und **Developer** Editionen. Es erfordert, dass Lightning Experience aktiviert ist.
+
+### Benötigt DQS externe Integrationen?
+
+Nein. DQS ist **100 % Salesforce-nativ**. Alle Verarbeitung, Speicherung und Visualisierung findet innerhalb Ihrer Salesforce-Organisation statt. Es verlassen keine Daten Ihre Organisation.
+
+### Was ist der Namespace `dqssens`?
+
+Es ist der **Managed Package-Namespace** für Data Quality Sense. Alle benutzerdefinierten Objekte, Apex-Klassen und LWC-Komponenten sind mit diesem Namespace versehen, um Namenskonflikte mit Ihren bestehenden Anpassungen zu vermeiden.
+
+## Installation
+
+### Kann ich DQS zuerst in einer Sandbox installieren?
+
+Ja, und wir empfehlen es. Installieren Sie in einer Sandbox, um das Produkt zu evaluieren, und installieren Sie dann in der Produktionsumgebung, wenn Sie bereit sind.
+
+### Beeinflusst die Installation von DQS meine bestehenden Daten?
+
+Nein. DQS **liest** Ihre bestehenden Daten nur während der Scans. Es ändert niemals Ihre Geschäftsdaten. Es erstellt eigene benutzerdefinierte Objekte zur Speicherung von Scan-Konfigurationen und Ergebnissen.
+
+### Wie aktualisiere ich auf eine neuere Version?
+
+Verwenden Sie dieselbe Installations-URL. Salesforce erkennt das bestehende Paket und bietet einen Upgrade-Pfad an. Ihre Definitionen und Ergebnisse bleiben erhalten.
+
+## Konfiguration
+
+### Wie viele Definitionen kann ich erstellen?
+
+Es gibt kein hartes Limit für die Anzahl der Definitionen. Allerdings verbraucht jede Definition mit einem aktiven Zeitplan einen Salesforce Scheduled Apex-Platz (maximal 100 pro Organisation).
+
+### Kann ich benutzerdefinierte Objekte scannen?
+
+Ja. DQS kann **jedes Standard- oder benutzerdefinierte SObject** scannen, auf das Sie Lesezugriff haben.
+
+### Kann ich das Zielobjekt einer Definition ändern?
+
+Nein. Das Zielobjekt wird bei der Erstellung festgelegt und kann nicht geändert werden. Erstellen Sie eine neue Definition für ein anderes Objekt.
+
+## Scanning
+
+### Wie lange dauert ein Scan?
+
+Das hängt von der Anzahl der Datensätze, Felder und Capabilities ab. Ein typischer Scan von 10.000 Datensätzen mit 3 Capabilities dauert einige Minuten. Siehe [Limits](/de/reference/limits/) für detaillierte Schätzungen.
+
+### Kann ich mehrere Scans gleichzeitig ausführen?
+
+Jeder Scan verwendet einen Salesforce-Batch-Job. Salesforce erlaubt bis zu 5 gleichzeitige Batch-Jobs pro Organisation, also theoretisch ja — wir empfehlen jedoch, Scans zu staffeln, um Governor-Limit-Probleme zu vermeiden.
+
+### Was passiert, wenn ein Scan fehlschlägt?
+
+Der Fehler wird in der [Error Management Console](/de/processing/error-management/) über Platform Events protokolliert. Teilergebnisse von abgeschlossenen Dimensionen bleiben erhalten.
+
+## Ergebnisse
+
+### Wie lange werden Ergebnisse aufbewahrt?
+
+Standardmäßig werden Scan-Ergebnisse **30 Tage** und Fehlerprotokolle **7 Tage** aufbewahrt. Diese können über [Aufbewahrungseinstellungen](/de/processing/data-retention/) angepasst werden.
+
+### Kann ich Ergebnisse exportieren?
+
+Ja. Insight Studio unterstützt den [CSV-Export](/de/insight-studio/exports/) von Verstoßdetails für jede Dimension.
+
+### Was bedeutet eine Bewertung von 0?
+
+Eine Bewertung von 0 bedeutet, dass es **keine Daten zu messen** gab (Nenner null) — nicht unbedingt, dass alle Daten schlecht sind. Wenn zum Beispiel alle Felder null sind, kann Completeness keine aussagekräftige Füllrate berechnen.
+
+## Support
+
+### Wo bekomme ich Hilfe?
+
+Besuchen Sie [dataqualitysense.com](https://dataqualitysense.com) für Support-Optionen, Dokumentationsaktualisierungen und Kontaktinformationen.

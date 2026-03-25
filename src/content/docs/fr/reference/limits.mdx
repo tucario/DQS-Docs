@@ -1,0 +1,67 @@
+---
+title: Limites et considérations
+description: Governor limits Salesforce et considérations de performance pour DQS.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Governor Limits Salesforce
+
+DQS s'exécute entièrement dans Salesforce et est soumis aux governor limits standard. Le moteur de traitement est conçu pour fonctionner dans ces contraintes.
+
+### Limites du traitement par lots
+
+| Limite | Maximum Salesforce | Impact DQS |
+|--------|-------------------|------------|
+| **Taille du lot** | 2 000 enregistrements par lot | Configurable via les paramètres DQS |
+| **Lots simultanés** | 5 par organisation | DQS utilise 1 lot par scan |
+| **Requêtes SOQL par transaction** | 100 | Requêtes dynamiques utilisées efficacement |
+| **Opérations DML par transaction** | 150 | Résultats regroupés pour des écritures efficaces |
+| **Taille du heap** | 12 Mo (asynchrone) | Les champs texte volumineux peuvent contribuer |
+
+### Limites de planification
+
+| Limite | Maximum Salesforce |
+|--------|-------------------|
+| **Tâches Apex planifiées** | 100 par organisation |
+| **Déclencheurs CRON** | 100 par organisation |
+
+<Aside type="caution">
+Chaque planification de scan DQS consomme un créneau Apex planifié. Planifiez en conséquence si votre organisation a de nombreuses autres tâches planifiées.
+</Aside>
+
+## Considérations de performance
+
+### Taille de l'objet
+
+| Taille de l'objet | Temps de scan estimé | Notes |
+|-------------------|---------------------|-------|
+| < 10 000 enregistrements | Minutes | Traitement rapide |
+| 10 000 – 100 000 | 10–30 minutes | Traitement par lots normal |
+| 100 000 – 1 000 000 | 30–60 minutes | Envisagez une planification en heures creuses |
+| > 1 000 000 | 1+ heure | Planifiez pendant les fenêtres de maintenance |
+
+### Nombre de champs
+
+Plus il y a de champs dans une définition, plus le traitement par enregistrement est long. Une définition avec plus de 50 champs prendra plus de temps qu'une définition avec 10 champs.
+
+### Nombre de capacités
+
+Chaque capacité activée ajoute une exécution de stratégie de dimension par lot. Activer les 7 capacités prend environ 7 fois plus de temps que d'en activer une seule.
+
+## Bonnes pratiques
+
+- **Planifiez pendant les heures creuses** — Minimisez l'impact sur les utilisateurs
+- **Commencez petit** — Débutez avec une capacité et quelques champs clés, puis élargissez
+- **Surveillez les tâches par lots** — Utilisez Setup → Apex Jobs pour vérifier la progression des scans
+- **Utilisez les politiques de rétention** — Empêchez une croissance illimitée des résultats
+- **Échelonnez les planifications** — Ne planifiez pas toutes les définitions en même temps
+
+## Stockage
+
+Les résultats de scan consomment du stockage de données Salesforce. Chaque scan crée :
+- 1 résultat de dimension par capacité activée
+- 1 résultat de champ par champ par capacité
+- Plusieurs résultats de métriques par champ
+
+Avec la [rétention des données](/fr/processing/data-retention/) configurée, les anciens résultats sont automatiquement purgés.

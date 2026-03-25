@@ -1,0 +1,78 @@
+---
+title: Installation
+description: So installieren Sie Data Quality Sense in Ihrer Salesforce-Organisation.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Voraussetzungen
+
+- Salesforce-Organisation (Enterprise, Unlimited oder Developer Edition)
+- System Administrator-Profil oder gleichwertige Berechtigungen
+- Lightning Experience aktiviert
+
+## Paket installieren
+
+1. **Installationslink erhalten**
+
+   Kontaktieren Sie uns unter [dataqualitysense.com](https://dataqualitysense.com), um die Installations-URL des Managed Package für Ihre Organisation zu erhalten.
+
+2. **Installationsumfang wählen**
+
+   Wählen Sie aus, wer Zugriff haben soll:
+   - **Install for Admins Only** — empfohlen für die Ersteinrichtung
+   - **Install for All Users** — wenn alle Benutzer sofortigen Zugriff benötigen
+   - **Install for Specific Profiles** — für granulare Kontrolle
+
+   ![Data Quality Sense installieren — Installationsumfang wählen](../../../../assets/screenshots/installation-appexchange.png)
+
+3. **Drittanbieter-Zugriff genehmigen**
+
+   Das Paket erfordert keine externen Aufrufe. Die gesamte Verarbeitung findet innerhalb Ihrer Salesforce-Organisation statt.
+
+4. **Installation abwarten**
+
+   Der Installer zeigt den Fortschritt an. Bei größeren Organisationen kann die Installation einige Minuten dauern — Sie erhalten eine E-Mail, sobald sie abgeschlossen ist.
+
+   ![Installation wird durchgeführt](../../../../assets/screenshots/installation-in-progress.png)
+
+   ![Installation dauert länger — E-Mail-Benachrichtigung folgt](../../../../assets/screenshots/installation-taking-longer.png)
+
+5. **Installation überprüfen**
+
+   Navigieren Sie zu **Setup → Installed Packages** und bestätigen Sie, dass `Data Quality Sense` mit dem Namespace `dqssens` angezeigt wird.
+
+   ![Installed Packages in Salesforce Setup mit Data Quality Sense-Paket](../../../../assets/screenshots/installed-packages.png)
+
+<Aside type="tip">
+Fahren Sie nach der Installation mit [Berechtigungen](/de/getting-started/permissions/) fort, um den Benutzerzugriff zu konfigurieren.
+</Aside>
+
+## App aktivieren
+
+Nach der Installation ist Data Quality Sense **noch nicht aktiv**. Wenn Sie die App zum ersten Mal öffnen, sehen Sie einen Sperrbildschirm, der darauf hinweist, dass eine Aktivierung erforderlich ist.
+
+![Data Quality Sense ist nicht aktiviert — Sperrbildschirm mit Schaltfläche „Contact Us to Activate"](../../../../assets/screenshots/installation-not-activated.png)
+
+Klicken Sie auf **Contact Us to Activate**, um eine vorausgefüllte E-Mail mit Ihrer Org-ID und Details zu öffnen. Sie können uns auch direkt unter [hello@tucario.com](mailto:hello@tucario.com) kontaktieren.
+
+![Vorausgefüllte Aktivierungs-E-Mail mit Org-ID](../../../../assets/screenshots/send-email-to-activate.png)
+
+Wir aktivieren die App aus der Ferne — auf Ihrer Seite sind keine weiteren Installationsschritte erforderlich. Nach der Aktivierung verschwindet der Sperrbildschirm und die App ist mit **20 Scans** einsatzbereit.
+
+<Aside type="note">
+Die Aktivierung ist an Ihre Salesforce-Organisation gebunden. Wenn Sie das Paket in einer neuen Organisation installieren (z. B. einer Sandbox), muss es separat aktiviert werden.
+</Aside>
+
+## Nach der Installation
+
+Das Paket installiert:
+- Benutzerdefinierte Objekte für Definitionen, Ergebnisse und Zeitplanung
+- Custom Metadata Types für Capabilities, Metriken und Konfiguration
+- Lightning Web Components für Builder und Insight Studio
+- Apex-Klassen für Batch-Verarbeitung und API-Controller
+- Permission Sets für rollenbasierte Zugriffskontrolle
+
+## Paket aktualisieren
+
+Um auf eine neuere Version zu aktualisieren, verwenden Sie denselben Installationslink — Salesforce erkennt das vorhandene Paket und bietet einen Upgrade-Pfad an. Ihre Scan-Definitionen und Ergebnisse bleiben bei Upgrades erhalten.

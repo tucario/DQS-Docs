@@ -1,0 +1,63 @@
+---
+title: Validity
+description: Vérifier si les valeurs des champs respectent les formats et motifs attendus.
+---
+
+## Qu'est-ce que Validity ?
+
+Validity mesure si les valeurs des champs **respectent les formats, plages et motifs attendus**. Un champ peut être renseigné (complet) mais contenir des données invalides — Validity détecte ces problèmes.
+
+## Fonctionnement
+
+La stratégie Validity évalue chaque valeur de champ selon les règles attendues :
+
+1. **Champs Picklist** — Vérifie que les valeurs correspondent aux valeurs de picklist définies (y compris les métadonnées et les valeurs actives)
+2. **Champs Text** — Valide selon des motifs de format (par exemple, format e-mail, format téléphone)
+3. **Champs Number** — Valide selon des plages attendues
+4. **Champs Date** — Vérifie des plages de dates raisonnables
+
+## Configuration
+
+### Paramètres globaux
+
+La section **Defaults** contrôle les options de validation globales qui s'appliquent à tous les champs :
+
+| Paramètre | Description |
+|-----------|-------------|
+| **Include blank values in validation** | Lorsqu'activé, les valeurs vides/nulles échoueront à la validation |
+| **Case-sensitive matching** | La correspondance de motifs prend en compte les majuscules/minuscules |
+| **Pattern Selection** | Choisir un motif de validation par défaut (Email, URL, Fixed Length ou regex Custom) |
+
+Le tableau **Field Overrides** en dessous liste chaque champ dans le périmètre avec son motif et son statut actuels. Les champs marqués « Default » utilisent les paramètres globaux, « None » signifie qu'aucun motif n'est encore attribué.
+
+![Configuration de Validity avec Defaults (Validation Options, Pattern Selection) et tableau des Field Overrides](../../../../assets/screenshots/validity-generic-view.png)
+
+### Surcharges par champ
+
+Cliquez sur un champ dans le tableau Field Overrides pour ouvrir sa modale de configuration. Vous pouvez y attribuer un motif de validation spécifique pour ce champ — choisissez parmi les motifs prédéfinis (Email, URL, Fixed Length) ou sélectionnez **Custom** pour saisir votre propre regex. Chaque surcharge de champ vous permet également d'activer/désactiver **Include blank values** et **Case-sensitive matching** indépendamment des paramètres globaux. Utilisez le lien **Revert to Global** pour réinitialiser le champ aux paramètres globaux.
+
+![Modale de configuration par champ pour le champ Name avec les options de motifs prédéfinis (Email, URL, Fixed Length, Custom)](../../../../assets/screenshots/validity-field-regex.png)
+
+## Scoring
+
+| Résultat | Score |
+|----------|-------|
+| Toutes les valeurs valides | 100 |
+| Certaines invalides | Proportionnel au pourcentage de valeurs valides |
+| Toutes invalides | 0 |
+| Aucune donnée | 0 |
+
+## Motifs Regex
+
+DQS utilise des **expressions régulières compatibles Java** pour la validation des champs texte. Lorsque vous sélectionnez **Custom** dans le sélecteur de motifs, un champ de texte apparaît où vous pouvez saisir votre propre motif regex.
+
+![Saisie de motif regex personnalisé dans la modale de configuration par champ](../../../../assets/screenshots/validity-field-custom-regex.png)
+
+Consultez le [Regex Tester](/fr/reference/regex-tester/) pour un testeur interactif et une bibliothèque de motifs prêts à l'emploi pour les e-mails, téléphones, URL, codes postaux et plus encore.
+
+## Cas d'utilisation
+
+- S'assurer que les champs e-mail contiennent des adresses e-mail correctement formatées
+- Vérifier que les champs picklist ne contiennent que des valeurs approuvées
+- Détecter les saisies en texte libre dans les champs qui devraient utiliser des vocabulaires contrôlés
+- Valider les formats de numéros de téléphone selon les régions

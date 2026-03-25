@@ -1,0 +1,66 @@
+---
+title: PII Detection
+description: Varra campos de texto livre em busca de informacoes pessoais identificaveis.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## O que e PII Detection?
+
+PII Detection varre campos de texto livre em busca de **informacoes pessoais identificaveis** que nao deveriam estar armazenadas nesses campos. Ajuda organizacoes a cumprir regulamentacoes de privacidade de dados como GDPR, CCPA e HIPAA.
+
+## Como Funciona
+
+A estrategia de PII Detection analisa o conteudo de texto em busca de padroes que correspondem a:
+
+1. **Social Security Numbers** (SSN) — padroes numericos como XXX-XX-XXXX
+2. **Numeros de Cartao de Credito** — sequencias de 13-19 digitos correspondendo a padroes de redes de cartoes
+3. **Enderecos de E-mail** — em campos onde o armazenamento de e-mail nao e esperado
+4. **Numeros de Telefone** — em campos de texto livre (nao em campos dedicados de telefone)
+5. **Numeros de Identificacao Nacional** — padroes especificos por pais
+
+## Configuracao
+
+### Padroes de Deteccao
+
+A secao **Defaults** fornece tres grupos predefinidos de padroes de deteccao:
+
+| Preset | Descricao |
+|--------|-----------|
+| **Standard** | Padroes principais de PII — Social Security Number, Credit Card Number, Email Address, US Phone Number |
+| **Critical** | Padroes financeiros e de identidade de alto risco |
+| **Extended** | Conjunto completo incluindo IP Address, IBAN, Date of Birth, International Phone e mais |
+
+Cada padrao mostra sua expressao regex e pode ser habilitado ou desabilitado individualmente. Voce tambem pode adicionar seus proprios padroes na secao **Add Custom Pattern** inserindo um regex e um rotulo.
+
+![Configuracao de PII Detection com presets de Detection Patterns (Standard, Critical, Extended), lista de padroes e Field Overrides](../../../../assets/screenshots/pii-generic-view.png)
+
+### Substituicoes por Campo
+
+Clique em um campo na tabela Field Overrides para abrir seu modal de configuracao. Voce pode selecionar quais padroes de deteccao se aplicam a aquele campo — escolha um preset ou habilite/desabilite padroes individuais. O modal tambem permite adicionar **padroes personalizados** especificos para aquele campo. Use o link **Revert to Global** para redefinir.
+
+![Modal de configuracao por campo para o campo Description com padroes de deteccao e entrada de padrao personalizado](../../../../assets/screenshots/pii-field-override.png)
+
+## Pontuacao
+
+| Resultado | Pontuacao |
+|-----------|-----------|
+| Nenhum PII detectado | 100 |
+| Algum PII encontrado | Proporcional a porcentagem de limpos |
+| PII em todos os registros | 0 |
+| Sem dados | 0 |
+
+<Aside type="caution">
+PII Detection usa correspondencia de padroes, nao classificacao por IA. Pode produzir falsos positivos (por exemplo, um numero que parece com um SSN mas nao e). Revise os registros sinalizados antes de tomar acoes.
+</Aside>
+
+## Padroes Regex de PII
+
+O DQS usa **expressoes regulares compativeis com Java** para detectar PII em campos de texto livre. Consulte o [Testador de Regex](/pt/reference/regex-tester/) para um testador interativo e uma biblioteca completa de padroes de PII — incluindo SSN, cartoes de credito (Visa, Mastercard, Amex), IBAN, numeros de passaporte, PESEL, NIP e mais.
+
+## Casos de Uso
+
+- Auditar campos Description e Notes para numeros de cartao de credito armazenados acidentalmente
+- Monitorar campos de texto livre para numeros de seguro social
+- Relatorios de conformidade para regulamentacoes de privacidade de dados
+- Limpeza de dados pre-migracao

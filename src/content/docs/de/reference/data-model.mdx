@@ -1,0 +1,65 @@
+---
+title: Datenmodell
+description: Benutzerdefinierte Objekte, Custom Metadata Types und ihre Beziehungen.
+---
+
+## Benutzerdefinierte Objekte
+
+DQS verwendet eine Reihe benutzerdefinierter Objekte zur Speicherung von Definitionen, Ergebnissen und Zeitplanungsdaten. Alle Objekte verwenden den Namespace-Präfix `dqssens`.
+
+### Definitionsobjekte
+
+| Objekt | Zweck | Schlüsselfelder |
+|--------|-------|-----------------|
+| `DQS_Definition__c` | Scan-Konfiguration | Name, Object API Name, Status, Description |
+| `DQS_Definition_Detail__c` | Feldebene-Konfiguration | Definition (lookup), Field API Name, Overrides |
+
+### Ergebnisobjekte
+
+| Objekt | Zweck | Beziehung |
+|--------|-------|-----------|
+| `DQS_Dimension_Result__c` | Dimensionsbezogenes Scan-Ergebnis | Definition (lookup) |
+| `DQS_Field_Result__c` | Feldbezogenes Ergebnis innerhalb einer Dimension | Dimension Result (master-detail) |
+| `DQS_Metric_Result__c` | Detaillierte Metrik pro Feld | Field Result (master-detail) |
+
+### Zeitplanungsobjekte
+
+| Objekt | Zweck |
+|--------|-------|
+| `DQS_Batch_Schedule__c` | Speichert Zeitplankonfiguration pro Definition |
+
+## Objektbeziehungen
+
+```
+DQS_Definition__c
+  ├── DQS_Definition_Detail__c (1:N)
+  ├── DQS_Batch_Schedule__c (1:1)
+  └── DQS_Dimension_Result__c (1:N per scan)
+       └── DQS_Field_Result__c (1:N, master-detail)
+            └── DQS_Metric_Result__c (1:N, master-detail)
+```
+
+## Custom Metadata Types
+
+CMTs steuern die Konfiguration von Capabilities und deren Bewertungslogik. Sie werden vom Paket kontrolliert und sind von Subscribern nicht bearbeitbar (sofern nicht anders angegeben).
+
+| CMT | Zweck | Datensätze |
+|-----|-------|------------|
+| `DQS_Capability__mdt` | Definiert verfügbare Qualitätsdimensionen | 7 (eine pro Capability) |
+| `DQS_Dimension__mdt` | Dimensionsanzeige-Konfiguration | 7 |
+| `DQS_Metric__mdt` | Metrikdefinitionen pro Capability | Mehrere pro Dimension |
+| `DQS_Input_Configuration__mdt` | Eingabekonfigurator-Einstellungen | Pro-Capability-Konfigurationsfelder |
+| `DQS_Configuration__mdt` | Allgemeine App-Einstellungen | Aufbewahrung, Feature-Flags |
+
+## Platform Events
+
+| Event | Zweck |
+|-------|-------|
+| `Calculation_Complete__e` | Wird ausgelöst, wenn ein Scan die Verarbeitung abgeschlossen hat |
+| `DQS_Processing_Error__e` | Wird ausgelöst, wenn ein Fehler während der Batch-Verarbeitung auftritt |
+
+## Feature-Parameter
+
+| Parameter | Zweck |
+|-----------|-------|
+| `DQS_AppEnabled` | Steuert das Aktivierungs-Gate — ob die App lizenziert und aktiv ist |

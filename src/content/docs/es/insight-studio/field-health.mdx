@@ -1,0 +1,45 @@
+---
+title: Salud de campos
+description: Use la matriz de salud de campos para identificar los puntos de datos más débiles.
+---
+
+## Matriz de salud de campos
+
+La matriz de salud de campos es una **vista de cuadrícula** que muestra cada campo escaneado contra cada dimensión habilitada. Cada celda muestra la puntuación del campo para esa dimensión, codificada por color según el grado.
+
+![Desglose de resultados de escaneo — resultados de campos con puntuaciones por dimensión, codificados en verde para alto y rojo para bajo](../../../../assets/screenshots/insight-studio-result-drilldown.png)
+
+## Lectura de la matriz
+
+| Eje | Contenido |
+|-----|-----------|
+| **Filas** | Campos individuales (ordenados por puntuación general, peores primero) |
+| **Columnas** | Dimensiones de calidad (Completeness, Validity, etc.) |
+| **Celdas** | Puntuación (0–100) con indicador de color |
+
+### Codificación de colores
+
+- **Celdas verdes** — Puntuación ≥ 90 (Excelente)
+- **Celdas amarillas** — Puntuación 50–89 (Regular a Bueno)
+- **Celdas rojas** — Puntuación < 50 (Deficiente a Crítico)
+- **Celdas grises** — No aplicable (la dimensión no se aplica a este tipo de campo)
+
+## Uso de la matriz
+
+### Identificar campos problemáticos
+
+Examine la matriz en busca de filas con múltiples celdas rojas/amarillas. Estos campos tienen problemas de calidad en múltiples dimensiones.
+
+### Identificar dimensiones problemáticas
+
+Busque columnas con muchas celdas rojas. Estas dimensiones necesitan atención en todo su conjunto de datos.
+
+### Profundizar
+
+Haga clic en cualquier celda para navegar a la vista detallada de campo-dimensión, que muestra las métricas específicas y los registros que contribuyen a esa puntuación.
+
+## Ordenamiento y filtrado
+
+- **Ordenar por puntuación** — Mostrar primero los campos con peor rendimiento
+- **Filtrar por dimensión** — Enfocarse en una dimensión de calidad específica
+- **Filtrar por tipo de campo** — Mostrar solo campos Text, Number o Date

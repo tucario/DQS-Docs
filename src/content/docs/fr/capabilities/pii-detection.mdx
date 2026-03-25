@@ -1,0 +1,66 @@
+---
+title: PII Detection
+description: Rechercher les informations personnelles identifiables dans les champs de texte libre.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Qu'est-ce que PII Detection ?
+
+PII Detection recherche dans les champs de texte libre les **informations personnelles identifiables** qui ne devraient pas être stockées dans ces champs. Cette fonctionnalité aide les organisations à se conformer aux réglementations sur la protection des données comme le RGPD, le CCPA et le HIPAA.
+
+## Fonctionnement
+
+La stratégie PII Detection analyse le contenu textuel pour détecter des motifs correspondant à :
+
+1. **Numéros de sécurité sociale** (SSN) — motifs numériques comme XXX-XX-XXXX
+2. **Numéros de carte de crédit** — séquences de 13 à 19 chiffres correspondant aux motifs des réseaux de cartes
+3. **Adresses e-mail** — dans les champs où le stockage d'e-mail n'est pas attendu
+4. **Numéros de téléphone** — dans les champs de texte libre (pas les champs téléphone dédiés)
+5. **Numéros d'identification nationale** — motifs spécifiques par pays
+
+## Configuration
+
+### Motifs de détection
+
+La section **Defaults** fournit trois groupes prédéfinis de motifs de détection :
+
+| Prédéfini | Description |
+|-----------|-------------|
+| **Standard** | Motifs PII de base — Social Security Number, Credit Card Number, Email Address, US Phone Number |
+| **Critical** | Motifs financiers et d'identité à haut risque |
+| **Extended** | Ensemble complet incluant IP Address, IBAN, Date of Birth, International Phone, et plus encore |
+
+Chaque motif affiche son expression regex et peut être activé ou désactivé individuellement. Vous pouvez également ajouter vos propres motifs dans la section **Add Custom Pattern** en saisissant un regex et un libellé.
+
+![Configuration de PII Detection avec les prédéfinis de motifs de détection (Standard, Critical, Extended), la liste des motifs et les Field Overrides](../../../../assets/screenshots/pii-generic-view.png)
+
+### Surcharges par champ
+
+Cliquez sur un champ dans le tableau Field Overrides pour ouvrir sa modale de configuration. Vous pouvez sélectionner quels motifs de détection s'appliquent à ce champ — choisissez un prédéfini ou activez/désactivez des motifs individuels. La modale vous permet également d'ajouter des **motifs personnalisés** spécifiques à ce champ. Utilisez le lien **Revert to Global** pour réinitialiser.
+
+![Modale de configuration par champ pour le champ Description avec les motifs de détection et la saisie de motif personnalisé](../../../../assets/screenshots/pii-field-override.png)
+
+## Scoring
+
+| Résultat | Score |
+|----------|-------|
+| Aucune PII détectée | 100 |
+| Quelques PII trouvées | Proportionnel au pourcentage de données propres |
+| PII dans tous les enregistrements | 0 |
+| Aucune donnée | 0 |
+
+<Aside type="caution">
+PII Detection utilise la correspondance de motifs, pas la classification par IA. Des faux positifs peuvent survenir (par exemple, un numéro qui ressemble à un SSN mais n'en est pas un). Vérifiez les enregistrements signalés avant d'agir.
+</Aside>
+
+## Motifs Regex PII
+
+DQS utilise des **expressions régulières compatibles Java** pour détecter les PII dans les champs de texte libre. Consultez le [Regex Tester](/fr/reference/regex-tester/) pour un testeur interactif et une bibliothèque complète de motifs PII — incluant SSN, cartes de crédit (Visa, Mastercard, Amex), IBAN, numéros de passeport, PESEL, NIP, et plus encore.
+
+## Cas d'utilisation
+
+- Auditer les champs Description et Notes pour les numéros de carte de crédit stockés accidentellement
+- Surveiller les champs de texte libre pour les numéros de sécurité sociale
+- Rapports de conformité pour les réglementations sur la protection des données
+- Nettoyage des données avant migration

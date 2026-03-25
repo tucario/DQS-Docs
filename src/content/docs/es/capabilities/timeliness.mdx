@@ -1,0 +1,65 @@
+---
+title: Timeliness
+description: Evalúe si sus datos son actuales y están al día.
+---
+
+## ¿Qué es Timeliness?
+
+Timeliness mide si los campos de fecha y fecha/hora contienen **valores recientes y actualizados**. Responde a la pregunta: "¿Estos datos siguen siendo frescos?"
+
+## Cómo funciona
+
+Para cada campo de fecha, la estrategia de Timeliness:
+
+1. Lee el valor de fecha/fecha y hora
+2. Calcula la antigüedad (diferencia entre el valor y la fecha actual)
+3. Compara la antigüedad contra la ventana de frescura configurada
+4. Marca los valores más antiguos que la ventana como "obsoletos"
+
+## Configuración
+
+### Ajustes globales
+
+La sección **Defaults** controla las opciones globales de timeliness:
+
+| Ajuste | Descripción |
+|--------|-------------|
+| **Freshness Threshold** | La ventana de frescura predeterminada en días — los registros más antiguos que este umbral se consideran obsoletos. |
+| **Null Handling** | **Treat null dates as stale** — cuando está habilitado, los registros sin valor de fecha se cuentan como datos obsoletos. |
+| **Overdue Tracking** | Habilitar el seguimiento de vencimientos por defecto. Señala registros que pasaron su fecha esperada. *(PRO)* |
+| **Operational Range** | Habilitar la validación de rango operativo por defecto. Verifica si las fechas caen dentro de un rango de tiempo aceptable. *(PRO)* |
+
+La tabla **Field Overrides** lista cada campo de fecha con su umbral actual, ajustes de vencimiento y ventana.
+
+![Configuración de Timeliness con Defaults (Freshness Threshold, Null Handling, Overdue Tracking, Operational Range) y tabla de Field Overrides](../../../../assets/screenshots/timeliness-generic-view.png)
+
+### Personalizaciones por campo
+
+Haga clic en un campo en la tabla de Field Overrides para abrir su modal de configuración. Puede establecer un **Freshness Threshold** personalizado (en días), alternar **Null Handling**, **Overdue Tracking** y **Operational Range** independientemente de los valores predeterminados globales. Use el enlace **Revert to Global** para restablecer el campo a los ajustes globales.
+
+Diferentes campos de fecha pueden tener diferentes requisitos de frescura:
+
+| Ejemplo de campo | Ventana recomendada |
+|------------------|---------------------|
+| `LastActivityDate` | 7 días |
+| `LastModifiedDate` | 30 días |
+| `Contract_End_Date__c` | 90 días |
+| `Annual_Review_Date__c` | 365 días |
+
+![Modal de configuración por campo para ClosedDate con Freshness Threshold, Null Handling, Overdue Tracking y Operational Range](../../../../assets/screenshots/timeliness-field-override.png)
+
+## Puntuación
+
+| Resultado | Puntuación |
+|-----------|------------|
+| Todas las fechas dentro de la ventana | 100 |
+| Algunas fechas obsoletas | Proporcional al porcentaje de frescas |
+| Todas las fechas obsoletas | 0 |
+| Sin datos | 0 |
+
+## Casos de uso
+
+- Monitorear si los representantes de ventas mantienen actualizadas las fechas de oportunidades
+- Rastrear contactos obsoletos que no se han actualizado recientemente
+- Asegurar que las fechas relacionadas con cumplimiento se mantengan al día
+- Identificar registros "muertos" que pueden necesitar limpieza o archivado

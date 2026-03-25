@@ -1,0 +1,63 @@
+---
+title: Capabilities konfigurieren
+description: So aktivieren und konfigurieren Sie Qualitätsdimensionen im DQS Builder.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Capability-Konfiguration
+
+Die dritte Stufe des Builder-Assistenten ermöglicht es Ihnen, Qualitätsdimensionen zu aktivieren und deren Einstellungen zu konfigurieren. Jede Capability bewertet einen anderen Aspekt Ihrer Datenqualität.
+
+## Verfügbare Capabilities
+
+| Capability | Was sie misst |
+|------------|--------------|
+| [Completeness](/de/capabilities/completeness/) | Sind Felder befüllt? |
+| [Validity](/de/capabilities/validity/) | Entsprechen Werte den erwarteten Formaten? |
+| [Uniqueness](/de/capabilities/uniqueness/) | Gibt es doppelte Werte? |
+| [Timeliness](/de/capabilities/timeliness/) | Sind die Daten aktuell? |
+| [Consistency](/de/capabilities/consistency/) | Sind zusammenhängende Felder logisch konsistent? |
+| [PII Detection](/de/capabilities/pii-detection/) | Werden personenbezogene Daten ordnungsgemäß behandelt? |
+
+![Capability-Auswahl mit Qualitätsdimensionen — Completeness, Validity, Uniqueness, Timeliness, Consistency und PII Safety](../../../../assets/screenshots/def-builder-step1-capabilities.png)
+
+## Capability aktivieren
+
+Wählen Sie eine Capability aus der Liste, um sie zu aktivieren. Jede Capability hat:
+
+- **Globale Konfiguration** — Standardeinstellungen, die auf alle Felder angewendet werden
+- **Feldspezifische Überschreibungen** — Benutzerdefinierte Einstellungen für einzelne Felder, die von den globalen Standards abweichen
+
+## Globale vs. feldspezifische Konfiguration
+
+Die meisten Capabilities ermöglichen es Ihnen, globale Schwellenwerte festzulegen und diese dann für bestimmte Felder zu überschreiben. Zum Beispiel:
+
+- **Completeness**: Globale „erwartete Füllrate" von 90 % festlegen, aber 100 % für Email-Felder verlangen
+- **Validity**: Globale Formatregeln definieren, aber benutzerdefinierte Regex-Muster für bestimmte Textfelder setzen
+- **Timeliness**: Globales Aktualitätsfenster von 30 Tagen festlegen, aber 7 Tage für kritische Datumsfelder verwenden
+
+Der Abschnitt **Defaults** oben steuert die globalen Einstellungen für die Capability (z. B. Blank Handling und Placeholder Detection für Completeness). Diese gelten für alle Felder, sofern sie nicht überschrieben werden. Die Tabelle **Field Overrides** darunter listet jedes Feld im Umfang mit seinem aktuellen Status auf — „Default" bedeutet, dass das Feld die globalen Einstellungen verwendet.
+
+![Capability-Standards und Feld-Überschreibungstabelle — alle Felder verwenden globale Einstellungen](../../../../assets/screenshots/field-default-settings-override.png)
+
+Um ein bestimmtes Feld zu überschreiben, klicken Sie auf es in der Field Overrides-Tabelle. Sein Status ändert sich, um eine benutzerdefinierte Konfiguration anzuzeigen. Der rote Pfeil unten zeigt auf das Feld Reason nach Anwendung einer feldspezifischen Überschreibung.
+
+![Feldüberschreibung auf das Feld Reason angewendet — Status von Default auf benutzerdefiniert geändert](../../../../assets/screenshots/field-settings-override.png)
+
+## Konfigurations-Workflow
+
+1. **Capability aktivieren** — Aus der Capability-Liste einschalten
+2. **Globale Einstellungen festlegen** — Standards konfigurieren, die für alle ausgewählten Felder gelten
+3. **Feldüberschreibungen hinzufügen** (optional) — Auf einzelne Felder klicken, um deren Einstellungen anzupassen
+4. **Überprüfen** — Die Zusammenfassung zeigt, welche Felder Überschreibungen haben
+
+<Aside type="tip">
+Sie können die **Massenkonfiguration** für Capabilities wie Completeness verwenden, um schnell dieselbe Überschreibung auf mehrere Felder gleichzeitig anzuwenden.
+</Aside>
+
+![Feldspezifisches Konfigurationsmodal für das Feld Description mit Blank Handling und Placeholder Detection-Einstellungen](../../../../assets/screenshots/completeness-config-field-override.png)
+
+## Capability entfernen
+
+Klicken Sie auf die Schaltfläche „Entfernen" bei einer aktivierten Capability, um sie zu deaktivieren. Dies löscht alle globalen und feldspezifischen Konfigurationen für diese Capability. Die Aktion erfordert eine Bestätigung.

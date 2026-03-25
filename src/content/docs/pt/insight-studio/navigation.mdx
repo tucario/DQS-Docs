@@ -1,0 +1,80 @@
+---
+title: Navegacao
+description: Como navegar pelo painel multinivel do Insight Studio.
+---
+
+## Profundidade de Navegacao
+
+O Insight Studio oferece uma hierarquia de **6 niveis de detalhamento**:
+
+```
+Home → Object → Definition → Scan → Field → Dimension
+```
+
+### Nivel 1: Home
+
+A visualizacao de nivel superior mostrando todos os objetos varridos com suas pontuacoes de qualidade mais recentes. Use-a para identificar quais objetos precisam de atencao.
+
+![DQS Home — visao geral com contagem de definicoes, varreduras, agendamentos ativos e tabela de atividades recentes](../../../../assets/screenshots/dqs-home.png)
+
+### Nivel 2: Object
+
+Mostra todas as definicoes para um objeto selecionado com a pontuacao geral de qualidade, data da ultima varredura, status e cartoes de definicao. Compare diferentes configuracoes de varredura e seus resultados lado a lado.
+
+![Visualizacao do objeto Case — pontuacao geral 64.7%, 2 definicoes com pontuacoes individuais e contagem de varreduras](../../../../assets/screenshots/object-with-definitions.png)
+
+### Nivel 3: Definition
+
+O painel principal para uma unica definicao. Possui quatro abas:
+
+- **Overview** — Pontuacao geral de qualidade, barras de pontuacao por dimensao, grafico Score Trend e painel Record Scores
+- **Fields** — Matriz de Saude dos Campos com pontuacoes por campo em cada dimensao
+- **Scans** — Historico completo de varreduras com resultados por execucao
+- **Exports** — Baixe detalhes de violacoes como CSV por dimensao e campo, ou tome acoes via Create Tasks e Post Chatter
+
+![Painel da definicao — pontuacao geral 85.8%, detalhamento por dimensao, grafico Score Trend e Record Scores](../../../../assets/screenshots/object-with-latest-scans.png)
+
+A aba **Fields** mostra a pontuacao de cada campo por dimensao em uma matriz codificada por cores — vermelho para ruim, verde para bom. Use-a para identificar rapidamente os campos mais fracos.
+
+![Aba Fields — Matriz de Saude dos Campos com pontuacoes por dimensao, codificadas por nota](../../../../assets/screenshots/object-fields-section.png)
+
+A aba **Exports** lista as exportacoes disponiveis por dimensao e campo, com botoes de download e historico de exportacoes.
+
+![Aba Exports — historico de exportacoes e botoes de exportacao por campo para cada dimensao](../../../../assets/screenshots/object-exports-tab.png)
+
+Na aba Overview, clique em **Compare** no grafico Score Trend para comparar duas varreduras lado a lado — veja deltas em nivel de dimensao e campo entre uma varredura base e uma varredura de comparacao.
+
+![Modal Compare Results — base vs comparacao com mudancas por dimensao e principais deltas de campo](../../../../assets/screenshots/object-compare-results.png)
+
+### Nivel 4: Scan
+
+Resultados detalhados para uma execucao especifica de varredura. A aba **Scans** mostra o historico completo de varreduras com indicadores de status, pontuacoes e detalhamentos por dimensao para cada execucao.
+
+![Aba Scans mostrando historico de varreduras com datas, pontuacoes, status e resultados por dimensao](../../../../assets/screenshots/object-scans-tab.png)
+
+### Nivel 5: Field
+
+Resultados para um unico campo em todas as dimensoes. Util para entender por que um campo especifico esta com pontuacao baixa.
+
+### Nivel 6: Dimension
+
+O nivel mais profundo — resultados de metricas individuais para um campo em uma dimensao. Mostra os dados brutos de avaliacao.
+
+## Painel Lateral
+
+A barra lateral direita mostra contexto e acoes para a definicao atual:
+
+- **Cabecalho** — Nome da definicao, pontuacao geral com nota, contagem de varreduras e botao de atualizacao
+- **Run Scan** — Acione uma varredura manualmente, com a data da ultima varredura exibida abaixo
+- **Analyze** — Menu dropdown **Actions** com **Export Report**, **Create Tasks** e **Post Chatter** ([detalhes](/pt/insight-studio/actions/))
+- **Configure** — **Manage Schedule** com contagem regressiva para a proxima execucao agendada (por exemplo, "Next in 8h 28m")
+- **Navigate** — **Open in Salesforce** (link externo para o registro da definicao) e **View Records** (navegue pelos registros varridos)
+- **Quick Fix** — Destaca o campo com pior desempenho com sua pontuacao (por exemplo, "Description at 9.6% — worst field") e um link direto **Investigate** para aprofundar-se nele
+
+![Painel lateral com secoes Run Scan, Analyze, Configure, Navigate e Quick Fix](../../../../assets/screenshots/sidebar-panel.png)
+
+## Navegacao por Breadcrumb
+
+Uma trilha de breadcrumbs no topo da area do palco mostra sua posicao atual na hierarquia. Clique em qualquer segmento do breadcrumb para navegar de volta aquele nivel.
+
+![Trilha de breadcrumbs: Home → Case → Case SLA Compliance Check → DQR-0007 → Case Number](../../../../assets/screenshots/insight-studio-breadcumbs.png)

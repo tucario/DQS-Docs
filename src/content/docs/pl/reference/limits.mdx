@@ -1,0 +1,67 @@
+---
+title: Limity i uwagi
+description: Limity gubernatorskie Salesforce i uwagi dotyczące wydajności DQS.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Limity gubernatorskie Salesforce
+
+DQS działa całkowicie w ramach Salesforce i podlega standardowym limitom gubernatorskim. Silnik przetwarzania jest zaprojektowany tak, aby działać w tych ograniczeniach.
+
+### Limity przetwarzania wsadowego
+
+| Limit | Maksimum Salesforce | Wpływ na DQS |
+|-------|---------------------|--------------|
+| **Rozmiar partii** | 2000 rekordów na fragment | Konfigurowalny przez ustawienia DQS |
+| **Równoczesne partii** | 5 na organizację | DQS używa 1 partii na skan |
+| **Zapytania SOQL na transakcję** | 100 | Dynamiczne zapytania używane efektywnie |
+| **Operacje DML na transakcję** | 150 | Wyniki grupowane dla efektywnego zapisu |
+| **Rozmiar sterty** | 12 MB (async) | Duże pola tekstowe mogą wpływać |
+
+### Limity harmonogramowania
+
+| Limit | Maksimum Salesforce |
+|-------|---------------------|
+| **Zaplanowane zadania Apex** | 100 na organizację |
+| **Wyzwalacze CRON** | 100 na organizację |
+
+<Aside type="caution">
+Każdy harmonogram skanów DQS zajmuje jedno miejsce zaplanowanego zadania Apex. Planuj odpowiednio, jeśli Twoja organizacja ma wiele innych zaplanowanych zadań.
+</Aside>
+
+## Uwagi dotyczące wydajności
+
+### Rozmiar obiektu
+
+| Rozmiar obiektu | Oczekiwany czas skanu | Uwagi |
+|-----------------|----------------------|-------|
+| < 10 000 rekordów | Minuty | Szybkie przetwarzanie |
+| 10 000 – 100 000 | 10–30 minut | Normalne przetwarzanie wsadowe |
+| 100 000 – 1 000 000 | 30–60 minut | Rozważ harmonogramowanie poza godzinami szczytu |
+| > 1 000 000 | 1+ godzin | Planuj podczas okien konserwacyjnych |
+
+### Liczba pól
+
+Więcej pól w definicji oznacza więcej przetwarzania per rekord. Definicja z 50+ polami potrwa dłużej niż definicja z 10 polami.
+
+### Liczba zdolności
+
+Każda włączona zdolność dodaje wykonanie strategii wymiaru per fragment. Włączenie wszystkich 7 zdolności trwa około 7 razy dłużej niż włączenie tylko jednej.
+
+## Najlepsze praktyki
+
+- **Planuj poza godzinami szczytu** — Zminimalizuj wpływ na użytkowników
+- **Zacznij od małej skali** — Zacznij od jednej zdolności i kilku kluczowych pól, a następnie rozszerzaj
+- **Monitoruj zadania wsadowe** — Użyj Setup → Apex Jobs do sprawdzania postępu skanów
+- **Korzystaj z polityk retencji** — Zapobiegaj nieograniczonemu wzrostowi wyników
+- **Rozłóż harmonogramy** — Nie planuj wszystkich definicji w tym samym czasie
+
+## Magazyn danych
+
+Wyniki skanów zużywają magazyn danych Salesforce. Każdy skan tworzy:
+- 1 wynik wymiaru per włączona zdolność
+- 1 wynik pola per pole per zdolność
+- Wiele wyników metryk per pole
+
+Dzięki skonfigurowanej [retencji danych](/pl/processing/data-retention/) stare wyniki są automatycznie usuwane.

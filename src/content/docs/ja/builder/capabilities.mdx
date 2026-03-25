@@ -1,0 +1,63 @@
+---
+title: ケイパビリティの構成
+description: DQS Builderで品質ディメンションを有効化・構成する方法。
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## ケイパビリティ構成
+
+Builderウィザードの3番目のステージでは、品質ディメンションを有効化し、設定を構成できます。各ケイパビリティはデータ品質の異なる側面を評価します。
+
+## 利用可能なケイパビリティ
+
+| ケイパビリティ | 測定内容 |
+|------------|-----------------|
+| [Completeness](/ja/capabilities/completeness/) | 項目は入力されていますか？ |
+| [Validity](/ja/capabilities/validity/) | 値は期待されるフォーマットに一致していますか？ |
+| [Uniqueness](/ja/capabilities/uniqueness/) | 重複した値はありますか？ |
+| [Timeliness](/ja/capabilities/timeliness/) | データは最新ですか？ |
+| [Consistency](/ja/capabilities/consistency/) | 関連する項目は論理的に整合していますか？ |
+| [PII Detection](/ja/capabilities/pii-detection/) | 個人データは適切に処理されていますか？ |
+
+![ケイパビリティ選択 — 品質ディメンション：Completeness、Validity、Uniqueness、Timeliness、Consistency、PII Safety](../../../../assets/screenshots/def-builder-step1-capabilities.png)
+
+## ケイパビリティの有効化
+
+リストからケイパビリティを選択して有効化します。各ケイパビリティには以下があります：
+
+- **グローバル構成** — すべての項目に適用されるデフォルト設定
+- **項目ごとのオーバーライド** — グローバルデフォルトと異なる個別項目のカスタム設定
+
+## グローバル構成と項目ごとの構成
+
+ほとんどのケイパビリティでは、グローバルしきい値を設定してから、特定の項目に対してオーバーライドできます。例えば：
+
+- **Completeness**：グローバルの「期待される入力率」を90%に設定し、Email項目には100%を要求
+- **Validity**：グローバルフォーマットルールを定義し、特定のテキスト項目にカスタム正規表現パターンを設定
+- **Timeliness**：グローバルの鮮度ウィンドウを30日に設定し、重要な日付項目には7日を使用
+
+上部の**Defaults**セクションでケイパビリティのグローバル設定を制御します（例：CompletenessのBlank HandlingとPlaceholder Detection）。これらはオーバーライドされない限り、すべての項目に適用されます。下部の**Field Overrides**テーブルには、スコープ内の各項目が現在のステータスとともにリストされます — 「Default」はその項目がグローバル設定を使用していることを意味します。
+
+![ケイパビリティのデフォルトと項目オーバーライドテーブル — すべての項目がグローバル設定を使用](../../../../assets/screenshots/field-default-settings-override.png)
+
+特定の項目をオーバーライドするには、Field Overridesテーブルでその項目をクリックします。ステータスがカスタム構成を示すものに変わります。下の赤い矢印は、項目ごとのオーバーライドを適用した後のReason項目を示しています。
+
+![Reason項目に適用された項目オーバーライド — ステータスがDefaultからカスタムに変更](../../../../assets/screenshots/field-settings-override.png)
+
+## 構成ワークフロー
+
+1. **ケイパビリティを有効化** — ケイパビリティリストからオンに切り替え
+2. **グローバル設定を行う** — 選択したすべての項目に適用されるデフォルトを構成
+3. **項目オーバーライドを追加**（オプション） — 個別の項目をクリックして設定をカスタマイズ
+4. **レビュー** — サマリーにオーバーライドのある項目が表示されます
+
+<Aside type="tip">
+Completenessなどのケイパビリティでは**一括構成**を使用して、複数の項目に同じオーバーライドを素早く設定できます。
+</Aside>
+
+![Description項目の項目ごとの構成モーダル — Blank HandlingとPlaceholder Detectionの設定](../../../../assets/screenshots/completeness-config-field-override.png)
+
+## ケイパビリティの削除
+
+有効なケイパビリティの削除ボタンをクリックして無効にします。これにより、そのケイパビリティのすべてのグローバル設定と項目ごとの構成がクリアされます。このアクションには確認が必要です。

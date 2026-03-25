@@ -1,0 +1,62 @@
+---
+title: الاحتفاظ بالبيانات
+description: تكوين التنظيف الآلي لنتائج الفحص وسجلات الأخطاء.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## سياسات الاحتفاظ
+
+يتضمن DQS **حذف بيانات آلي** لمنع النمو غير المحدود لنتائج الفحص وسجلات الأخطاء. يتم تكوين سياسات الاحتفاظ عبر Custom Metadata Types ويمكن للمسؤولين تعديلها.
+
+## التكوين
+
+جميع إعدادات الاحتفاظ مخزنة في `DQS_Configuration__mdt` (الفئة: "Retention"):
+
+| الإعداد | الافتراضي | الوصف |
+|---------|-----------|-------|
+| **احتفاظ سجلات الأخطاء** | 7 أيام | الأيام قبل حذف سجلات الأخطاء |
+| **احتفاظ نتائج الفحص** | 30 يومًا | الأيام قبل حذف نتائج الأبعاد |
+| **حجم دُفعة الحذف** | 2,000 | السجلات المُعالجة لكل جزء دُفعي |
+| **تعبير CRON للحذف** | `0 0 2 * * ?` | متى تعمل مهمة الحذف (الافتراضي: يوميًا الساعة 2 صباحًا) |
+
+<Aside type="tip">
+هذه الإعدادات خاضعة لتحكم المشترك — يمكن للمسؤولين تجاوز القيم الافتراضية بعد تثبيت الحزمة.
+</Aside>
+
+## كيف يعمل الحذف
+
+تعمل عملية الحذف كـ **مهمة دُفعية متسلسلة**:
+
+```
+DQS_DataPurgeScheduler (CRON trigger)
+  └── DQS_ErrorLogPurgeBatch
+       (deletes error logs where Expires_At <= NOW)
+       └── DQS_ResultPurgeBatch
+            (deletes dimension results older than retention window)
+            └── Cascade: Field Results + Metric Results
+                 (deleted automatically via master-detail relationship)
+```
+
+### الحذف المتسلسل
+
+عند حذف سجل `DQS_Dimension_Result__c`:
+- يتم حذف جميع سجلات `DQS_Field_Result__c` الفرعية تلقائيًا
+- يتم حذف جميع سجلات `DQS_Metric_Result__c` الحفيدة تلقائيًا
+
+يحدث ذلك عبر التسلسل master-detail في Salesforce — لا حاجة لمعالجة دُفعية إضافية.
+
+## تعديل الاحتفاظ
+
+لتغيير فترات الاحتفاظ:
+
+1. انتقل إلى **Setup → Custom Metadata Types → DQS Configuration**
+2. ابحث عن السجل المعني (مثل `Scan_Result_Retention_Days`)
+3. عدّل القيمة
+4. تسري التغييرات في تشغيل الحذف التالي
+
+## المراقبة
+
+- تحقق من **وحدة تحكم إدارة الأخطاء** لأخطاء مهام الحذف
+- راجع `DQS_DataPurgeScheduler` في **Setup → Scheduled Jobs** للتحقق من أن الحذف يعمل
+- استخدم تقارير Salesforce لمراقبة حجم النتائج بمرور الوقت

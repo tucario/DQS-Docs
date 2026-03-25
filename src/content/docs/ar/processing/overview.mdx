@@ -1,0 +1,68 @@
+---
+title: نظرة عامة على المعالجة
+description: كيف ينفذ Data Quality Sense عمليات الفحص باستخدام المعالجة الدُفعية في Salesforce.
+---
+
+## كيف تعمل عمليات الفحص
+
+محرك المعالجة هو **طبقة التنفيذ** في Data Quality Sense. يقرأ تعريفات الفحص المُنشأة في Builder، ويستعلم عن بيانات Salesforce المباشرة، وينتج درجات جودة مرئية في Insight Studio.
+
+## البنية
+
+```
+Definition + Details
+       │
+       ▼
+  Batch Job Start
+       │
+       ▼
+  Query target SObject (dynamic SOQL)
+       │
+       ▼
+  For each enabled dimension:
+    Strategy.processChunk(context)
+       │
+       ▼
+  Aggregate partial results
+       │
+       ▼
+  Store: Dimension Results → Field Results → Metric Results
+       │
+       ▼
+  Fire platform event: Calculation Complete
+```
+
+## المفاهيم الأساسية
+
+| المفهوم | الوصف |
+|---------|-------|
+| **الفحص** | تنفيذ واحد لتعريف مقابل بيانات مباشرة |
+| **استراتيجية البُعد** | فئة استراتيجية واحدة لكل قدرة (مثل CompletenessStrategy) |
+| **معالجة الأجزاء** | تتم معالجة السجلات في دُفعات عبر `Database.Batchable` |
+| **حساب المقاييس** | مقاييس لكل حقل تُحسب داخل كل استراتيجية |
+| **تخزين النتائج** | تسلسل هرمي: نتائج البُعد → نتائج الحقل → نتائج المقياس |
+| **أحداث المنصة** | يُطلق `Calculation_Complete__e` عند انتهاء الفحص |
+
+![مربع حوار تأكيد تشغيل الفحص مع الوقت المقدر وزر تشغيل الفحص](../../../../assets/screenshots/running-scans2.png)
+
+## تشغيل فحص
+
+يمكن تشغيل عمليات الفحص بثلاث طرق:
+
+1. **يدوي** — انقر على "Run Scan" في Insight Studio
+2. **مجدول** — عبر [الجدولة](/ar/processing/scheduling/) القائمة على CRON
+3. **برمجي** — عبر Apex API (للتكاملات المخصصة)
+
+## التسلسل الهرمي للنتائج
+
+```
+DQS_Dimension_Result__c  (one per dimension per scan)
+  └── DQS_Field_Result__c  (one per field per dimension)
+       └── DQS_Metric_Result__c  (detailed metrics per field)
+```
+
+## اعرف المزيد
+
+- [الجدولة](/ar/processing/scheduling/)
+- [الاحتفاظ بالبيانات](/ar/processing/data-retention/)
+- [إدارة الأخطاء](/ar/processing/error-management/)

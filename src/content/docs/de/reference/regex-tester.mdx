@@ -1,0 +1,65 @@
+---
+title: Regex-Tester
+description: Testen Sie Java-kompatible reguläre Ausdrücke, die in DQS Validity und PII Detection Capabilities verwendet werden.
+---
+
+import RegexTester from '../../../../components/RegexTester.astro';
+
+## Java Regex-Tester
+
+DQS verwendet **Java-kompatible reguläre Ausdrücke** (`java.util.regex.Pattern`) für Validity-Prüfungen und PII Detection-Muster. Verwenden Sie diesen Tester, um Ihre Muster zu validieren, bevor Sie sie im Builder konfigurieren.
+
+<RegexTester />
+
+## Nützliche Muster für DQS
+
+### Validity-Muster
+
+| Mustername | Regex | Beschreibung |
+|---|---|---|
+| **Email** | `^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$` | Standard-E-Mail-Format |
+| **Phone (International)** | `^\+?[1-9]\d{1,14}$` | E.164 internationales Telefonformat |
+| **Phone (US)** | `^\(?[2-9]\d{2}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}$` | US-Telefonnummer mit optionaler Formatierung |
+| **URL** | `^https?://[^\s/$.?#].[^\s]*$` | HTTP/HTTPS URL |
+| **ZIP Code (US)** | `^\d{5}(-\d{4})?$` | US-Postleitzahl (5 oder 9 Stellen) |
+| **Postal Code (UK)** | `^[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}$` | Britische Postleitzahl |
+| **Postal Code (DE)** | `^\d{5}$` | Deutsche Postleitzahl |
+| **ISO Date** | `^\d{4}-\d{2}-\d{2}$` | YYYY-MM-DD Format |
+| **ISO DateTime** | `^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}` | ISO 8601 Datetime |
+| **Currency (USD)** | `^\$?\d{1,3}(,\d{3})*(\.\d{2})?$` | US-Dollar-Format |
+| **Percentage** | `^\d{1,3}(\.\d{1,2})?%?$` | Prozentwert (0-100) |
+| **Alphanumeric** | `^[a-zA-Z0-9]+$` | Nur Buchstaben und Ziffern |
+| **No Special Chars** | `^[a-zA-Z0-9\s.\-,]+$` | Buchstaben, Ziffern, Leerzeichen, einfache Satzzeichen |
+| **Salesforce ID (15)** | `^[a-zA-Z0-9]{15}$` | 15-Zeichen Salesforce ID |
+| **Salesforce ID (18)** | `^[a-zA-Z0-9]{18}$` | 18-Zeichen Salesforce ID |
+| **Domain Name** | `^([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,}$` | Gültiger Domainname |
+| **IPv4 Address** | `^(\d{1,3}\.){3}\d{1,3}$` | IPv4-Adressformat |
+| **Hex Color** | `^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$` | CSS Hex-Farbcode |
+
+### PII Detection-Muster
+
+| Mustername | Regex | Beschreibung |
+|---|---|---|
+| **SSN (US)** | `\b\d{3}-\d{2}-\d{4}\b` | Social Security Number |
+| **SSN (unformatiert)** | `\b\d{9}\b` | 9 aufeinanderfolgende Ziffern (potenzielle SSN) |
+| **Credit Card (Visa)** | `\b4\d{3}[\s\-]?\d{4}[\s\-]?\d{4}[\s\-]?\d{4}\b` | Visa-Kartennummer |
+| **Credit Card (MC)** | `\b5[1-5]\d{2}[\s\-]?\d{4}[\s\-]?\d{4}[\s\-]?\d{4}\b` | Mastercard-Nummer |
+| **Credit Card (Amex)** | `\b3[47]\d{2}[\s\-]?\d{6}[\s\-]?\d{5}\b` | American Express-Nummer |
+| **Credit Card (Generic)** | `\b\d{4}[\s\-]?\d{4}[\s\-]?\d{4}[\s\-]?\d{4}\b` | Beliebiges 16-stelliges Kartenmuster |
+| **IBAN** | `\b[A-Z]{2}\d{2}[A-Z0-9]{4}\d{7}([A-Z0-9]?){0,16}\b` | Internationale Bankkontonummer |
+| **Passport (US)** | `\b[A-Z]\d{8}\b` | US-Passnummer |
+| **PESEL (PL)** | `\b\d{11}\b` | Polnische nationale ID (11 Stellen) |
+| **NIP (PL)** | `\b\d{3}-?\d{3}-?\d{2}-?\d{2}\b` | Polnische Steuer-ID |
+| **REGON (PL)** | `\b\d{9}\b` | Polnische Handelsregisternummer |
+| **Date of Birth** | `\b(0[1-9]|1[0-2])/(0[1-9]|[12]\d|3[01])/\d{4}\b` | MM/TT/JJJJ Format |
+| **Email in text** | `[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}` | E-Mail irgendwo im Text (ohne Anker) |
+| **Phone in text** | `\b(\+?\d{1,3}[\s\-]?)?\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{4}\b` | Telefonnummer im Fließtext |
+| **IP Address** | `\b(\d{1,3}\.){3}\d{1,3}\b` | IPv4-Adresse im Text |
+| **Driver License (US)** | `\b[A-Z]\d{3,8}\b` | US-Führerschein (variiert je nach Bundesstaat) |
+
+### Tipps
+
+- **Verankerte Muster** (`^...$`) validieren den gesamten Feldwert — verwenden Sie sie für Validity-Prüfungen
+- **Nicht verankerte Muster** (ohne `^` / `$`) finden Übereinstimmungen innerhalb von Text — verwenden Sie sie für PII Detection
+- Apex Regex ist standardmäßig **case-sensitive**. Verwenden Sie `(?i)` am Anfang für case-insensitive Abgleich
+- Testen Sie Grenzfälle: leere Zeichenketten, nur-Leerzeichen-Werte und Unicode-Zeichen

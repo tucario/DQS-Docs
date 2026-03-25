@@ -1,0 +1,58 @@
+---
+title: Permissions
+description: Configurer les Permission Sets et l'accès des utilisateurs pour Data Quality Sense.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Permission Sets
+
+Data Quality Sense est livré avec des Permission Sets qui contrôlent l'accès aux différentes parties de l'application.
+
+### DQS Admin
+
+Accès complet à toutes les fonctionnalités :
+- Créer, modifier et supprimer des définitions de scan
+- Configurer les capacités et les seuils
+- Exécuter et planifier des scans
+- Consulter tous les résultats dans Insight Studio
+- Accéder à la console de gestion des erreurs
+- Gérer les paramètres de rétention des données
+
+### DQS User
+
+Accès en lecture seule aux résultats :
+- Consulter les résultats des scans dans Insight Studio
+- Exporter les données en CSV
+- Consulter les planifications de scans
+
+## Attribuer les Permission Sets
+
+1. Accédez à **Setup → Users → Permission Set Assignments** pour l'utilisateur cible
+2. Cliquez sur **Edit Assignments**
+3. Dans la liste **Available Permission Sets**, trouvez **DQS Admin** ou **DQS User**
+4. Déplacez le Permission Set souhaité vers **Enabled Permission Sets** à l'aide du bouton fléché
+5. Cliquez sur **Save**
+
+![Attribution des Permission Sets dans Salesforce Setup montrant DQS Admin et DQS User dans Enabled Permission Sets](../../../../assets/screenshots/permissionsets.png)
+
+<Aside type="caution">
+Les utilisateurs sans aucun Permission Set DQS attribué verront un écran de contrôle d'accès lorsqu'ils accèdent à l'application. L'onglet Getting Started apparaîtra automatiquement pour guider les administrateurs dans le processus de configuration.
+</Aside>
+
+## Permissions sur les objets
+
+Les Permission Sets accordent automatiquement l'accès aux objets personnalisés DQS :
+
+| Objet | Admin | User |
+|-------|-------|------|
+| `DQS_Definition__c` | Read/Create/Edit/Delete | Read |
+| `DQS_Definition_Detail__c` | Read/Create/Edit/Delete | Read |
+| `DQS_Dimension_Result__c` | Read | Read |
+| `DQS_Field_Result__c` | Read | Read |
+| `DQS_Metric_Result__c` | Read | Read |
+| `DQS_Batch_Schedule__c` | Read/Create/Edit/Delete | Read |
+
+## Sécurité au niveau des champs
+
+Tous les champs des objets DQS sont visibles pour les deux Permission Sets. Les résultats des métriques, les scores et les champs de configuration sont en lecture seule pour DQS User.

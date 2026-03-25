@@ -1,0 +1,53 @@
+---
+title: نظرة عامة على Builder
+description: تعرّف على DQS Builder — معالج التكوين لفحوصات جودة البيانات.
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## ما هو Builder؟
+
+DQS Builder هو **معالج تكوين متعدد الخطوات** يتيح لك تحديد كيفية قياس جودة بياناتك بدقة. يرشدك خلال اختيار الكائنات، وانتقاء الحقول، واختيار أبعاد الجودة، وتعيين الحدود.
+
+## مساحة عمل Builder
+
+يستخدم Builder **تخطيطًا من 3 مناطق**:
+
+- **الشريط الجانبي** — شجرة تنقل تعرض تعريفاتك ومراحل تكوينها
+- **المنصة** — منطقة المحتوى الرئيسية حيث تقوم بتكوين كل خطوة من التعريف
+- **لوحة المرشد** — مساعدة سياقية وتوجيه يتكيف مع خطوتك الحالية
+
+{/* TODO: Screenshot — Full Builder workspace showing the 3-zone layout: sidebar with definition nav tree on the left, main stage area in the center, and mentor panel on the right. Show it on the capability configuration step for maximum visual impact. */}
+
+## المفاهيم الأساسية
+
+<CardGrid>
+	<Card title="التعريف" icon="document">
+		تكوين فحص يحدد أي كائن وحقول وقدرات جودة يجب تقييمها. ينتج كل تعريف مجموعة من النتائج عند الفحص.
+	</Card>
+	<Card title="القدرة" icon="approve-check-circle">
+		بُعد جودة مثل الاكتمال أو الصلاحية. يمكن تكوين كل قدرة بشكل عام أو تخصيصها لكل حقل.
+	</Card>
+	<Card title="تفاصيل التعريف" icon="list-format">
+		سجل يربط حقلًا محددًا بتعريف، ويخزن تخصيصات التكوين لكل حقل لكل قدرة.
+	</Card>
+	<Card title="دورة الحياة" icon="setting">
+		تتقدم التعريفات عبر مراحل: مسودة → جاهز → نشط → متقاعد. يمكن فحص التعريفات النشطة فقط.
+	</Card>
+</CardGrid>
+
+## مراحل Builder
+
+1. **البداية** — اختيار كائن Salesforce المستهدف
+2. **اختيار الحقول** — انتقاء الحقول المراد تضمينها في الفحص
+3. **تكوين القدرات** — تفعيل وتكوين أبعاد الجودة
+4. **الملخص** — مراجعة التعريف الكامل قبل التفعيل
+
+تتحقق كل مرحلة من صحة مدخلاتك قبل السماح لك بالانتقال إلى الخطوة التالية.
+
+## اعرف المزيد
+
+- [إنشاء تعريف](/ar/builder/creating-definition/)
+- [اختيار الحقول](/ar/builder/field-selection/)
+- [تكوين القدرات](/ar/builder/capabilities/)
+- [دورة حياة التعريف](/ar/builder/lifecycle/)

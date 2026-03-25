@@ -1,0 +1,57 @@
+---
+title: Schnellstart
+description: Erstellen und führen Sie Ihren ersten Datenqualitäts-Scan in 5 Minuten durch.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Ihr erster Scan in 5 Minuten
+
+![Data Quality Sense im Salesforce App Launcher finden](../../../../assets/screenshots/search-application.png)
+
+1. **DQS Builder öffnen**
+
+   Navigieren Sie zur **Data Quality Sense**-App in Salesforce. Wenn die Berechtigungen korrekt konfiguriert sind, wird der Builder-Tab automatisch geladen.
+
+2. **Neue Definition erstellen**
+
+   Klicken Sie auf **New Definition**. Geben Sie einen Namen ein (z. B. „Account-Qualitätsprüfung") und wählen Sie das Zielobjekt — zum Beispiel `Account`.
+
+   <video src="/videos/definition-creation.mp4" controls muted loop style="width:100%;border-radius:0.5rem;border:1px solid var(--sl-color-hairline-light)">Ihr Browser unterstützt das Video-Tag nicht.</video>
+
+3. **Felder auswählen**
+
+   Die Feldauswahl zeigt alle verfügbaren Felder des ausgewählten Objekts an. Wählen Sie die Felder aus, die Sie überwachen möchten. Sie können die Suchleiste zum Filtern verwenden und nach Feldtyp oder Bezeichnung sortieren.
+
+4. **Capabilities auswählen**
+
+   Wählen Sie aus, welche Qualitätsdimensionen bewertet werden sollen:
+   - **Completeness** — Sind die Felder befüllt?
+   - **Validity** — Entsprechen die Werte den erwarteten Formaten?
+   - **Uniqueness** — Gibt es doppelte Werte?
+
+   Beginnen Sie mit Completeness für die schnellste Einrichtung.
+
+5. **Überprüfen und aktivieren**
+
+   Überprüfen Sie Ihre Konfiguration auf dem Zusammenfassungsbildschirm. Klicken Sie auf **Activate**, um die Definition vom Status Draft auf Active zu setzen.
+
+6. **Scan ausführen**
+
+   Gehen Sie zu **Insight Studio** und lösen Sie einen Scan manuell aus, oder richten Sie einen [Zeitplan](/de/processing/scheduling/) ein.
+
+7. **Ergebnisse anzeigen**
+
+   Nach Abschluss des Scans zeigt Insight Studio Ihre Datenqualitätsbewertungen mit Details auf Feldebene an.
+
+![Scan-Ergebnisse in Insight Studio mit Qualitätsbewertungen und Dimensionsaufschlüsselung](../../../../assets/screenshots/definition-results.png)
+
+<Aside type="tip">
+Sie können jederzeit weitere Capabilities oder Felder zu Ihrer Definition hinzufügen. Der Builder unterstützt die Bearbeitung aktiver Definitionen.
+</Aside>
+
+## Wie geht es weiter?
+
+- Erfahren Sie mehr über alle [6 Qualitäts-Capabilities](/de/capabilities/overview/)
+- Erkunden Sie die [Insight Studio-Dashboards](/de/insight-studio/overview/)
+- Richten Sie [automatisierte Scan-Zeitpläne](/de/processing/scheduling/) ein

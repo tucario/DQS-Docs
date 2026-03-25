@@ -1,0 +1,66 @@
+---
+title: PII Detection
+description: Skanuj pola tekstowe w poszukiwaniu danych osobowych.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Czym jest PII Detection?
+
+PII Detection skanuje pola tekstowe w poszukiwaniu **danych osobowych** (PII), które nie powinny być przechowywane w tych polach. Pomaga organizacjom w zachowaniu zgodności z regulacjami dotyczącymi ochrony danych, takimi jak GDPR, CCPA i HIPAA.
+
+## Jak to działa
+
+Strategia PII Detection analizuje treść tekstową pod kątem wzorców pasujących do:
+
+1. **Numerów ubezpieczenia społecznego** (SSN) — wzorce numeryczne jak XXX-XX-XXXX
+2. **Numerów kart kredytowych** — sekwencje 13–19 cyfr odpowiadające wzorcom sieci kart
+3. **Adresów e-mail** — w polach, w których przechowywanie adresów e-mail nie jest oczekiwane
+4. **Numerów telefonów** — w polach tekstowych (nie w dedykowanych polach telefonicznych)
+5. **Numerów identyfikacyjnych** — wzorce specyficzne dla poszczególnych krajów
+
+## Konfiguracja
+
+### Wzorce wykrywania
+
+Sekcja **Defaults** udostępnia trzy predefiniowane grupy wzorców wykrywania:
+
+| Preset | Opis |
+|--------|------|
+| **Standard** | Podstawowe wzorce PII — Social Security Number, Credit Card Number, Email Address, US Phone Number |
+| **Critical** | Wzorce wysokiego ryzyka finansowe i tożsamościowe |
+| **Extended** | Pełny zestaw obejmujący IP Address, IBAN, Date of Birth, International Phone i więcej |
+
+Każdy wzorzec pokazuje swoje wyrażenie regex i może być indywidualnie włączany lub wyłączany. Możesz również dodać własne wzorce w sekcji **Add Custom Pattern**, wprowadzając regex i etykietę.
+
+![Konfiguracja PII Detection z presetami wzorców wykrywania (Standard, Critical, Extended), listą wzorców i Field Overrides](../../../../assets/screenshots/pii-generic-view.png)
+
+### Nadpisania per pole
+
+Kliknij pole w tabeli Field Overrides, aby otworzyć modalne okno konfiguracji. Możesz wybrać, które wzorce wykrywania mają zastosowanie do tego pola — wybierz preset lub włącz/wyłącz poszczególne wzorce. Modalne okno pozwala również dodać **niestandardowe wzorce** specyficzne dla tego pola. Użyj linku **Revert to Global**, aby przywrócić.
+
+![Modalne okno konfiguracji per pole dla pola Description z wzorcami wykrywania i wejściem niestandardowego wzorca](../../../../assets/screenshots/pii-field-override.png)
+
+## Punktacja
+
+| Wynik | Punkty |
+|-------|--------|
+| Nie wykryto PII | 100 |
+| Znaleziono PII w niektórych rekordach | Proporcjonalnie do procentu czystych |
+| PII we wszystkich rekordach | 0 |
+| Brak danych | 0 |
+
+<Aside type="caution">
+PII Detection wykorzystuje dopasowywanie wzorców, a nie klasyfikację AI. Może generować fałszywe pozytywy (np. numer wyglądający jak SSN, ale nim niebędący). Przed podjęciem działań przejrzyj oznaczone rekordy.
+</Aside>
+
+## Wzorce Regex PII
+
+DQS używa **wyrażeń regularnych kompatybilnych z Java** do wykrywania PII w polach tekstowych. Zobacz [Tester Regex](/pl/reference/regex-tester/) — interaktywne narzędzie testowe z pełną biblioteką wzorców PII — w tym SSN, karty kredytowe (Visa, Mastercard, Amex), IBAN, numery paszportów, PESEL, NIP i więcej.
+
+## Przypadki użycia
+
+- Audyt pól Description i Notes pod kątem przypadkowo przechowywanych numerów kart kredytowych
+- Monitorowanie pól tekstowych pod kątem numerów ubezpieczenia społecznego
+- Raportowanie zgodności z regulacjami dotyczącymi ochrony danych
+- Oczyszczanie danych przed migracją

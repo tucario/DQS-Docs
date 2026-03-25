@@ -1,0 +1,68 @@
+---
+title: 定義のライフサイクル
+description: スキャン定義のライフサイクルステージを理解します。
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## ライフサイクルステージ
+
+すべてのスキャン定義は一連のステージを経て進行します：
+
+```
+Draft  →  Ready  →  Active  →  Obsolete
+```
+
+### Draft
+
+定義が作成された際の初期状態です。Draftステータスでは：
+- 定義を自由に編集できます
+- 項目やケイパビリティの追加・削除が可能です
+- スキャンは実行できません
+- 定義はInsight Studioに表示されません
+
+### Ready
+
+定義がレビューされたことを示す過渡的な状態です。Readyステータスでは：
+- すべての必須構成が完了しています
+- 定義はバリデーションに合格しています
+- 有効化が可能です
+
+### Active
+
+運用状態です。Activeステータスでは：
+- 定義に対してスキャンを実行できます
+- 結果がInsight Studioに表示されます
+- 定義を定期スキャンにスケジュール設定できます
+- 編集は引き続き可能です — 変更は次回のスキャンで反映されます
+
+### Obsolete
+
+退役状態です。Obsoleteステータスでは：
+- 新しいスキャンはトリガーできません
+- 既存の結果は履歴分析のためにInsight Studioに表示され続けます
+- 必要に応じて定義を再有効化できます
+
+![Draft状態の定義 — 編集可能、まだスキャン不可](../../../../assets/screenshots/remove-definition-as-admin.png)
+
+## 有効化バリデーション
+
+定義を有効化する前に、DQSは以下を検証します：
+
+| ルール | 説明 |
+|------|-------------|
+| **項目が選択されている** | 少なくとも1つの項目が選択されている必要があります |
+| **ケイパビリティが有効** | 少なくとも1つのケイパビリティが有効になっている必要があります |
+| **構成が完了** | すべての必須ケイパビリティ設定が入力されている必要があります |
+
+<Aside type="note">
+**Activate**をクリックすると、定義は直接Activeステータスに移行します。Readyステータスはバリデーションゲートのために内部的に使用されます。
+</Aside>
+
+## ステータスの変更
+
+- **Draft → Active**：サマリー画面で「Mark as Complete」をクリック — Complete Only、Complete & Schedule、Complete & Run Scanから選択
+- **Active → Obsolete**：定義設定から退役させる
+- **Obsolete → Active**：定義設定から再有効化
+
+![Complete Definitionダイアログ — 3つの有効化オプション](../../../../assets/screenshots/def-builder-step5-review.png)

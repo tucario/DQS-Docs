@@ -1,0 +1,65 @@
+---
+title: Regex Tester
+description: Tester les expressions régulières compatibles Java utilisées dans les capacités Validity et PII Detection de DQS.
+---
+
+import RegexTester from '../../../../components/RegexTester.astro';
+
+## Testeur de Regex Java
+
+DQS utilise des **expressions régulières compatibles Java** (`java.util.regex.Pattern`) pour les vérifications Validity et les motifs PII Detection. Utilisez ce testeur pour valider vos motifs avant de les configurer dans le Builder.
+
+<RegexTester />
+
+## Motifs utiles pour DQS
+
+### Motifs Validity
+
+| Nom du motif | Regex | Description |
+|---|---|---|
+| **Email** | `^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$` | Format d'e-mail standard |
+| **Phone (International)** | `^\+?[1-9]\d{1,14}$` | Format téléphone international E.164 |
+| **Phone (US)** | `^\(?[2-9]\d{2}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}$` | Téléphone US avec formatage optionnel |
+| **URL** | `^https?://[^\s/$.?#].[^\s]*$` | URL HTTP/HTTPS |
+| **ZIP Code (US)** | `^\d{5}(-\d{4})?$` | Code postal US (5 ou 9 chiffres) |
+| **Postal Code (UK)** | `^[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}$` | Code postal britannique |
+| **Postal Code (DE)** | `^\d{5}$` | Code postal allemand |
+| **ISO Date** | `^\d{4}-\d{2}-\d{2}$` | Format AAAA-MM-JJ |
+| **ISO DateTime** | `^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}` | Datetime ISO 8601 |
+| **Currency (USD)** | `^\$?\d{1,3}(,\d{3})*(\.\d{2})?$` | Format dollar US |
+| **Percentage** | `^\d{1,3}(\.\d{1,2})?%?$` | Valeur en pourcentage (0-100) |
+| **Alphanumeric** | `^[a-zA-Z0-9]+$` | Lettres et chiffres uniquement |
+| **No Special Chars** | `^[a-zA-Z0-9\s.\-,]+$` | Lettres, chiffres, espaces, ponctuation de base |
+| **Salesforce ID (15)** | `^[a-zA-Z0-9]{15}$` | ID Salesforce 15 caractères |
+| **Salesforce ID (18)** | `^[a-zA-Z0-9]{18}$` | ID Salesforce 18 caractères |
+| **Domain Name** | `^([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,}$` | Nom de domaine valide |
+| **IPv4 Address** | `^(\d{1,3}\.){3}\d{1,3}$` | Format d'adresse IPv4 |
+| **Hex Color** | `^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$` | Code couleur hexadécimal CSS |
+
+### Motifs PII Detection
+
+| Nom du motif | Regex | Description |
+|---|---|---|
+| **SSN (US)** | `\b\d{3}-\d{2}-\d{4}\b` | Numéro de sécurité sociale |
+| **SSN (unformatted)** | `\b\d{9}\b` | 9 chiffres consécutifs (SSN potentiel) |
+| **Credit Card (Visa)** | `\b4\d{3}[\s\-]?\d{4}[\s\-]?\d{4}[\s\-]?\d{4}\b` | Numéro de carte Visa |
+| **Credit Card (MC)** | `\b5[1-5]\d{2}[\s\-]?\d{4}[\s\-]?\d{4}[\s\-]?\d{4}\b` | Numéro Mastercard |
+| **Credit Card (Amex)** | `\b3[47]\d{2}[\s\-]?\d{6}[\s\-]?\d{5}\b` | Numéro American Express |
+| **Credit Card (Generic)** | `\b\d{4}[\s\-]?\d{4}[\s\-]?\d{4}[\s\-]?\d{4}\b` | Motif de carte à 16 chiffres |
+| **IBAN** | `\b[A-Z]{2}\d{2}[A-Z0-9]{4}\d{7}([A-Z0-9]?){0,16}\b` | Numéro de compte bancaire international |
+| **Passport (US)** | `\b[A-Z]\d{8}\b` | Numéro de passeport US |
+| **PESEL (PL)** | `\b\d{11}\b` | Numéro d'identification nationale polonais (11 chiffres) |
+| **NIP (PL)** | `\b\d{3}-?\d{3}-?\d{2}-?\d{2}\b` | Numéro d'identification fiscale polonais |
+| **REGON (PL)** | `\b\d{9}\b` | Numéro du registre des entreprises polonais |
+| **Date of Birth** | `\b(0[1-9]|1[0-2])/(0[1-9]|[12]\d|3[01])/\d{4}\b` | Format MM/JJ/AAAA |
+| **Email in text** | `[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}` | E-mail n'importe où dans le texte (sans ancres) |
+| **Phone in text** | `\b(\+?\d{1,3}[\s\-]?)?\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{4}\b` | Numéro de téléphone dans du texte libre |
+| **IP Address** | `\b(\d{1,3}\.){3}\d{1,3}\b` | Adresse IPv4 dans du texte |
+| **Driver License (US)** | `\b[A-Z]\d{3,8}\b` | Permis de conduire US (varie selon l'état) |
+
+### Conseils
+
+- Les **motifs ancrés** (`^...$`) valident la valeur complète du champ — utilisez-les pour les vérifications Validity
+- Les **motifs non ancrés** (sans `^` / `$`) trouvent des correspondances dans le texte — utilisez-les pour PII Detection
+- Le regex Apex est **sensible à la casse** par défaut. Utilisez `(?i)` au début pour une correspondance insensible à la casse
+- Testez les cas limites : chaînes vides, valeurs composées uniquement d'espaces et caractères Unicode

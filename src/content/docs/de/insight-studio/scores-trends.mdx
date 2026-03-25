@@ -1,0 +1,66 @@
+---
+title: Bewertungen & Trends
+description: Qualitätsbewertungen, Noten und Trendanalysen in Insight Studio verstehen.
+---
+
+## Bewertungsanzeige
+
+Jede Ebene in Insight Studio zeigt Qualitätsbewertungen mit visuellen Indikatoren:
+
+### Bewertungsnoten
+
+| Bewertungsbereich | Note | Farbe |
+|-------------------|------|-------|
+| 90–100 | Excellent | Grün |
+| 75–89 | Good | Hellgrün |
+| 50–74 | Fair | Gelb/Orange |
+| 25–49 | Poor | Orange |
+| 0–24 | Critical | Rot |
+
+![Feldergebnis — Completeness Rate 100 %, Fill Rate Analysis, Field Utilization-Balken und Konfigurationsdetails](../../../../assets/screenshots/insight-studio-field-result.png)
+
+### Score Cards
+
+Das Definitions-Dashboard zeigt **Dimensionskarten** — eine für jede aktivierte Capability — mit:
+- Numerische Bewertung (0–100)
+- Notenindikator (farbcodiert)
+- Änderungspfeil (↑ Verbesserung, ↓ Verschlechterung, → stabil)
+- Sparkline mit dem letzten Trend
+
+## Trendanalyse
+
+### Sparklines
+
+Kleine Inline-Diagramme neben jeder Bewertung, die die letzten Scan-Ergebnisse zeigen. Nützlich, um Trends zu erkennen, ohne in Detailansichten navigieren zu müssen.
+
+### Score-Trend-Diagramm
+
+Ein größeres Trenddiagramm auf Definitionsebene, das zeigt:
+- Bewertung über die Zeit für jede Dimension
+- Gesamtbewertungs-Trendlinie
+- Scan-Daten auf der x-Achse
+
+![Definitions-Dashboard — 85,8 % Gesamtbewertung, Completeness- und Validity-Dimensionsbalken, Score-Trend-Diagramm mit mehreren Scans](../../../../assets/screenshots/insight-studio-object.png)
+
+### Scan-Vergleich
+
+![Modal Ergebnisse vergleichen — Basis- vs. Vergleichsscan mit Dimensions- und Feld-Deltas](../../../../assets/screenshots/insight-studio-compare.png)
+
+Vergleichen Sie zwei bestimmte Scans, um detaillierte Deltas zu sehen:
+- **Dimensions-Deltas** — Welche Capabilities sich verbessert oder verschlechtert haben
+- **Feld-Deltas** — Welche Felder sich geändert haben und um wie viel
+- Wählen Sie beliebige zwei Scans aus dem Scan-Verlauf
+
+## Zwei-Zustandsansichten
+
+Einige Komponenten passen sich basierend auf der Datenverfügbarkeit an:
+- **Noch keine Scans** — Zeigt eine Aufforderung, den ersten Scan auszulösen
+- **Ergebnisse verfügbar** — Zeigt das vollständige Dashboard mit Bewertungen und Diagrammen
+
+## KPI-Zusammenfassung
+
+Der obere Bereich der Definitionsansicht zeigt Leistungskennzahlen:
+- **Overall Score** — Gewichteter Durchschnitt über alle Dimensionen
+- **Fields Scanned** — Gesamtanzahl einbezogener Felder
+- **Records Evaluated** — Gesamtanzahl der Datensätze im Umfang
+- **Last Scan** — Zeitstempel des letzten Scans

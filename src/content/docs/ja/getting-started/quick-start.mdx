@@ -1,0 +1,57 @@
+---
+title: クイックスタート
+description: 5分で最初のデータ品質スキャンを作成・実行します。
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## 5分で最初のスキャンを実行
+
+![Salesforce App LauncherでData Quality Senseを検索](../../../../assets/screenshots/search-application.png)
+
+1. **DQS Builderを開く**
+
+   Salesforceで**Data Quality Sense**アプリに移動します。権限が正しく構成されている場合、Builderタブが自動的に読み込まれます。
+
+2. **新しい定義を作成する**
+
+   **New Definition**をクリックします。名前を付け（例：「Account Quality Check」）、対象オブジェクトを選択します（例：`Account`）。
+
+   <video src="/videos/definition-creation.mp4" controls muted loop style="width:100%;border-radius:0.5rem;border:1px solid var(--sl-color-hairline-light)">お使いのブラウザはvideoタグをサポートしていません。</video>
+
+3. **項目を選択する**
+
+   項目ピッカーは、選択したオブジェクトのすべての利用可能な項目を表示します。監視したい項目を選択します。検索バーでフィルタリングしたり、項目タイプやラベルでソートしたりできます。
+
+4. **ケイパビリティを選択する**
+
+   評価する品質ディメンションを選択します：
+   - **Completeness** — 項目は入力されていますか？
+   - **Validity** — 値は期待されるフォーマットに一致していますか？
+   - **Uniqueness** — 重複した値はありますか？
+
+   最も素早くセットアップするには、Completenessから始めてください。
+
+5. **レビューして有効化する**
+
+   サマリー画面で構成を確認します。**Activate**をクリックして、定義をDraftからActiveステータスに移行します。
+
+6. **スキャンを実行する**
+
+   **Insight Studio**に移動してスキャンを手動でトリガーするか、[スケジュール](/ja/processing/scheduling/)を設定します。
+
+7. **結果を表示する**
+
+   スキャンが完了すると、Insight Studioに項目レベルの詳細にドリルダウンできるデータ品質スコアが表示されます。
+
+![Insight Studioのスキャン結果 — 品質スコアとディメンション内訳](../../../../assets/screenshots/definition-results.png)
+
+<Aside type="tip">
+いつでも定義にケイパビリティや項目を追加できます。BuilderはActive定義の編集をサポートしています。
+</Aside>
+
+## 次のステップ
+
+- すべての[6つの品質ケイパビリティ](/ja/capabilities/overview/)について学ぶ
+- [Insight Studioダッシュボード](/ja/insight-studio/overview/)を探索する
+- [自動スキャンスケジュール](/ja/processing/scheduling/)を設定する

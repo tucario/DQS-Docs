@@ -1,0 +1,65 @@
+---
+title: Model danych
+description: Obiekty niestandardowe, Custom Metadata Types i ich relacje.
+---
+
+## Obiekty niestandardowe
+
+DQS wykorzystuje zestaw obiektów niestandardowych do przechowywania definicji, wyników i danych harmonogramowania. Wszystkie obiekty używają prefiksu przestrzeni nazw `dqssens`.
+
+### Obiekty definicji
+
+| Obiekt | Przeznaczenie | Kluczowe pola |
+|--------|---------------|---------------|
+| `DQS_Definition__c` | Konfiguracja skanu | Name, Object API Name, Status, Description |
+| `DQS_Definition_Detail__c` | Konfiguracja na poziomie pola | Definition (lookup), Field API Name, Overrides |
+
+### Obiekty wyników
+
+| Obiekt | Przeznaczenie | Relacja |
+|--------|---------------|---------|
+| `DQS_Dimension_Result__c` | Wynik skanu per wymiar | Definition (lookup) |
+| `DQS_Field_Result__c` | Wynik per pole w ramach wymiaru | Dimension Result (master-detail) |
+| `DQS_Metric_Result__c` | Szczegółowa metryka per pole | Field Result (master-detail) |
+
+### Obiekty harmonogramowania
+
+| Obiekt | Przeznaczenie |
+|--------|---------------|
+| `DQS_Batch_Schedule__c` | Przechowuje konfigurację harmonogramu per definicja |
+
+## Relacje między obiektami
+
+```
+DQS_Definition__c
+  ├── DQS_Definition_Detail__c (1:N)
+  ├── DQS_Batch_Schedule__c (1:1)
+  └── DQS_Dimension_Result__c (1:N per scan)
+       └── DQS_Field_Result__c (1:N, master-detail)
+            └── DQS_Metric_Result__c (1:N, master-detail)
+```
+
+## Custom Metadata Types
+
+CMT sterują konfiguracją zdolności i ich logiką ewaluacji. Są kontrolowane przez pakiet i nie mogą być edytowane przez subskrybentów (z wyjątkiem oznaczonych przypadków).
+
+| CMT | Przeznaczenie | Rekordy |
+|-----|---------------|---------|
+| `DQS_Capability__mdt` | Definiuje dostępne wymiary jakości | 7 (po jednym na zdolność) |
+| `DQS_Dimension__mdt` | Konfiguracja wyświetlania wymiarów | 7 |
+| `DQS_Metric__mdt` | Definicje metryk per zdolność | Wiele per wymiar |
+| `DQS_Input_Configuration__mdt` | Ustawienia konfiguratora wejść | Pola konfiguracyjne per zdolność |
+| `DQS_Configuration__mdt` | Ogólne ustawienia aplikacji | Retencja, flagi funkcji |
+
+## Platform Events
+
+| Zdarzenie | Przeznaczenie |
+|-----------|---------------|
+| `Calculation_Complete__e` | Uruchamiane po zakończeniu przetwarzania skanu |
+| `DQS_Processing_Error__e` | Uruchamiane gdy wystąpi błąd podczas przetwarzania wsadowego |
+
+## Parametry funkcji
+
+| Parametr | Przeznaczenie |
+|----------|---------------|
+| `DQS_AppEnabled` | Kontroluje bramkę aktywacji — czy aplikacja jest licencjonowana i aktywna |

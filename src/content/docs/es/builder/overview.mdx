@@ -1,0 +1,53 @@
+---
+title: Descripción general del Builder
+description: Conozca el DQS Builder — el asistente de configuración para escaneos de calidad de datos.
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## ¿Qué es el Builder?
+
+El DQS Builder es un **asistente de configuración de múltiples pasos** que le permite definir exactamente cómo se debe medir la calidad de sus datos. Le guía a través de la selección de objetos, la elección de campos, la selección de dimensiones de calidad y la configuración de umbrales.
+
+## Espacio de trabajo del Builder
+
+El Builder utiliza un **diseño de 3 zonas**:
+
+- **Barra lateral** — Árbol de navegación que muestra sus definiciones y sus etapas de configuración
+- **Escenario** — Área de contenido principal donde se configura cada paso de la definición
+- **Panel Mentor** — Ayuda contextual y orientación que se adapta a su paso actual
+
+{/* TODO: Screenshot — Full Builder workspace showing the 3-zone layout: sidebar with definition nav tree on the left, main stage area in the center, and mentor panel on the right. Show it on the capability configuration step for maximum visual impact. */}
+
+## Conceptos clave
+
+<CardGrid>
+	<Card title="Definición" icon="document">
+		Una configuración de escaneo que especifica qué objeto, campos y capacidades de calidad evaluar. Cada definición produce un conjunto de resultados al ser escaneada.
+	</Card>
+	<Card title="Capacidad" icon="approve-check-circle">
+		Una dimensión de calidad como Completeness o Validity. Cada capacidad puede configurarse globalmente o personalizarse por campo.
+	</Card>
+	<Card title="Detalle de definición" icon="list-format">
+		Un registro que vincula un campo específico a una definición, almacenando las personalizaciones de configuración por campo para cada capacidad.
+	</Card>
+	<Card title="Ciclo de vida" icon="setting">
+		Las definiciones progresan a través de etapas: Draft → Ready → Active → Obsolete. Solo las definiciones en estado Active pueden ser escaneadas.
+	</Card>
+</CardGrid>
+
+## Etapas del Builder
+
+1. **Getting Started** — Seleccionar el objeto de Salesforce objetivo
+2. **Field Selection** — Elegir qué campos incluir en el escaneo
+3. **Capability Configuration** — Habilitar y configurar las dimensiones de calidad
+4. **Summary** — Revisar la definición completa antes de la activación
+
+Cada etapa valida su entrada antes de permitirle avanzar al siguiente paso.
+
+## Más información
+
+- [Crear una definición](/es/builder/creating-definition/)
+- [Selección de campos](/es/builder/field-selection/)
+- [Configuración de capacidades](/es/builder/capabilities/)
+- [Ciclo de vida de la definición](/es/builder/lifecycle/)

@@ -1,0 +1,53 @@
+---
+title: Insight Studio-Übersicht
+description: Erkunden Sie Datenqualitätsergebnisse mit umfangreichen Dashboards und Analysen.
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Was ist Insight Studio?
+
+Insight Studio (DIS) ist die **Visualisierungs- und Analyseschicht** von Data Quality Sense. Es verarbeitet Scan-Ergebnisse und präsentiert sie als interaktive Dashboards, Diagramme und Empfehlungen.
+
+## Arbeitsbereich-Layout
+
+Insight Studio verwendet ein **3-Zonen-Layout**:
+
+- **Seitenleiste** — Objekt-/Definitionsnavigation, Filter und Aufschlüsselungsoptionen
+- **Stage** — Hauptinhaltsbereich mit Bewertungen, Diagrammen und Datentabellen
+- **Mentor-Panel** — KI-gestützte Empfehlungen und kontextbezogene Aktionen
+
+<CardGrid>
+	<Card title="Bewertungsübersicht" icon="open-book">
+		Qualitätsbewertungen auf einen Blick für jede Dimension, mit Gesamtbewertungen und Notenindikatoren.
+	</Card>
+	<Card title="Trendanalyse" icon="open-book">
+		Sparklines und Trenddiagramme, die zeigen, wie sich die Datenqualität über Scans hinweg verändert.
+	</Card>
+	<Card title="Field Health" icon="open-book">
+		Matrixansicht der Qualitätsbewertung jedes Feldes pro Dimension. Erkennen Sie schnell die schwächsten Felder.
+	</Card>
+	<Card title="KI-Mentor" icon="open-book">
+		Kontextbezogene Empfehlungen basierend auf Scan-Ergebnissen. Schlägt Maßnahmen zur Verbesserung der Datenqualität vor.
+	</Card>
+</CardGrid>
+
+![Insight Studio Home — Objekte mit Qualitätsbewertungen, Definitionen und letzten Scans](../../../../assets/screenshots/insight-studio.png)
+
+## Hauptfunktionen
+
+| Funktion | Beschreibung |
+|----------|-------------|
+| **Mehrstufige Navigation** | Vom Home → Objekt → Definition → Scan → Feld → Dimension navigieren |
+| **Bewertungsvergleich** | Ergebnisse zwischen zwei Scans vergleichen, um Verbesserung oder Verschlechterung zu sehen |
+| **Aktionsmenü** | Tasks erstellen, Chatter posten oder CSV exportieren für betroffene Datensätze |
+| **Scan-Auslösung** | Scan manuell vom Dashboard aus auslösen |
+| **Zeitplanverwaltung** | Scan-Zeitpläne erstellen und verwalten |
+
+## Mehr erfahren
+
+- [Navigation](/de/insight-studio/navigation/)
+- [Bewertungen & Trends](/de/insight-studio/scores-trends/)
+- [Field Health](/de/insight-studio/field-health/)
+- [Aktionen](/de/insight-studio/actions/)
+- [Exporte](/de/insight-studio/exports/)

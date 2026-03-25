@@ -1,0 +1,58 @@
+---
+title: 権限設定
+description: Data Quality SenseのPermission Setsとユーザーアクセスを構成します。
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Permission Sets
+
+Data Quality Senseには、アプリケーションの各部分へのアクセスを制御するPermission Setsが付属しています。
+
+### DQS Admin
+
+すべての機能へのフルアクセス：
+- スキャン定義の作成、編集、削除
+- ケイパビリティとしきい値の構成
+- スキャンの実行とスケジュール設定
+- Insight Studioですべての結果を表示
+- Error Management Consoleへのアクセス
+- データ保持設定の管理
+
+### DQS User
+
+結果への読み取り専用アクセス：
+- Insight Studioでスキャン結果を表示
+- CSVへのデータエクスポート
+- スキャンスケジュールの表示
+
+## Permission Setsの割り当て
+
+1. 対象ユーザーの**Setup → Users → Permission Set Assignments**に移動します
+2. **Edit Assignments**をクリックします
+3. **Available Permission Sets**リストから**DQS Admin**または**DQS User**を見つけます
+4. 矢印ボタンを使用して、目的のPermission Setを**Enabled Permission Sets**に移動します
+5. **Save**をクリックします
+
+![Salesforce SetupのPermission Sets割り当て — DQS AdminとDQS UserがEnabled Permission Setsに表示されている](../../../../assets/screenshots/permissionsets.png)
+
+<Aside type="caution">
+DQS Permission Setが割り当てられていないユーザーは、アプリケーションにアクセスする際に有効化ゲートが表示されます。管理者にはGetting Startedタブが自動的に表示され、セットアッププロセスをガイドします。
+</Aside>
+
+## オブジェクト権限
+
+Permission Setsは、DQSカスタムオブジェクトへのアクセスを自動的に付与します：
+
+| オブジェクト | Admin | User |
+|--------|-------|------|
+| `DQS_Definition__c` | Read/Create/Edit/Delete | Read |
+| `DQS_Definition_Detail__c` | Read/Create/Edit/Delete | Read |
+| `DQS_Dimension_Result__c` | Read | Read |
+| `DQS_Field_Result__c` | Read | Read |
+| `DQS_Metric_Result__c` | Read | Read |
+| `DQS_Batch_Schedule__c` | Read/Create/Edit/Delete | Read |
+
+## 項目レベルセキュリティ
+
+DQSオブジェクトのすべての項目は、両方のPermission Setsで表示可能です。メトリクス結果、スコア、設定項目は、DQS Userでは読み取り専用です。

@@ -1,0 +1,66 @@
+---
+title: Crear una definición
+description: Cómo crear una nueva definición de escaneo en DQS Builder.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## ¿Qué es una definición?
+
+Una **definición** es la unidad de configuración principal en DQS. Especifica:
+- Qué objeto de Salesforce escanear
+- Qué campos evaluar
+- Qué dimensiones de calidad (capacidades) medir
+- Personalizaciones opcionales de umbrales por campo
+
+## Crear una nueva definición
+
+1. **Haga clic en "New Definition"**
+
+   En la pestaña Builder, haga clic en el botón **New Definition** en la esquina superior izquierda. Se abre un diálogo de creación con búsqueda de objetos, definiciones recientes y objetos sugeridos.
+
+2. **Seleccionar el objeto objetivo**
+
+   Elija el SObject que desea escanear. Puede buscar todos los objetos en su organización, elegir de **Recent Definitions** (objetos para los que ya ha creado definiciones) o seleccionar de la lista **Suggested** (Account, Opportunity, Contact, Case, Lead). El diálogo muestra cuántos registros y definiciones existentes tiene cada objeto.
+
+3. **Ingresar un nombre para la definición**
+
+   Una vez que seleccione un objeto, el panel derecho muestra un campo de nombre con **sugerencias** generadas automáticamente basadas en el objeto (por ejemplo, "Opportunity Quality Profile", "Opportunity Completeness Audit"). Elija una sugerencia o escriba su propio nombre.
+
+4. **Haga clic en "+ Create"**
+
+   La definición se crea en estado **Draft** y se abre en el asistente del Builder.
+
+![Diálogo de nueva definición — seleccionar un objeto, nombrar su definición y hacer clic en Create](../../../../assets/screenshots/def-builder-start-new.png)
+
+<Aside type="note">
+Los objetos técnicos (aquellos con nombres de API que comienzan con prefijos internos comunes) se filtran de forma predeterminada para mantener la lista de objetos manejable.
+</Aside>
+
+## Configuración de la definición
+
+Después de la creación, puede configurar:
+
+| Configuración | Descripción |
+|---------------|-------------|
+| **Name** | Nombre de visualización mostrado en listas e Insight Studio |
+| **Object** | El SObject objetivo (no se puede cambiar después de la creación) |
+| **Description** | Notas opcionales sobre el propósito del escaneo |
+| **Status** | Etapa actual del ciclo de vida (Draft, Ready, Active, Obsolete) |
+
+## Editar definiciones existentes
+
+Abra cualquier definición desde la tabla de actividad reciente de la pestaña **Home**, o desde el árbol de navegación de la barra lateral del Builder. Las definiciones en estado Active pueden editarse — los cambios toman efecto en el siguiente escaneo.
+
+## Eliminar definiciones
+
+El botón de eliminar (icono de papelera) solo está disponible cuando se cumplen **ambas** condiciones:
+
+- La definición está en estado **Draft**
+- Tiene el Permission Set **DQS Admin** asignado
+
+Las definiciones en estado Active o completadas no pueden eliminarse — retírelas al estado Obsolete en su lugar.
+
+![Botón de eliminar en una definición en estado Draft — solo visible para administradores](../../../../assets/screenshots/remove-definition-as-admin.png)
+
+Eliminar una definición remueve todos los detalles de definición asociados, pero conserva los resultados históricos de escaneo con fines de auditoría.

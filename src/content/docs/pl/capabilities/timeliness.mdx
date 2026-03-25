@@ -1,0 +1,65 @@
+---
+title: Timeliness
+description: Oceń, czy dane są aktualne i na bieżąco.
+---
+
+## Czym jest Timeliness?
+
+Timeliness mierzy, czy pola daty i datetime zawierają **aktualne, świeże wartości**. Odpowiada na pytanie: „Czy te dane są wciąż aktualne?"
+
+## Jak to działa
+
+Dla każdego pola daty strategia Timeliness:
+
+1. Odczytuje wartość daty/datetime
+2. Oblicza wiek (różnicę między wartością a bieżącą datą)
+3. Porównuje wiek z skonfigurowanym oknem świeżości
+4. Oznacza wartości starsze niż okno jako „przeterminowane"
+
+## Konfiguracja
+
+### Ustawienia globalne
+
+Sekcja **Defaults** kontroluje globalne opcje timeliness:
+
+| Ustawienie | Opis |
+|------------|------|
+| **Freshness Threshold** | Domyślne okno świeżości w dniach — rekordy starsze niż ten próg są uznawane za przeterminowane. |
+| **Null Handling** | **Treat null dates as stale** — gdy włączone, rekordy bez wartości daty są liczone jako przeterminowane dane. |
+| **Overdue Tracking** | Włącz domyślne śledzenie przeterminowania. Oznacza rekordy po oczekiwanej dacie. *(PRO)* |
+| **Operational Range** | Włącz domyślną walidację zakresu operacyjnego. Sprawdza, czy daty mieszczą się w akceptowalnym przedziale czasowym. *(PRO)* |
+
+Tabela **Field Overrides** wymienia każde pole daty z bieżącym progiem, ustawieniami overdue i okna.
+
+![Konfiguracja Timeliness z wartościami domyślnymi (Freshness Threshold, Null Handling, Overdue Tracking, Operational Range) i tabelą Field Overrides](../../../../assets/screenshots/timeliness-generic-view.png)
+
+### Nadpisania per pole
+
+Kliknij pole w tabeli Field Overrides, aby otworzyć modalne okno konfiguracji. Możesz ustawić niestandardowy **Freshness Threshold** (w dniach), przełączać **Null Handling**, **Overdue Tracking** i **Operational Range** niezależnie od ustawień globalnych. Użyj linku **Revert to Global**, aby przywrócić pole do ustawień globalnych.
+
+Różne pola daty mogą mieć różne wymagania dotyczące świeżości:
+
+| Przykład pola | Zalecane okno |
+|---------------|---------------|
+| `LastActivityDate` | 7 dni |
+| `LastModifiedDate` | 30 dni |
+| `Contract_End_Date__c` | 90 dni |
+| `Annual_Review_Date__c` | 365 dni |
+
+![Modalne okno konfiguracji per pole dla ClosedDate z Freshness Threshold, Null Handling, Overdue Tracking i Operational Range](../../../../assets/screenshots/timeliness-field-override.png)
+
+## Punktacja
+
+| Wynik | Punkty |
+|-------|--------|
+| Wszystkie daty w oknie | 100 |
+| Niektóre przeterminowane daty | Proporcjonalnie do procentu świeżych |
+| Wszystkie daty przeterminowane | 0 |
+| Brak danych | 0 |
+
+## Przypadki użycia
+
+- Monitorowanie, czy przedstawiciele handlowi utrzymują aktualność dat w szansach sprzedażowych
+- Śledzenie przeterminowanych kontaktów, które nie były ostatnio aktualizowane
+- Zapewnienie utrzymywania dat związanych z regulacjami
+- Identyfikacja „martwych" rekordów wymagających oczyszczenia lub archiwizacji

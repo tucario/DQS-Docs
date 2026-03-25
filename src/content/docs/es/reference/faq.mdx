@@ -1,0 +1,80 @@
+---
+title: Preguntas frecuentes
+description: Preguntas frecuentes sobre Data Quality Sense.
+---
+
+## General
+
+### ¿Qué ediciones de Salesforce son compatibles?
+
+Data Quality Sense funciona con las ediciones **Enterprise**, **Unlimited** y **Developer**. Requiere que Lightning Experience esté habilitado.
+
+### ¿DQS requiere integraciones externas?
+
+No. DQS es **100% nativo de Salesforce**. Todo el procesamiento, almacenamiento y visualización ocurre dentro de su organización de Salesforce. Ningún dato sale de su organización.
+
+### ¿Qué es el espacio de nombres `dqssens`?
+
+Es el **espacio de nombres del paquete administrado** de Data Quality Sense. Todos los objetos personalizados, clases Apex y componentes LWC están prefijados con este espacio de nombres para evitar conflictos de nombres con sus personalizaciones existentes.
+
+## Instalación
+
+### ¿Puedo instalar DQS en un sandbox primero?
+
+Sí, y lo recomendamos. Instale en un sandbox para evaluar el producto, luego instale en producción cuando esté listo.
+
+### ¿Instalar DQS afectará mis datos existentes?
+
+No. DQS solo **lee** sus datos existentes durante los escaneos. Nunca modifica sus datos de negocio. Crea sus propios objetos personalizados para almacenar configuraciones de escaneo y resultados.
+
+### ¿Cómo actualizo a una versión más reciente?
+
+Use la misma URL de instalación. Salesforce detecta el paquete existente y ofrece una ruta de actualización. Sus definiciones y resultados se conservan.
+
+## Configuración
+
+### ¿Cuántas definiciones puedo crear?
+
+No hay un límite estricto en el número de definiciones. Sin embargo, cada definición con una programación activa consume un slot de Apex programado de Salesforce (máximo 100 por organización).
+
+### ¿Puedo escanear objetos personalizados?
+
+Sí. DQS puede escanear **cualquier SObject estándar o personalizado** al que tenga acceso de lectura.
+
+### ¿Puedo cambiar el objeto objetivo de una definición?
+
+No. El objeto objetivo se establece en el momento de la creación y no puede cambiarse. Cree una nueva definición para un objeto diferente.
+
+## Escaneo
+
+### ¿Cuánto tiempo tarda un escaneo?
+
+Depende del número de registros, campos y capacidades. Un escaneo típico de 10,000 registros con 3 capacidades tarda unos minutos. Consulte [Límites](/es/reference/limits/) para estimaciones detalladas.
+
+### ¿Puedo ejecutar múltiples escaneos simultáneamente?
+
+Cada escaneo usa un trabajo por lotes de Salesforce. Salesforce permite hasta 5 trabajos por lotes simultáneos por organización, así que teóricamente sí — pero recomendamos escalonar los escaneos para evitar problemas con los governor limits.
+
+### ¿Qué sucede si un escaneo falla?
+
+El error se registra en la [Consola de Gestión de Errores](/es/processing/error-management/) mediante Platform Events. Los resultados parciales de las dimensiones completadas se conservan.
+
+## Resultados
+
+### ¿Cuánto tiempo se retienen los resultados?
+
+Por defecto, los resultados de escaneo se retienen durante **30 días** y los registros de errores durante **7 días**. Estos pueden ajustarse mediante la [configuración de retención](/es/processing/data-retention/).
+
+### ¿Puedo exportar resultados?
+
+Sí. Insight Studio soporta la [exportación a CSV](/es/insight-studio/exports/) de detalles de violaciones para cualquier dimensión.
+
+### ¿Qué significa una puntuación de 0?
+
+Una puntuación de 0 significa que **no había datos para medir** (denominador cero) — no necesariamente que todos los datos son malos. Por ejemplo, si todos los campos son nulos, Completeness no puede calcular una tasa de llenado significativa.
+
+## Soporte
+
+### ¿Dónde puedo obtener ayuda?
+
+Visite [dataqualitysense.com](https://dataqualitysense.com) para opciones de soporte, actualizaciones de documentación e información de contacto.

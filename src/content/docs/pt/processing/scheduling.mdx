@@ -1,0 +1,95 @@
+---
+title: Agendamento
+description: Configure varreduras automaticas recorrentes com opcoes flexiveis de agendamento.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Agendamento de Varreduras
+
+O DQS suporta **varreduras automaticas recorrentes** via agendamento baseado em CRON. Uma vez configurado, as varreduras sao executadas automaticamente sem intervencao manual.
+
+## Criando um Agendamento
+
+1. Navegue ate a definicao no **Insight Studio**
+2. Abra o modal **Scan Schedules** pela barra lateral
+3. Clique em **Create Schedule**
+
+![Modal Scan Schedules — nenhum agendamento configurado ainda](../../../../assets/screenshots/scan-schedule.png)
+
+4. Configure o agendamento — defina a frequencia, horario e opcionalmente um nome:
+
+![Formulario de New Schedule com configuracao de frequencia e horario](../../../../assets/screenshots/screate-schedule2.png)
+
+5. Revise e **salve** o agendamento:
+
+![Formulario de agendamento preenchido com o nome "Case SLA Daily Check"](../../../../assets/screenshots/scan-schedule3.png)
+
+<video src="/videos/manage-schedule.mp4" controls muted loop style="width:100%;border-radius:0.5rem;border:1px solid var(--sl-color-hairline-light)">Seu navegador nao suporta a tag de video.</video>
+
+## Configuracoes do Agendamento
+
+| Configuracao | Descricao | Exemplo |
+|--------------|-----------|---------|
+| **Name** | Nome de exibicao do agendamento | Case SLA Daily Check |
+| **Frequency** | Com que frequencia a varredura e executada | Daily, Weekly, Monthly |
+| **Time** | Em que horario do dia executar | 06:30 |
+| **Day of Week** | Para agendamentos semanais | Monday |
+| **Day of Month** | Para agendamentos mensais | 1st |
+
+## Expressoes CRON
+
+Por baixo dos panos, os agendamentos usam expressoes CRON do Salesforce. O DQS fornece uma **interface amigavel** que gera a expressao CRON para voce, mas usuarios avancados tambem podem definir expressoes personalizadas.
+
+### Agendamentos Comuns
+
+| Agendamento | Expressao CRON |
+|-------------|----------------|
+| Diario as 2h | `0 0 2 * * ?` |
+| Semanal na segunda as 6h | `0 0 6 ? * MON` |
+| Mensal no dia 1 a meia-noite | `0 0 0 1 * ?` |
+| Todo dia util as 5h | `0 0 5 ? * MON-FRI` |
+
+## Gerenciamento de Agendamentos
+
+### Visualizando Agendamentos
+
+O modal Scan Schedules mostra todos os agendamentos configurados com seu status, frequencia e proximo horario de execucao. O contador mostra quantos jobs agendados estao em uso do limite do Salesforce (por exemplo, 2/100).
+
+![Opcao Manage Schedule na barra lateral do Insight Studio](../../../../assets/screenshots/scan-schedule5.png)
+
+### Editando Agendamentos
+
+Clique no icone de edicao para modificar as configuracoes do agendamento. O agendamento existente e substituido pela nova configuracao.
+
+![Editar agendamento — clique no icone de lapis](../../../../assets/screenshots/schedule-edit.png)
+
+### Ativando / Desativando
+
+Use o toggle **Active** para pausar temporariamente um agendamento sem exclui-lo.
+
+![Desativar agendamento — clique no toggle Active](../../../../assets/screenshots/schedule-deactivate.png)
+
+### Excluindo Agendamentos
+
+Clique no icone de exclusao para remover um agendamento. Varreduras manuais permanecem disponiveis.
+
+![Remover agendamento — clique no icone de lixeira](../../../../assets/screenshots/schedule-remove.png)
+
+<Aside type="note">
+Os horarios dos agendamentos usam o fuso horario da sua org Salesforce. A exibicao da contagem regressiva mostra o horario local correto.
+</Aside>
+
+## Trilha de Auditoria
+
+Cada varredura registra quem a acionou:
+- **Varreduras manuais** — Registra o usuario que clicou em "Run Scan"
+- **Varreduras agendadas** — Registra "Scheduled" como a fonte de acionamento
+- **Timestamp** — Quando a varredura iniciou e foi concluida
+
+## Consideracoes
+
+- Apenas definicoes **Active** podem ser agendadas
+- Varreduras em execucao consomem governor limits do Salesforce (batch Apex)
+- Agende varreduras fora dos horarios de pico para minimizar o impacto
+- Multiplas definicoes podem ser agendadas em horarios diferentes

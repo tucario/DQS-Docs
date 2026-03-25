@@ -1,0 +1,63 @@
+---
+title: Validity
+description: Verifique si los valores de los campos se ajustan a los formatos y patrones esperados.
+---
+
+## ¿Qué es Validity?
+
+Validity mide si los valores de los campos **se ajustan a los formatos, rangos y patrones esperados**. Un campo puede estar rellenado (completo) pero aún contener datos inválidos — Validity detecta estos problemas.
+
+## Cómo funciona
+
+La estrategia de Validity evalúa cada valor de campo contra las reglas esperadas:
+
+1. **Campos de lista de selección** — Verifica que los valores coincidan con los valores de la lista de selección definidos (incluyendo metadatos y valores en vivo)
+2. **Campos de texto** — Valida contra patrones de formato (por ejemplo, formato de email, formato de teléfono)
+3. **Campos numéricos** — Valida contra rangos esperados
+4. **Campos de fecha** — Verifica rangos de fecha razonables
+
+## Configuración
+
+### Ajustes globales
+
+La sección **Defaults** controla las opciones de validación globales que se aplican a todos los campos:
+
+| Ajuste | Descripción |
+|--------|-------------|
+| **Include blank values in validation** | Cuando está habilitado, los valores vacíos/nulos fallarán la validación |
+| **Case-sensitive matching** | La coincidencia de patrones considera mayúsculas/minúsculas |
+| **Pattern Selection** | Elegir un patrón de validación predeterminado (Email, URL, Fixed Length o regex personalizado) |
+
+La tabla **Field Overrides** debajo lista cada campo en el alcance con su patrón y estado actuales. Los campos marcados como "Default" usan los ajustes globales, "None" significa que aún no se ha asignado ningún patrón.
+
+![Configuración de Validity con Defaults (Validation Options, Pattern Selection) y tabla de Field Overrides](../../../../assets/screenshots/validity-generic-view.png)
+
+### Personalizaciones por campo
+
+Haga clic en un campo en la tabla de Field Overrides para abrir su modal de configuración. Aquí puede asignar un patrón de validación específico para ese campo — elija entre patrones predefinidos (Email, URL, Fixed Length) o seleccione **Custom** para ingresar su propia expresión regular. Cada personalización por campo también le permite alternar **Include blank values** y **Case-sensitive matching** independientemente de los valores predeterminados globales. Use el enlace **Revert to Global** para restablecer el campo a los ajustes globales.
+
+![Modal de configuración por campo para el campo Name con opciones de patrones predefinidos (Email, URL, Fixed Length, Custom)](../../../../assets/screenshots/validity-field-regex.png)
+
+## Puntuación
+
+| Resultado | Puntuación |
+|-----------|------------|
+| Todos los valores válidos | 100 |
+| Algunos inválidos | Proporcional al porcentaje de válidos |
+| Todos inválidos | 0 |
+| Sin datos | 0 |
+
+## Patrones regex
+
+DQS usa **expresiones regulares compatibles con Java** para la validación de campos de texto. Cuando selecciona **Custom** en el selector de patrones, aparece un campo de texto donde puede ingresar su propio patrón regex.
+
+![Entrada de patrón regex personalizado en el modal de configuración por campo](../../../../assets/screenshots/validity-field-custom-regex.png)
+
+Consulte el [Probador de Regex](/es/reference/regex-tester/) para un probador interactivo y una biblioteca de patrones listos para usar para email, teléfono, URL, códigos postales y más.
+
+## Casos de uso
+
+- Asegurar que los campos de email contengan direcciones de correo electrónico con formato correcto
+- Verificar que los campos de lista de selección solo contengan valores aprobados
+- Detectar entradas de texto libre en campos que deberían usar vocabularios controlados
+- Validar formatos de números de teléfono en diferentes regiones

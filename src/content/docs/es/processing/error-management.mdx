@@ -1,0 +1,67 @@
+---
+title: Gestión de errores
+description: Monitoree y resuelva errores de escaneo usando la Consola de Gestión de Errores.
+---
+
+## Consola de Gestión de Errores (EMC)
+
+La EMC es una **interfaz dedicada** para monitorear y resolver errores que ocurren durante el procesamiento de escaneos. Proporciona visibilidad sobre fallos de lotes, errores de estrategia y problemas de la plataforma.
+
+## Diseño
+
+La EMC utiliza un diseño de 3 zonas:
+
+- **Barra lateral** — Filtros (por tipo de error, rango de fechas, severidad) y opciones de desglose
+- **Área principal** — Tabla de errores con columnas ordenables y modal de detalle al hacer clic en una fila
+- **Panel Mentor** — Acciones sugeridas e información de retención
+
+{/* TODO: Screenshot — Error Management Console showing the full 3-zone layout: filters sidebar on left, error table with a few rows in center, mentor panel with actions on right. */}
+
+## Tabla de errores
+
+| Columna | Descripción |
+|---------|-------------|
+| **Timestamp** | Cuándo ocurrió el error |
+| **Error Type** | Categoría (Batch, Strategy, Platform, Validation) |
+| **Message** | Descripción breve del error |
+| **Definition** | Qué definición de escaneo generó el error |
+| **Severity** | Nivel de severidad del error |
+
+### Modal de detalle de fila
+
+Haga clic en cualquier fila de error para abrir un modal detallado que muestra:
+- Mensaje de error completo y stack trace
+- Definición afectada y detalles del escaneo
+- Pasos de resolución sugeridos
+
+{/* TODO: Screenshot — Error detail modal showing full error message, stack trace, affected definition, and suggested resolution. */}
+
+## Fuentes de errores
+
+| Fuente | Ejemplos |
+|--------|----------|
+| **Procesamiento por lotes** | Governor limit excedido, timeout de consulta |
+| **Estrategia de dimensión** | Acceso inválido a campo, puntero nulo en la lógica de estrategia |
+| **Platform Events** | Fallo en la publicación de eventos |
+| **Programación** | Problemas con expresiones CRON, errores de permisos |
+
+## Integración con Platform Events
+
+DQS usa Platform Events `DQS_Processing_Error__e` para mostrar errores en tiempo real. Cuando ocurre un error durante el procesamiento por lotes:
+
+1. El error es capturado y registrado
+2. Se publica un Platform Event
+3. La EMC recibe el evento y lo muestra
+
+Esto reemplaza los bloques `catch` silenciosos con reportes de errores visibles.
+
+## Retención de errores
+
+Los registros de errores se purgan automáticamente según la [política de retención](/es/processing/data-retention/). La retención predeterminada es de **7 días**.
+
+## Mejores prácticas
+
+- Revise la EMC regularmente después de configurar nuevas definiciones de escaneo
+- Revise los errores después de cambiar las configuraciones de capacidades
+- Use los patrones de errores para identificar problemas sistemáticos (por ejemplo, permisos de acceso a campos)
+- Contacte al soporte si los errores de plataforma persisten entre múltiples escaneos

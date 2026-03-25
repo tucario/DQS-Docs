@@ -42,7 +42,7 @@ Two Starlight components are overridden via `components` in astro config:
 All docs are MDX files in `src/content/docs/`. English is the root locale (no prefix), other languages use path prefixes (`/de/`, `/fr/`, etc.).
 
 - **Root content** (`src/content/docs/`) — English pages, 30 pages across 6 sections
-- **Language dirs** (`src/content/docs/{de,fr,es,ja,pt,pl,ar}/`) — Translated pages. Only `index.mdx` is translated per language; other pages fallback to English automatically
+- **Language dirs** (`src/content/docs/{de,fr,es,ja,pt,pl,ar}/`) — Translated pages mirroring the English structure
 
 ### Images and Media
 
@@ -54,6 +54,13 @@ All docs are MDX files in `src/content/docs/`. English is the root locale (no pr
 ### i18n
 
 8 locales configured with English as `root` (served at `/`). Sidebar section labels have `translations` objects in astro config. Starlight handles fallback content and "not yet translated" notices automatically.
+
+**Translation maintenance:** All 29 content pages are translated into 7 languages (de, fr, es, ja, pt, pl, ar). When editing an English page, always update the corresponding translated files in all 7 language directories. Translation rules:
+- Translate prose, headings, lists, table content, Aside content
+- Keep import statements, MDX tags, image paths, code blocks, and Salesforce proper nouns (Lightning Experience, Setup, Apex, etc.) untranslated
+- Translate image alt text
+- Update internal links to use the language prefix (e.g., `/de/getting-started/installation/`)
+- Keep product name "Data Quality Sense" and "DQS" untranslated
 
 ### Deployment
 

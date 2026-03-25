@@ -1,0 +1,62 @@
+---
+title: Rétention des données
+description: Configurer le nettoyage automatisé des résultats de scan et des journaux d'erreurs.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Politiques de rétention
+
+DQS inclut une **purge automatisée des données** pour éviter une croissance illimitée des résultats de scan et des journaux d'erreurs. Les politiques de rétention sont configurées via des Custom Metadata Types et peuvent être ajustées par les administrateurs.
+
+## Configuration
+
+Tous les paramètres de rétention sont stockés dans `DQS_Configuration__mdt` (Category: « Retention ») :
+
+| Paramètre | Par défaut | Description |
+|-----------|------------|-------------|
+| **Error Log Retention** | 7 jours | Nombre de jours avant la suppression des journaux d'erreurs |
+| **Scan Result Retention** | 30 jours | Nombre de jours avant la purge des résultats de dimension |
+| **Purge Batch Size** | 2 000 | Enregistrements traités par lot |
+| **Purge CRON Expression** | `0 0 2 * * ?` | Quand la tâche de purge s'exécute (par défaut : quotidiennement à 2h) |
+
+<Aside type="tip">
+Ces paramètres sont contrôlés par l'abonné (Subscriber Controlled) — les administrateurs peuvent surcharger les valeurs par défaut après l'installation du package.
+</Aside>
+
+## Fonctionnement de la purge
+
+Le processus de purge s'exécute comme une **tâche par lots chaînée** :
+
+```
+DQS_DataPurgeScheduler (CRON trigger)
+  └── DQS_ErrorLogPurgeBatch
+       (deletes error logs where Expires_At <= NOW)
+       └── DQS_ResultPurgeBatch
+            (deletes dimension results older than retention window)
+            └── Cascade: Field Results + Metric Results
+                 (deleted automatically via master-detail relationship)
+```
+
+### Suppression en cascade
+
+Lorsqu'un enregistrement `DQS_Dimension_Result__c` est supprimé :
+- Tous les enregistrements enfants `DQS_Field_Result__c` sont automatiquement supprimés
+- Tous les enregistrements petits-enfants `DQS_Metric_Result__c` sont automatiquement supprimés
+
+Cela se produit via la cascade master-detail de Salesforce — aucun traitement par lots supplémentaire n'est nécessaire.
+
+## Ajuster la rétention
+
+Pour modifier les périodes de rétention :
+
+1. Accédez à **Setup → Custom Metadata Types → DQS Configuration**
+2. Trouvez l'enregistrement pertinent (par exemple, `Scan_Result_Retention_Days`)
+3. Modifiez la valeur
+4. Les changements prennent effet lors de la prochaine exécution de purge
+
+## Surveillance
+
+- Consultez la **console de gestion des erreurs** pour les erreurs de tâches de purge
+- Vérifiez `DQS_DataPurgeScheduler` dans **Setup → Scheduled Jobs** pour confirmer que la purge s'exécute
+- Utilisez les rapports Salesforce pour surveiller le volume de résultats au fil du temps

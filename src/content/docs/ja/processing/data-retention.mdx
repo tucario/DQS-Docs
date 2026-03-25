@@ -1,0 +1,62 @@
+---
+title: データ保持
+description: スキャン結果とエラーログの自動クリーンアップを構成します。
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## 保持ポリシー
+
+DQSには、スキャン結果とエラーログの無制限な増大を防ぐための**自動データパージ**が含まれています。保持ポリシーはCustom Metadata Typesを介して構成され、管理者が調整できます。
+
+## 構成
+
+すべての保持設定は`DQS_Configuration__mdt`（Category: "Retention"）に保存されています：
+
+| 設定 | デフォルト | 説明 |
+|---------|---------|-------------|
+| **エラーログ保持期間** | 7日 | エラーログが削除されるまでの日数 |
+| **スキャン結果保持期間** | 30日 | ディメンション結果がパージされるまでの日数 |
+| **パージバッチサイズ** | 2,000 | バッチチャンクあたりの処理レコード数 |
+| **パージCRON式** | `0 0 2 * * ?` | パージジョブの実行タイミング（デフォルト：毎日午前2時） |
+
+<Aside type="tip">
+これらの設定はSubscriber Controlled — 管理者はパッケージインストール後にデフォルト値をオーバーライドできます。
+</Aside>
+
+## パージの仕組み
+
+パージプロセスは**チェーンバッチジョブ**として実行されます：
+
+```
+DQS_DataPurgeScheduler (CRON trigger)
+  └── DQS_ErrorLogPurgeBatch
+       (deletes error logs where Expires_At <= NOW)
+       └── DQS_ResultPurgeBatch
+            (deletes dimension results older than retention window)
+            └── Cascade: Field Results + Metric Results
+                 (deleted automatically via master-detail relationship)
+```
+
+### カスケード削除
+
+`DQS_Dimension_Result__c`レコードが削除されると：
+- すべての子`DQS_Field_Result__c`レコードが自動的に削除されます
+- すべての孫`DQS_Metric_Result__c`レコードが自動的に削除されます
+
+これはSalesforceのmaster-detailカスケードにより実行されます — 追加のバッチ処理は不要です。
+
+## 保持期間の調整
+
+保持期間を変更するには：
+
+1. **Setup → Custom Metadata Types → DQS Configuration**に移動
+2. 該当するレコード（例：`Scan_Result_Retention_Days`）を見つけます
+3. 値を編集
+4. 変更は次回のパージ実行で反映されます
+
+## 監視
+
+- **Error Management Console**でパージジョブのエラーを確認
+- **Setup → Scheduled Jobs**で`DQS_DataPurgeScheduler`を確認し、パージが実行されていることを検証
+- Salesforceレポートを使用して結果のボリュームを経時的に監視

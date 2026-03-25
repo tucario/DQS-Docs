@@ -1,0 +1,95 @@
+---
+title: Harmonogramowanie
+description: Skonfiguruj automatyczne cykliczne skany z elastycznymi opcjami harmonogramowania.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Harmonogramowanie skanów
+
+DQS obsługuje **automatyczne cykliczne skany** oparte na harmonogramowaniu CRON. Po skonfigurowaniu skany uruchamiają się automatycznie bez ręcznej interwencji.
+
+## Tworzenie harmonogramu
+
+1. Przejdź do definicji w **Insight Studio**
+2. Otwórz modalne okno **Scan Schedules** z paska bocznego
+3. Kliknij **Create Schedule**
+
+![Modalne okno Scan Schedules — brak skonfigurowanych harmonogramów](../../../../assets/screenshots/scan-schedule.png)
+
+4. Skonfiguruj harmonogram — ustaw częstotliwość, czas i opcjonalnie nazwę:
+
+![Formularz nowego harmonogramu z konfiguracją częstotliwości i czasu](../../../../assets/screenshots/screate-schedule2.png)
+
+5. Przejrzyj i **zapisz** harmonogram:
+
+![Wypełniony formularz harmonogramu z nazwą „Case SLA Daily Check"](../../../../assets/screenshots/scan-schedule3.png)
+
+<video src="/videos/manage-schedule.mp4" controls muted loop style="width:100%;border-radius:0.5rem;border:1px solid var(--sl-color-hairline-light)">Twoja przeglądarka nie obsługuje znacznika video.</video>
+
+## Ustawienia harmonogramu
+
+| Ustawienie | Opis | Przykład |
+|------------|------|---------|
+| **Name** | Wyświetlana nazwa harmonogramu | Case SLA Daily Check |
+| **Frequency** | Jak często uruchamiany jest skan | Daily, Weekly, Monthly |
+| **Time** | O której godzinie uruchomić | 06:30 |
+| **Day of Week** | Dla harmonogramów tygodniowych | Monday |
+| **Day of Month** | Dla harmonogramów miesięcznych | 1st |
+
+## Wyrażenia CRON
+
+Pod spodem harmonogramy używają wyrażeń CRON Salesforce. DQS udostępnia **przyjazny interfejs użytkownika**, który generuje wyrażenie CRON automatycznie, ale zaawansowani użytkownicy mogą również ustawić niestandardowe wyrażenia.
+
+### Typowe harmonogramy
+
+| Harmonogram | Wyrażenie CRON |
+|-------------|----------------|
+| Codziennie o 2:00 | `0 0 2 * * ?` |
+| Co tydzień w poniedziałek o 6:00 | `0 0 6 ? * MON` |
+| Miesięcznie 1. dnia o północy | `0 0 0 1 * ?` |
+| Każdego dnia roboczego o 5:00 | `0 0 5 ? * MON-FRI` |
+
+## Zarządzanie harmonogramami
+
+### Przeglądanie harmonogramów
+
+Modalne okno Scan Schedules pokazuje wszystkie skonfigurowane harmonogramy z ich statusem, częstotliwością i czasem następnego uruchomienia. Licznik pokazuje, ile zaplanowanych zadań jest używanych z limitu Salesforce (np. 2/100).
+
+![Opcja Manage Schedule w pasku bocznym Insight Studio](../../../../assets/screenshots/scan-schedule5.png)
+
+### Edycja harmonogramów
+
+Kliknij ikonę edycji, aby zmodyfikować ustawienia harmonogramu. Istniejący harmonogram zostanie zastąpiony nową konfiguracją.
+
+![Edycja harmonogramu — kliknij ikonę ołówka](../../../../assets/screenshots/schedule-edit.png)
+
+### Aktywacja / Dezaktywacja
+
+Użyj przełącznika **Active**, aby tymczasowo wstrzymać harmonogram bez jego usuwania.
+
+![Dezaktywacja harmonogramu — kliknij przełącznik Active](../../../../assets/screenshots/schedule-deactivate.png)
+
+### Usuwanie harmonogramów
+
+Kliknij ikonę usuwania, aby usunąć harmonogram. Ręczne skany pozostają dostępne.
+
+![Usuwanie harmonogramu — kliknij ikonę kosza](../../../../assets/screenshots/schedule-remove.png)
+
+<Aside type="note">
+Czasy harmonogramów korzystają ze strefy czasowej organizacji Salesforce. Wyświetlane odliczanie pokazuje poprawny czas lokalny.
+</Aside>
+
+## Ślad audytowy
+
+Każdy skan rejestruje, kto go wyzwolił:
+- **Ręczne skany** — Rejestruje użytkownika, który kliknął „Run Scan"
+- **Zaplanowane skany** — Rejestruje „Scheduled" jako źródło wyzwolenia
+- **Znacznik czasu** — Kiedy skan się rozpoczął i zakończył
+
+## Uwagi
+
+- Tylko **aktywne** definicje mogą być harmonogramowane
+- Uruchomione skany zużywają limity gubernatorskie Salesforce (batch Apex)
+- Planuj skany poza godzinami szczytu, aby zminimalizować wpływ
+- Wiele definicji może być harmonogramowanych w różnych terminach

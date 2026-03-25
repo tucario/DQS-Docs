@@ -1,0 +1,57 @@
+---
+title: Exporte
+description: Scan-Ergebnisse und Verstoßdetails als CSV exportieren.
+---
+
+## CSV-Export
+
+Insight Studio unterstützt den **CSV-Export** von Verstoßdetails für alle Dimensionen. Dies ermöglicht es Ihnen, Datenqualitätsprobleme außerhalb von Salesforce zu bearbeiten.
+
+## Was wird exportiert
+
+Jeder Export enthält die spezifischen Datensätze, die Qualitätsprüfungen für eine bestimmte Dimension nicht bestanden haben:
+
+| Dimension | Export enthält |
+|-----------|---------------|
+| **Completeness** | Datensätze mit leeren/null-Feldern |
+| **Validity** | Datensätze mit ungültigen Werten |
+| **Uniqueness** | Datensätze mit doppelten Werten |
+| **Timeliness** | Datensätze mit veralteten Daten |
+| **Consistency** | Datensätze mit sich widersprechenden Feldern |
+| **PII Detection** | Datensätze mit erkannten PII |
+
+## Exportspalten
+
+Jede CSV enthält:
+- **Record ID** — Salesforce-Datensatz-Identifikator
+- **Record Name** — Anzeigename des Datensatzes
+- **Field** — Das Feld, das die Prüfung nicht bestanden hat
+- **Current Value** — Der Wert, der den Verstoß ausgelöst hat
+- **Violation Type** — Spezifischer Typ des Qualitätsproblems
+- **Score** — Die Bewertung des Feldes für diese Dimension
+
+## So exportieren Sie
+
+1. Navigieren Sie zur Dimensions- oder Feldansicht in Insight Studio
+2. Klicken Sie auf die Schaltfläche **Export**
+3. Der Export läuft als Hintergrundprozess — Sie erhalten eine **benutzerdefinierte Benachrichtigung** im Glockensymbol, wenn er abgeschlossen ist. Jede Benachrichtigung zeigt die Dimension, das Feld und die Anzahl der exportierten Verstöße an (z. B. „Validity — Status: 0 violations exported")
+4. Klicken Sie auf die Benachrichtigung, um zur **Field Result**-Seite in Salesforce zu navigieren, wo die CSV-Datei im **Files**-Panel angehängt ist
+
+<video src="/videos/export-csv.mp4" controls muted loop style="width:100%;border-radius:0.5rem;border:1px solid var(--sl-color-hairline-light)">Ihr Browser unterstützt das Video-Tag nicht.</video>
+
+![Benachrichtigungspanel mit abgeschlossenen CSV-Exporten pro Dimension und Feld mit Zeitstempeln](../../../../assets/screenshots/csv-export-complete.png)
+
+Die Field Result-Seite zeigt den vollständigen Kontext — Feldidentität, Dimension, Bewertungsdetails (Bewertung, Schwellenwert, Datensätze leer/befüllt) und einen **AI Insight**-Abschnitt. Die exportierte CSV-Datei steht im **Files**-Panel auf der rechten Seite zum Download bereit.
+
+![Field Result-Seite in Salesforce mit Bewertungsdetails, AI Insight und exportierter CSV im Files-Panel](../../../../assets/screenshots/csv-field-results.png)
+
+Nachfolgend ein Beispiel des exportierten CSV-Dateiinhalts:
+
+![Exportierte CSV-Datei mit Verstoßdatensätzen mit Record ID, Field Name, Value, Violation Type und Details-Spalten](../../../../assets/screenshots/results-csv-export.png)
+
+## Anwendungsfälle
+
+- Datenqualitätsberichte mit Stakeholdern teilen, die keinen Salesforce-Zugang haben
+- Verstoßlisten in Datenbereinigungstools importieren
+- Aufgaben in Projektmanagement-Tools erstellen
+- Compliance-Dokumentation und Audit-Trails

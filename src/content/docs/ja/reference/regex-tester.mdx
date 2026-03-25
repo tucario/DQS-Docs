@@ -1,0 +1,65 @@
+---
+title: 正規表現テスター
+description: DQSのValidityおよびPII Detectionケイパビリティで使用されるJava互換の正規表現をテストします。
+---
+
+import RegexTester from '../../../../components/RegexTester.astro';
+
+## Java正規表現テスター
+
+DQSはValidityチェックとPII Detectionパターンに**Java互換の正規表現**（`java.util.regex.Pattern`）を使用します。Builderで構成する前に、このテスターを使用してパターンを検証してください。
+
+<RegexTester />
+
+## DQSに便利なパターン
+
+### Validityパターン
+
+| パターン名 | 正規表現 | 説明 |
+|---|---|---|
+| **Email** | `^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$` | 標準メールフォーマット |
+| **Phone (International)** | `^\+?[1-9]\d{1,14}$` | E.164国際電話フォーマット |
+| **Phone (US)** | `^\(?[2-9]\d{2}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}$` | オプションのフォーマット付きUS電話番号 |
+| **URL** | `^https?://[^\s/$.?#].[^\s]*$` | HTTP/HTTPS URL |
+| **ZIP Code (US)** | `^\d{5}(-\d{4})?$` | US ZIP コード（5桁または9桁） |
+| **Postal Code (UK)** | `^[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}$` | 英国郵便番号 |
+| **Postal Code (DE)** | `^\d{5}$` | ドイツ郵便番号 |
+| **ISO Date** | `^\d{4}-\d{2}-\d{2}$` | YYYY-MM-DDフォーマット |
+| **ISO DateTime** | `^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}` | ISO 8601日時 |
+| **Currency (USD)** | `^\$?\d{1,3}(,\d{3})*(\.\d{2})?$` | 米ドルフォーマット |
+| **Percentage** | `^\d{1,3}(\.\d{1,2})?%?$` | パーセンテージ値（0-100） |
+| **Alphanumeric** | `^[a-zA-Z0-9]+$` | 英字と数字のみ |
+| **No Special Chars** | `^[a-zA-Z0-9\s.\-,]+$` | 英字、数字、スペース、基本的な句読点 |
+| **Salesforce ID (15)** | `^[a-zA-Z0-9]{15}$` | 15文字のSalesforce ID |
+| **Salesforce ID (18)** | `^[a-zA-Z0-9]{18}$` | 18文字のSalesforce ID |
+| **Domain Name** | `^([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,}$` | 有効なドメイン名 |
+| **IPv4 Address** | `^(\d{1,3}\.){3}\d{1,3}$` | IPv4アドレスフォーマット |
+| **Hex Color** | `^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$` | CSS 16進カラーコード |
+
+### PII Detectionパターン
+
+| パターン名 | 正規表現 | 説明 |
+|---|---|---|
+| **SSN (US)** | `\b\d{3}-\d{2}-\d{4}\b` | 社会保障番号 |
+| **SSN (unformatted)** | `\b\d{9}\b` | 連続する9桁（SSNの可能性） |
+| **Credit Card (Visa)** | `\b4\d{3}[\s\-]?\d{4}[\s\-]?\d{4}[\s\-]?\d{4}\b` | Visaカード番号 |
+| **Credit Card (MC)** | `\b5[1-5]\d{2}[\s\-]?\d{4}[\s\-]?\d{4}[\s\-]?\d{4}\b` | Mastercardカード番号 |
+| **Credit Card (Amex)** | `\b3[47]\d{2}[\s\-]?\d{6}[\s\-]?\d{5}\b` | American Expressカード番号 |
+| **Credit Card (Generic)** | `\b\d{4}[\s\-]?\d{4}[\s\-]?\d{4}[\s\-]?\d{4}\b` | 任意の16桁カードパターン |
+| **IBAN** | `\b[A-Z]{2}\d{2}[A-Z0-9]{4}\d{7}([A-Z0-9]?){0,16}\b` | 国際銀行口座番号 |
+| **Passport (US)** | `\b[A-Z]\d{8}\b` | 米国パスポート番号 |
+| **PESEL (PL)** | `\b\d{11}\b` | ポーランド国民ID（11桁） |
+| **NIP (PL)** | `\b\d{3}-?\d{3}-?\d{2}-?\d{2}\b` | ポーランド税務ID |
+| **REGON (PL)** | `\b\d{9}\b` | ポーランド事業者登録番号 |
+| **Date of Birth** | `\b(0[1-9]|1[0-2])/(0[1-9]|[12]\d|3[01])/\d{4}\b` | MM/DD/YYYYフォーマット |
+| **Email in text** | `[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}` | テキスト内の任意の位置のメール（アンカーなし） |
+| **Phone in text** | `\b(\+?\d{1,3}[\s\-]?)?\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{4}\b` | フリーテキスト内の電話番号 |
+| **IP Address** | `\b(\d{1,3}\.){3}\d{1,3}\b` | テキスト内のIPv4アドレス |
+| **Driver License (US)** | `\b[A-Z]\d{3,8}\b` | 米国運転免許証（州により異なる） |
+
+### ヒント
+
+- **アンカー付きパターン**（`^...$`）は項目値全体をバリデーション — Validityチェックに使用
+- **アンカーなしパターン**（`^` / `$`なし）はテキスト内のマッチを検出 — PII Detectionに使用
+- Apexの正規表現はデフォルトで**大文字・小文字を区別**します。大文字・小文字を区別しないマッチングには先頭に`(?i)`を使用してください
+- エッジケースをテスト：空文字列、空白のみの値、Unicode文字

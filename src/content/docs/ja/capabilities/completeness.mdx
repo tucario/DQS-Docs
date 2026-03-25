@@ -1,0 +1,60 @@
+---
+title: Completeness
+description: Salesforce項目に値が含まれているかを測定します。
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Completenessとは
+
+Completenessは、項目の**入力率** — レコードのうちnullや空白でない値を含むレコードの割合を測定します。
+
+## 仕組み
+
+スキャンに含まれる各項目に対して、Completenessストラテジーは以下を実行します：
+
+1. スコープ内の総レコード数をカウント
+2. その項目に空でない値を持つレコード数をカウント
+3. 入力率を計算：`(入力済みレコード / 総レコード数) × 100`
+
+## 構成
+
+![Completenessの構成 — Defaults（Blank Handling、Placeholder Detection）、Field Overridesテーブル、Guidanceパネル](../../../../assets/screenshots/completness-scope-view.png)
+
+### グローバル設定
+
+| 設定 | 説明 | デフォルト |
+|---------|-------------|---------|
+| **期待される入力率** | 入力済みレコードの最小許容割合 | 80% |
+
+### 項目ごとのオーバーライド
+
+個別の項目で期待される入力率をオーバーライドします。一般的なオーバーライド：
+- **必須項目**（Email、Name） → 100%
+- **任意項目**（Description、Notes） → 50%
+- **ほとんど使われない項目** → 20%
+
+## スコアリング
+
+| 入力率 | スコア |
+|-----------|-------|
+| 期待値以上 | 100 |
+| 期待値未満 | 比例（例：80%のターゲットに対して70%の入力率 = 87.5スコア） |
+| 0% | 0 |
+
+<Aside type="note">
+スコア0は分母がゼロ（測定するレコードがない）ことを意味し、すべての項目が空であることを意味するものではありません。
+</Aside>
+
+## ユースケース
+
+- 営業担当者が頻繁に空白のまま残す項目を特定
+- 必須項目のデータ入力コンプライアンスを監視
+- データ品質改善施策後のCompleteness傾向を追跡
+- 重要な項目（Email、Phone）が一貫して入力されていることを確認
+
+## 一括構成
+
+**Bulk Config**オプションを使用して、複数の項目に同じ入力率オーバーライドを一度に設定できます。同じCompleteness要件を持つ項目が多数ある場合に便利です。
+
+![Defaultsセクション — Blank HandlingとPlaceholder Detectionがハイライトされ、下にField Overridesテーブル](../../../../assets/screenshots/field-default-settings-override.png)

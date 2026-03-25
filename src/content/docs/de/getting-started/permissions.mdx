@@ -1,0 +1,58 @@
+---
+title: Berechtigungen
+description: Permission Sets und Benutzerzugriff für Data Quality Sense konfigurieren.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Permission Sets
+
+Data Quality Sense wird mit Permission Sets ausgeliefert, die den Zugriff auf verschiedene Teile der Anwendung steuern.
+
+### DQS Admin
+
+Vollzugriff auf alle Funktionen:
+- Scan-Definitionen erstellen, bearbeiten und löschen
+- Capabilities und Schwellenwerte konfigurieren
+- Scans ausführen und planen
+- Alle Ergebnisse in Insight Studio anzeigen
+- Zugriff auf die Error Management Console
+- Datenaufbewahrungseinstellungen verwalten
+
+### DQS User
+
+Nur-Lese-Zugriff auf Ergebnisse:
+- Scan-Ergebnisse in Insight Studio anzeigen
+- Daten als CSV exportieren
+- Scan-Zeitpläne anzeigen
+
+## Permission Sets zuweisen
+
+1. Navigieren Sie zu **Setup → Users → Permission Set Assignments** für den Zielbenutzer
+2. Klicken Sie auf **Edit Assignments**
+3. Suchen Sie in der Liste **Available Permission Sets** nach **DQS Admin** oder **DQS User**
+4. Verschieben Sie das gewünschte Permission Set mit der Pfeiltaste zu **Enabled Permission Sets**
+5. Klicken Sie auf **Save**
+
+![Permission Set-Zuweisung in Salesforce Setup mit DQS Admin und DQS User in Enabled Permission Sets](../../../../assets/screenshots/permissionsets.png)
+
+<Aside type="caution">
+Benutzer ohne zugewiesenes DQS Permission Set sehen ein Aktivierungs-Gate beim Zugriff auf die Anwendung. Der Tab „Getting Started" wird automatisch angezeigt, um Administratoren durch den Einrichtungsprozess zu führen.
+</Aside>
+
+## Objektberechtigungen
+
+Die Permission Sets gewähren automatisch Zugriff auf benutzerdefinierte DQS-Objekte:
+
+| Objekt | Admin | User |
+|--------|-------|------|
+| `DQS_Definition__c` | Read/Create/Edit/Delete | Read |
+| `DQS_Definition_Detail__c` | Read/Create/Edit/Delete | Read |
+| `DQS_Dimension_Result__c` | Read | Read |
+| `DQS_Field_Result__c` | Read | Read |
+| `DQS_Metric_Result__c` | Read | Read |
+| `DQS_Batch_Schedule__c` | Read/Create/Edit/Delete | Read |
+
+## Field-Level Security
+
+Alle Felder auf DQS-Objekten sind für beide Permission Sets sichtbar. Metrik-Ergebnisse, Bewertungen und Konfigurationsfelder sind für DQS User schreibgeschützt.

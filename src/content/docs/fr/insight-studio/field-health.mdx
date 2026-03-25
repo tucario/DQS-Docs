@@ -1,0 +1,45 @@
+---
+title: Santé des champs
+description: Utilisez la matrice de santé des champs pour identifier vos points de données les plus faibles.
+---
+
+## Matrice de santé des champs
+
+La matrice de santé des champs est une **vue en grille** montrant chaque champ scanné par rapport à chaque dimension activée. Chaque cellule affiche le score du champ pour cette dimension, avec un code couleur selon le grade.
+
+![Détail du résultat de scan — résultats par champ avec les scores par dimension, colorés en vert pour les scores élevés et en rouge pour les scores faibles](../../../../assets/screenshots/insight-studio-result-drilldown.png)
+
+## Lecture de la matrice
+
+| Axe | Contenu |
+|-----|---------|
+| **Lignes** | Champs individuels (triés par score global, les pires en premier) |
+| **Colonnes** | Dimensions de qualité (Completeness, Validity, etc.) |
+| **Cellules** | Score (0–100) avec indicateur de couleur |
+
+### Code couleur
+
+- **Cellules vertes** — Score ≥ 90 (Excellent)
+- **Cellules jaunes** — Score 50–89 (Correct à Bon)
+- **Cellules rouges** — Score < 50 (Médiocre à Critique)
+- **Cellules grises** — Non applicable (la dimension ne s'applique pas à ce type de champ)
+
+## Utilisation de la matrice
+
+### Identifier les champs problématiques
+
+Parcourez la matrice à la recherche de lignes avec plusieurs cellules rouges/jaunes. Ces champs ont des problèmes de qualité sur plusieurs dimensions.
+
+### Identifier les dimensions problématiques
+
+Cherchez les colonnes avec de nombreuses cellules rouges. Ces dimensions nécessitent une attention sur l'ensemble de vos données.
+
+### Exploration détaillée
+
+Cliquez sur n'importe quelle cellule pour naviguer vers la vue détaillée champ-dimension, montrant les métriques spécifiques et les enregistrements qui contribuent à ce score.
+
+## Tri et filtrage
+
+- **Trier par score** — Afficher les champs les moins performants en premier
+- **Filtrer par dimension** — Se concentrer sur une dimension de qualité spécifique
+- **Filtrer par type de champ** — Afficher uniquement les champs Text, Number ou Date

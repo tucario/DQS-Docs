@@ -1,0 +1,68 @@
+---
+title: Ciclo de Vida da Definicao
+description: Compreendendo os estagios do ciclo de vida de uma definicao de varredura.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Estagios do Ciclo de Vida
+
+Toda definicao de varredura progride por uma serie de estagios:
+
+```
+Draft  →  Ready  →  Active  →  Obsolete
+```
+
+### Draft
+
+O estado inicial quando uma definicao e criada. No status Draft:
+- A definicao pode ser editada livremente
+- Campos e capacidades podem ser adicionados ou removidos
+- Nenhuma varredura pode ser executada
+- A definicao nao e visivel no Insight Studio
+
+### Ready
+
+Um estado transitorio indicando que a definicao foi revisada. No status Ready:
+- Toda a configuracao necessaria esta completa
+- A definicao passou pela validacao
+- Ela pode ser ativada
+
+### Active
+
+O estado operacional. No status Active:
+- Varreduras podem ser executadas contra a definicao
+- Os resultados aparecem no Insight Studio
+- A definicao pode ser agendada para varreduras recorrentes
+- A edicao ainda e possivel — as alteracoes entram em vigor na proxima varredura
+
+### Obsolete
+
+O estado aposentado. No status Obsolete:
+- Nenhuma nova varredura pode ser acionada
+- Os resultados existentes permanecem visiveis no Insight Studio para analise historica
+- A definicao pode ser reativada se necessario
+
+![Definicao com status Draft — editavel, ainda nao pode ser varrida](../../../../assets/screenshots/remove-definition-as-admin.png)
+
+## Validacao de Ativacao
+
+Antes que uma definicao possa ser ativada, o DQS valida:
+
+| Regra | Descricao |
+|-------|-----------|
+| **Campos selecionados** | Pelo menos um campo deve estar selecionado |
+| **Capacidades habilitadas** | Pelo menos uma capacidade deve estar habilitada |
+| **Configuracao completa** | Todas as configuracoes de capacidade obrigatorias devem estar preenchidas |
+
+<Aside type="note">
+Quando voce clica em **Activate**, a definicao passa diretamente para o status Active. O estado Ready e usado internamente para controle de validacao.
+</Aside>
+
+## Alterando o Status
+
+- **Draft → Active**: Clique em "Mark as Complete" na tela de resumo — escolha entre Complete Only, Complete & Schedule ou Complete & Run Scan
+- **Active → Obsolete**: Use as configuracoes da definicao para aposenta-la
+- **Obsolete → Active**: Reative a partir das configuracoes da definicao
+
+![Dialogo Complete Definition — tres opcoes de ativacao](../../../../assets/screenshots/def-builder-step5-review.png)

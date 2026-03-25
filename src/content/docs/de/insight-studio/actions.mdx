@@ -1,0 +1,109 @@
+---
+title: Aktionen
+description: Maßnahmen bei betroffenen Datensätzen ergreifen — Tasks erstellen, Chatter-Nachrichten posten oder Ergebnisse exportieren.
+---
+
+## Aktionsmenü
+
+Das **Aktionsmenü** im Mentor-Panel bietet ein einheitliches Dropdown für Maßnahmen bei Datensätzen, die Qualitätsprüfungen nicht bestanden haben. Es ersetzt die eigenständige Export-Schaltfläche durch ein erweiterbares Menü, das derzeit drei Aktionen bietet:
+
+| Aktion | Was sie bewirkt |
+|--------|----------------|
+| **Export Report** | Verstoßdetails als CSV herunterladen ([Details](/de/insight-studio/exports/)) |
+| **Create Tasks** | Salesforce Tasks für Datensatzbesitzer erstellen, um Probleme zu beheben |
+| **Post Chatter** | Chatter-Nachrichten auf betroffenen Datensätzen posten, um Stakeholder zu benachrichtigen |
+
+{/* TODO: Screenshot — Actions dropdown menu open in Mentor panel showing Export Report, Create Tasks, and Post Chatter options */}
+
+Alle Aktionen teilen dasselbe Umfangsmodell — Sie wählen, welche **Felder** und **Dimensionen** bearbeitet werden sollen, und das System verarbeitet Verstöße für jede Kombination als separaten Hintergrundjob.
+
+## Umfangsauswahl
+
+Wenn Sie ein beliebiges Aktionsmodal öffnen, wählen Sie zunächst den Umfang:
+
+1. **Fields** — „All fields" wählen oder bestimmte Felder aus der Definition auswählen
+2. **Dimensions** — Auswählen, welche Qualitätsdimensionen einbezogen werden sollen (Completeness, Validity, Uniqueness usw.)
+
+Das System bewertet Verstöße zum Zeitpunkt der Aktion erneut, sodass die Ergebnisse den **aktuellen Zustand** Ihrer Daten widerspiegeln — keinen zwischengespeicherten Snapshot des letzten Scans.
+
+Jede Feld-Dimensions-Kombination läuft als separater Batch-Job. Zum Beispiel erzeugt die Auswahl von 3 Feldern und 2 Dimensionen 6 Jobs, die sequentiell ausgeführt werden.
+
+## Create Tasks
+
+Erstellt Salesforce Task-Datensätze, die mit jedem betroffenen Datensatz verknüpft sind. Tasks werden standardmäßig den Datensatzbesitzern zugewiesen und erscheinen in deren standardmäßiger Salesforce-Aufgabenliste.
+
+### Task-Konfiguration
+
+| Einstellung | Standard | Beschreibung |
+|-------------|----------|-------------|
+| **Subject** | `Data Quality: {dimension} — {recordName}` | Betreffzeile des Tasks. Unterstützt `{dimension}`, `{recordName}` und `{fieldName}` als Platzhalter |
+| **Description** | Beschreibt das Qualitätsproblem und bittet um Überprüfung | Freitext-Inhalt des Tasks |
+| **Due Date** | 7 Tage ab heute | Wann der Task abgeschlossen sein soll |
+| **Priority** | Normal | High, Normal oder Low |
+| **Assign To** | Record Owner | Geben Sie eine bestimmte User ID ein, um zu überschreiben. Leer lassen, um dem jeweiligen Datensatzbesitzer zuzuweisen |
+
+{/* TODO: Screenshot — Create Tasks modal in configure mode showing field/dimension selection and Task Settings form */}
+
+### Duplikatvermeidung
+
+Vor der Task-Erstellung prüft das System auf **vorhandene offene Tasks** bei jedem Datensatz mit einem übereinstimmenden Betreff-Präfix. Datensätze, die bereits einen übereinstimmenden offenen Task haben, werden übersprungen — dies verhindert doppelte Tasks bei mehrfacher Ausführung der Aktion.
+
+Die Anzahl übersprungener Datensätze wird in der Abschlusszusammenfassung gemeldet (z. B. „Created 45 tasks. 12 skipped (existing tasks). 0 errors.").
+
+### Funktionsweise
+
+1. Öffnen Sie das **Actions**-Menü im Mentor-Panel und wählen Sie **Create Tasks**
+2. Wählen Sie die einzubeziehenden Felder und Dimensionen aus
+3. Konfigurieren Sie die Task-Einstellungen (Betreff, Beschreibung, Fälligkeitsdatum, Priorität, Zugewiesener)
+4. Klicken Sie auf **Create Tasks** — das Modal wechselt in den Fortschrittsmodus
+5. Jeder Feld-Dimensions-Job zeigt seinen Status an (pending, running, complete oder failed)
+6. Wenn alle Jobs abgeschlossen sind, erhalten Sie eine **benutzerdefinierte Benachrichtigung** mit einer Zusammenfassung
+7. Klicken Sie auf **Done**, um das Modal zu schließen
+
+{/* TODO: Screenshot — Create Tasks modal in progress mode showing job list with status indicators */}
+
+## Post Chatter
+
+Postet eine Chatter-Feed-Nachricht auf jedem betroffenen Datensatz. Optionale @Erwähnung des Datensatzbesitzers, um eine Salesforce-Benachrichtigung auszulösen.
+
+### Chatter-Konfiguration
+
+| Einstellung | Standard | Beschreibung |
+|-------------|----------|-------------|
+| **Message** | Beschreibt das Qualitätsproblem und die Dimension | Freitext-Nachrichteninhalt. Unterstützt `{dimension}`, `{recordName}` und `{fieldName}` als Platzhalter |
+| **Mention Record Owner** | Aktiviert | Wenn aktiviert, @erwähnt der Post den Besitzer des Datensatzes und löst eine Salesforce-Benachrichtigung aus |
+
+{/* TODO: Screenshot — Post Chatter modal in configure mode showing message template and Mention Record Owner checkbox */}
+
+### Duplikatvermeidung
+
+Chatter verwendet ein **24-Stunden-Deduplizierungsfenster** — wenn der aktuelle Benutzer innerhalb der letzten 24 Stunden bereits eine übereinstimmende Qualitätsnachricht auf einem Datensatz gepostet hat, wird dieser Datensatz übersprungen. Dies verhindert die Überflutung von Chatter-Feeds bei wiederholter Ausführung der Aktion.
+
+### Funktionsweise
+
+1. Öffnen Sie das **Actions**-Menü und wählen Sie **Post Chatter**
+2. Wählen Sie die einzubeziehenden Felder und Dimensionen aus
+3. Bearbeiten Sie die Nachrichtenvorlage und wählen Sie, ob Besitzer @erwähnt werden sollen
+4. Klicken Sie auf **Post Messages** — das Modal wechselt in den Fortschrittsmodus
+5. Nach Abschluss zeigt die Zusammenfassung die Anzahl geposteter/übersprungener/fehlerhafter Nachrichten
+6. Klicken Sie auf **Done**, um das Modal zu schließen
+
+:::note
+Post Chatter erfordert, dass Chatter in Ihrer Salesforce-Organisation aktiviert ist. Wenn Chatter nicht verfügbar ist, meldet die Aktion einen Fehler mit einer deutlichen Nachricht.
+:::
+
+## Verarbeitungsdetails
+
+Alle Aktionen laufen als **Apex-Batch-Jobs** im Hintergrund. Wichtige Details:
+
+- **Batch-Größe:** 500 Datensätze pro Chunk (kleiner als beim Export, um DML-Operationen pro Chunk zu ermöglichen)
+- **Benachrichtigungen:** Eine benutzerdefinierte Salesforce-Benachrichtigung wird gesendet, wenn der Batch abgeschlossen ist, mit Angabe der erstellten/übersprungenen/fehlerhaften Anzahlen
+- **Teilerfolg:** Wenn einige Datensätze fehlschlagen (z. B. Validierungsregeln, Field-Level Security), werden erfolgreich verarbeitete Datensätze beibehalten. Die Fehleranzahl und Details sind in der Zusammenfassung enthalten
+- **Batch-Warteschlange:** Salesforce erlaubt bis zu 5 gleichzeitige Batch-Jobs pro Organisation. Wenn die Warteschlange voll ist, erhalten Sie vor dem Start der Aktion eine Rückmeldung
+
+## Anwendungsfälle
+
+- **Task-Erstellung für Data Stewards** — Automatisch Bereinigungsaufgaben an Datensatzbesitzer zuweisen, wenn Qualitätsprobleme erkannt werden
+- **Stakeholder-Benachrichtigung via Chatter** — Datensatzbesitzer direkt auf ihren Datensätzen über Datenqualitätsprobleme informieren
+- **Behebungs-Workflows** — Mit Salesforce-Automatisierung (Flow, Process Builder) kombinieren, um Tasks an bestimmte Teams weiterzuleiten
+- **Audit-Trails** — Erstellte Tasks und Chatter-Posts dienen als Nachweis von Qualitätsproblemen und wann sie gemeldet wurden

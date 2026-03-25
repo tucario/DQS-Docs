@@ -1,0 +1,60 @@
+---
+title: Completeness
+description: Messen Sie, ob Ihre Salesforce-Felder Werte enthalten.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Was ist Completeness?
+
+Completeness misst die **Füllrate** Ihrer Felder — den Prozentsatz der Datensätze, bei denen ein Feld einen nicht-null, nicht-leeren Wert enthält.
+
+## Funktionsweise
+
+Für jedes im Scan enthaltene Feld führt die Completeness-Strategie folgende Schritte aus:
+
+1. Zählt die Gesamtanzahl der Datensätze im Umfang
+2. Zählt, wie viele Datensätze einen nicht-leeren Wert für dieses Feld haben
+3. Berechnet die Füllrate: `(befüllte Datensätze / Gesamtdatensätze) × 100`
+
+## Konfiguration
+
+![Completeness-Konfiguration mit Defaults (Blank Handling, Placeholder Detection), Feld-Überschreibungstabelle und Guidance-Panel](../../../../assets/screenshots/completness-scope-view.png)
+
+### Globale Einstellungen
+
+| Einstellung | Beschreibung | Standard |
+|-------------|-------------|----------|
+| **Expected Fill Rate** | Der mindestens akzeptable Prozentsatz befüllter Datensätze | 80 % |
+
+### Feldspezifische Überschreibungen
+
+Überschreiben Sie die erwartete Füllrate für einzelne Felder. Häufige Überschreibungen:
+- **Pflichtfelder** (Email, Name) → 100 %
+- **Optionale Felder** (Description, Notes) → 50 %
+- **Selten genutzte Felder** → 20 %
+
+## Bewertung
+
+| Füllrate | Bewertung |
+|----------|-----------|
+| ≥ Erwartet | 100 |
+| Unter erwartet | Proportional (z. B. 70 % Füllung bei 80 % Ziel = 87,5 Bewertung) |
+| 0 % | 0 |
+
+<Aside type="note">
+Eine Bewertung von 0 bedeutet, dass der Nenner null war (keine Datensätze zu messen), nicht dass alle Felder leer sind.
+</Aside>
+
+## Anwendungsfälle
+
+- Felder identifizieren, die von Vertriebsmitarbeitern häufig leer gelassen werden
+- Dateneingabe-Compliance für Pflichtfelder überwachen
+- Vollständigkeitstrends über die Zeit nach Datenqualitätsinitiativen verfolgen
+- Sicherstellen, dass kritische Felder (Email, Phone) konsistent befüllt werden
+
+## Massenkonfiguration
+
+Verwenden Sie die Option **Bulk Config**, um dieselbe Füllraten-Überschreibung auf mehrere Felder gleichzeitig anzuwenden — nützlich, wenn Sie viele Felder haben, die dieselbe Completeness-Anforderung teilen.
+
+![Abschnitt Defaults mit Blank Handling und Placeholder Detection hervorgehoben, und Feld-Überschreibungstabelle darunter](../../../../assets/screenshots/field-default-settings-override.png)

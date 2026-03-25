@@ -1,0 +1,109 @@
+---
+title: Acoes
+description: Tome acoes sobre registros afetados — crie Tasks, publique mensagens no Chatter ou exporte resultados.
+---
+
+## Menu de Acoes
+
+O menu **Actions** no painel Mentor oferece um dropdown unificado para tomar acoes sobre registros que falharam nas verificacoes de qualidade. Ele substitui o botao Export independente com um menu extensivel que atualmente oferece tres acoes:
+
+| Acao | O que Faz |
+|------|-----------|
+| **Export Report** | Baixe detalhes de violacoes como CSV ([detalhes](/pt/insight-studio/exports/)) |
+| **Create Tasks** | Crie Tasks do Salesforce para que os proprietarios dos registros corrijam os problemas |
+| **Post Chatter** | Publique mensagens no Chatter nos registros afetados para notificar stakeholders |
+
+{/* TODO: Screenshot — Actions dropdown menu open in Mentor panel showing Export Report, Create Tasks, and Post Chatter options */}
+
+Todas as acoes compartilham o mesmo modelo de escopo — voce escolhe quais **campos** e **dimensoes** agir, e o sistema processa as violacoes para cada combinacao como um job em segundo plano separado.
+
+## Selecao de Escopo
+
+Quando voce abre qualquer modal de acao, primeiro seleciona o escopo:
+
+1. **Fields** — Escolha "All fields" ou selecione campos especificos da definicao
+2. **Dimensions** — Escolha quais dimensoes de qualidade incluir (Completeness, Validity, Uniqueness, etc.)
+
+O sistema reavalia as violacoes no momento da acao, entao os resultados refletem o **estado atual** dos seus dados — nao um snapshot em cache da ultima varredura.
+
+Cada combinacao campo-dimensao e executada como um job em lote separado. Por exemplo, selecionar 3 campos e 2 dimensoes produz 6 jobs que sao executados sequencialmente.
+
+## Create Tasks
+
+Cria registros de Task do Salesforce vinculados a cada registro afetado. As Tasks sao atribuidas aos proprietarios dos registros por padrao e aparecem na lista padrao de tarefas do Salesforce.
+
+### Configuracao de Tasks
+
+| Configuracao | Padrao | Descricao |
+|--------------|--------|-----------|
+| **Subject** | `Data Quality: {dimension} — {recordName}` | Linha de assunto da task. Suporta placeholders `{dimension}`, `{recordName}` e `{fieldName}` |
+| **Description** | Descreve o problema de qualidade e solicita revisao | Corpo de texto livre da task |
+| **Due Date** | 7 dias a partir de hoje | Quando a task deve ser concluida |
+| **Priority** | Normal | High, Normal ou Low |
+| **Assign To** | Record Owner | Insira um User ID especifico para substituir. Deixe em branco para atribuir ao proprietario de cada registro |
+
+{/* TODO: Screenshot — Create Tasks modal in configure mode showing field/dimension selection and Task Settings form */}
+
+### Prevencao de Duplicatas
+
+Antes de criar tasks, o sistema verifica **tasks abertas existentes** em cada registro com um prefixo de assunto correspondente. Registros que ja possuem uma task aberta correspondente sao ignorados — isso evita tasks duplicadas quando voce executa a acao varias vezes.
+
+A contagem de ignorados e reportada no resumo de conclusao (por exemplo, "Created 45 tasks. 12 skipped (existing tasks). 0 errors.").
+
+### Como Funciona
+
+1. Abra o menu **Actions** no painel Mentor e selecione **Create Tasks**
+2. Selecione os campos e dimensoes a incluir
+3. Configure as opcoes da task (assunto, descricao, data de vencimento, prioridade, responsavel)
+4. Clique em **Create Tasks** — o modal muda para o modo de progresso
+5. Cada job campo-dimensao mostra seu status (pendente, em execucao, concluido ou falhou)
+6. Quando todos os jobs terminam, voce recebe uma **notificacao personalizada** com um resumo
+7. Clique em **Done** para fechar o modal
+
+{/* TODO: Screenshot — Create Tasks modal in progress mode showing job list with status indicators */}
+
+## Post Chatter
+
+Publica uma mensagem no feed do Chatter em cada registro afetado. Opcionalmente @menciona o proprietario do registro para acionar uma notificacao do Salesforce.
+
+### Configuracao do Chatter
+
+| Configuracao | Padrao | Descricao |
+|--------------|--------|-----------|
+| **Message** | Descreve o problema de qualidade e a dimensao | Corpo da mensagem em texto livre. Suporta placeholders `{dimension}`, `{recordName}` e `{fieldName}` |
+| **Mention Record Owner** | Marcado | Quando habilitado, a publicacao @menciona o proprietario do registro, acionando uma notificacao do Salesforce |
+
+{/* TODO: Screenshot — Post Chatter modal in configure mode showing message template and Mention Record Owner checkbox */}
+
+### Prevencao de Duplicatas
+
+O Chatter usa uma **janela de deduplicacao de 24 horas** — se o usuario atual ja publicou uma mensagem de qualidade correspondente em um registro nas ultimas 24 horas, aquele registro e ignorado. Isso evita inundar os feeds do Chatter ao executar a acao repetidamente.
+
+### Como Funciona
+
+1. Abra o menu **Actions** e selecione **Post Chatter**
+2. Selecione os campos e dimensoes a incluir
+3. Edite o modelo de mensagem e escolha se deseja @mencionar proprietarios
+4. Clique em **Post Messages** — o modal muda para o modo de progresso
+5. Quando concluido, o resumo mostra contagens de publicados/ignorados/erros
+6. Clique em **Done** para fechar o modal
+
+:::note
+Post Chatter requer que o Chatter esteja habilitado na sua org Salesforce. Se o Chatter nao estiver disponivel, a acao reportara um erro com uma mensagem clara.
+:::
+
+## Detalhes de Processamento
+
+Todas as acoes sao executadas como **jobs em lote Apex** em segundo plano. Detalhes principais:
+
+- **Tamanho do lote:** 500 registros por chunk (menor que a exportacao para permitir operacoes DML por chunk)
+- **Notificacoes:** Uma notificacao personalizada do Salesforce e enviada quando o lote e concluido, mostrando contagens de criados/ignorados/erros
+- **Sucesso parcial:** Se alguns registros falham (por exemplo, regras de validacao, seguranca em nivel de campo), os registros processados com sucesso sao preservados. A contagem de erros e detalhes sao incluidos no resumo
+- **Fila de lotes:** O Salesforce permite ate 5 jobs em lote simultaneos por org. Se a fila estiver cheia, voce recebera feedback antes do inicio da acao
+
+## Casos de Uso
+
+- **Criacao de tasks para data stewards** — Atribua automaticamente tasks de limpeza aos proprietarios dos registros quando problemas de qualidade sao detectados
+- **Notificacao de stakeholders via Chatter** — Alerte proprietarios de registros sobre problemas de qualidade de dados diretamente nos seus registros
+- **Fluxos de remediacao** — Combine com automacao Salesforce (Flow, Process Builder) para direcionar tasks a equipes especificas
+- **Trilhas de auditoria** — Tasks criadas e publicacoes no Chatter servem como registro de problemas de qualidade e quando foram sinalizados

@@ -1,0 +1,66 @@
+---
+title: Capacidades de calidad
+description: Descripción general de las 6 dimensiones de calidad de datos en Data Quality Sense.
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Las 6 dimensiones de calidad de datos
+
+Data Quality Sense evalúa sus datos a través de **6 dimensiones de calidad distintas** (capacidades). Cada dimensión se centra en un aspecto diferente de la calidad de los datos y produce puntuaciones independientes que se consolidan en una calificación de calidad general.
+
+<CardGrid>
+	<Card title="Completeness" icon="approve-check-circle">
+		Mide si los campos contienen valores. Detecta datos nulos, vacíos y faltantes en los campos seleccionados.
+		[Más información →](/es/capabilities/completeness/)
+	</Card>
+	<Card title="Validity" icon="approve-check-circle">
+		Verifica si los valores se ajustan a los formatos, rangos y patrones esperados. Soporta validación de listas de selección y coincidencia de expresiones regulares.
+		[Más información →](/es/capabilities/validity/)
+	</Card>
+	<Card title="Uniqueness" icon="approve-check-circle">
+		Identifica valores duplicados entre registros. Señala campos donde se esperan valores únicos pero existen duplicados.
+		[Más información →](/es/capabilities/uniqueness/)
+	</Card>
+	<Card title="Timeliness" icon="approve-check-circle">
+		Evalúa si los datos son actuales y están al día. Mide la frescura basándose en ventanas de tiempo configurables.
+		[Más información →](/es/capabilities/timeliness/)
+	</Card>
+	<Card title="Consistency" icon="approve-check-circle">
+		Verifica la consistencia lógica entre campos relacionados. Detecta contradicciones como una fecha de cierre anterior a una fecha de apertura.
+		[Más información →](/es/capabilities/consistency/)
+	</Card>
+	<Card title="PII Detection" icon="approve-check-circle">
+		Escanea campos de texto libre en busca de información de identificación personal. Ayuda con el cumplimiento de la privacidad de datos.
+		[Más información →](/es/capabilities/pii-detection/)
+	</Card>
+</CardGrid>
+
+## Cómo funciona la puntuación
+
+Cada capacidad produce una **puntuación de 0 a 100** para cada campo escaneado:
+
+- **100** — Calidad perfecta para esta dimensión
+- **75–99** — Buena, con problemas menores
+- **50–74** — Calidad moderada, se recomienda atención
+- **0–49** — Calidad deficiente, se requiere acción
+- **0** — Sin datos para medir (por ejemplo, todos los campos vacíos)
+
+Las puntuaciones se agregan:
+1. **Puntuación de campo** — Resultado individual del campo por capacidad
+2. **Puntuación de dimensión** — Promedio de todos los campos para una capacidad
+3. **Puntuación de definición** — Promedio ponderado de todas las dimensiones
+
+## Aplicabilidad de capacidades
+
+No todas las capacidades aplican a todos los tipos de campo. DQS maneja automáticamente las combinaciones no aplicables:
+
+| Tipo de campo | Completeness | Validity | Uniqueness | Timeliness | Consistency | PII Detection |
+|---------------|:---:|:---:|:---:|:---:|:---:|:---:|
+| Text | ✓ | ✓ | ✓ | — | ✓ | ✓ |
+| Number | ✓ | ✓ | ✓ | — | ✓ | — |
+| Date | ✓ | ✓ | — | ✓ | ✓ | — |
+| Picklist | ✓ | ✓ | — | — | ✓ | — |
+| Boolean | ✓ | — | — | — | ✓ | — |
+| Email | ✓ | ✓ | ✓ | — | — | ✓ |
+| Phone | ✓ | ✓ | ✓ | — | — | ✓ |

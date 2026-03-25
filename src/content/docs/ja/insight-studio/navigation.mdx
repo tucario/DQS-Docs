@@ -1,0 +1,80 @@
+---
+title: ナビゲーション
+description: Insight Studioのマルチレベルダッシュボードのナビゲーション方法。
+---
+
+## ナビゲーション深度
+
+Insight Studioは**6レベルのドリルダウン**階層を提供します：
+
+```
+Home → Object → Definition → Scan → Field → Dimension
+```
+
+### レベル1：Home
+
+すべてのスキャン済みオブジェクトと最新の品質スコアを表示するトップレベルビューです。どのオブジェクトに注意が必要かを特定するために使用します。
+
+![DQS Home — 定義数、スキャン、アクティブスケジュール、最近のアクティビティテーブルの概要](../../../../assets/screenshots/dqs-home.png)
+
+### レベル2：Object
+
+選択したオブジェクトのすべての定義を、全体品質スコア、最終スキャン日、ステータス、定義カードとともに表示します。異なるスキャン構成とその結果を並べて比較できます。
+
+![Caseのオブジェクトビュー — 全体スコア64.7%、個別スコアとスキャン数を持つ2つの定義](../../../../assets/screenshots/object-with-definitions.png)
+
+### レベル3：Definition
+
+単一の定義のメインダッシュボードです。4つのタブがあります：
+
+- **Overview** — 全体品質スコア、ディメンションスコアバー、Score Trendチャート、Record Scoresパネル
+- **Fields** — ディメンションごとの項目スコアを表示するField Health Matrix
+- **Scans** — 実行ごとの結果を含む完全なスキャン履歴
+- **Exports** — ディメンションと項目ごとの違反詳細をCSVダウンロード、またはTask作成やChatter投稿でアクションを実行
+
+![定義ダッシュボード — 全体スコア85.8%、ディメンション内訳、Score Trendチャート、Record Scores](../../../../assets/screenshots/object-with-latest-scans.png)
+
+**Fields**タブは、各項目のディメンションごとのスコアを色分けされたマトリクスで表示します — 赤は低品質、緑は高品質。最も弱い項目を素早く特定するのに使用します。
+
+![Fieldsタブ — ディメンションごとのスコアを持つField Health Matrix、グレードで色分け](../../../../assets/screenshots/object-fields-section.png)
+
+**Exports**タブには、ディメンションと項目ごとの利用可能なエクスポートがダウンロードボタンとエクスポート履歴とともにリストされます。
+
+![Exportsタブ — エクスポート履歴と各ディメンションの項目ごとのエクスポートボタン](../../../../assets/screenshots/object-exports-tab.png)
+
+OverviewタブからScore Trendチャートの**Compare**をクリックすると、2つのスキャンを並べて比較できます — ベースラインと比較スキャン間のディメンションレベルと項目レベルの差分を確認できます。
+
+![Compare Resultsモーダル — ベースラインと比較対象のディメンション変更とトップ項目差分](../../../../assets/screenshots/object-compare-results.png)
+
+### レベル4：Scan
+
+特定のスキャン実行の詳細結果です。**Scans**タブには、各実行のステータスインジケーター、スコア、ディメンションごとの内訳を含む完全なスキャン履歴が表示されます。
+
+![Scansタブ — 日付、スコア、ステータス、ディメンションごとの結果を含むスキャン履歴](../../../../assets/screenshots/object-scans-tab.png)
+
+### レベル5：Field
+
+すべてのディメンションにわたる単一項目の結果です。特定の項目のスコアが低い理由を理解するのに役立ちます。
+
+### レベル6：Dimension
+
+最も深いレベル — 1つの項目の1つのディメンションに対する個別メトリクス結果です。生の評価データを表示します。
+
+## サイドバーパネル
+
+右側のサイドバーには、現在の定義に関するコンテキストとアクションが表示されます：
+
+- **ヘッダー** — 定義名、グレード付きの全体スコア、スキャン数、更新ボタン
+- **Run Scan** — スキャンを手動でトリガー、下に最終スキャン日を表示
+- **Analyze** — **Actions**ドロップダウンメニューに**Export Report**、**Create Tasks**、**Post Chatter**（[詳細](/ja/insight-studio/actions/)）
+- **Configure** — 次のスケジュール実行までのカウントダウン付き**Manage Schedule**（例：「Next in 8h 28m」）
+- **Navigate** — **Open in Salesforce**（定義レコードへの外部リンク）と**View Records**（スキャン済みレコードの閲覧）
+- **Quick Fix** — 最も低パフォーマンスの項目とスコアをハイライト（例：「Description at 9.6% — worst field」）、詳細にドリルインする直接**Investigate**リンク
+
+![サイドバーパネル — Run Scan、Analyze、Configure、Navigate、Quick Fixセクション](../../../../assets/screenshots/sidebar-panel.png)
+
+## パンくずナビゲーション
+
+ステージエリアの上部にパンくずトレイルが表示され、階層内の現在位置を示します。任意のパンくずセグメントをクリックして、そのレベルに戻ることができます。
+
+![パンくずトレイル：Home → Case → Case SLA Compliance Check → DQR-0007 → Case Number](../../../../assets/screenshots/insight-studio-breadcumbs.png)

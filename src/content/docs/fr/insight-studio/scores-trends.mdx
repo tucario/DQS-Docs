@@ -1,0 +1,66 @@
+---
+title: Scores et tendances
+description: Comprendre les scores de qualité, les grades et l'analyse des tendances dans Insight Studio.
+---
+
+## Affichage des scores
+
+Chaque niveau dans Insight Studio affiche les scores de qualité avec des indicateurs visuels :
+
+### Grades des scores
+
+| Plage de score | Grade | Couleur |
+|----------------|-------|---------|
+| 90–100 | Excellent | Vert |
+| 75–89 | Bon | Vert clair |
+| 50–74 | Correct | Jaune/Orange |
+| 25–49 | Médiocre | Orange |
+| 0–24 | Critique | Rouge |
+
+![Résultat de champ — Taux de Completeness 100 %, analyse du taux de remplissage, barres d'utilisation des champs et détails de configuration](../../../../assets/screenshots/insight-studio-field-result.png)
+
+### Cartes de score
+
+Le tableau de bord de la définition affiche des **cartes de dimension** — une pour chaque capacité activée — avec :
+- Score numérique (0–100)
+- Indicateur de grade (code couleur)
+- Flèche de changement (↑ amélioration, ↓ régression, → stable)
+- Sparkline montrant la tendance récente
+
+## Analyse des tendances
+
+### Sparklines
+
+Petits graphiques en ligne à côté de chaque score montrant les derniers résultats de scan. Utiles pour repérer les tendances sans naviguer vers les vues détaillées.
+
+### Graphique Score Trend
+
+Un graphique de tendance plus grand disponible au niveau de la définition montrant :
+- Le score au fil du temps pour chaque dimension
+- La ligne de tendance du score global
+- Les dates de scan sur l'axe des x
+
+![Tableau de bord de la définition — score global de 85,8 %, barres des dimensions Completeness et Validity, graphique Score Trend avec plusieurs scans](../../../../assets/screenshots/insight-studio-object.png)
+
+### Comparaison de scans
+
+![Modale Compare Results — scan de référence vs scan de comparaison avec les écarts par dimension et par champ](../../../../assets/screenshots/insight-studio-compare.png)
+
+Comparez deux scans spécifiques pour voir les écarts détaillés :
+- **Écarts par dimension** — Quelles capacités se sont améliorées ou ont régressé
+- **Écarts par champ** — Quels champs ont changé et de combien
+- Sélectionnez deux scans quelconques depuis l'historique des scans
+
+## Vues à deux états
+
+Certains composants s'adaptent en fonction de la disponibilité des données :
+- **Aucun scan encore** — Affiche une invitation à déclencher le premier scan
+- **Résultats disponibles** — Affiche le tableau de bord complet avec les scores et les graphiques
+
+## Résumé des KPI
+
+Le haut de la vue de définition affiche les indicateurs de performance clés :
+- **Overall Score** — Moyenne pondérée sur toutes les dimensions
+- **Fields Scanned** — Nombre total de champs inclus
+- **Records Evaluated** — Nombre total d'enregistrements dans le périmètre
+- **Last Scan** — Horodatage du scan le plus récent

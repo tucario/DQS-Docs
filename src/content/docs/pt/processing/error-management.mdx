@@ -1,0 +1,67 @@
+---
+title: Gerenciamento de Erros
+description: Monitore e resolva erros de varredura usando o Console de Gerenciamento de Erros.
+---
+
+## Console de Gerenciamento de Erros (EMC)
+
+O EMC e uma **interface dedicada** para monitorar e resolver erros que ocorrem durante o processamento de varreduras. Ele fornece visibilidade sobre falhas de lote, erros de estrategia e problemas de plataforma.
+
+## Layout
+
+O EMC utiliza um layout de 3 zonas:
+
+- **Barra lateral** — Filtros (por tipo de erro, intervalo de datas, severidade) e opcoes de detalhamento
+- **Area Principal** — Tabela de erros com colunas ordenaveis e modal de detalhes ao clicar na linha
+- **Painel Mentor** — Acoes sugeridas e informacoes de retencao
+
+{/* TODO: Screenshot — Error Management Console showing the full 3-zone layout: filters sidebar on left, error table with a few rows in center, mentor panel with actions on right. */}
+
+## Tabela de Erros
+
+| Coluna | Descricao |
+|--------|-----------|
+| **Timestamp** | Quando o erro ocorreu |
+| **Error Type** | Categoria (Batch, Strategy, Platform, Validation) |
+| **Message** | Descricao curta do erro |
+| **Definition** | Qual definicao de varredura causou o erro |
+| **Severity** | Nivel de severidade do erro |
+
+### Modal de Detalhes da Linha
+
+Clique em qualquer linha de erro para abrir um modal detalhado mostrando:
+- Mensagem de erro completa e stack trace
+- Definicao afetada e detalhes da varredura
+- Passos de resolucao sugeridos
+
+{/* TODO: Screenshot — Error detail modal showing full error message, stack trace, affected definition, and suggested resolution. */}
+
+## Fontes de Erros
+
+| Fonte | Exemplos |
+|-------|---------|
+| **Processamento em Lote** | Governor limit excedido, timeout de consulta |
+| **Dimension Strategy** | Acesso invalido a campo, null pointer na logica da estrategia |
+| **Platform Events** | Falha na publicacao de evento |
+| **Agendamento** | Problemas com expressao CRON, erros de permissao |
+
+## Integracao com Platform Events
+
+O DQS usa platform events `DQS_Processing_Error__e` para exibir erros em tempo real. Quando um erro ocorre durante o processamento em lote:
+
+1. O erro e capturado e registrado
+2. Um platform event e publicado
+3. O EMC recebe o evento e o exibe
+
+Isso substitui blocos `catch` silenciosos por reporte de erros visivel.
+
+## Retencao de Erros
+
+Os logs de erros sao automaticamente purgados com base na [politica de retencao](/pt/processing/data-retention/). A retencao padrao e de **7 dias**.
+
+## Melhores Praticas
+
+- Verifique o EMC regularmente apos configurar novas definicoes de varredura
+- Revise os erros apos alterar configuracoes de capacidades
+- Use padroes de erros para identificar problemas sistematicos (por exemplo, permissoes de acesso a campos)
+- Entre em contato com o suporte se erros de plataforma persistirem em multiplas varreduras

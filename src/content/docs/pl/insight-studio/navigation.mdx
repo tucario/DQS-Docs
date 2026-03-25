@@ -1,0 +1,80 @@
+---
+title: Nawigacja
+description: Jak poruszać się po wielopoziomowym pulpicie Insight Studio.
+---
+
+## Głębokość nawigacji
+
+Insight Studio zapewnia **6-poziomową hierarchię** przechodzenia w głąb:
+
+```
+Home → Object → Definition → Scan → Field → Dimension
+```
+
+### Poziom 1: Home
+
+Widok najwyższego poziomu pokazujący wszystkie zeskanowane obiekty z ich najnowszymi wynikami jakości. Użyj go, aby zidentyfikować, które obiekty wymagają uwagi.
+
+![Strona główna DQS — przegląd z liczbą definicji, skanów, aktywnych harmonogramów i tabelą ostatniej aktywności](../../../../assets/screenshots/dqs-home.png)
+
+### Poziom 2: Object
+
+Pokazuje wszystkie definicje dla wybranego obiektu z ogólnym wynikiem jakości, datą ostatniego skanu, statusem i kartami definicji. Porównuj różne konfiguracje skanów i ich wyniki obok siebie.
+
+![Widok obiektu Case — ogólny wynik 64,7%, 2 definicje z indywidualnymi wynikami i liczbą skanów](../../../../assets/screenshots/object-with-definitions.png)
+
+### Poziom 3: Definition
+
+Główny pulpit dla pojedynczej definicji. Posiada cztery zakładki:
+
+- **Overview** — Ogólny wynik jakości, paski wyników wymiarów, wykres Score Trend i panel Record Scores
+- **Fields** — Macierz kondycji pól z wynikami per pole w poszczególnych wymiarach
+- **Scans** — Pełna historia skanów z wynikami per uruchomienie
+- **Exports** — Pobieranie szczegółów naruszeń jako CSV per wymiar i pole, lub podejmowanie akcji przez Create Tasks i Post Chatter
+
+![Pulpit definicji — ogólny wynik 85,8%, podział na wymiary, wykres Score Trend i Record Scores](../../../../assets/screenshots/object-with-latest-scans.png)
+
+Zakładka **Fields** pokazuje wynik każdego pola per wymiar w kolorowej macierzy — czerwony dla słabych, zielony dla dobrych. Użyj jej, aby szybko znaleźć najsłabsze pola.
+
+![Zakładka Fields — macierz kondycji pól z wynikami per wymiar, kodowana kolorami według klasy](../../../../assets/screenshots/object-fields-section.png)
+
+Zakładka **Exports** wymienia dostępne eksporty per wymiar i pole, z przyciskami pobierania i historią eksportów.
+
+![Zakładka Exports — historia eksportów i przyciski eksportu per pole dla każdego wymiaru](../../../../assets/screenshots/object-exports-tab.png)
+
+Z zakładki Overview kliknij **Compare** na wykresie Score Trend, aby porównać dwa skany obok siebie — zobacz różnice na poziomie wymiarów i pól między skanem bazowym a porównawczym.
+
+![Modalne okno Compare Results — bazowy vs porównawczy z zmianami wymiarów i najważniejszymi zmianami pól](../../../../assets/screenshots/object-compare-results.png)
+
+### Poziom 4: Scan
+
+Szczegółowe wyniki dla konkretnego uruchomienia skanu. Zakładka **Scans** pokazuje pełną historię skanów ze wskaźnikami statusu, wynikami i podziałem na wymiary dla każdego uruchomienia.
+
+![Zakładka Scans pokazująca historię skanów z datami, wynikami, statusem i wynikami per wymiar](../../../../assets/screenshots/object-scans-tab.png)
+
+### Poziom 5: Field
+
+Wyniki dla pojedynczego pola we wszystkich wymiarach. Przydatne do zrozumienia, dlaczego konkretne pole uzyskuje niskie wyniki.
+
+### Poziom 6: Dimension
+
+Najgłębszy poziom — indywidualne wyniki metryk dla jednego pola w jednym wymiarze. Pokazuje surowe dane ewaluacji.
+
+## Panel boczny
+
+Prawy panel boczny pokazuje kontekst i akcje dla bieżącej definicji:
+
+- **Nagłówek** — Nazwa definicji, ogólny wynik z klasą, liczba skanów i przycisk odświeżania
+- **Run Scan** — Ręczne wyzwolenie skanu, z datą ostatniego skanu wyświetloną poniżej
+- **Analyze** — Rozwijane menu **Actions** z opcjami **Export Report**, **Create Tasks** i **Post Chatter** ([szczegóły](/pl/insight-studio/actions/))
+- **Configure** — **Manage Schedule** z odliczaniem do następnego zaplanowanego uruchomienia (np. „Next in 8h 28m")
+- **Navigate** — **Open in Salesforce** (zewnętrzny link do rekordu definicji) i **View Records** (przeglądanie zeskanowanych rekordów)
+- **Quick Fix** — Wyróżnia najsłabiej oceniane pole z wynikiem (np. „Description at 9.6% — worst field") i bezpośredni link **Investigate** do przejścia w głąb
+
+![Panel boczny z sekcjami Run Scan, Analyze, Configure, Navigate i Quick Fix](../../../../assets/screenshots/sidebar-panel.png)
+
+## Nawigacja okruszkowa
+
+Ścieżka okruszkowa na górze obszaru Stage pokazuje bieżącą pozycję w hierarchii. Kliknij dowolny segment, aby przejść z powrotem do tego poziomu.
+
+![Ścieżka okruszkowa: Home → Case → Case SLA Compliance Check → DQR-0007 → Case Number](../../../../assets/screenshots/insight-studio-breadcumbs.png)
