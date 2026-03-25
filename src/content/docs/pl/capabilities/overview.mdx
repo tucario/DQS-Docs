@@ -1,0 +1,66 @@
+---
+title: Zdolności jakości
+description: Przegląd 6 wymiarów jakości danych w Data Quality Sense.
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## 6 wymiarów jakości danych
+
+Data Quality Sense ocenia dane w ramach **6 odrębnych wymiarów jakości** (zdolności). Każdy wymiar koncentruje się na innym aspekcie jakości danych i generuje niezależne wyniki, które składają się na ogólną ocenę jakości.
+
+<CardGrid>
+	<Card title="Completeness" icon="approve-check-circle">
+		Mierzy, czy pola zawierają wartości. Wykrywa puste, null i brakujące dane w wybranych polach.
+		[Dowiedz się więcej →](/pl/capabilities/completeness/)
+	</Card>
+	<Card title="Validity" icon="approve-check-circle">
+		Sprawdza, czy wartości odpowiadają oczekiwanym formatom, zakresom i wzorcom. Obsługuje walidację picklist i dopasowywanie regex.
+		[Dowiedz się więcej →](/pl/capabilities/validity/)
+	</Card>
+	<Card title="Uniqueness" icon="approve-check-circle">
+		Identyfikuje zduplikowane wartości w rekordach. Oznacza pola, w których oczekiwane są unikalne wartości, ale istnieją duplikaty.
+		[Dowiedz się więcej →](/pl/capabilities/uniqueness/)
+	</Card>
+	<Card title="Timeliness" icon="approve-check-circle">
+		Ocenia, czy dane są aktualne. Mierzy świeżość na podstawie konfigurowalnych okien czasowych.
+		[Dowiedz się więcej →](/pl/capabilities/timeliness/)
+	</Card>
+	<Card title="Consistency" icon="approve-check-circle">
+		Sprawdza logiczną spójność między powiązanymi polami. Wykrywa sprzeczności, np. datę zamknięcia wcześniejszą niż data otwarcia.
+		[Dowiedz się więcej →](/pl/capabilities/consistency/)
+	</Card>
+	<Card title="PII Detection" icon="approve-check-circle">
+		Skanuje pola tekstowe w poszukiwaniu danych osobowych. Wspomaga zgodność z przepisami o ochronie danych.
+		[Dowiedz się więcej →](/pl/capabilities/pii-detection/)
+	</Card>
+</CardGrid>
+
+## Jak działa punktacja
+
+Każda zdolność generuje **wynik od 0 do 100** dla każdego skanowanego pola:
+
+- **100** — Doskonała jakość dla tego wymiaru
+- **75–99** — Dobra, z drobnymi problemami
+- **50–74** — Umiarkowana jakość, zalecana uwaga
+- **0–49** — Niska jakość, wymagane działanie
+- **0** — Brak danych do zmierzenia (np. wszystkie pola puste)
+
+Wyniki są agregowane:
+1. **Wynik pola** — Indywidualny wynik pola dla danej zdolności
+2. **Wynik wymiaru** — Średnia ze wszystkich pól dla jednej zdolności
+3. **Wynik definicji** — Średnia ważona ze wszystkich wymiarów
+
+## Zastosowanie zdolności
+
+Nie wszystkie zdolności mają zastosowanie do wszystkich typów pól. DQS automatycznie obsługuje nieodpowiednie kombinacje:
+
+| Typ pola | Completeness | Validity | Uniqueness | Timeliness | Consistency | PII Detection |
+|----------|:---:|:---:|:---:|:---:|:---:|:---:|
+| Text | ✓ | ✓ | ✓ | — | ✓ | ✓ |
+| Number | ✓ | ✓ | ✓ | — | ✓ | — |
+| Date | ✓ | ✓ | — | ✓ | ✓ | — |
+| Picklist | ✓ | ✓ | — | — | ✓ | — |
+| Boolean | ✓ | — | — | — | ✓ | — |
+| Email | ✓ | ✓ | ✓ | — | — | ✓ |
+| Phone | ✓ | ✓ | ✓ | — | — | ✓ |

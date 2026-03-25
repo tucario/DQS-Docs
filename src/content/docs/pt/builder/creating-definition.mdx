@@ -1,0 +1,66 @@
+---
+title: Criando uma Definicao
+description: Como criar uma nova definicao de varredura no DQS Builder.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## O que e uma Definicao?
+
+Uma **definicao** e a unidade central de configuracao no DQS. Ela especifica:
+- Qual objeto Salesforce varrer
+- Quais campos avaliar
+- Quais dimensoes de qualidade (capacidades) medir
+- Substituicoes opcionais de limites por campo
+
+## Criando uma Nova Definicao
+
+1. **Clique em "New Definition"**
+
+   Na aba Builder, clique no botao **New Definition** no canto superior esquerdo. Um dialogo de criacao abre com pesquisa de objetos, definicoes recentes e objetos sugeridos.
+
+2. **Selecione o objeto de destino**
+
+   Escolha o SObject que voce deseja varrer. Voce pode pesquisar todos os objetos na sua org, escolher entre **Recent Definitions** (objetos para os quais voce ja criou definicoes) ou selecionar da lista **Suggested** (Account, Opportunity, Contact, Case, Lead). O dialogo mostra quantos registros e definicoes existentes cada objeto possui.
+
+3. **Insira um nome para a definicao**
+
+   Depois de selecionar um objeto, o painel do lado direito mostra um campo de nome com **sugestoes** geradas automaticamente com base no objeto (por exemplo, "Opportunity Quality Profile", "Opportunity Completeness Audit"). Escolha uma sugestao ou digite seu proprio nome.
+
+4. **Clique em "+ Create"**
+
+   A definicao e criada com status **Draft** e abre no assistente do Builder.
+
+![Dialogo New Definition — selecione um objeto, nomeie sua definicao e clique em Create](../../../../assets/screenshots/def-builder-start-new.png)
+
+<Aside type="note">
+Objetos tecnicos (aqueles com nomes de API que comecam com prefixos internos comuns) sao filtrados por padrao para manter a lista de objetos gerenciavel.
+</Aside>
+
+## Configuracoes da Definicao
+
+Apos a criacao, voce pode configurar:
+
+| Configuracao | Descricao |
+|--------------|-----------|
+| **Name** | Nome de exibicao mostrado em listas e no Insight Studio |
+| **Object** | O SObject de destino (nao pode ser alterado apos a criacao) |
+| **Description** | Notas opcionais sobre o proposito da varredura |
+| **Status** | Estagio atual do ciclo de vida (Draft, Ready, Active, Obsolete) |
+
+## Editando Definicoes Existentes
+
+Abra qualquer definicao a partir da tabela de atividades recentes na aba **Home**, ou da arvore de navegacao na barra lateral do Builder. Definicoes Active podem ser editadas — as alteracoes entram em vigor na proxima varredura.
+
+## Excluindo Definicoes
+
+O botao de exclusao (icone de lixeira) so esta disponivel quando **ambas** as condicoes sao atendidas:
+
+- A definicao esta com status **Draft**
+- Voce tem o permission set **DQS Admin** atribuido
+
+Definicoes Active ou concluidas nao podem ser excluidas — retire-as para o status Obsolete.
+
+![Botao de exclusao em uma definicao Draft — visivel apenas para administradores](../../../../assets/screenshots/remove-definition-as-admin.png)
+
+Excluir uma definicao remove todos os detalhes de definicao associados, mas preserva os resultados historicos de varredura para fins de auditoria.

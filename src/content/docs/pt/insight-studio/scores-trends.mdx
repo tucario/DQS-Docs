@@ -1,0 +1,66 @@
+---
+title: Pontuacoes e Tendencias
+description: Entendendo pontuacoes de qualidade, notas e analise de tendencias no Insight Studio.
+---
+
+## Exibicao de Pontuacoes
+
+Cada nivel no Insight Studio mostra pontuacoes de qualidade com indicadores visuais:
+
+### Notas de Pontuacao
+
+| Faixa de Pontuacao | Nota | Cor |
+|--------------------|------|-----|
+| 90-100 | Excelente | Verde |
+| 75-89 | Bom | Verde Claro |
+| 50-74 | Regular | Amarelo/Laranja |
+| 25-49 | Ruim | Laranja |
+| 0-24 | Critico | Vermelho |
+
+![Resultado do campo — Completeness Rate 100%, Fill Rate Analysis, barras de Field Utilization e detalhes de configuracao](../../../../assets/screenshots/insight-studio-field-result.png)
+
+### Cartoes de Pontuacao
+
+O painel da definicao mostra **cartoes de dimensao** — um para cada capacidade habilitada — com:
+- Pontuacao numerica (0-100)
+- Indicador de nota (codificado por cor)
+- Seta de variacao (melhoria, regressao, estavel)
+- Sparkline mostrando a tendencia recente
+
+## Analise de Tendencias
+
+### Sparklines
+
+Pequenos graficos em linha ao lado de cada pontuacao mostrando os ultimos resultados de varredura. Uteis para identificar tendencias sem navegar para visualizacoes detalhadas.
+
+### Grafico Score Trend
+
+Um grafico de tendencia maior disponivel no nivel de definicao mostrando:
+- Pontuacao ao longo do tempo para cada dimensao
+- Linha de tendencia da pontuacao geral
+- Datas de varredura no eixo x
+
+![Painel da definicao — pontuacao geral 85.8%, barras de dimensao Completeness e Validity, grafico Score Trend com multiplas varreduras](../../../../assets/screenshots/insight-studio-object.png)
+
+### Comparacao de Varreduras
+
+![Modal Compare Results — varredura base vs comparacao com deltas de dimensao e campo](../../../../assets/screenshots/insight-studio-compare.png)
+
+Compare duas varreduras especificas para ver deltas detalhados:
+- **Deltas de dimensao** — Quais capacidades melhoraram ou regrediram
+- **Deltas de campo** — Quais campos mudaram e em quanto
+- Selecione quaisquer duas varreduras do historico de varreduras
+
+## Visualizacoes de Dois Estados
+
+Alguns componentes se adaptam com base na disponibilidade de dados:
+- **Sem varreduras ainda** — Mostra um aviso para acionar a primeira varredura
+- **Resultados disponiveis** — Mostra o painel completo com pontuacoes e graficos
+
+## Resumo de KPIs
+
+O topo da visualizacao de definicao mostra indicadores-chave de desempenho:
+- **Pontuacao Geral** — Media ponderada entre todas as dimensoes
+- **Campos Varridos** — Total de campos incluidos
+- **Registros Avaliados** — Total de registros no escopo
+- **Ultima Varredura** — Timestamp da varredura mais recente

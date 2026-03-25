@@ -1,0 +1,62 @@
+---
+title: Retencao de Dados
+description: Configure a limpeza automatizada de resultados de varredura e logs de erros.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Politicas de Retencao
+
+O DQS inclui **purga automatizada de dados** para prevenir o crescimento ilimitado de resultados de varredura e logs de erros. As politicas de retencao sao configuradas via Custom Metadata Types e podem ser ajustadas pelos administradores.
+
+## Configuracao
+
+Todas as configuracoes de retencao sao armazenadas em `DQS_Configuration__mdt` (Category: "Retention"):
+
+| Configuracao | Padrao | Descricao |
+|--------------|--------|-----------|
+| **Error Log Retention** | 7 dias | Dias antes dos logs de erro serem excluidos |
+| **Scan Result Retention** | 30 dias | Dias antes dos resultados de dimensao serem purgados |
+| **Purge Batch Size** | 2.000 | Registros processados por chunk do lote |
+| **Purge CRON Expression** | `0 0 2 * * ?` | Quando o job de purga e executado (padrao: diariamente as 2h) |
+
+<Aside type="tip">
+Essas configuracoes sao Subscriber Controlled — os administradores podem substituir os valores padrao apos a instalacao do pacote.
+</Aside>
+
+## Como a Purga Funciona
+
+O processo de purga e executado como um **job em lote encadeado**:
+
+```
+DQS_DataPurgeScheduler (CRON trigger)
+  └── DQS_ErrorLogPurgeBatch
+       (deletes error logs where Expires_At <= NOW)
+       └── DQS_ResultPurgeBatch
+            (deletes dimension results older than retention window)
+            └── Cascade: Field Results + Metric Results
+                 (deleted automatically via master-detail relationship)
+```
+
+### Exclusao em Cascata
+
+Quando um registro `DQS_Dimension_Result__c` e excluido:
+- Todos os registros filhos `DQS_Field_Result__c` sao automaticamente excluidos
+- Todos os registros netos `DQS_Metric_Result__c` sao automaticamente excluidos
+
+Isso acontece via cascata master-detail do Salesforce — nenhum processamento em lote adicional e necessario.
+
+## Ajustando a Retencao
+
+Para alterar os periodos de retencao:
+
+1. Navegue ate **Setup → Custom Metadata Types → DQS Configuration**
+2. Encontre o registro relevante (por exemplo, `Scan_Result_Retention_Days`)
+3. Edite o valor
+4. As alteracoes entram em vigor na proxima execucao de purga
+
+## Monitoramento
+
+- Verifique o **Console de Gerenciamento de Erros** para erros de jobs de purga
+- Revise `DQS_DataPurgeScheduler` em **Setup → Scheduled Jobs** para verificar se a purga esta sendo executada
+- Use relatorios do Salesforce para monitorar o volume de resultados ao longo do tempo

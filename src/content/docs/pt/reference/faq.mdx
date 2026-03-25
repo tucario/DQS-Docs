@@ -1,0 +1,80 @@
+---
+title: FAQ
+description: Perguntas frequentes sobre o Data Quality Sense.
+---
+
+## Geral
+
+### Quais edicoes do Salesforce sao suportadas?
+
+O Data Quality Sense funciona com edicoes **Enterprise**, **Unlimited** e **Developer**. Requer que o Lightning Experience esteja habilitado.
+
+### O DQS requer alguma integracao externa?
+
+Nao. O DQS e **100% nativo do Salesforce**. Todo o processamento, armazenamento e visualizacao acontece dentro da sua org Salesforce. Nenhum dado sai da sua org.
+
+### O que e o namespace `dqssens`?
+
+E o **namespace do managed package** do Data Quality Sense. Todos os objetos personalizados, classes Apex e componentes LWC sao prefixados com este namespace para evitar conflitos de nomes com suas customizacoes existentes.
+
+## Instalacao
+
+### Posso instalar o DQS em um sandbox primeiro?
+
+Sim, e nos recomendamos isso. Instale em um sandbox para avaliar o produto, depois instale em producao quando estiver pronto.
+
+### A instalacao do DQS afetara meus dados existentes?
+
+Nao. O DQS apenas **le** seus dados existentes durante as varreduras. Ele nunca modifica seus dados de negocio. Ele cria seus proprios objetos personalizados para armazenar configuracoes e resultados de varredura.
+
+### Como faco para atualizar para uma versao mais recente?
+
+Use a mesma URL de instalacao. O Salesforce detecta o pacote existente e oferece um caminho de atualizacao. Suas definicoes e resultados sao preservados.
+
+## Configuracao
+
+### Quantas definicoes posso criar?
+
+Nao ha limite rigido para o numero de definicoes. Porem, cada definicao com um agendamento ativo consome um slot de Apex agendado do Salesforce (maximo de 100 por org).
+
+### Posso varrer objetos personalizados?
+
+Sim. O DQS pode varrer **qualquer SObject padrao ou personalizado** ao qual voce tem acesso de leitura.
+
+### Posso alterar o objeto de destino de uma definicao?
+
+Nao. O objeto de destino e definido no momento da criacao e nao pode ser alterado. Crie uma nova definicao para um objeto diferente.
+
+## Varredura
+
+### Quanto tempo leva uma varredura?
+
+Depende do numero de registros, campos e capacidades. Uma varredura tipica de 10.000 registros com 3 capacidades leva alguns minutos. Consulte [Limites](/pt/reference/limits/) para estimativas detalhadas.
+
+### Posso executar multiplas varreduras simultaneamente?
+
+Cada varredura usa um job em lote do Salesforce. O Salesforce permite ate 5 jobs em lote simultaneos por org, entao teoricamente sim — mas recomendamos escalonar as varreduras para evitar problemas com governor limits.
+
+### O que acontece se uma varredura falhar?
+
+O erro e registrado no [Console de Gerenciamento de Erros](/pt/processing/error-management/) via platform events. Resultados parciais de dimensoes concluidas sao preservados.
+
+## Resultados
+
+### Por quanto tempo os resultados sao mantidos?
+
+Por padrao, os resultados de varredura sao mantidos por **30 dias** e os logs de erros por **7 dias**. Estes podem ser ajustados via [configuracoes de retencao](/pt/processing/data-retention/).
+
+### Posso exportar resultados?
+
+Sim. O Insight Studio suporta [exportacao CSV](/pt/insight-studio/exports/) de detalhes de violacoes para qualquer dimensao.
+
+### O que significa uma pontuacao de 0?
+
+Uma pontuacao de 0 significa que **nao havia dados para medir** (denominador zero) — nao necessariamente que todos os dados sao ruins. Por exemplo, se todos os campos sao nulos, Completeness nao pode calcular uma taxa de preenchimento significativa.
+
+## Suporte
+
+### Onde posso obter ajuda?
+
+Visite [dataqualitysense.com](https://dataqualitysense.com) para opcoes de suporte, atualizacoes de documentacao e informacoes de contato.

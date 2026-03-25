@@ -1,0 +1,95 @@
+---
+title: Zeitplanung
+description: Automatisierte wiederkehrende Scans mit flexiblen Planungsoptionen einrichten.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Scan-Zeitplanung
+
+DQS unterstützt **automatisierte wiederkehrende Scans** über CRON-basierte Zeitplanung. Einmal konfiguriert, laufen Scans automatisch ohne manuellen Eingriff.
+
+## Zeitplan erstellen
+
+1. Navigieren Sie zur Definition in **Insight Studio**
+2. Öffnen Sie das **Scan Schedules**-Modal über die Seitenleiste
+3. Klicken Sie auf **Create Schedule**
+
+![Scan Schedules-Modal — noch keine Zeitpläne konfiguriert](../../../../assets/screenshots/scan-schedule.png)
+
+4. Konfigurieren Sie den Zeitplan — legen Sie die Häufigkeit, die Uhrzeit und optional einen Namen fest:
+
+![Neues Zeitplanformular mit Häufigkeits- und Uhrzeitkonfiguration](../../../../assets/screenshots/screate-schedule2.png)
+
+5. Überprüfen und **speichern** Sie den Zeitplan:
+
+![Ausgefülltes Zeitplanformular mit dem Namen „Case SLA Daily Check"](../../../../assets/screenshots/scan-schedule3.png)
+
+<video src="/videos/manage-schedule.mp4" controls muted loop style="width:100%;border-radius:0.5rem;border:1px solid var(--sl-color-hairline-light)">Ihr Browser unterstützt das Video-Tag nicht.</video>
+
+## Zeitplaneinstellungen
+
+| Einstellung | Beschreibung | Beispiel |
+|-------------|-------------|---------|
+| **Name** | Anzeigename für den Zeitplan | Case SLA Daily Check |
+| **Frequency** | Wie oft der Scan läuft | Daily, Weekly, Monthly |
+| **Time** | Zu welcher Tageszeit ausgeführt wird | 06:30 |
+| **Day of Week** | Für wöchentliche Zeitpläne | Monday |
+| **Day of Month** | Für monatliche Zeitpläne | 1st |
+
+## CRON-Ausdrücke
+
+Unter der Haube verwenden Zeitpläne Salesforce CRON-Ausdrücke. DQS bietet eine **benutzerfreundliche Oberfläche**, die den CRON-Ausdruck für Sie generiert, aber fortgeschrittene Benutzer können auch benutzerdefinierte Ausdrücke festlegen.
+
+### Häufige Zeitpläne
+
+| Zeitplan | CRON-Ausdruck |
+|----------|---------------|
+| Täglich um 2 Uhr | `0 0 2 * * ?` |
+| Wöchentlich Montag um 6 Uhr | `0 0 6 ? * MON` |
+| Monatlich am 1. um Mitternacht | `0 0 0 1 * ?` |
+| Jeden Werktag um 5 Uhr | `0 0 5 ? * MON-FRI` |
+
+## Zeitplanverwaltung
+
+### Zeitpläne anzeigen
+
+Das Scan Schedules-Modal zeigt alle konfigurierten Zeitpläne mit Status, Häufigkeit und nächster Ausführungszeit an. Der Zähler zeigt, wie viele geplante Jobs vom Salesforce-Limit genutzt werden (z. B. 2/100).
+
+![Option „Manage Schedule" in der Insight Studio-Seitenleiste](../../../../assets/screenshots/scan-schedule5.png)
+
+### Zeitpläne bearbeiten
+
+Klicken Sie auf das Bearbeitungssymbol, um Zeitplaneinstellungen zu ändern. Der bestehende Zeitplan wird durch die neue Konfiguration ersetzt.
+
+![Zeitplan bearbeiten — auf das Stiftsymbol klicken](../../../../assets/screenshots/schedule-edit.png)
+
+### Aktivieren / Deaktivieren
+
+Verwenden Sie den **Active**-Schalter, um einen Zeitplan vorübergehend zu pausieren, ohne ihn zu löschen.
+
+![Zeitplan deaktivieren — auf den Active-Schalter klicken](../../../../assets/screenshots/schedule-deactivate.png)
+
+### Zeitpläne löschen
+
+Klicken Sie auf das Löschsymbol, um einen Zeitplan zu entfernen. Manuelle Scans bleiben verfügbar.
+
+![Zeitplan entfernen — auf das Papierkorbsymbol klicken](../../../../assets/screenshots/schedule-remove.png)
+
+<Aside type="note">
+Zeitplanzeiten verwenden die Zeitzone Ihrer Salesforce-Organisation. Die Countdown-Anzeige zeigt die korrekte Ortszeit an.
+</Aside>
+
+## Audit-Trail
+
+Jeder Scan zeichnet auf, wer ihn ausgelöst hat:
+- **Manuelle Scans** — Zeichnet den Benutzer auf, der auf „Run Scan" geklickt hat
+- **Geplante Scans** — Zeichnet „Scheduled" als Auslösequelle auf
+- **Zeitstempel** — Wann der Scan gestartet und abgeschlossen wurde
+
+## Hinweise
+
+- Nur **Active** Definitionen können geplant werden
+- Laufende Scans verbrauchen Salesforce Governor Limits (Batch Apex)
+- Planen Sie Scans außerhalb der Spitzenzeiten, um die Auswirkungen zu minimieren
+- Mehrere Definitionen können zu unterschiedlichen Zeiten geplant werden

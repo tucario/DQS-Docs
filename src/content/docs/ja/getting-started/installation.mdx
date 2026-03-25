@@ -1,0 +1,78 @@
+---
+title: インストール
+description: Salesforce組織にData Quality Senseをインストールする方法。
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## 前提条件
+
+- Salesforce組織（Enterprise、Unlimited、またはDeveloper Edition）
+- System Administratorプロファイルまたは同等の権限
+- Lightning Experienceが有効であること
+
+## パッケージのインストール
+
+1. **インストールリンクを取得する**
+
+   [dataqualitysense.com](https://dataqualitysense.com)にお問い合わせいただき、お使いの組織用のマネージドパッケージインストールURLを取得してください。
+
+2. **インストール範囲を選択する**
+
+   アクセス権を付与する対象を選択します：
+   - **管理者のみにインストール** — 初期セットアップに推奨
+   - **すべてのユーザーにインストール** — 全ユーザーが即時アクセスを必要とする場合
+   - **特定のプロファイルにインストール** — きめ細かい制御が必要な場合
+
+   ![Data Quality Senseのインストール — インストール範囲の選択](../../../../assets/screenshots/installation-appexchange.png)
+
+3. **サードパーティアクセスを承認する**
+
+   このパッケージは外部コールアウトを必要としません。すべての処理はSalesforce組織内で行われます。
+
+4. **インストールの完了を待つ**
+
+   インストーラーが進捗を表示します。大規模な組織の場合、インストールに数分かかることがあります。完了するとメールで通知されます。
+
+   ![インストール進行中](../../../../assets/screenshots/installation-in-progress.png)
+
+   ![インストールに時間がかかっています — メール通知が届きます](../../../../assets/screenshots/installation-taking-longer.png)
+
+5. **インストールを確認する**
+
+   **Setup → Installed Packages**に移動し、`Data Quality Sense`がネームスペース`dqssens`で表示されていることを確認します。
+
+   ![Salesforce SetupのInstalled PackagesにData Quality Senseパッケージが表示されている](../../../../assets/screenshots/installed-packages.png)
+
+<Aside type="tip">
+インストール後、[権限設定](/ja/getting-started/permissions/)に進んでユーザーアクセスを構成してください。
+</Aside>
+
+## アプリの有効化
+
+インストール後、Data Quality Senseはまだ**有効化されていません**。初めてアプリを開くと、有効化が必要であることを示すロック画面が表示されます。
+
+![Data Quality Senseが有効化されていません — Contact Us to Activateボタンのあるロック画面](../../../../assets/screenshots/installation-not-activated.png)
+
+**Contact Us to Activate**をクリックすると、Org IDと詳細情報が入力済みのメールが開きます。[hello@tucario.com](mailto:hello@tucario.com)に直接メールを送ることもできます。
+
+![Org IDが入力済みの有効化リクエストメール](../../../../assets/screenshots/send-email-to-activate.png)
+
+リモートでアプリを有効化いたします。お客様側で追加のインストール手順は不要です。有効化が完了すると、ロック画面が消え、**20回のスキャン**が含まれた状態でアプリをご利用いただけます。
+
+<Aside type="note">
+有効化はSalesforce組織に紐づいています。新しい組織（サンドボックスなど）にパッケージをインストールした場合、別途有効化が必要です。
+</Aside>
+
+## インストール後の内容
+
+パッケージには以下がインストールされます：
+- 定義、結果、スケジューリング用のカスタムオブジェクト
+- ケイパビリティ、メトリクス、設定用のCustom Metadata Types
+- BuilderとInsight Studio用のLightning Web Components
+- バッチ処理とAPIコントローラー用のApexクラス
+- ロールベースアクセス用のPermission Sets
+
+## パッケージの更新
+
+新しいバージョンにアップグレードするには、同じインストールリンクを使用してください。Salesforceが既存のパッケージを検出し、アップグレードパスを提供します。スキャン定義と結果はアップグレード時に保持されます。

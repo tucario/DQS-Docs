@@ -1,0 +1,70 @@
+---
+title: Uniqueness
+description: Identyfikuj zduplikowane wartości w rekordach danych Salesforce.
+---
+
+## Czym jest Uniqueness?
+
+Uniqueness mierzy, czy wartości pól są **unikalne w obrębie rekordów**. Wysoka unikalność oznacza, że każdy rekord ma inną wartość danego pola — niska unikalność wskazuje na duplikaty.
+
+## Jak to działa
+
+Dla każdego pola strategia Uniqueness:
+
+1. Zbiera wszystkie niepuste wartości ze wszystkich rekordów w zakresie
+2. Identyfikuje zduplikowane wartości
+3. Oblicza: `(unikalne wartości / łączna liczba wypełnionych wartości) × 100`
+
+## Konfiguracja
+
+### Ustawienia globalne
+
+Sekcja **Defaults** kontroluje globalne opcje unikalności:
+
+| Ustawienie | Opis |
+|------------|------|
+| **Case-sensitive matching** | Gdy włączone, „John Smith" i „john smith" są traktowane jako różne wartości do porównania. Gdy wyłączone, liczą się jako duplikaty. |
+| **Include blanks in uniqueness checks** | Gdy włączone, puste i null wartości są traktowane jako odrębne wartości w obliczeniach porównawczych. |
+
+Tabela **Field Overrides** poniżej wymienia każde pole z bieżącymi ustawieniami Case Sensitive, Include Blanks i statusem.
+
+![Konfiguracja Uniqueness z wartościami domyślnymi (Matching Options, Blank Handling) i tabelą Field Overrides](../../../../assets/screenshots/unqueness-generic-view.png)
+
+### Nadpisania per pole
+
+Kliknij pole w tabeli Field Overrides, aby otworzyć modalne okno konfiguracji. Możesz przełączać **Case-sensitive matching** i **Include blanks in uniqueness checks** niezależnie od ustawień globalnych. Użyj linku **Revert to Global**, aby przywrócić pole do ustawień globalnych.
+
+![Modalne okno konfiguracji per pole dla pola Phone z opcjami Case Sensitivity i Blank Handling](../../../../assets/screenshots/generic-per-field-override.png)
+
+## Punktacja
+
+| Wynik | Punkty |
+|-------|--------|
+| Wszystkie wartości unikalne | 100 |
+| Niektóre duplikaty | Proporcjonalnie do procentu unikalnych |
+| Wszystkie wartości identyczne | Blisko 0 |
+| Brak danych | 0 |
+
+## Limit analizy
+
+Analiza unikalności przetwarza do **40 000 rekordów na skan**. Dla obiektów z większą liczbą rekordów wyniki odzwierciedlają reprezentatywną próbkę. Limit ten istnieje, aby zapobiec przepełnieniu pamięci sterty Salesforce, ponieważ silnik buduje mapę liczników wartości per pole w pamięci. Pola przekraczające 40 000 odrębnych wartości są oznaczane jako pola o wysokiej kardynalności.
+
+## Zastosowane typy pól
+
+Uniqueness jest najbardziej przydatne dla:
+- **Email** — powinien być unikalny na kontakt/lead
+- **Phone** — często unikalny na osobę
+- **External IDs** — muszą być unikalne z definicji
+- **Pola tekstowe** — nazwy, opisy
+
+Mniej przydatne dla:
+- **Boolean** — tylko dwie możliwe wartości
+- **Picklist** — ograniczony zestaw wartości z założenia
+- **Date** — wiele rekordów może dzielić te same daty
+
+## Przypadki użycia
+
+- Wykrywanie zduplikowanych adresów e-mail w kontaktach lub leadach
+- Weryfikacja, czy pola external ID są rzeczywiście unikalne
+- Identyfikacja problemów z wprowadzaniem danych, gdy ta sama wartość jest kopiowana między rekordami
+- Monitorowanie działań deduplikacyjnych w czasie

@@ -1,0 +1,80 @@
+---
+title: Wybór pól
+description: Jak wybrać pola do definicji skanu jakości danych.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Selektor pól
+
+Selektor pól to drugi etap kreatora Builder. Wyświetla wszystkie dostępne pola wybranego obiektu w paginowanej tabeli.
+
+![Selektor pól pokazujący wszystkie pola obiektu Opportunity z wyszukiwaniem, filtrem typów i polami wyboru](../../../../assets/screenshots/def-builder-step2-scope.png)
+
+## Funkcje
+
+### Wyszukiwanie i filtrowanie
+
+- **Wyszukiwanie** — Filtrowanie pól według etykiety lub nazwy API
+- **Filtr typu pola** — Wyświetlanie tylko określonych typów pól (Text, Number, Picklist itp.)
+- **Sortowalne kolumny** — Sortowanie według etykiety pola, nazwy API lub typu pola
+
+![Przefiltrowany widok pól pokazujący wyniki wyszukiwania po wpisaniu zapytania — wyświetlane są tylko pasujące pola](../../../../assets/screenshots/def-builder-step2-scope-filtered.png)
+
+### Informacje o polach
+
+Dla każdego pola selektor wyświetla:
+
+| Kolumna | Opis |
+|---------|------|
+| **Label** | Nazwa wyświetlana pola |
+| **API Name** | Nazwa deweloperska (np. `BillingCity`) |
+| **Type** | Typ danych pola (Text, Number, Date, Picklist itp.) |
+| **Required** | Czy pole jest wymagane w układzie |
+
+### Zaznaczanie zbiorcze
+
+Użyj linku **Select All**, aby dodać wszystkie dostępne pola do zakresu naraz — link pokazuje łączną liczbę pól (np. „Select All (71)"). Aby usunąć wszystkie zaznaczenia, kliknij **Clear All**. Pasek nagłówka wyświetla bieżące liczniki **Selected** i **Available**, dzięki czemu zawsze wiesz, ile pól jest w zakresie.
+
+Zaznaczenia są zachowywane między stronami — możesz zaznaczyć pola na stronie 1, przejść do strony 2, a zaznaczenia zostaną zachowane. Panel **Scope Stats** po prawej stronie podsumowuje bieżący wybór.
+
+![Link Select All w nagłówku selektora pól do zbiorczego zaznaczania wszystkich dostępnych pól](../../../../assets/screenshots/select-all-fields.png)
+
+## Uwagi dotyczące pól
+
+<Aside type="tip">
+Nie wszystkie typy pól mają zastosowanie do wszystkich zdolności. Na przykład Uniqueness może nie mieć sensu dla pól Boolean. DQS automatycznie obsługuje nieodpowiednie kombinacje.
+</Aside>
+
+### Zalecane pola
+
+Aby uzyskać kompleksowy skan, uwzględnij:
+- **Kluczowe pola identyfikacyjne** — Name, Email, Phone
+- **Pola adresowe** — dla Completeness i Validity
+- **Pola daty** — dla Timeliness
+- **Pola Picklist** — dla Validity i Consistency
+- **Pola tekstowe** — dla Completeness i PII Detection
+
+### Pola do unikania
+
+- Pola generowane przez system (Id, CreatedDate, LastModifiedDate) — są zawsze wypełnione
+- Pola formuł — ich wartości są obliczane, a nie wprowadzane przez użytkowników
+- Pola zaszyfrowane — mogą nie być odczytywalne przez silnik skanowania
+
+## Widok zakresu
+
+Widok zakresu to główna przestrzeń robocza do wyboru i przeglądania pól:
+
+1. **Krok Scope** — Kliknij krok **Scope** w pasku bocznym kreatora Builder, aby załadować wszystkie pola obiektu docelowego. Tutaj definiujesz, które pola zostaną uwzględnione w skanie jakości danych.
+
+2. **All Fields** — Domyślny widok pokazujący każde pole obiektu. Użyj tej zakładki do przeglądania pełnej listy, zaznaczania lub odznaczania pól oraz sprawdzania etykiety, nazwy API, typu i tego, czy pole jest standardowe, czy niestandardowe. Zaznaczone pola są wyróżnione na liście.
+
+3. **Filtr Selected** — Przełącz na ten widok, aby zobaczyć tylko pola już dodane do zakresu. Licznik pokazuje, ile pól jest zaznaczonych (np. „Selected: 2"). Użyj go do szybkiego przeglądu wyborów i usunięcia niepotrzebnych pól.
+
+4. **Filtr Available** — Pokazuje tylko pola, które nie są jeszcze w zakresie. Licznik wyświetla, ile pozostało (np. „Available: 16"). Przydatny, gdy chcesz przeglądać, co jeszcze można dodać, bez przewijania już zaznaczonych pól.
+
+5. **Filtr Type** — Rozwijana lista **All Types** pozwala zawęzić listę pól do określonego typu danych — Text, Number, Date, Picklist, Boolean, Lookup i inne. Połącz go z innymi filtrami, aby szybko znaleźć potrzebne pola (np. wyświetl tylko dostępne pola Picklist).
+
+Panel **Scope Stats** po prawej stronie podsumowuje wybór z liczbą pól i wskaźnikiem **Ready to proceed**, gdy zaznaczono co najmniej jedno pole.
+
+![Widok zakresu z listą pól, wyszukiwaniem, filtrem typów i licznikami zaznaczenia](../../../../assets/screenshots/field-scope-view.png)

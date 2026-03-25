@@ -1,0 +1,65 @@
+---
+title: Timeliness
+description: Évaluer si vos données sont actuelles et à jour.
+---
+
+## Qu'est-ce que Timeliness ?
+
+Timeliness mesure si les champs de date et datetime contiennent des **valeurs récentes et à jour**. Cette dimension répond à la question : « Ces données sont-elles encore fraîches ? »
+
+## Fonctionnement
+
+Pour chaque champ de date, la stratégie Timeliness :
+
+1. Lit la valeur date/datetime
+2. Calcule l'ancienneté (différence entre la valeur et la date actuelle)
+3. Compare l'ancienneté à la fenêtre de fraîcheur configurée
+4. Marque les valeurs plus anciennes que la fenêtre comme « périmées »
+
+## Configuration
+
+### Paramètres globaux
+
+La section **Defaults** contrôle les options globales de Timeliness :
+
+| Paramètre | Description |
+|-----------|-------------|
+| **Freshness Threshold** | La fenêtre de fraîcheur par défaut en jours — les enregistrements plus anciens que ce seuil sont considérés comme périmés. |
+| **Null Handling** | **Treat null dates as stale** — lorsqu'activé, les enregistrements sans valeur de date comptent comme des données périmées. |
+| **Overdue Tracking** | Activer le suivi des retards par défaut. Signale les enregistrements dépassant leur date attendue. *(PRO)* |
+| **Operational Range** | Activer la validation de plage opérationnelle par défaut. Vérifie si les dates se situent dans une période acceptable. *(PRO)* |
+
+Le tableau **Field Overrides** liste chaque champ de date avec son seuil actuel, ses paramètres de retard et de fenêtre.
+
+![Configuration de Timeliness avec Defaults (Freshness Threshold, Null Handling, Overdue Tracking, Operational Range) et tableau des Field Overrides](../../../../assets/screenshots/timeliness-generic-view.png)
+
+### Surcharges par champ
+
+Cliquez sur un champ dans le tableau Field Overrides pour ouvrir sa modale de configuration. Vous pouvez définir un **Freshness Threshold** personnalisé (en jours), activer/désactiver **Null Handling**, **Overdue Tracking** et **Operational Range** indépendamment des paramètres globaux. Utilisez le lien **Revert to Global** pour réinitialiser le champ aux paramètres globaux.
+
+Différents champs de date peuvent avoir des exigences de fraîcheur différentes :
+
+| Exemple de champ | Fenêtre recommandée |
+|-----------------|---------------------|
+| `LastActivityDate` | 7 jours |
+| `LastModifiedDate` | 30 jours |
+| `Contract_End_Date__c` | 90 jours |
+| `Annual_Review_Date__c` | 365 jours |
+
+![Modale de configuration par champ pour ClosedDate avec Freshness Threshold, Null Handling, Overdue Tracking et Operational Range](../../../../assets/screenshots/timeliness-field-override.png)
+
+## Scoring
+
+| Résultat | Score |
+|----------|-------|
+| Toutes les dates dans la fenêtre | 100 |
+| Quelques dates périmées | Proportionnel au pourcentage de données fraîches |
+| Toutes les dates périmées | 0 |
+| Aucune donnée | 0 |
+
+## Cas d'utilisation
+
+- Surveiller si les commerciaux maintiennent les dates des opportunités à jour
+- Suivre les contacts périmés qui n'ont pas été mis à jour récemment
+- S'assurer que les dates liées à la conformité sont maintenues
+- Identifier les enregistrements « morts » qui pourraient nécessiter un nettoyage ou un archivage

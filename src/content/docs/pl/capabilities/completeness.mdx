@@ -1,0 +1,60 @@
+---
+title: Completeness
+description: Mierz, czy pola Salesforce zawierają wartości.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Czym jest Completeness?
+
+Completeness mierzy **wskaźnik wypełnienia** pól — procent rekordów, w których pole zawiera niepustą, niezerową wartość.
+
+## Jak to działa
+
+Dla każdego pola uwzględnionego w skanie strategia Completeness:
+
+1. Zlicza łączną liczbę rekordów w zakresie
+2. Zlicza, ile rekordów ma niepustą wartość dla tego pola
+3. Oblicza wskaźnik wypełnienia: `(wypełnione rekordy / łączna liczba rekordów) × 100`
+
+## Konfiguracja
+
+![Konfiguracja Completeness z wartościami domyślnymi (Blank Handling, Placeholder Detection), tabelą Field Overrides i panelem Guidance](../../../../assets/screenshots/completness-scope-view.png)
+
+### Ustawienia globalne
+
+| Ustawienie | Opis | Domyślnie |
+|------------|------|-----------|
+| **Expected Fill Rate** | Minimalny akceptowalny procent wypełnionych rekordów | 80% |
+
+### Nadpisania per pole
+
+Nadpisanie oczekiwanego wskaźnika wypełnienia dla poszczególnych pól. Typowe nadpisania:
+- **Pola wymagane** (Email, Name) → 100%
+- **Pola opcjonalne** (Description, Notes) → 50%
+- **Pola rzadko używane** → 20%
+
+## Punktacja
+
+| Wskaźnik wypełnienia | Wynik |
+|----------------------|-------|
+| ≥ Oczekiwany | 100 |
+| Poniżej oczekiwanego | Proporcjonalny (np. 70% wypełnienia przy progu 80% = wynik 87,5) |
+| 0% | 0 |
+
+<Aside type="note">
+Wynik 0 oznacza, że mianownik wynosił zero (brak rekordów do zmierzenia), a nie że wszystkie pola są puste.
+</Aside>
+
+## Przypadki użycia
+
+- Identyfikacja pól często pozostawianych pustych przez przedstawicieli handlowych
+- Monitorowanie zgodności wprowadzania danych dla pól wymaganych
+- Śledzenie trendów completeness w czasie po inicjatywach poprawy jakości danych
+- Zapewnienie konsekwentnego wypełniania krytycznych pól (Email, Phone)
+
+## Konfiguracja zbiorcza
+
+Użyj opcji **Bulk Config**, aby ustawić ten sam nadpisany wskaźnik wypełnienia dla wielu pól naraz — przydatne, gdy wiele pól ma ten sam wymóg completeness.
+
+![Sekcja Defaults z Blank Handling i Placeholder Detection oraz tabela Field Overrides poniżej](../../../../assets/screenshots/field-default-settings-override.png)

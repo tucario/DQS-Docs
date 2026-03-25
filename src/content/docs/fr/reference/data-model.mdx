@@ -1,0 +1,65 @@
+---
+title: Modèle de données
+description: Objets personnalisés, Custom Metadata Types et leurs relations.
+---
+
+## Objets personnalisés
+
+DQS utilise un ensemble d'objets personnalisés pour stocker les définitions, les résultats et les données de planification. Tous les objets utilisent le préfixe de namespace `dqssens`.
+
+### Objets de définition
+
+| Objet | Objectif | Champs clés |
+|-------|----------|-------------|
+| `DQS_Definition__c` | Configuration de scan | Name, Object API Name, Status, Description |
+| `DQS_Definition_Detail__c` | Configuration au niveau du champ | Definition (lookup), Field API Name, Overrides |
+
+### Objets de résultat
+
+| Objet | Objectif | Relation |
+|-------|----------|----------|
+| `DQS_Dimension_Result__c` | Résultat de scan par dimension | Definition (lookup) |
+| `DQS_Field_Result__c` | Résultat par champ au sein d'une dimension | Dimension Result (master-detail) |
+| `DQS_Metric_Result__c` | Métrique détaillée par champ | Field Result (master-detail) |
+
+### Objets de planification
+
+| Objet | Objectif |
+|-------|----------|
+| `DQS_Batch_Schedule__c` | Stocke la configuration de planification par définition |
+
+## Relations entre objets
+
+```
+DQS_Definition__c
+  ├── DQS_Definition_Detail__c (1:N)
+  ├── DQS_Batch_Schedule__c (1:1)
+  └── DQS_Dimension_Result__c (1:N per scan)
+       └── DQS_Field_Result__c (1:N, master-detail)
+            └── DQS_Metric_Result__c (1:N, master-detail)
+```
+
+## Custom Metadata Types
+
+Les CMT pilotent la configuration des capacités et leur logique d'évaluation. Ils sont contrôlés par le package et ne sont pas modifiables par les abonnés (sauf indication contraire).
+
+| CMT | Objectif | Enregistrements |
+|-----|----------|-----------------|
+| `DQS_Capability__mdt` | Définit les dimensions de qualité disponibles | 7 (un par capacité) |
+| `DQS_Dimension__mdt` | Configuration d'affichage des dimensions | 7 |
+| `DQS_Metric__mdt` | Définitions des métriques par capacité | Plusieurs par dimension |
+| `DQS_Input_Configuration__mdt` | Paramètres du configurateur d'entrée | Champs de configuration par capacité |
+| `DQS_Configuration__mdt` | Paramètres généraux de l'application | Rétention, feature flags |
+
+## Platform Events
+
+| Événement | Objectif |
+|-----------|----------|
+| `Calculation_Complete__e` | Déclenché lorsqu'un scan termine son traitement |
+| `DQS_Processing_Error__e` | Déclenché lorsqu'une erreur survient pendant le traitement par lots |
+
+## Feature Parameters
+
+| Paramètre | Objectif |
+|-----------|----------|
+| `DQS_AppEnabled` | Contrôle la porte d'activation — si l'application est licenciée et active |

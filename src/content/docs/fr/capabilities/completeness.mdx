@@ -1,0 +1,60 @@
+---
+title: Completeness
+description: Mesurer si vos champs Salesforce contiennent des valeurs.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Qu'est-ce que Completeness ?
+
+Completeness mesure le **taux de remplissage** de vos champs — le pourcentage d'enregistrements où un champ contient une valeur non nulle et non vide.
+
+## Fonctionnement
+
+Pour chaque champ inclus dans le scan, la stratégie Completeness :
+
+1. Compte le nombre total d'enregistrements dans le périmètre
+2. Compte combien d'enregistrements ont une valeur non vide pour ce champ
+3. Calcule le taux de remplissage : `(enregistrements renseignés / total d'enregistrements) × 100`
+
+## Configuration
+
+![Configuration de Completeness avec Defaults (Blank Handling, Placeholder Detection), tableau des Field Overrides et panneau de Guidance](../../../../assets/screenshots/completness-scope-view.png)
+
+### Paramètres globaux
+
+| Paramètre | Description | Par défaut |
+|-----------|-------------|------------|
+| **Expected Fill Rate** | Le pourcentage minimum acceptable d'enregistrements renseignés | 80 % |
+
+### Surcharges par champ
+
+Surchargez le taux de remplissage attendu pour des champs individuels. Surcharges courantes :
+- **Champs obligatoires** (Email, Name) → 100 %
+- **Champs optionnels** (Description, Notes) → 50 %
+- **Champs rarement utilisés** → 20 %
+
+## Scoring
+
+| Taux de remplissage | Score |
+|---------------------|-------|
+| ≥ Attendu | 100 |
+| Inférieur à l'attendu | Proportionnel (par exemple, 70 % de remplissage avec un objectif de 80 % = score de 87,5) |
+| 0 % | 0 |
+
+<Aside type="note">
+Un score de 0 signifie que le dénominateur était zéro (aucun enregistrement à mesurer), pas que tous les champs sont vides.
+</Aside>
+
+## Cas d'utilisation
+
+- Identifier les champs fréquemment laissés vides par les commerciaux
+- Surveiller la conformité de la saisie des données pour les champs obligatoires
+- Suivre les tendances de complétude au fil du temps après des initiatives de qualité des données
+- S'assurer que les champs critiques (Email, Phone) sont systématiquement renseignés
+
+## Configuration en masse
+
+Utilisez l'option **Bulk Config** pour définir la même surcharge de taux de remplissage sur plusieurs champs en une fois — utile lorsque vous avez de nombreux champs partageant la même exigence de complétude.
+
+![Section Defaults mise en évidence avec Blank Handling et Placeholder Detection, et tableau des Field Overrides en dessous](../../../../assets/screenshots/field-default-settings-override.png)

@@ -1,0 +1,67 @@
+---
+title: Gestion des erreurs
+description: Surveiller et résoudre les erreurs de scan à l'aide de la console de gestion des erreurs.
+---
+
+## Console de gestion des erreurs (EMC)
+
+L'EMC est une **interface dédiée** pour surveiller et résoudre les erreurs qui surviennent lors du traitement des scans. Elle offre une visibilité sur les échecs de lots, les erreurs de stratégie et les problèmes de plateforme.
+
+## Disposition
+
+L'EMC utilise une disposition en 3 zones :
+
+- **Barre latérale** — Filtres (par type d'erreur, plage de dates, sévérité) et options de répartition
+- **Zone principale** — Tableau des erreurs avec des colonnes triables et une modale de détail au clic
+- **Panneau Mentor** — Actions suggérées et informations de rétention
+
+{/* TODO: Screenshot — Error Management Console showing the full 3-zone layout: filters sidebar on left, error table with a few rows in center, mentor panel with actions on right. */}
+
+## Tableau des erreurs
+
+| Colonne | Description |
+|---------|-------------|
+| **Timestamp** | Quand l'erreur s'est produite |
+| **Error Type** | Catégorie (Batch, Strategy, Platform, Validation) |
+| **Message** | Description courte de l'erreur |
+| **Definition** | Quelle définition de scan a déclenché l'erreur |
+| **Severity** | Niveau de sévérité de l'erreur |
+
+### Modale de détail
+
+Cliquez sur n'importe quelle ligne d'erreur pour ouvrir une modale détaillée affichant :
+- Le message d'erreur complet et la trace de la pile
+- La définition et les détails du scan affectés
+- Les étapes de résolution suggérées
+
+{/* TODO: Screenshot — Error detail modal showing full error message, stack trace, affected definition, and suggested resolution. */}
+
+## Sources d'erreurs
+
+| Source | Exemples |
+|--------|----------|
+| **Batch Processing** | Limite de governor dépassée, timeout de requête |
+| **Dimension Strategy** | Accès à un champ invalide, pointeur nul dans la logique de stratégie |
+| **Platform Events** | Échec de publication d'événement |
+| **Scheduling** | Problèmes d'expression CRON, erreurs de permissions |
+
+## Intégration Platform Events
+
+DQS utilise les Platform Events `DQS_Processing_Error__e` pour faire remonter les erreurs en temps réel. Lorsqu'une erreur survient pendant le traitement par lots :
+
+1. L'erreur est capturée et journalisée
+2. Un Platform Event est publié
+3. L'EMC reçoit l'événement et l'affiche
+
+Cela remplace les blocs `catch` silencieux par un reporting d'erreurs visible.
+
+## Rétention des erreurs
+
+Les journaux d'erreurs sont automatiquement purgés selon la [politique de rétention](/fr/processing/data-retention/). La rétention par défaut est de **7 jours**.
+
+## Bonnes pratiques
+
+- Consultez l'EMC régulièrement après la mise en place de nouvelles définitions de scan
+- Vérifiez les erreurs après avoir modifié les configurations de capacités
+- Utilisez les motifs d'erreurs pour identifier les problèmes systématiques (par exemple, les permissions d'accès aux champs)
+- Contactez le support si les erreurs de plateforme persistent sur plusieurs scans

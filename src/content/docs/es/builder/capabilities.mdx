@@ -1,0 +1,63 @@
+---
+title: Configuración de capacidades
+description: Cómo habilitar y configurar las dimensiones de calidad en DQS Builder.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Configuración de capacidades
+
+La tercera etapa del asistente del Builder le permite habilitar dimensiones de calidad y configurar sus ajustes. Cada capacidad evalúa un aspecto diferente de la calidad de sus datos.
+
+## Capacidades disponibles
+
+| Capacidad | Qué mide |
+|-----------|----------|
+| [Completeness](/es/capabilities/completeness/) | ¿Están los campos rellenados? |
+| [Validity](/es/capabilities/validity/) | ¿Los valores coinciden con los formatos esperados? |
+| [Uniqueness](/es/capabilities/uniqueness/) | ¿Hay valores duplicados? |
+| [Timeliness](/es/capabilities/timeliness/) | ¿Los datos están actualizados? |
+| [Consistency](/es/capabilities/consistency/) | ¿Los campos relacionados son lógicamente consistentes? |
+| [PII Detection](/es/capabilities/pii-detection/) | ¿Se manejan correctamente los datos personales? |
+
+![Selección de capacidades mostrando las dimensiones de calidad — Completeness, Validity, Uniqueness, Timeliness, Consistency y PII Safety](../../../../assets/screenshots/def-builder-step1-capabilities.png)
+
+## Habilitar una capacidad
+
+Seleccione una capacidad de la lista para habilitarla. Cada capacidad tiene:
+
+- **Configuración global** — Ajustes predeterminados aplicados a todos los campos
+- **Personalizaciones por campo** — Ajustes personalizados para campos individuales que difieren de los valores predeterminados globales
+
+## Configuración global vs. por campo
+
+La mayoría de las capacidades le permiten establecer umbrales globales y luego personalizarlos para campos específicos. Por ejemplo:
+
+- **Completeness**: Establecer una "tasa de llenado esperada" global del 90%, pero requerir el 100% para campos de Email
+- **Validity**: Definir reglas de formato globales, pero establecer patrones regex personalizados para campos de texto específicos
+- **Timeliness**: Establecer una ventana de frescura global de 30 días, pero usar 7 días para campos de fecha críticos
+
+La sección **Defaults** en la parte superior controla los ajustes globales de la capacidad (por ejemplo, Blank Handling y Placeholder Detection para Completeness). Estos se aplican a todos los campos a menos que se personalicen. La tabla **Field Overrides** debajo lista cada campo en el alcance con su estado actual — "Default" significa que el campo usa los ajustes globales.
+
+![Valores predeterminados de la capacidad y tabla de personalizaciones por campo — todos los campos usando ajustes globales](../../../../assets/screenshots/field-default-settings-override.png)
+
+Para personalizar un campo específico, haga clic en él en la tabla de Field Overrides. Su estado cambia para indicar una configuración personalizada. La flecha roja a continuación señala el campo Reason después de aplicar una personalización por campo.
+
+![Personalización de campo aplicada al campo Reason — estado cambiado de Default a personalizado](../../../../assets/screenshots/field-settings-override.png)
+
+## Flujo de trabajo de configuración
+
+1. **Habilitar la capacidad** — Actívela desde la lista de capacidades
+2. **Establecer ajustes globales** — Configure los valores predeterminados que se aplican a todos los campos seleccionados
+3. **Agregar personalizaciones por campo** (opcional) — Haga clic en campos individuales para personalizar sus ajustes
+4. **Revisar** — El resumen muestra qué campos tienen personalizaciones
+
+<Aside type="tip">
+Puede usar la **configuración masiva** para capacidades como Completeness para establecer rápidamente la misma personalización en múltiples campos a la vez.
+</Aside>
+
+![Modal de configuración por campo para el campo Description con ajustes de Blank Handling y Placeholder Detection](../../../../assets/screenshots/completeness-config-field-override.png)
+
+## Eliminar una capacidad
+
+Haga clic en el botón de eliminar en cualquier capacidad habilitada para desactivarla. Esto borra todas las configuraciones globales y por campo de esa capacidad. La acción requiere confirmación.

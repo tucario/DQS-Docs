@@ -1,0 +1,66 @@
+---
+title: Qualitäts-Capabilities
+description: Übersicht über die 6 Datenqualitätsdimensionen in Data Quality Sense.
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Die 6 Dimensionen der Datenqualität
+
+Data Quality Sense bewertet Ihre Daten anhand von **6 unterschiedlichen Qualitätsdimensionen** (Capabilities). Jede Dimension konzentriert sich auf einen anderen Aspekt der Datenqualität und erzeugt unabhängige Bewertungen, die zu einer Gesamtqualitätsbewertung zusammengefasst werden.
+
+<CardGrid>
+	<Card title="Completeness" icon="approve-check-circle">
+		Misst, ob Felder Werte enthalten. Erkennt null, leere und fehlende Daten in Ihren ausgewählten Feldern.
+		[Mehr erfahren →](/de/capabilities/completeness/)
+	</Card>
+	<Card title="Validity" icon="approve-check-circle">
+		Prüft, ob Werte den erwarteten Formaten, Bereichen und Mustern entsprechen. Unterstützt Picklist-Validierung und Regex-Abgleich.
+		[Mehr erfahren →](/de/capabilities/validity/)
+	</Card>
+	<Card title="Uniqueness" icon="approve-check-circle">
+		Identifiziert doppelte Werte über Datensätze hinweg. Markiert Felder, bei denen eindeutige Werte erwartet werden, aber Duplikate existieren.
+		[Mehr erfahren →](/de/capabilities/uniqueness/)
+	</Card>
+	<Card title="Timeliness" icon="approve-check-circle">
+		Bewertet, ob Daten aktuell und auf dem neuesten Stand sind. Misst Aktualität basierend auf konfigurierbaren Zeitfenstern.
+		[Mehr erfahren →](/de/capabilities/timeliness/)
+	</Card>
+	<Card title="Consistency" icon="approve-check-circle">
+		Prüft die logische Konsistenz zwischen zusammenhängenden Feldern. Erkennt Widersprüche wie ein Abschlussdatum vor einem Eröffnungsdatum.
+		[Mehr erfahren →](/de/capabilities/consistency/)
+	</Card>
+	<Card title="PII Detection" icon="approve-check-circle">
+		Scannt Freitextfelder nach personenbezogenen Daten. Hilft bei der Einhaltung von Datenschutzvorschriften.
+		[Mehr erfahren →](/de/capabilities/pii-detection/)
+	</Card>
+</CardGrid>
+
+## Wie die Bewertung funktioniert
+
+Jede Capability erzeugt eine **Bewertung von 0 bis 100** für jedes gescannte Feld:
+
+- **100** — Perfekte Qualität für diese Dimension
+- **75–99** — Gut, mit geringfügigen Problemen
+- **50–74** — Moderate Qualität, Aufmerksamkeit empfohlen
+- **0–49** — Schlechte Qualität, Handlung erforderlich
+- **0** — Keine Daten zu messen (z. B. alle Felder leer)
+
+Bewertungen werden aggregiert:
+1. **Feldbewertung** — Einzelnes Feldergebnis pro Capability
+2. **Dimensionsbewertung** — Durchschnitt über alle Felder für eine Capability
+3. **Definitionsbewertung** — Gewichteter Durchschnitt über alle Dimensionen
+
+## Capability-Anwendbarkeit
+
+Nicht alle Capabilities gelten für alle Feldtypen. DQS behandelt nicht anwendbare Kombinationen automatisch:
+
+| Feldtyp | Completeness | Validity | Uniqueness | Timeliness | Consistency | PII Detection |
+|---------|:---:|:---:|:---:|:---:|:---:|:---:|
+| Text | ✓ | ✓ | ✓ | — | ✓ | ✓ |
+| Number | ✓ | ✓ | ✓ | — | ✓ | — |
+| Date | ✓ | ✓ | — | ✓ | ✓ | — |
+| Picklist | ✓ | ✓ | — | — | ✓ | — |
+| Boolean | ✓ | — | — | — | ✓ | — |
+| Email | ✓ | ✓ | ✓ | — | — | ✓ |
+| Phone | ✓ | ✓ | ✓ | — | — | ✓ |

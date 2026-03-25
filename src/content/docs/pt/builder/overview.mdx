@@ -1,0 +1,53 @@
+---
+title: Visao Geral do Builder
+description: Conheca o DQS Builder — o assistente de configuracao para varreduras de qualidade de dados.
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## O que e o Builder?
+
+O DQS Builder e um **assistente de configuracao em multiplas etapas** que permite definir exatamente como a qualidade dos seus dados deve ser medida. Ele guia voce pela selecao de objetos, escolha de campos, selecao de dimensoes de qualidade e definicao de limites.
+
+## Espaco de Trabalho do Builder
+
+O Builder utiliza um **layout de 3 zonas**:
+
+- **Barra lateral** — Arvore de navegacao mostrando suas definicoes e seus estagios de configuracao
+- **Palco** — Area de conteudo principal onde voce configura cada etapa da definicao
+- **Painel Mentor** — Ajuda contextual e orientacao que se adapta a sua etapa atual
+
+{/* TODO: Screenshot — Full Builder workspace showing the 3-zone layout: sidebar with definition nav tree on the left, main stage area in the center, and mentor panel on the right. Show it on the capability configuration step for maximum visual impact. */}
+
+## Conceitos Principais
+
+<CardGrid>
+	<Card title="Definicao" icon="document">
+		Uma configuracao de varredura que especifica qual objeto, campos e capacidades de qualidade avaliar. Cada definicao produz um conjunto de resultados quando varrida.
+	</Card>
+	<Card title="Capacidade" icon="approve-check-circle">
+		Uma dimensao de qualidade como Completeness ou Validity. Cada capacidade pode ser configurada globalmente ou substituida por campo.
+	</Card>
+	<Card title="Detalhe da Definicao" icon="list-format">
+		Um registro que vincula um campo especifico a uma definicao, armazenando substituicoes de configuracao por campo para cada capacidade.
+	</Card>
+	<Card title="Ciclo de Vida" icon="setting">
+		As definicoes progridem por estagios: Draft → Ready → Active → Obsolete. Apenas definicoes Active podem ser varridas.
+	</Card>
+</CardGrid>
+
+## Etapas do Builder
+
+1. **Getting Started** — Selecione o objeto Salesforce de destino
+2. **Selecao de Campos** — Escolha quais campos incluir na varredura
+3. **Configuracao de Capacidades** — Habilite e configure dimensoes de qualidade
+4. **Resumo** — Revise a definicao completa antes da ativacao
+
+Cada etapa valida sua entrada antes de permitir que voce prossiga para o proximo passo.
+
+## Saiba Mais
+
+- [Criando uma Definicao](/pt/builder/creating-definition/)
+- [Selecao de Campos](/pt/builder/field-selection/)
+- [Configurando Capacidades](/pt/builder/capabilities/)
+- [Ciclo de Vida da Definicao](/pt/builder/lifecycle/)

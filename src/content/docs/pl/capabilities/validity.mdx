@@ -1,0 +1,63 @@
+---
+title: Validity
+description: Sprawdź, czy wartości pól odpowiadają oczekiwanym formatom i wzorcom.
+---
+
+## Czym jest Validity?
+
+Validity mierzy, czy wartości pól **odpowiadają oczekiwanym formatom, zakresom i wzorcom**. Pole może być wypełnione (complete), ale nadal zawierać nieprawidłowe dane — Validity wykrywa te problemy.
+
+## Jak to działa
+
+Strategia Validity ocenia każdą wartość pola na podstawie oczekiwanych reguł:
+
+1. **Pola Picklist** — Sprawdza, czy wartości odpowiadają zdefiniowanym wartościom picklist (zarówno metadane, jak i wartości bieżące)
+2. **Pola tekstowe** — Waliduje według wzorców formatowania (np. format email, format telefonu)
+3. **Pola numeryczne** — Waliduje według oczekiwanych zakresów
+4. **Pola daty** — Sprawdza rozsądne zakresy dat
+
+## Konfiguracja
+
+### Ustawienia globalne
+
+Sekcja **Defaults** kontroluje globalne opcje walidacji stosowane do wszystkich pól:
+
+| Ustawienie | Opis |
+|------------|------|
+| **Include blank values in validation** | Gdy włączone, puste/null wartości nie przejdą walidacji |
+| **Case-sensitive matching** | Dopasowywanie wzorców uwzględnia wielkość liter |
+| **Pattern Selection** | Wybierz domyślny wzorzec walidacji (Email, URL, Fixed Length lub niestandardowy regex) |
+
+Tabela **Field Overrides** poniżej wymienia każde pole w zakresie z bieżącym wzorcem i statusem. Pola oznaczone „Default" używają ustawień globalnych, „None" oznacza, że wzorzec nie został jeszcze przypisany.
+
+![Konfiguracja Validity z wartościami domyślnymi (Validation Options, Pattern Selection) i tabelą Field Overrides](../../../../assets/screenshots/validity-generic-view.png)
+
+### Nadpisania per pole
+
+Kliknij pole w tabeli Field Overrides, aby otworzyć modalne okno konfiguracji. Tutaj możesz przypisać określony wzorzec walidacji dla tego pola — wybierz z predefiniowanych wzorców (Email, URL, Fixed Length) lub wybierz **Custom**, aby wprowadzić własny regex. Każde nadpisanie pola pozwala również niezależnie od ustawień globalnych przełączać **Include blank values** i **Case-sensitive matching**. Użyj linku **Revert to Global**, aby przywrócić pole do ustawień globalnych.
+
+![Modalne okno konfiguracji per pole dla pola Name z predefiniowanymi opcjami wzorców (Email, URL, Fixed Length, Custom)](../../../../assets/screenshots/validity-field-regex.png)
+
+## Punktacja
+
+| Wynik | Punkty |
+|-------|--------|
+| Wszystkie wartości prawidłowe | 100 |
+| Niektóre nieprawidłowe | Proporcjonalnie do procentu prawidłowych |
+| Wszystkie nieprawidłowe | 0 |
+| Brak danych | 0 |
+
+## Wzorce Regex
+
+DQS używa **wyrażeń regularnych kompatybilnych z Java** do walidacji pól tekstowych. Po wybraniu **Custom** w selektorze wzorców pojawia się pole tekstowe, w którym można wprowadzić własny wzorzec regex.
+
+![Niestandardowe wejście wzorca regex w modalnym oknie konfiguracji per pole](../../../../assets/screenshots/validity-field-custom-regex.png)
+
+Zobacz [Tester Regex](/pl/reference/regex-tester/) — interaktywne narzędzie testowe z biblioteką gotowych wzorców dla email, telefonu, URL, kodów pocztowych i innych.
+
+## Przypadki użycia
+
+- Zapewnienie, że pola email zawierają poprawnie sformatowane adresy e-mail
+- Weryfikacja, że pola picklist zawierają tylko zatwierdzone wartości
+- Wykrywanie wpisów tekstowych w polach, które powinny używać kontrolowanych słowników
+- Walidacja formatów numerów telefonów w różnych regionach

@@ -1,0 +1,66 @@
+---
+title: PII Detection
+description: Escanee campos de texto libre en busca de información de identificación personal.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## ¿Qué es PII Detection?
+
+PII Detection escanea campos de texto libre en busca de **información de identificación personal** que no debería almacenarse en esos campos. Ayuda a las organizaciones a cumplir con regulaciones de privacidad de datos como GDPR, CCPA e HIPAA.
+
+## Cómo funciona
+
+La estrategia de PII Detection analiza el contenido de texto en busca de patrones que coincidan con:
+
+1. **Social Security Numbers** (SSN) — patrones numéricos como XXX-XX-XXXX
+2. **Números de tarjetas de crédito** — secuencias de 13–19 dígitos que coinciden con patrones de redes de tarjetas
+3. **Direcciones de email** — en campos donde no se espera el almacenamiento de email
+4. **Números de teléfono** — en campos de texto libre (no campos dedicados de teléfono)
+5. **Números de identificación nacional** — patrones específicos de cada país
+
+## Configuración
+
+### Patrones de detección
+
+La sección **Defaults** proporciona tres grupos preestablecidos de patrones de detección:
+
+| Preestablecido | Descripción |
+|----------------|-------------|
+| **Standard** | Patrones PII principales — Social Security Number, Credit Card Number, Email Address, US Phone Number |
+| **Critical** | Patrones financieros y de identidad de alto riesgo |
+| **Extended** | Conjunto completo incluyendo IP Address, IBAN, Date of Birth, International Phone y más |
+
+Cada patrón muestra su expresión regex y puede habilitarse o deshabilitarse individualmente. También puede agregar sus propios patrones en la sección **Add Custom Pattern** ingresando una expresión regular y una etiqueta.
+
+![Configuración de PII Detection con preestablecidos de Detection Patterns (Standard, Critical, Extended), lista de patrones y Field Overrides](../../../../assets/screenshots/pii-generic-view.png)
+
+### Personalizaciones por campo
+
+Haga clic en un campo en la tabla de Field Overrides para abrir su modal de configuración. Puede seleccionar qué patrones de detección se aplican a ese campo — elija un preestablecido o habilite/deshabilite patrones individuales. El modal también le permite agregar **patrones personalizados** específicos para ese campo. Use el enlace **Revert to Global** para restablecer.
+
+![Modal de configuración por campo para el campo Description con patrones de detección y entrada de patrón personalizado](../../../../assets/screenshots/pii-field-override.png)
+
+## Puntuación
+
+| Resultado | Puntuación |
+|-----------|------------|
+| No se detectó PII | 100 |
+| Se encontró algo de PII | Proporcional al porcentaje limpio |
+| PII en todos los registros | 0 |
+| Sin datos | 0 |
+
+<Aside type="caution">
+PII Detection usa coincidencia de patrones, no clasificación por IA. Puede producir falsos positivos (por ejemplo, un número que parece un SSN pero no lo es). Revise los registros señalados antes de tomar acción.
+</Aside>
+
+## Patrones regex de PII
+
+DQS usa **expresiones regulares compatibles con Java** para detectar PII en campos de texto libre. Consulte el [Probador de Regex](/es/reference/regex-tester/) para un probador interactivo y una biblioteca completa de patrones PII — incluyendo SSN, tarjetas de crédito (Visa, Mastercard, Amex), IBAN, números de pasaporte, PESEL, NIP y más.
+
+## Casos de uso
+
+- Auditar campos de Description y Notes en busca de números de tarjetas de crédito almacenados accidentalmente
+- Monitorear campos de texto libre en busca de números de seguro social
+- Reportes de cumplimiento para regulaciones de privacidad de datos
+- Limpieza de datos previa a la migración

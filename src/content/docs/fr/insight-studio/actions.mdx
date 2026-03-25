@@ -1,0 +1,109 @@
+---
+title: Actions
+description: Agir sur les enregistrements impactés — créer des Tasks, publier des messages Chatter ou exporter les résultats.
+---
+
+## Menu Actions
+
+Le menu **Actions** dans le panneau Mentor fournit un menu déroulant unifié pour agir sur les enregistrements ayant échoué aux contrôles de qualité. Il remplace le bouton Export autonome par un menu extensible qui propose actuellement trois actions :
+
+| Action | Ce qu'elle fait |
+|--------|----------------|
+| **Export Report** | Télécharger les détails des violations en CSV ([détails](/fr/insight-studio/exports/)) |
+| **Create Tasks** | Créer des Tasks Salesforce pour que les propriétaires des enregistrements remédient aux problèmes |
+| **Post Chatter** | Publier des messages Chatter sur les enregistrements impactés pour notifier les parties prenantes |
+
+{/* TODO: Screenshot — Actions dropdown menu open in Mentor panel showing Export Report, Create Tasks, and Post Chatter options */}
+
+Toutes les actions partagent le même modèle de périmètre — vous choisissez sur quels **champs** et **dimensions** agir, et le système traite les violations pour chaque combinaison en tant que tâche de fond séparée.
+
+## Sélection du périmètre
+
+Lorsque vous ouvrez n'importe quelle modale d'action, vous sélectionnez d'abord le périmètre :
+
+1. **Fields** — Choisissez « All fields » ou sélectionnez des champs spécifiques de la définition
+2. **Dimensions** — Choisissez quelles dimensions de qualité inclure (Completeness, Validity, Uniqueness, etc.)
+
+Le système réévalue les violations au moment de l'action, de sorte que les résultats reflètent l'**état actuel** de vos données — pas un instantané mis en cache du dernier scan.
+
+Chaque combinaison champ-dimension s'exécute comme une tâche par lots séparée. Par exemple, sélectionner 3 champs et 2 dimensions produit 6 tâches qui s'exécutent séquentiellement.
+
+## Create Tasks
+
+Crée des enregistrements Task Salesforce liés à chaque enregistrement impacté. Les Tasks sont attribuées aux propriétaires des enregistrements par défaut et apparaissent dans leur liste de tâches Salesforce standard.
+
+### Configuration des Tasks
+
+| Paramètre | Par défaut | Description |
+|-----------|------------|-------------|
+| **Subject** | `Data Quality: {dimension} — {recordName}` | Objet de la Task. Supporte les variables `{dimension}`, `{recordName}` et `{fieldName}` |
+| **Description** | Décrit le problème de qualité et demande une vérification | Corps en texte libre de la Task |
+| **Due Date** | 7 jours à partir d'aujourd'hui | Date d'échéance de la Task |
+| **Priority** | Normal | High, Normal ou Low |
+| **Assign To** | Record Owner | Saisissez un User ID spécifique pour surcharger. Laissez vide pour attribuer au propriétaire de chaque enregistrement |
+
+{/* TODO: Screenshot — Create Tasks modal in configure mode showing field/dimension selection and Task Settings form */}
+
+### Prévention des doublons
+
+Avant de créer des Tasks, le système vérifie les **Tasks ouvertes existantes** sur chaque enregistrement avec un préfixe d'objet correspondant. Les enregistrements qui ont déjà une Task ouverte correspondante sont ignorés — cela empêche la création de Tasks en double lorsque vous exécutez l'action plusieurs fois.
+
+Le nombre d'éléments ignorés est indiqué dans le résumé de fin (par exemple, « Created 45 tasks. 12 skipped (existing tasks). 0 errors. »).
+
+### Fonctionnement
+
+1. Ouvrez le menu **Actions** dans le panneau Mentor et sélectionnez **Create Tasks**
+2. Sélectionnez les champs et les dimensions à inclure
+3. Configurez les paramètres de la Task (objet, description, date d'échéance, priorité, destinataire)
+4. Cliquez sur **Create Tasks** — la modale passe en mode progression
+5. Chaque tâche champ-dimension affiche son statut (en attente, en cours, terminé ou échoué)
+6. Lorsque toutes les tâches sont terminées, vous recevez une **notification personnalisée** avec un résumé
+7. Cliquez sur **Done** pour fermer la modale
+
+{/* TODO: Screenshot — Create Tasks modal in progress mode showing job list with status indicators */}
+
+## Post Chatter
+
+Publie un message de fil Chatter sur chaque enregistrement impacté. Mentionne optionnellement le propriétaire de l'enregistrement avec @ pour déclencher une notification Salesforce.
+
+### Configuration de Chatter
+
+| Paramètre | Par défaut | Description |
+|-----------|------------|-------------|
+| **Message** | Décrit le problème de qualité et la dimension | Corps du message en texte libre. Supporte les variables `{dimension}`, `{recordName}` et `{fieldName}` |
+| **Mention Record Owner** | Coché | Lorsqu'activé, la publication @mentionne le propriétaire de l'enregistrement, déclenchant une notification Salesforce |
+
+{/* TODO: Screenshot — Post Chatter modal in configure mode showing message template and Mention Record Owner checkbox */}
+
+### Prévention des doublons
+
+Chatter utilise une **fenêtre de déduplication de 24 heures** — si l'utilisateur actuel a déjà publié un message de qualité correspondant sur un enregistrement dans les dernières 24 heures, cet enregistrement est ignoré. Cela empêche de saturer les fils Chatter lorsque l'action est exécutée de manière répétée.
+
+### Fonctionnement
+
+1. Ouvrez le menu **Actions** et sélectionnez **Post Chatter**
+2. Sélectionnez les champs et les dimensions à inclure
+3. Modifiez le modèle de message et choisissez si vous souhaitez @mentionner les propriétaires
+4. Cliquez sur **Post Messages** — la modale passe en mode progression
+5. Une fois terminé, le résumé affiche les compteurs publiés/ignorés/erreurs
+6. Cliquez sur **Done** pour fermer la modale
+
+:::note
+Post Chatter nécessite que Chatter soit activé dans votre organisation Salesforce. Si Chatter n'est pas disponible, l'action signalera une erreur avec un message explicite.
+:::
+
+## Détails du traitement
+
+Toutes les actions s'exécutent en tant que **tâches par lots Apex** en arrière-plan. Points clés :
+
+- **Taille du lot :** 500 enregistrements par lot (plus petit que l'export pour permettre les opérations DML par lot)
+- **Notifications :** Une notification Salesforce personnalisée est envoyée lorsque le lot est terminé, affichant les compteurs créés/ignorés/erreurs
+- **Succès partiel :** Si certains enregistrements échouent (par exemple, règles de validation, sécurité au niveau des champs), les enregistrements traités avec succès sont préservés. Le nombre d'erreurs et les détails sont inclus dans le résumé
+- **File d'attente des lots :** Salesforce autorise jusqu'à 5 tâches par lots simultanées par organisation. Si la file d'attente est pleine, vous recevrez un retour avant le démarrage de l'action
+
+## Cas d'utilisation
+
+- **Création de Tasks pour les responsables données** — Attribuer automatiquement des tâches de nettoyage aux propriétaires d'enregistrements lorsque des problèmes de qualité sont détectés
+- **Notification des parties prenantes via Chatter** — Alerter les propriétaires d'enregistrements sur les problèmes de qualité des données directement sur leurs enregistrements
+- **Workflows de remédiation** — Combiner avec l'automatisation Salesforce (Flow, Process Builder) pour router les tâches vers des équipes spécifiques
+- **Pistes d'audit** — Les Tasks créées et les publications Chatter servent de trace des problèmes de qualité et du moment où ils ont été signalés

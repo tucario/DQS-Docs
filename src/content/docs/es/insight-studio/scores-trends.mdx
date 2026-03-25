@@ -1,0 +1,66 @@
+---
+title: Puntuaciones y tendencias
+description: Comprenda las puntuaciones de calidad, grados y análisis de tendencias en Insight Studio.
+---
+
+## Visualización de puntuaciones
+
+Cada nivel en Insight Studio muestra puntuaciones de calidad con indicadores visuales:
+
+### Grados de puntuación
+
+| Rango de puntuación | Grado | Color |
+|---------------------|-------|-------|
+| 90–100 | Excelente | Verde |
+| 75–89 | Bueno | Verde claro |
+| 50–74 | Regular | Amarillo/Naranja |
+| 25–49 | Deficiente | Naranja |
+| 0–24 | Crítico | Rojo |
+
+![Resultado de campo — Completeness Rate 100%, Fill Rate Analysis, barras de Field Utilization y detalles de configuración](../../../../assets/screenshots/insight-studio-field-result.png)
+
+### Tarjetas de puntuación
+
+El panel de la definición muestra **tarjetas de dimensión** — una para cada capacidad habilitada — con:
+- Puntuación numérica (0–100)
+- Indicador de grado (codificado por color)
+- Flecha de cambio (↑ mejora, ↓ regresión, → estable)
+- Minigráfico mostrando la tendencia reciente
+
+## Análisis de tendencias
+
+### Minigráficos
+
+Pequeños gráficos en línea junto a cada puntuación que muestran los últimos resultados de escaneos. Útiles para identificar tendencias sin navegar a vistas detalladas.
+
+### Gráfico de tendencia de puntuaciones
+
+Un gráfico de tendencia más grande disponible a nivel de definición que muestra:
+- Puntuación a lo largo del tiempo para cada dimensión
+- Línea de tendencia de puntuación general
+- Fechas de escaneo en el eje x
+
+![Panel de definición — puntuación general 85.8%, barras de dimensión Completeness y Validity, gráfico de tendencia de puntuaciones con múltiples escaneos](../../../../assets/screenshots/insight-studio-object.png)
+
+### Comparación de escaneos
+
+![Modal de comparación de resultados — escaneo base vs comparación con diferencias a nivel de dimensión y campo](../../../../assets/screenshots/insight-studio-compare.png)
+
+Compare dos escaneos específicos para ver diferencias detalladas:
+- **Diferencias por dimensión** — Qué capacidades mejoraron o empeoraron
+- **Diferencias por campo** — Qué campos cambiaron y en cuánto
+- Seleccione cualquier par de escaneos del historial de escaneos
+
+## Vistas de dos estados
+
+Algunos componentes se adaptan según la disponibilidad de datos:
+- **Sin escaneos aún** — Muestra un aviso para activar el primer escaneo
+- **Resultados disponibles** — Muestra el panel completo con puntuaciones y gráficos
+
+## Resumen de KPI
+
+La parte superior de la vista de definición muestra indicadores clave de rendimiento:
+- **Overall Score** — Promedio ponderado de todas las dimensiones
+- **Fields Scanned** — Total de campos incluidos
+- **Records Evaluated** — Total de registros en el alcance
+- **Last Scan** — Marca de tiempo del escaneo más reciente

@@ -1,0 +1,63 @@
+---
+title: Validity
+description: Prüfen Sie, ob Feldwerte den erwarteten Formaten und Mustern entsprechen.
+---
+
+## Was ist Validity?
+
+Validity misst, ob Feldwerte **den erwarteten Formaten, Bereichen und Mustern entsprechen**. Ein Feld kann befüllt (vollständig) sein, aber dennoch ungültige Daten enthalten — Validity erkennt diese Probleme.
+
+## Funktionsweise
+
+Die Validity-Strategie bewertet jeden Feldwert anhand erwarteter Regeln:
+
+1. **Picklist-Felder** — Prüft, ob Werte den definierten Picklist-Werten entsprechen (einschließlich Metadaten und Live-Werten)
+2. **Textfelder** — Validiert anhand von Formatmustern (z. B. E-Mail-Format, Telefonnummer-Format)
+3. **Zahlenfelder** — Validiert anhand erwarteter Bereiche
+4. **Datumsfelder** — Prüft auf sinnvolle Datumsbereiche
+
+## Konfiguration
+
+### Globale Einstellungen
+
+Der Abschnitt **Defaults** steuert globale Validierungsoptionen, die für alle Felder gelten:
+
+| Einstellung | Beschreibung |
+|-------------|-------------|
+| **Include blank values in validation** | Wenn aktiviert, werden leere/null-Werte die Validierung nicht bestehen |
+| **Case-sensitive matching** | Musterabgleich berücksichtigt Groß-/Kleinschreibung |
+| **Pattern Selection** | Standard-Validierungsmuster wählen (Email, URL, Fixed Length oder Custom regex) |
+
+Die Tabelle **Field Overrides** darunter listet jedes Feld im Umfang mit seinem aktuellen Muster und Status auf. Felder mit „Default" verwenden die globalen Einstellungen, „None" bedeutet, dass noch kein Muster zugewiesen ist.
+
+![Validity-Konfiguration mit Defaults (Validation Options, Pattern Selection) und Feld-Überschreibungstabelle](../../../../assets/screenshots/validity-generic-view.png)
+
+### Feldspezifische Überschreibungen
+
+Klicken Sie auf ein Feld in der Field Overrides-Tabelle, um dessen Konfigurationsmodal zu öffnen. Hier können Sie ein bestimmtes Validierungsmuster für dieses Feld zuweisen — wählen Sie aus vordefinierten Mustern (Email, URL, Fixed Length) oder wählen Sie **Custom**, um Ihren eigenen Regex einzugeben. Jede Feldüberschreibung ermöglicht es Ihnen auch, **Include blank values** und **Case-sensitive matching** unabhängig von den globalen Standards umzuschalten. Verwenden Sie den Link **Revert to Global**, um das Feld auf die globalen Einstellungen zurückzusetzen.
+
+![Feldspezifisches Konfigurationsmodal für das Feld Name mit vordefinierten Musteroptionen (Email, URL, Fixed Length, Custom)](../../../../assets/screenshots/validity-field-regex.png)
+
+## Bewertung
+
+| Ergebnis | Bewertung |
+|----------|-----------|
+| Alle Werte gültig | 100 |
+| Einige ungültig | Proportional zum Prozentsatz gültiger Werte |
+| Alle ungültig | 0 |
+| Keine Daten | 0 |
+
+## Regex-Muster
+
+DQS verwendet **Java-kompatible reguläre Ausdrücke** für die Textfeldvalidierung. Wenn Sie **Custom** in der Musterauswahl wählen, erscheint ein Textfeld, in das Sie Ihr eigenes Regex-Muster eingeben können.
+
+![Benutzerdefinierte Regex-Mustereingabe im feldspezifischen Konfigurationsmodal](../../../../assets/screenshots/validity-field-custom-regex.png)
+
+Siehe den [Regex-Tester](/de/reference/regex-tester/) für einen interaktiven Tester und eine Bibliothek gebrauchsfertiger Muster für E-Mail, Telefon, URL, Postleitzahlen und mehr.
+
+## Anwendungsfälle
+
+- Sicherstellen, dass E-Mail-Felder korrekt formatierte E-Mail-Adressen enthalten
+- Überprüfen, dass Picklist-Felder nur genehmigte Werte enthalten
+- Freitext-Einträge in Feldern erkennen, die kontrollierte Vokabulare verwenden sollten
+- Telefonnummer-Formate über Regionen hinweg validieren

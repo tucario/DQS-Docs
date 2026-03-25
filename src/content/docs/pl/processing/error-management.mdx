@@ -1,0 +1,67 @@
+---
+title: Zarządzanie błędami
+description: Monitoruj i rozwiązuj błędy skanów za pomocą konsoli zarządzania błędami.
+---
+
+## Konsola zarządzania błędami (EMC)
+
+EMC to **dedykowany interfejs** do monitorowania i rozwiązywania błędów występujących podczas przetwarzania skanów. Zapewnia wgląd w awarie wsadowe, błędy strategii i problemy platformy.
+
+## Układ
+
+EMC wykorzystuje układ 3-strefowy:
+
+- **Sidebar** — Filtry (według typu błędu, zakresu dat, ważności) i opcje podziału
+- **Główny obszar** — Tabela błędów z sortowalnymi kolumnami i modalnym oknem szczegółów po kliknięciu wiersza
+- **Mentor Panel** — Sugerowane akcje i informacje o retencji
+
+{/* TODO: Screenshot — Error Management Console showing the full 3-zone layout: filters sidebar on left, error table with a few rows in center, mentor panel with actions on right. */}
+
+## Tabela błędów
+
+| Kolumna | Opis |
+|---------|------|
+| **Timestamp** | Kiedy wystąpił błąd |
+| **Error Type** | Kategoria (Batch, Strategy, Platform, Validation) |
+| **Message** | Krótki opis błędu |
+| **Definition** | Która definicja skanu wywołała błąd |
+| **Severity** | Poziom ważności błędu |
+
+### Modalne okno szczegółów wiersza
+
+Kliknij dowolny wiersz błędu, aby otworzyć szczegółowe modalne okno pokazujące:
+- Pełny komunikat błędu i ślad stosu
+- Szczegóły dotkniętej definicji i skanu
+- Sugerowane kroki rozwiązania
+
+{/* TODO: Screenshot — Error detail modal showing full error message, stack trace, affected definition, and suggested resolution. */}
+
+## Źródła błędów
+
+| Źródło | Przykłady |
+|--------|-----------|
+| **Przetwarzanie wsadowe** | Przekroczenie limitów gubernatorskich, timeout zapytania |
+| **Strategia wymiaru** | Nieprawidłowy dostęp do pola, null pointer w logice strategii |
+| **Platform Events** | Błąd publikacji zdarzenia |
+| **Harmonogramowanie** | Problemy z wyrażeniem CRON, błędy uprawnień |
+
+## Integracja Platform Events
+
+DQS wykorzystuje zdarzenia platformy `DQS_Processing_Error__e` do wyświetlania błędów w czasie rzeczywistym. Gdy podczas przetwarzania wsadowego wystąpi błąd:
+
+1. Błąd jest przechwytywany i rejestrowany
+2. Publikowane jest zdarzenie platformy
+3. EMC odbiera zdarzenie i wyświetla je
+
+Zastępuje to ciche bloki `catch` widocznym raportowaniem błędów.
+
+## Retencja błędów
+
+Logi błędów są automatycznie usuwane zgodnie z [polityką retencji](/pl/processing/data-retention/). Domyślna retencja wynosi **7 dni**.
+
+## Najlepsze praktyki
+
+- Regularnie sprawdzaj EMC po skonfigurowaniu nowych definicji skanów
+- Przeglądaj błędy po zmianie konfiguracji zdolności
+- Wykorzystuj wzorce błędów do identyfikacji systematycznych problemów (np. uprawnienia dostępu do pól)
+- Skontaktuj się z pomocą techniczną, jeśli błędy platformy powtarzają się w wielu skanach

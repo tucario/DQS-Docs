@@ -1,0 +1,66 @@
+---
+title: Definition erstellen
+description: So erstellen Sie eine neue Scan-Definition im DQS Builder.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Was ist eine Definition?
+
+Eine **Definition** ist die zentrale Konfigurationseinheit in DQS. Sie legt fest:
+- Welches Salesforce-Objekt gescannt werden soll
+- Welche Felder bewertet werden sollen
+- Welche Qualitätsdimensionen (Capabilities) gemessen werden sollen
+- Optionale feldspezifische Schwellenwert-Überschreibungen
+
+## Neue Definition erstellen
+
+1. **Auf „New Definition" klicken**
+
+   Klicken Sie im Builder-Tab auf die Schaltfläche **New Definition** in der oberen linken Ecke. Ein Erstellungsdialog öffnet sich mit Objektsuche, letzten Definitionen und vorgeschlagenen Objekten.
+
+2. **Zielobjekt auswählen**
+
+   Wählen Sie das SObject aus, das Sie scannen möchten. Sie können alle Objekte in Ihrer Organisation durchsuchen, aus **Recent Definitions** (Objekte, für die Sie bereits Definitionen erstellt haben) wählen oder aus der **Suggested**-Liste (Account, Opportunity, Contact, Case, Lead) auswählen. Der Dialog zeigt an, wie viele Datensätze und bestehende Definitionen jedes Objekt hat.
+
+3. **Definitionsnamen eingeben**
+
+   Sobald Sie ein Objekt ausgewählt haben, zeigt das rechte Panel ein Namensfeld mit automatisch generierten **Vorschlägen** basierend auf dem Objekt (z. B. „Opportunity Quality Profile", „Opportunity Completeness Audit"). Wählen Sie einen Vorschlag oder geben Sie Ihren eigenen Namen ein.
+
+4. **Auf „+ Create" klicken**
+
+   Die Definition wird im Status **Draft** erstellt und im Builder-Assistenten geöffnet.
+
+![Dialog „Neue Definition" — Objekt auswählen, Definition benennen und auf Create klicken](../../../../assets/screenshots/def-builder-start-new.png)
+
+<Aside type="note">
+Technische Objekte (solche, deren API-Namen mit gängigen internen Präfixen beginnen) werden standardmäßig herausgefiltert, um die Objektliste übersichtlich zu halten.
+</Aside>
+
+## Definitionseinstellungen
+
+Nach der Erstellung können Sie konfigurieren:
+
+| Einstellung | Beschreibung |
+|-------------|-------------|
+| **Name** | Anzeigename in Listen und Insight Studio |
+| **Object** | Das Ziel-SObject (kann nach der Erstellung nicht geändert werden) |
+| **Description** | Optionale Notizen zum Zweck des Scans |
+| **Status** | Aktuelle Lebenszyklusphase (Draft, Ready, Active, Obsolete) |
+
+## Bestehende Definitionen bearbeiten
+
+Öffnen Sie eine beliebige Definition über die Tabelle der letzten Aktivitäten im **Home**-Tab oder über den Navigationsbaum in der Builder-Seitenleiste. Aktive Definitionen können bearbeitet werden — Änderungen werden beim nächsten Scan wirksam.
+
+## Definitionen löschen
+
+Die Schaltfläche zum Löschen (Papierkorb-Symbol) ist nur verfügbar, wenn **beide** Bedingungen erfüllt sind:
+
+- Die Definition befindet sich im Status **Draft**
+- Sie haben das Permission Set **DQS Admin** zugewiesen
+
+Aktive oder abgeschlossene Definitionen können nicht gelöscht werden — setzen Sie diese stattdessen auf den Status Obsolete.
+
+![Schaltfläche Löschen bei einer Draft-Definition — nur für Admins sichtbar](../../../../assets/screenshots/remove-definition-as-admin.png)
+
+Das Löschen einer Definition entfernt alle zugehörigen Definition Details, bewahrt jedoch historische Scan-Ergebnisse zu Prüfzwecken auf.

@@ -1,0 +1,80 @@
+---
+title: Sélection des champs
+description: Comment sélectionner les champs pour votre définition de scan de qualité des données.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Sélecteur de champs
+
+Le sélecteur de champs est la deuxième étape de l'assistant Builder. Il affiche tous les champs disponibles de l'objet sélectionné dans un tableau paginé.
+
+![Sélecteur de champs montrant tous les champs de l'objet Opportunity avec recherche, filtre par type et cases à cocher de sélection](../../../../assets/screenshots/def-builder-step2-scope.png)
+
+## Fonctionnalités
+
+### Recherche et filtre
+
+- **Recherche** — Filtrer les champs par libellé ou nom API
+- **Filtre par type de champ** — Afficher uniquement certains types de champs (Text, Number, Picklist, etc.)
+- **Colonnes triables** — Trier par libellé de champ, nom API ou type de champ
+
+![Vue filtrée des champs montrant les résultats de recherche après saisie — seuls les champs correspondants sont affichés](../../../../assets/screenshots/def-builder-step2-scope-filtered.png)
+
+### Informations sur les champs
+
+Pour chaque champ, le sélecteur affiche :
+
+| Colonne | Description |
+|---------|-------------|
+| **Label** | Le nom d'affichage du champ |
+| **API Name** | Le nom développeur (par exemple, `BillingCity`) |
+| **Type** | Le type de données du champ (Text, Number, Date, Picklist, etc.) |
+| **Required** | Si le champ est obligatoire sur la mise en page |
+
+### Sélection en masse
+
+Utilisez le lien **Select All** pour ajouter tous les champs disponibles à votre périmètre en une fois — le lien affiche le nombre total de champs (par exemple, « Select All (71) »). Pour retirer toutes les sélections, cliquez sur **Clear All**. La barre d'en-tête affiche des compteurs en temps réel pour les champs **Selected** et **Available** afin que vous sachiez toujours combien de champs sont dans le périmètre.
+
+Les sélections sont conservées entre les pages — vous pouvez sélectionner des champs en page 1, naviguer vers la page 2, et vos sélections sont préservées. Le panneau **Scope Stats** sur la droite résume votre sélection actuelle.
+
+![Lien Select All dans l'en-tête du sélecteur de champs pour sélectionner en masse tous les champs disponibles](../../../../assets/screenshots/select-all-fields.png)
+
+## Considérations sur les champs
+
+<Aside type="tip">
+Tous les types de champs ne sont pas applicables à toutes les capacités. Par exemple, l'Uniqueness peut ne pas être significative pour les champs Boolean. DQS gère automatiquement les combinaisons non applicables.
+</Aside>
+
+### Champs recommandés
+
+Pour un scan complet, incluez :
+- **Champs d'identification clés** — Name, Email, Phone
+- **Champs d'adresse** — pour Completeness et Validity
+- **Champs de date** — pour Timeliness
+- **Champs Picklist** — pour Validity et Consistency
+- **Champs de texte libre** — pour Completeness et PII Detection
+
+### Champs à éviter
+
+- Champs générés par le système (Id, CreatedDate, LastModifiedDate) — ceux-ci sont toujours renseignés
+- Champs de formule — leurs valeurs sont calculées, pas saisies par les utilisateurs
+- Champs chiffrés — peuvent ne pas être lisibles par le moteur de scan
+
+## Vue du périmètre
+
+La vue du périmètre est l'espace de travail principal pour sélectionner et vérifier les champs :
+
+1. **Étape Scope** — Cliquez sur l'étape **Scope** dans la barre latérale de l'assistant Builder pour charger tous les champs de l'objet cible. C'est ici que vous définissez quels champs seront inclus dans votre scan de qualité des données.
+
+2. **All Fields** — La vue par défaut montrant chaque champ de l'objet. Utilisez cet onglet pour parcourir la liste complète, cocher ou décocher des champs, et voir le libellé, le nom API, le type et s'il s'agit d'un champ standard ou personnalisé. Les champs que vous sélectionnez sont mis en surbrillance dans la liste.
+
+3. **Filtre Selected** — Passez à cette vue pour voir uniquement les champs que vous avez déjà ajoutés au périmètre. Le compteur indique combien de champs sont sélectionnés (par exemple, « Selected: 2 »). Utilisez-le pour vérifier rapidement vos choix et retirer les champs dont vous n'avez plus besoin.
+
+4. **Filtre Available** — Affiche uniquement les champs qui ne sont pas encore dans votre périmètre. Le compteur indique combien il en reste (par exemple, « Available: 16 »). Utile lorsque vous souhaitez parcourir ce qu'il reste à ajouter sans faire défiler les champs déjà sélectionnés.
+
+5. **Filtre Type** — Le menu déroulant **All Types** vous permet de restreindre la liste des champs à un type de données spécifique — Text, Number, Date, Picklist, Boolean, Lookup, et plus encore. Combinez-le avec les autres filtres pour trouver rapidement les champs exacts dont vous avez besoin (par exemple, afficher uniquement les champs Picklist disponibles).
+
+Le panneau **Scope Stats** sur la droite résume votre sélection avec un compteur de champs et affiche un indicateur **Ready to proceed** lorsqu'au moins un champ est sélectionné.
+
+![Vue du périmètre avec liste des champs, recherche, filtre par type et compteurs de sélection](../../../../assets/screenshots/field-scope-view.png)

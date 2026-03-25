@@ -1,0 +1,67 @@
+---
+title: Limites e Consideracoes
+description: Governor limits do Salesforce e consideracoes de desempenho para o DQS.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Governor Limits do Salesforce
+
+O DQS e executado inteiramente dentro do Salesforce e esta sujeito aos governor limits padrao. O motor de processamento foi projetado para funcionar dentro dessas restricoes.
+
+### Limites de Processamento em Lote
+
+| Limite | Maximo Salesforce | Impacto no DQS |
+|--------|-------------------|----------------|
+| **Tamanho do lote** | 2.000 registros por chunk | Configuravel via configuracoes DQS |
+| **Lotes simultaneos** | 5 por org | O DQS usa 1 lote por varredura |
+| **Consultas SOQL por transacao** | 100 | Consultas dinamicas usadas eficientemente |
+| **Operacoes DML por transacao** | 150 | Resultados agrupados para gravacoes eficientes |
+| **Tamanho do heap** | 12 MB (async) | Campos de texto grandes podem contribuir |
+
+### Limites de Agendamento
+
+| Limite | Maximo Salesforce |
+|--------|-------------------|
+| **Jobs Apex agendados** | 100 por org |
+| **Triggers CRON** | 100 por org |
+
+<Aside type="caution">
+Cada agendamento de varredura DQS consome um slot de Apex agendado. Planeje adequadamente se sua org possui muitos outros jobs agendados.
+</Aside>
+
+## Consideracoes de Desempenho
+
+### Tamanho do Objeto
+
+| Tamanho do Objeto | Tempo Esperado de Varredura | Observacoes |
+|-------------------|----------------------------|-------------|
+| < 10.000 registros | Minutos | Processamento rapido |
+| 10.000 - 100.000 | 10-30 minutos | Processamento em lote normal |
+| 100.000 - 1.000.000 | 30-60 minutos | Considere agendamento fora do horario de pico |
+| > 1.000.000 | 1+ horas | Agende durante janelas de manutencao |
+
+### Numero de Campos
+
+Mais campos em uma definicao significa mais processamento por registro. Uma definicao com 50+ campos levara mais tempo do que uma com 10 campos.
+
+### Numero de Capacidades
+
+Cada capacidade habilitada adiciona uma execucao de estrategia de dimensao por chunk. Habilitar todas as 7 capacidades leva aproximadamente 7 vezes mais tempo do que habilitar apenas uma.
+
+## Melhores Praticas
+
+- **Agende fora dos horarios de pico** — Minimize o impacto nos usuarios
+- **Comece pequeno** — Inicie com uma capacidade e alguns campos-chave, depois expanda
+- **Monitore jobs em lote** — Use Setup → Apex Jobs para verificar o progresso da varredura
+- **Use politicas de retencao** — Previna o crescimento ilimitado de resultados
+- **Escalone agendamentos** — Nao agende todas as definicoes no mesmo horario
+
+## Armazenamento
+
+Os resultados de varredura consomem armazenamento de dados do Salesforce. Cada varredura cria:
+- 1 Dimension Result por capacidade habilitada
+- 1 Field Result por campo por capacidade
+- Multiplos Metric Results por campo
+
+Com a [retencao de dados](/pt/processing/data-retention/) configurada, resultados antigos sao automaticamente purgados.

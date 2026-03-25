@@ -1,0 +1,53 @@
+---
+title: Présentation du Builder
+description: Découvrez le DQS Builder — l'assistant de configuration pour les scans de qualité des données.
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Qu'est-ce que le Builder ?
+
+Le DQS Builder est un **assistant de configuration multi-étapes** qui vous permet de définir précisément comment la qualité de vos données doit être mesurée. Il vous guide dans la sélection des objets, le choix des champs, la sélection des dimensions de qualité et la définition des seuils.
+
+## Espace de travail du Builder
+
+Le Builder utilise une **disposition en 3 zones** :
+
+- **Barre latérale** — Arborescence de navigation montrant vos définitions et leurs étapes de configuration
+- **Zone principale** — Zone de contenu principale où vous configurez chaque étape de la définition
+- **Panneau Mentor** — Aide contextuelle et conseils qui s'adaptent à votre étape actuelle
+
+{/* TODO: Screenshot — Full Builder workspace showing the 3-zone layout: sidebar with definition nav tree on the left, main stage area in the center, and mentor panel on the right. Show it on the capability configuration step for maximum visual impact. */}
+
+## Concepts clés
+
+<CardGrid>
+	<Card title="Définition" icon="document">
+		Une configuration de scan qui spécifie quel objet, quels champs et quelles capacités de qualité évaluer. Chaque définition produit un ensemble de résultats lorsqu'elle est scannée.
+	</Card>
+	<Card title="Capacité" icon="approve-check-circle">
+		Une dimension de qualité comme Completeness ou Validity. Chaque capacité peut être configurée globalement ou surchargée par champ.
+	</Card>
+	<Card title="Détail de définition" icon="list-format">
+		Un enregistrement liant un champ spécifique à une définition, stockant les surcharges de configuration par champ pour chaque capacité.
+	</Card>
+	<Card title="Cycle de vie" icon="setting">
+		Les définitions progressent à travers des étapes : Draft → Ready → Active → Obsolete. Seules les définitions actives peuvent être scannées.
+	</Card>
+</CardGrid>
+
+## Étapes du Builder
+
+1. **Démarrage** — Sélectionnez l'objet Salesforce cible
+2. **Sélection des champs** — Choisissez les champs à inclure dans le scan
+3. **Configuration des capacités** — Activez et configurez les dimensions de qualité
+4. **Synthèse** — Vérifiez la définition complète avant activation
+
+Chaque étape valide vos entrées avant de vous permettre de passer à l'étape suivante.
+
+## En savoir plus
+
+- [Créer une définition](/fr/builder/creating-definition/)
+- [Sélection des champs](/fr/builder/field-selection/)
+- [Configurer les capacités](/fr/builder/capabilities/)
+- [Cycle de vie des définitions](/fr/builder/lifecycle/)

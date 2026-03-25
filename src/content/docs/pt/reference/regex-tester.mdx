@@ -1,0 +1,65 @@
+---
+title: Testador de Regex
+description: Teste expressoes regulares compativeis com Java usadas nas capacidades Validity e PII Detection do DQS.
+---
+
+import RegexTester from '../../../../components/RegexTester.astro';
+
+## Testador de Regex Java
+
+O DQS usa **expressoes regulares compativeis com Java** (`java.util.regex.Pattern`) para verificacoes de Validity e padroes de PII Detection. Use este testador para validar seus padroes antes de configura-los no Builder.
+
+<RegexTester />
+
+## Padroes Uteis para o DQS
+
+### Padroes de Validity
+
+| Nome do Padrao | Regex | Descricao |
+|---|---|---|
+| **Email** | `^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$` | Formato padrao de e-mail |
+| **Phone (Internacional)** | `^\+?[1-9]\d{1,14}$` | Formato de telefone internacional E.164 |
+| **Phone (US)** | `^\(?[2-9]\d{2}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}$` | Telefone US com formatacao opcional |
+| **URL** | `^https?://[^\s/$.?#].[^\s]*$` | URL HTTP/HTTPS |
+| **ZIP Code (US)** | `^\d{5}(-\d{4})?$` | Codigo postal US (5 ou 9 digitos) |
+| **Postal Code (UK)** | `^[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}$` | Codigo postal UK |
+| **Postal Code (DE)** | `^\d{5}$` | Codigo postal alemao |
+| **ISO Date** | `^\d{4}-\d{2}-\d{2}$` | Formato YYYY-MM-DD |
+| **ISO DateTime** | `^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}` | Datetime ISO 8601 |
+| **Currency (USD)** | `^\$?\d{1,3}(,\d{3})*(\.\d{2})?$` | Formato de dolar americano |
+| **Percentage** | `^\d{1,3}(\.\d{1,2})?%?$` | Valor percentual (0-100) |
+| **Alphanumeric** | `^[a-zA-Z0-9]+$` | Apenas letras e digitos |
+| **No Special Chars** | `^[a-zA-Z0-9\s.\-,]+$` | Letras, digitos, espacos, pontuacao basica |
+| **Salesforce ID (15)** | `^[a-zA-Z0-9]{15}$` | ID Salesforce de 15 caracteres |
+| **Salesforce ID (18)** | `^[a-zA-Z0-9]{18}$` | ID Salesforce de 18 caracteres |
+| **Domain Name** | `^([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,}$` | Nome de dominio valido |
+| **IPv4 Address** | `^(\d{1,3}\.){3}\d{1,3}$` | Formato de endereco IPv4 |
+| **Hex Color** | `^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$` | Codigo de cor hex CSS |
+
+### Padroes de PII Detection
+
+| Nome do Padrao | Regex | Descricao |
+|---|---|---|
+| **SSN (US)** | `\b\d{3}-\d{2}-\d{4}\b` | Social Security Number |
+| **SSN (sem formatacao)** | `\b\d{9}\b` | 9 digitos consecutivos (potencial SSN) |
+| **Credit Card (Visa)** | `\b4\d{3}[\s\-]?\d{4}[\s\-]?\d{4}[\s\-]?\d{4}\b` | Numero de cartao Visa |
+| **Credit Card (MC)** | `\b5[1-5]\d{2}[\s\-]?\d{4}[\s\-]?\d{4}[\s\-]?\d{4}\b` | Numero Mastercard |
+| **Credit Card (Amex)** | `\b3[47]\d{2}[\s\-]?\d{6}[\s\-]?\d{5}\b` | Numero American Express |
+| **Credit Card (Generico)** | `\b\d{4}[\s\-]?\d{4}[\s\-]?\d{4}[\s\-]?\d{4}\b` | Qualquer padrao de cartao de 16 digitos |
+| **IBAN** | `\b[A-Z]{2}\d{2}[A-Z0-9]{4}\d{7}([A-Z0-9]?){0,16}\b` | International Bank Account Number |
+| **Passport (US)** | `\b[A-Z]\d{8}\b` | Numero de passaporte americano |
+| **PESEL (PL)** | `\b\d{11}\b` | ID nacional polones (11 digitos) |
+| **NIP (PL)** | `\b\d{3}-?\d{3}-?\d{2}-?\d{2}\b` | ID fiscal polones |
+| **REGON (PL)** | `\b\d{9}\b` | Numero de registro comercial polones |
+| **Date of Birth** | `\b(0[1-9]|1[0-2])/(0[1-9]|[12]\d|3[01])/\d{4}\b` | Formato MM/DD/YYYY |
+| **Email in text** | `[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}` | E-mail em qualquer lugar do texto (sem ancoras) |
+| **Phone in text** | `\b(\+?\d{1,3}[\s\-]?)?\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{4}\b` | Numero de telefone em texto livre |
+| **IP Address** | `\b(\d{1,3}\.){3}\d{1,3}\b` | Endereco IPv4 no texto |
+| **Driver License (US)** | `\b[A-Z]\d{3,8}\b` | Carteira de motorista US (varia por estado) |
+
+### Dicas
+
+- **Padroes ancorados** (`^...$`) validam o valor inteiro do campo — use para verificacoes de Validity
+- **Padroes nao ancorados** (sem `^` / `$`) encontram correspondencias dentro do texto — use para PII Detection
+- O regex do Apex e **case-sensitive** por padrao. Use `(?i)` no inicio para correspondencia case-insensitive
+- Teste casos extremos: strings vazias, valores apenas com espacos e caracteres Unicode

@@ -1,0 +1,68 @@
+---
+title: Cycle de vie des définitions
+description: Comprendre les étapes du cycle de vie d'une définition de scan.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Étapes du cycle de vie
+
+Chaque définition de scan progresse à travers une série d'étapes :
+
+```
+Draft  →  Ready  →  Active  →  Obsolete
+```
+
+### Draft
+
+L'état initial lors de la création d'une définition. En statut Draft :
+- La définition peut être librement modifiée
+- Des champs et des capacités peuvent être ajoutés ou retirés
+- Aucun scan ne peut être exécuté
+- La définition n'est pas visible dans Insight Studio
+
+### Ready
+
+Un état transitoire indiquant que la définition a été vérifiée. En statut Ready :
+- Toute la configuration requise est complète
+- La définition a passé la validation
+- Elle peut être activée
+
+### Active
+
+L'état opérationnel. En statut Active :
+- Des scans peuvent être exécutés sur la définition
+- Les résultats apparaissent dans Insight Studio
+- La définition peut être planifiée pour des scans récurrents
+- La modification est toujours possible — les changements prennent effet au prochain scan
+
+### Obsolete
+
+L'état de retrait. En statut Obsolete :
+- Aucun nouveau scan ne peut être déclenché
+- Les résultats existants restent visibles dans Insight Studio pour l'analyse historique
+- La définition peut être réactivée si nécessaire
+
+![Définition en statut Draft — modifiable, pas encore scannable](../../../../assets/screenshots/remove-definition-as-admin.png)
+
+## Validation de l'activation
+
+Avant qu'une définition puisse être activée, DQS vérifie :
+
+| Règle | Description |
+|-------|-------------|
+| **Champs sélectionnés** | Au moins un champ doit être sélectionné |
+| **Capacités activées** | Au moins une capacité doit être activée |
+| **Configuration complète** | Tous les paramètres requis des capacités doivent être renseignés |
+
+<Aside type="note">
+Lorsque vous cliquez sur **Activate**, la définition passe directement au statut Active. L'état Ready est utilisé en interne pour le contrôle de validation.
+</Aside>
+
+## Changer de statut
+
+- **Draft → Active** : Cliquez sur « Mark as Complete » sur l'écran de synthèse — choisissez entre Complete Only, Complete & Schedule ou Complete & Run Scan
+- **Active → Obsolete** : Utilisez les paramètres de la définition pour la retirer
+- **Obsolete → Active** : Réactivez depuis les paramètres de la définition
+
+![Dialogue Complete Definition — trois options d'activation](../../../../assets/screenshots/def-builder-step5-review.png)

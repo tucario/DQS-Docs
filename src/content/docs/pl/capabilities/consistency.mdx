@@ -1,0 +1,61 @@
+---
+title: Consistency
+description: Sprawdź logiczną spójność między powiązanymi polami.
+---
+
+## Czym jest Consistency?
+
+Consistency mierzy, czy **powiązane pola zawierają logicznie kompatybilne wartości**. Dane mogą być kompletne i prawidłowe indywidualnie, ale wciąż niespójne, gdy pola sobie przeczą.
+
+## Jak to działa
+
+Strategia Consistency ocenia relacje między parami lub grupami pól:
+
+1. Identyfikuje skonfigurowane reguły spójności (relacje między polami)
+2. Dla każdego rekordu sprawdza, czy powiązane pola spełniają regułę
+3. Oblicza procent rekordów, które przeszły wszystkie kontrole spójności
+
+## Konfiguracja
+
+### Ustawienia globalne
+
+Sekcja **Defaults** kontroluje globalne opcje spójności:
+
+| Ustawienie | Opis |
+|------------|------|
+| **Default Allowed Values** | Globalnie nie ustawiono wartości domyślnych — skonfiguruj dozwolone wartości per pole, aby zdefiniować, co jest uważane za spójne. |
+| **Case-sensitive matching** | Gdy włączone, „Active" i „active" są traktowane jako różne wartości. Domyślnie wyłączone. |
+| **Top N Values** | *(PRO)* Analizuj tylko N najczęstszych wartości do kontroli spójności. |
+| **Minimum Frequency** | *(PRO)* Ignoruj wartości występujące rzadziej niż ten próg. |
+
+Tabela **Field Overrides** wymienia każde pole z bieżącym źródłem dozwolonych wartości, ustawieniem case sensitivity i statusem.
+
+![Konfiguracja Consistency z wartościami domyślnymi (Allowed Values, Matching Options, Advanced Analysis) i tabelą Field Overrides](../../../../assets/screenshots/consistency-generic-view.png)
+
+### Nadpisania per pole
+
+Kliknij pole w tabeli Field Overrides, aby otworzyć modalne okno konfiguracji. Możesz zdefiniować **dozwolone wartości** dla tego pola, dodając je ręcznie lub importując z metadanych pola. Przełączaj **Case-sensitive matching** i konfiguruj ustawienia **Advanced Analysis** (Top N Values, Min Frequency) niezależnie od ustawień globalnych. Użyj linku **Revert to Global**, aby przywrócić.
+
+![Modalne okno konfiguracji per pole dla pola Reason z Values Added, Matching Options i Advanced Analysis](../../../../assets/screenshots/consistency-field-override.png)
+
+### Import z pola
+
+Dla pól picklist kliknij **Import from Field**, aby załadować wszystkie istniejące wartości bezpośrednio z metadanych pola. Okno dialogowe importu pokazuje każdą wartość z polem wyboru i liczbą rekordów ją używających, dzięki czemu możesz wybrać, które wartości mają być traktowane jako prawidłowe. Kliknij **Apply Selection**, aby potwierdzić.
+
+![Okno dialogowe Import from Field pokazujące wartości picklist z liczbą rekordów i polami wyboru](../../../../assets/screenshots/consistency-picklist-override.png)
+
+## Punktacja
+
+| Wynik | Punkty |
+|-------|--------|
+| Wszystkie rekordy spójne | 100 |
+| Niektóre niespójności | Proporcjonalnie do procentu spójnych |
+| Wszystkie rekordy niespójne | 0 |
+| Brak danych | 0 |
+
+## Przypadki użycia
+
+- Wykrywanie szans sprzedażowych, w których Close Date jest wcześniejsza niż Created Date
+- Znajdowanie kont, w których adresy rozliczeniowe i wysyłkowe sobie przeczą
+- Identyfikacja leadów, w których kraj nie odpowiada formatowi numeru telefonu
+- Monitorowanie jakości wprowadzania danych między polami

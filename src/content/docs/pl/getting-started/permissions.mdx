@@ -1,0 +1,58 @@
+---
+title: Uprawnienia
+description: Konfiguracja zestawów uprawnień i dostępu użytkowników w Data Quality Sense.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Zestawy uprawnień
+
+Data Quality Sense zawiera zestawy uprawnień kontrolujące dostęp do poszczególnych części aplikacji.
+
+### DQS Admin
+
+Pełny dostęp do wszystkich funkcji:
+- Tworzenie, edycja i usuwanie definicji skanów
+- Konfiguracja zdolności i progów
+- Uruchamianie i planowanie skanów
+- Przeglądanie wszystkich wyników w Insight Studio
+- Dostęp do konsoli zarządzania błędami
+- Zarządzanie ustawieniami retencji danych
+
+### DQS User
+
+Dostęp tylko do odczytu wyników:
+- Przeglądanie wyników skanów w Insight Studio
+- Eksport danych do CSV
+- Przeglądanie harmonogramów skanów
+
+## Przypisywanie zestawów uprawnień
+
+1. Przejdź do **Setup → Users → Permission Set Assignments** dla wybranego użytkownika
+2. Kliknij **Edit Assignments**
+3. Na liście **Available Permission Sets** znajdź **DQS Admin** lub **DQS User**
+4. Przenieś wybrany zestaw uprawnień do **Enabled Permission Sets** za pomocą przycisku strzałki
+5. Kliknij **Save**
+
+![Przypisanie zestawów uprawnień w Salesforce Setup pokazujące DQS Admin i DQS User w Enabled Permission Sets](../../../../assets/screenshots/permissionsets.png)
+
+<Aside type="caution">
+Użytkownicy bez przypisanego zestawu uprawnień DQS zobaczą bramkę aktywacyjną podczas próby dostępu do aplikacji. Zakładka Getting Started pojawi się automatycznie, aby przeprowadzić administratorów przez proces konfiguracji.
+</Aside>
+
+## Uprawnienia do obiektów
+
+Zestawy uprawnień automatycznie przyznają dostęp do obiektów niestandardowych DQS:
+
+| Obiekt | Admin | User |
+|--------|-------|------|
+| `DQS_Definition__c` | Read/Create/Edit/Delete | Read |
+| `DQS_Definition_Detail__c` | Read/Create/Edit/Delete | Read |
+| `DQS_Dimension_Result__c` | Read | Read |
+| `DQS_Field_Result__c` | Read | Read |
+| `DQS_Metric_Result__c` | Read | Read |
+| `DQS_Batch_Schedule__c` | Read/Create/Edit/Delete | Read |
+
+## Bezpieczeństwo na poziomie pól
+
+Wszystkie pola obiektów DQS są widoczne dla obu zestawów uprawnień. Wyniki metryk, wyniki i pola konfiguracyjne są dostępne tylko do odczytu dla DQS User.

@@ -1,0 +1,65 @@
+---
+title: Timeliness
+description: Bewerten Sie, ob Ihre Daten aktuell und auf dem neuesten Stand sind.
+---
+
+## Was ist Timeliness?
+
+Timeliness misst, ob Datums- und Datetime-Felder **aktuelle, auf dem neuesten Stand befindliche Werte** enthalten. Sie beantwortet die Frage: „Sind diese Daten noch aktuell?"
+
+## Funktionsweise
+
+Für jedes Datumsfeld führt die Timeliness-Strategie folgende Schritte aus:
+
+1. Liest den Datums-/Datetime-Wert
+2. Berechnet das Alter (Differenz zwischen dem Wert und dem aktuellen Datum)
+3. Vergleicht das Alter mit dem konfigurierten Aktualitätsfenster
+4. Markiert Werte, die älter als das Fenster sind, als „veraltet"
+
+## Konfiguration
+
+### Globale Einstellungen
+
+Der Abschnitt **Defaults** steuert globale Timeliness-Optionen:
+
+| Einstellung | Beschreibung |
+|-------------|-------------|
+| **Freshness Threshold** | Das Standard-Aktualitätsfenster in Tagen — Datensätze, die älter als dieser Schwellenwert sind, gelten als veraltet. |
+| **Null Handling** | **Treat null dates as stale** — wenn aktiviert, zählen Datensätze ohne Datumswert als veraltete Daten. |
+| **Overdue Tracking** | Überfälligkeitsverfolgung standardmäßig aktivieren. Markiert Datensätze, die ihr erwartetes Datum überschritten haben. *(PRO)* |
+| **Operational Range** | Betriebsbereichsvalidierung standardmäßig aktivieren. Prüft, ob Daten in eine akzeptable Zeitspanne fallen. *(PRO)* |
+
+Die Tabelle **Field Overrides** listet jedes Datumsfeld mit seinem aktuellen Schwellenwert, Overdue- und Window-Einstellungen auf.
+
+![Timeliness-Konfiguration mit Defaults (Freshness Threshold, Null Handling, Overdue Tracking, Operational Range) und Feld-Überschreibungstabelle](../../../../assets/screenshots/timeliness-generic-view.png)
+
+### Feldspezifische Überschreibungen
+
+Klicken Sie auf ein Feld in der Field Overrides-Tabelle, um dessen Konfigurationsmodal zu öffnen. Sie können einen benutzerdefinierten **Freshness Threshold** (in Tagen) festlegen und **Null Handling**, **Overdue Tracking** und **Operational Range** unabhängig von den globalen Standards umschalten. Verwenden Sie den Link **Revert to Global**, um das Feld auf die globalen Einstellungen zurückzusetzen.
+
+Verschiedene Datumsfelder können unterschiedliche Aktualitätsanforderungen haben:
+
+| Feldbeispiel | Empfohlenes Fenster |
+|-------------|-------------------|
+| `LastActivityDate` | 7 Tage |
+| `LastModifiedDate` | 30 Tage |
+| `Contract_End_Date__c` | 90 Tage |
+| `Annual_Review_Date__c` | 365 Tage |
+
+![Feldspezifisches Konfigurationsmodal für ClosedDate mit Freshness Threshold, Null Handling, Overdue Tracking und Operational Range](../../../../assets/screenshots/timeliness-field-override.png)
+
+## Bewertung
+
+| Ergebnis | Bewertung |
+|----------|-----------|
+| Alle Daten innerhalb des Fensters | 100 |
+| Einige veraltete Daten | Proportional zum Prozentsatz aktueller Daten |
+| Alle Daten veraltet | 0 |
+| Keine Daten | 0 |
+
+## Anwendungsfälle
+
+- Überwachen, ob Vertriebsmitarbeiter Opportunity-Daten aktuell halten
+- Veraltete Kontakte verfolgen, die nicht kürzlich aktualisiert wurden
+- Sicherstellen, dass compliance-relevante Daten gepflegt werden
+- „Tote" Datensätze identifizieren, die möglicherweise bereinigt oder archiviert werden müssen

@@ -1,0 +1,57 @@
+---
+title: Szybki start
+description: Utwórz i uruchom pierwszy skan jakości danych w 5 minut.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Twój pierwszy skan w 5 minut
+
+![Wyszukiwanie Data Quality Sense w Salesforce App Launcher](../../../../assets/screenshots/search-application.png)
+
+1. **Otwórz DQS Builder**
+
+   Przejdź do aplikacji **Data Quality Sense** w Salesforce. Jeśli uprawnienia są poprawnie skonfigurowane, zakładka Builder załaduje się automatycznie.
+
+2. **Utwórz nową definicję**
+
+   Kliknij **New Definition**. Nadaj jej nazwę (np. „Account Quality Check") i wybierz obiekt docelowy — na przykład `Account`.
+
+   <video src="/videos/definition-creation.mp4" controls muted loop style="width:100%;border-radius:0.5rem;border:1px solid var(--sl-color-hairline-light)">Twoja przeglądarka nie obsługuje znacznika video.</video>
+
+3. **Wybierz pola**
+
+   Selektor pól wyświetla wszystkie dostępne pola wybranego obiektu. Wybierz pola, które chcesz monitorować. Możesz użyć paska wyszukiwania do filtrowania oraz sortowania według typu lub etykiety pola.
+
+4. **Wybierz zdolności**
+
+   Określ, które wymiary jakości mają być oceniane:
+   - **Completeness** — czy pola są wypełnione?
+   - **Validity** — czy wartości odpowiadają oczekiwanym formatom?
+   - **Uniqueness** — czy występują zduplikowane wartości?
+
+   Zacznij od Completeness, aby uzyskać najszybszą konfigurację.
+
+5. **Przejrzyj i aktywuj**
+
+   Sprawdź konfigurację na ekranie podsumowania. Kliknij **Activate**, aby przenieść definicję ze statusu Draft do Active.
+
+6. **Uruchom skan**
+
+   Przejdź do **Insight Studio** i uruchom skan ręcznie lub skonfiguruj [harmonogram](/pl/processing/scheduling/).
+
+7. **Wyświetl wyniki**
+
+   Po zakończeniu skanu Insight Studio wyświetli wyniki jakości danych z możliwością przejścia do szczegółów na poziomie pól.
+
+![Wyniki skanu w Insight Studio z wynikami jakości i podziałem na wymiary](../../../../assets/screenshots/definition-results.png)
+
+<Aside type="tip">
+Zawsze możesz wrócić i dodać więcej zdolności lub pól do swojej definicji. Builder umożliwia edycję aktywnych definicji.
+</Aside>
+
+## Co dalej?
+
+- Poznaj wszystkie [6 zdolności jakości](/pl/capabilities/overview/)
+- Odkryj [pulpity Insight Studio](/pl/insight-studio/overview/)
+- Skonfiguruj [automatyczne harmonogramy skanów](/pl/processing/scheduling/)

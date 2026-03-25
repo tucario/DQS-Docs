@@ -1,0 +1,45 @@
+---
+title: Field Health
+description: Verwenden Sie die Field Health Matrix, um Ihre schwächsten Datenpunkte zu identifizieren.
+---
+
+## Field Health Matrix
+
+Die Field Health Matrix ist eine **Rasteransicht**, die jedes gescannte Feld gegen jede aktivierte Dimension zeigt. Jede Zelle zeigt die Bewertung des Feldes für diese Dimension, farbcodiert nach Note.
+
+![Scan-Ergebnis-Drilldown — Feldergebnisse mit Bewertungen pro Dimension, farbcodiert grün für hoch und rot für niedrig](../../../../assets/screenshots/insight-studio-result-drilldown.png)
+
+## Die Matrix lesen
+
+| Achse | Inhalt |
+|-------|--------|
+| **Zeilen** | Einzelne Felder (sortiert nach Gesamtbewertung, schlechteste zuerst) |
+| **Spalten** | Qualitätsdimensionen (Completeness, Validity usw.) |
+| **Zellen** | Bewertung (0–100) mit Farbindikator |
+
+### Farbcodierung
+
+- **Grüne Zellen** — Bewertung ≥ 90 (Excellent)
+- **Gelbe Zellen** — Bewertung 50–89 (Fair bis Good)
+- **Rote Zellen** — Bewertung < 50 (Poor bis Critical)
+- **Graue Zellen** — Nicht anwendbar (Dimension gilt nicht für diesen Feldtyp)
+
+## Die Matrix verwenden
+
+### Problemfelder identifizieren
+
+Scannen Sie die Matrix nach Zeilen mit mehreren roten/gelben Zellen. Diese Felder haben Qualitätsprobleme über mehrere Dimensionen.
+
+### Problemdimensionen identifizieren
+
+Suchen Sie nach Spalten mit vielen roten Zellen. Diese Dimensionen erfordern Aufmerksamkeit in Ihrem Datensatz.
+
+### Drill-Down
+
+Klicken Sie auf eine beliebige Zelle, um zur detaillierten Feld-Dimensions-Ansicht zu navigieren, die die spezifischen Metriken und Datensätze zeigt, die zu dieser Bewertung beitragen.
+
+## Sortierung und Filterung
+
+- **Nach Bewertung sortieren** — Die am schlechtesten bewerteten Felder zuerst anzeigen
+- **Nach Dimension filtern** — Auf eine bestimmte Qualitätsdimension fokussieren
+- **Nach Feldtyp filtern** — Nur Text-, Number- oder Date-Felder anzeigen

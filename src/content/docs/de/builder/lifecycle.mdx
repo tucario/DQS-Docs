@@ -1,0 +1,68 @@
+---
+title: Definitions-Lebenszyklus
+description: Die Lebenszyklusphase einer Scan-Definition verstehen.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Lebenszyklusphasen
+
+Jede Scan-Definition durchläuft eine Reihe von Phasen:
+
+```
+Draft  →  Ready  →  Active  →  Obsolete
+```
+
+### Draft
+
+Der Anfangszustand bei der Erstellung einer Definition. Im Status Draft:
+- Die Definition kann frei bearbeitet werden
+- Felder und Capabilities können hinzugefügt oder entfernt werden
+- Es können keine Scans ausgeführt werden
+- Die Definition ist in Insight Studio nicht sichtbar
+
+### Ready
+
+Ein Übergangszustand, der anzeigt, dass die Definition überprüft wurde. Im Status Ready:
+- Alle erforderlichen Konfigurationen sind abgeschlossen
+- Die Definition hat die Validierung bestanden
+- Sie kann aktiviert werden
+
+### Active
+
+Der Betriebszustand. Im Status Active:
+- Scans können gegen die Definition ausgeführt werden
+- Ergebnisse erscheinen in Insight Studio
+- Die Definition kann für wiederkehrende Scans geplant werden
+- Bearbeitung ist weiterhin möglich — Änderungen werden beim nächsten Scan wirksam
+
+### Obsolete
+
+Der zurückgezogene Zustand. Im Status Obsolete:
+- Es können keine neuen Scans ausgelöst werden
+- Bestehende Ergebnisse bleiben in Insight Studio für historische Analysen sichtbar
+- Die Definition kann bei Bedarf reaktiviert werden
+
+![Definition im Status Draft — bearbeitbar, noch nicht scannbar](../../../../assets/screenshots/remove-definition-as-admin.png)
+
+## Aktivierungsvalidierung
+
+Bevor eine Definition aktiviert werden kann, validiert DQS:
+
+| Regel | Beschreibung |
+|-------|-------------|
+| **Felder ausgewählt** | Mindestens ein Feld muss ausgewählt sein |
+| **Capabilities aktiviert** | Mindestens eine Capability muss aktiviert sein |
+| **Konfiguration vollständig** | Alle erforderlichen Capability-Einstellungen müssen ausgefüllt sein |
+
+<Aside type="note">
+Wenn Sie auf **Activate** klicken, wechselt die Definition direkt in den Status Active. Der Status Ready wird intern für die Validierungsprüfung verwendet.
+</Aside>
+
+## Status ändern
+
+- **Draft → Active**: Klicken Sie auf „Mark as Complete" im Zusammenfassungsbildschirm — wählen Sie zwischen Complete Only, Complete & Schedule oder Complete & Run Scan
+- **Active → Obsolete**: Verwenden Sie die Definitionseinstellungen, um sie zurückzuziehen
+- **Obsolete → Active**: Reaktivierung über die Definitionseinstellungen
+
+![Dialog „Definition abschließen" — drei Aktivierungsoptionen](../../../../assets/screenshots/def-builder-step5-review.png)

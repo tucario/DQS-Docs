@@ -1,0 +1,70 @@
+---
+title: Uniqueness
+description: Identifier les valeurs en double entre les enregistrements de vos données Salesforce.
+---
+
+## Qu'est-ce que Uniqueness ?
+
+Uniqueness mesure si les valeurs des champs sont **distinctes entre les enregistrements**. Une unicité élevée signifie que chaque enregistrement a une valeur différente pour le champ — une unicité faible indique des doublons.
+
+## Fonctionnement
+
+Pour chaque champ, la stratégie Uniqueness :
+
+1. Collecte toutes les valeurs non nulles des enregistrements dans le périmètre
+2. Identifie les valeurs en double
+3. Calcule : `(valeurs uniques / total des valeurs renseignées) × 100`
+
+## Configuration
+
+### Paramètres globaux
+
+La section **Defaults** contrôle les options globales d'unicité :
+
+| Paramètre | Description |
+|-----------|-------------|
+| **Case-sensitive matching** | Lorsqu'activé, « John Smith » et « john smith » sont considérés comme des valeurs différentes pour la comparaison. Lorsque désactivé, ils comptent comme des doublons. |
+| **Include blanks in uniqueness checks** | Lorsqu'activé, les valeurs vides et nulles sont traitées comme des valeurs distinctes dans les calculs de comparaison. |
+
+Le tableau **Field Overrides** en dessous liste chaque champ avec ses paramètres actuels de Case Sensitive, Include Blanks et son statut.
+
+![Configuration d'Uniqueness avec Defaults (Matching Options, Blank Handling) et tableau des Field Overrides](../../../../assets/screenshots/unqueness-generic-view.png)
+
+### Surcharges par champ
+
+Cliquez sur un champ dans le tableau Field Overrides pour ouvrir sa modale de configuration. Vous pouvez activer/désactiver **Case-sensitive matching** et **Include blanks in uniqueness checks** indépendamment des paramètres globaux. Utilisez le lien **Revert to Global** pour réinitialiser le champ aux paramètres globaux.
+
+![Modale de configuration par champ pour le champ Phone avec les options Case Sensitivity et Blank Handling](../../../../assets/screenshots/generic-per-field-override.png)
+
+## Scoring
+
+| Résultat | Score |
+|----------|-------|
+| Toutes les valeurs uniques | 100 |
+| Quelques doublons | Proportionnel au pourcentage de valeurs uniques |
+| Toutes les valeurs identiques | Proche de 0 |
+| Aucune donnée | 0 |
+
+## Limite d'analyse
+
+L'analyse d'unicité traite jusqu'à **40 000 enregistrements par scan**. Pour les objets avec plus d'enregistrements, les résultats reflètent un échantillon représentatif. Cette limite existe pour éviter un dépassement de mémoire heap Salesforce, car le moteur construit une carte en mémoire des comptages de valeurs par champ. Les champs dépassant 40 000 valeurs distinctes sont signalés comme champs à haute cardinalité.
+
+## Types de champs applicables
+
+Uniqueness est la plus significative pour :
+- **Email** — devrait être unique par contact/lead
+- **Phone** — souvent unique par personne
+- **External IDs** — doivent être uniques par définition
+- **Champs texte** — noms, descriptions
+
+Moins significative pour :
+- **Boolean** — seulement deux valeurs possibles
+- **Picklist** — ensemble de valeurs limité par conception
+- **Date** — de nombreux enregistrements peuvent partager des dates
+
+## Cas d'utilisation
+
+- Détecter les adresses e-mail en double parmi les Contacts ou Leads
+- Vérifier que les champs d'ID externe sont réellement uniques
+- Identifier les problèmes de saisie de données où la même valeur est copiée entre les enregistrements
+- Surveiller les efforts de déduplication au fil du temps

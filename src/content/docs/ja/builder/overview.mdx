@@ -1,0 +1,53 @@
+---
+title: Builderの概要
+description: DQS Builder — データ品質スキャンの構成ウィザードについて学びます。
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Builderとは
+
+DQS Builderは、データ品質の測定方法を正確に定義できる**マルチステップ構成ウィザード**です。オブジェクトの選択、項目の選択、品質ディメンションの選択、しきい値の設定をガイドします。
+
+## Builderのワークスペース
+
+Builderは**3ゾーンレイアウト**を使用します：
+
+- **サイドバー** — 定義と構成ステージを表示するナビゲーションツリー
+- **ステージ** — 定義の各ステップを構成するメインコンテンツエリア
+- **メンターパネル** — 現在のステップに適応するコンテキストヘルプとガイダンス
+
+{/* TODO: Screenshot — Full Builder workspace showing the 3-zone layout: sidebar with definition nav tree on the left, main stage area in the center, and mentor panel on the right. Show it on the capability configuration step for maximum visual impact. */}
+
+## 主要な概念
+
+<CardGrid>
+	<Card title="定義" icon="document">
+		評価するオブジェクト、項目、品質ケイパビリティを指定するスキャン構成です。各定義はスキャン時に結果セットを生成します。
+	</Card>
+	<Card title="ケイパビリティ" icon="approve-check-circle">
+		CompletenessやValidityのような品質ディメンションです。各ケイパビリティはグローバルに構成するか、項目ごとにオーバーライドできます。
+	</Card>
+	<Card title="定義詳細" icon="list-format">
+		特定の項目を定義にリンクし、各ケイパビリティの項目ごとの構成オーバーライドを保存するレコードです。
+	</Card>
+	<Card title="ライフサイクル" icon="setting">
+		定義はステージを通じて進行します：Draft → Ready → Active → Obsolete。スキャンできるのはActive定義のみです。
+	</Card>
+</CardGrid>
+
+## Builderのステージ
+
+1. **Getting Started** — 対象のSalesforceオブジェクトを選択
+2. **項目選択** — スキャンに含める項目を選択
+3. **ケイパビリティ構成** — 品質ディメンションを有効化して構成
+4. **サマリー** — 有効化前に定義全体をレビュー
+
+各ステージは、次のステップに進む前に入力を検証します。
+
+## 詳細
+
+- [定義の作成](/ja/builder/creating-definition/)
+- [項目選択](/ja/builder/field-selection/)
+- [ケイパビリティの構成](/ja/builder/capabilities/)
+- [定義のライフサイクル](/ja/builder/lifecycle/)

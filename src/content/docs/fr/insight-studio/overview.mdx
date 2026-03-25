@@ -1,0 +1,53 @@
+---
+title: Présentation d'Insight Studio
+description: Explorez les résultats de qualité des données avec des tableaux de bord et des analyses riches.
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Qu'est-ce qu'Insight Studio ?
+
+Insight Studio (DIS) est la **couche de visualisation et d'analyse** de Data Quality Sense. Il consomme les résultats des scans et les présente sous forme de tableaux de bord interactifs, de graphiques et de recommandations.
+
+## Disposition de l'espace de travail
+
+Insight Studio utilise une **disposition en 3 zones** :
+
+- **Barre latérale** — Navigation par objet/définition, filtres et options de répartition
+- **Zone principale** — Zone de contenu principale avec scores, graphiques et tableaux de données
+- **Panneau Mentor** — Recommandations basées sur l'IA et actions contextuelles
+
+<CardGrid>
+	<Card title="Vue d'ensemble des scores" icon="open-book">
+		Scores de qualité en un coup d'œil pour chaque dimension, avec notes globales et indicateurs de grade.
+	</Card>
+	<Card title="Analyse des tendances" icon="open-book">
+		Sparklines et graphiques de tendances montrant comment la qualité des données évolue au fil du temps entre les scans.
+	</Card>
+	<Card title="Santé des champs" icon="open-book">
+		Vue matricielle du score de qualité de chaque champ par dimension. Repérez rapidement les champs les plus faibles.
+	</Card>
+	<Card title="AI Mentor" icon="open-book">
+		Recommandations contextuelles basées sur les résultats des scans. Suggère des actions pour améliorer la qualité des données.
+	</Card>
+</CardGrid>
+
+![Accueil Insight Studio — objets avec scores de qualité, définitions et scans récents](../../../../assets/screenshots/insight-studio.png)
+
+## Fonctionnalités clés
+
+| Fonctionnalité | Description |
+|----------------|-------------|
+| **Navigation multi-niveaux** | Naviguez de Home → Object → Definition → Scan → Field → Dimension |
+| **Comparaison de scores** | Comparez les résultats entre deux scans pour voir les améliorations ou régressions |
+| **Menu Actions** | Créer des Tasks, publier des messages Chatter ou exporter en CSV pour les enregistrements impactés |
+| **Déclenchement de scan** | Déclenchez manuellement un scan depuis le tableau de bord |
+| **Gestion des planifications** | Créez et gérez les planifications de scans |
+
+## En savoir plus
+
+- [Navigation](/fr/insight-studio/navigation/)
+- [Scores et tendances](/fr/insight-studio/scores-trends/)
+- [Santé des champs](/fr/insight-studio/field-health/)
+- [Actions](/fr/insight-studio/actions/)
+- [Exports](/fr/insight-studio/exports/)

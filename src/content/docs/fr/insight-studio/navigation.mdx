@@ -1,0 +1,80 @@
+---
+title: Navigation
+description: Comment naviguer dans le tableau de bord multi-niveaux d'Insight Studio.
+---
+
+## Profondeur de navigation
+
+Insight Studio offre une hiérarchie de **navigation à 6 niveaux** :
+
+```
+Home → Object → Definition → Scan → Field → Dimension
+```
+
+### Niveau 1 : Home
+
+La vue de niveau supérieur montrant tous les objets scannés avec leurs derniers scores de qualité. Utilisez-la pour identifier quels objets nécessitent une attention.
+
+![Accueil DQS — vue d'ensemble avec le nombre de définitions, les scans, les planifications actives et le tableau d'activité récente](../../../../assets/screenshots/dqs-home.png)
+
+### Niveau 2 : Object
+
+Affiche toutes les définitions pour un objet sélectionné avec le score de qualité global, la date du dernier scan, le statut et les cartes de définition. Comparez côte à côte différentes configurations de scan et leurs résultats.
+
+![Vue de l'objet Case — score global de 64,7 %, 2 définitions avec scores individuels et nombre de scans](../../../../assets/screenshots/object-with-definitions.png)
+
+### Niveau 3 : Definition
+
+Le tableau de bord principal pour une seule définition. Il comporte quatre onglets :
+
+- **Overview** — Score de qualité global, barres de score par dimension, graphique Score Trend et panneau Record Scores
+- **Fields** — Matrice de santé des champs avec les scores par champ pour chaque dimension
+- **Scans** — Historique complet des scans avec les résultats par exécution
+- **Exports** — Télécharger les détails des violations en CSV par dimension et par champ, ou agir via Create Tasks et Post Chatter
+
+![Tableau de bord de la définition — score global de 85,8 %, répartition par dimension, graphique Score Trend et Record Scores](../../../../assets/screenshots/object-with-latest-scans.png)
+
+L'onglet **Fields** affiche le score de chaque champ par dimension dans une matrice colorée — rouge pour médiocre, vert pour bon. Utilisez-le pour repérer rapidement les champs les plus faibles.
+
+![Onglet Fields — Matrice de santé des champs avec les scores par dimension, colorés par grade](../../../../assets/screenshots/object-fields-section.png)
+
+L'onglet **Exports** liste les exports disponibles par dimension et par champ, avec des boutons de téléchargement et l'historique des exports.
+
+![Onglet Exports — historique des exports et boutons d'export par champ pour chaque dimension](../../../../assets/screenshots/object-exports-tab.png)
+
+Depuis l'onglet Overview, cliquez sur **Compare** dans le graphique Score Trend pour comparer deux scans côte à côte — consultez les écarts au niveau des dimensions et des champs entre un scan de référence et un scan de comparaison.
+
+![Modale Compare Results — référence vs comparaison avec les changements par dimension et les principaux écarts par champ](../../../../assets/screenshots/object-compare-results.png)
+
+### Niveau 4 : Scan
+
+Résultats détaillés pour une exécution de scan spécifique. L'onglet **Scans** affiche l'historique complet des scans avec les indicateurs de statut, les scores et les répartitions par dimension pour chaque exécution.
+
+![Onglet Scans montrant l'historique des scans avec dates, scores, statuts et résultats par dimension](../../../../assets/screenshots/object-scans-tab.png)
+
+### Niveau 5 : Field
+
+Résultats pour un champ unique sur toutes les dimensions. Utile pour comprendre pourquoi un champ spécifique a un score faible.
+
+### Niveau 6 : Dimension
+
+Le niveau le plus profond — résultats métriques individuels pour un champ dans une dimension. Affiche les données d'évaluation brutes.
+
+## Panneau latéral
+
+La barre latérale droite affiche le contexte et les actions pour la définition en cours :
+
+- **En-tête** — Nom de la définition, score global avec grade, nombre de scans et un bouton d'actualisation
+- **Run Scan** — Déclencher un scan manuellement, avec la date du dernier scan affichée en dessous
+- **Analyze** — Menu déroulant **Actions** avec **Export Report**, **Create Tasks** et **Post Chatter** ([détails](/fr/insight-studio/actions/))
+- **Configure** — **Manage Schedule** avec un compte à rebours jusqu'au prochain scan planifié (par exemple, « Next in 8h 28m »)
+- **Navigate** — **Open in Salesforce** (lien externe vers l'enregistrement de la définition) et **View Records** (parcourir les enregistrements scannés)
+- **Quick Fix** — Met en évidence le champ le plus faible avec son score (par exemple, « Description at 9.6% — worst field ») et un lien direct **Investigate** pour approfondir
+
+![Panneau latéral avec les sections Run Scan, Analyze, Configure, Navigate et Quick Fix](../../../../assets/screenshots/sidebar-panel.png)
+
+## Navigation par fil d'Ariane
+
+Un fil d'Ariane en haut de la zone principale indique votre position actuelle dans la hiérarchie. Cliquez sur n'importe quel segment du fil d'Ariane pour revenir à ce niveau.
+
+![Fil d'Ariane : Home → Case → Case SLA Compliance Check → DQR-0007 → Case Number](../../../../assets/screenshots/insight-studio-breadcumbs.png)

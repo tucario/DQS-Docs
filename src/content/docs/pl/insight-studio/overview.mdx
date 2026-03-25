@@ -1,0 +1,53 @@
+---
+title: Przegląd Insight Studio
+description: Eksploruj wyniki jakości danych za pomocą rozbudowanych pulpitów i analiz.
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Czym jest Insight Studio?
+
+Insight Studio (DIS) to **warstwa wizualizacji i analiz** Data Quality Sense. Przetwarza wyniki skanów i prezentuje je jako interaktywne pulpity, wykresy i rekomendacje.
+
+## Układ przestrzeni roboczej
+
+Insight Studio wykorzystuje **układ 3-strefowy**:
+
+- **Sidebar** — Nawigacja po obiektach/definicjach, filtry i opcje podziału
+- **Stage** — Główny obszar z wynikami, wykresami i tabelami danych
+- **Mentor Panel** — Rekomendacje wspierane przez AI i kontekstowe akcje
+
+<CardGrid>
+	<Card title="Przegląd wyników" icon="open-book">
+		Wyniki jakości na pierwszy rzut oka dla każdego wymiaru, z ogólnymi ocenami i wskaźnikami klas.
+	</Card>
+	<Card title="Analiza trendów" icon="open-book">
+		Wykresy sparkline i wykresy trendów pokazujące, jak jakość danych zmienia się w czasie między skanami.
+	</Card>
+	<Card title="Kondycja pól" icon="open-book">
+		Widok macierzowy wyniku jakości każdego pola per wymiar. Szybko znajdź najsłabsze pola.
+	</Card>
+	<Card title="AI Mentor" icon="open-book">
+		Kontekstowe rekomendacje oparte na wynikach skanów. Sugeruje działania poprawiające jakość danych.
+	</Card>
+</CardGrid>
+
+![Strona główna Insight Studio — obiekty z wynikami jakości, definicje i ostatnie skany](../../../../assets/screenshots/insight-studio.png)
+
+## Kluczowe funkcje
+
+| Funkcja | Opis |
+|---------|------|
+| **Nawigacja wielopoziomowa** | Przechodzenie od Home → Object → Definition → Scan → Field → Dimension |
+| **Porównanie wyników** | Porównanie wyników między dwoma skanami, aby zobaczyć poprawę lub regresję |
+| **Menu akcji** | Tworzenie zadań, publikowanie w Chatter lub eksport CSV dla rekordów z problemami |
+| **Wyzwalanie skanu** | Ręczne wyzwolenie skanu z pulpitu |
+| **Zarządzanie harmonogramami** | Tworzenie i zarządzanie harmonogramami skanów |
+
+## Dowiedz się więcej
+
+- [Nawigacja](/pl/insight-studio/navigation/)
+- [Wyniki i trendy](/pl/insight-studio/scores-trends/)
+- [Kondycja pól](/pl/insight-studio/field-health/)
+- [Akcje](/pl/insight-studio/actions/)
+- [Eksporty](/pl/insight-studio/exports/)

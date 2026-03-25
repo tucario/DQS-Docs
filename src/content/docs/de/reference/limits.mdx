@@ -1,0 +1,67 @@
+---
+title: Limits & Hinweise
+description: Salesforce Governor Limits und Leistungshinweise für DQS.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Salesforce Governor Limits
+
+DQS läuft vollständig innerhalb von Salesforce und unterliegt den standardmäßigen Governor Limits. Die Verarbeitungs-Engine ist so konzipiert, dass sie innerhalb dieser Beschränkungen arbeitet.
+
+### Batch-Verarbeitungslimits
+
+| Limit | Salesforce-Maximum | DQS-Auswirkung |
+|-------|-------------------|----------------|
+| **Batch size** | 2.000 Datensätze pro Chunk | Über DQS-Einstellungen konfigurierbar |
+| **Concurrent batches** | 5 pro Organisation | DQS verwendet 1 Batch pro Scan |
+| **SOQL queries per transaction** | 100 | Dynamische Abfragen werden effizient genutzt |
+| **DML operations per transaction** | 150 | Ergebnisse werden für effiziente Schreibvorgänge gebündelt |
+| **Heap size** | 12 MB (async) | Große Textfelder können beitragen |
+
+### Zeitplanungslimits
+
+| Limit | Salesforce-Maximum |
+|-------|-------------------|
+| **Scheduled Apex jobs** | 100 pro Organisation |
+| **CRON triggers** | 100 pro Organisation |
+
+<Aside type="caution">
+Jeder DQS-Scan-Zeitplan belegt einen Scheduled Apex-Platz. Planen Sie entsprechend, wenn Ihre Organisation viele andere geplante Jobs hat.
+</Aside>
+
+## Leistungshinweise
+
+### Objektgröße
+
+| Objektgröße | Erwartete Scan-Dauer | Hinweise |
+|-------------|---------------------|----------|
+| < 10.000 Datensätze | Minuten | Schnelle Verarbeitung |
+| 10.000 – 100.000 | 10–30 Minuten | Normale Batch-Verarbeitung |
+| 100.000 – 1.000.000 | 30–60 Minuten | Planung außerhalb der Spitzenzeiten empfohlen |
+| > 1.000.000 | 1+ Stunden | Während Wartungsfenstern planen |
+
+### Anzahl der Felder
+
+Mehr Felder in einer Definition bedeuten mehr Verarbeitung pro Datensatz. Eine Definition mit 50+ Feldern benötigt länger als eine mit 10 Feldern.
+
+### Anzahl der Capabilities
+
+Jede aktivierte Capability fügt eine Dimension-Strategy-Ausführung pro Chunk hinzu. Die Aktivierung aller 7 Capabilities dauert etwa 7-mal länger als die Aktivierung nur einer.
+
+## Best Practices
+
+- **Außerhalb der Spitzenzeiten planen** — Auswirkungen auf Benutzer minimieren
+- **Klein anfangen** — Mit einer Capability und einigen Schlüsselfeldern beginnen, dann erweitern
+- **Batch-Jobs überwachen** — Verwenden Sie Setup → Apex Jobs, um den Scan-Fortschritt zu prüfen
+- **Aufbewahrungsrichtlinien verwenden** — Unbegrenztes Ergebniswachstum verhindern
+- **Zeitpläne staffeln** — Nicht alle Definitionen gleichzeitig planen
+
+## Speicher
+
+Scan-Ergebnisse verbrauchen Salesforce-Datenspeicher. Jeder Scan erstellt:
+- 1 Dimension Result pro aktivierter Capability
+- 1 Field Result pro Feld pro Capability
+- Mehrere Metric Results pro Feld
+
+Mit konfigurierter [Datenaufbewahrung](/de/processing/data-retention/) werden alte Ergebnisse automatisch bereinigt.

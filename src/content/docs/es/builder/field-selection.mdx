@@ -1,0 +1,80 @@
+---
+title: Selección de campos
+description: Cómo seleccionar campos para su definición de escaneo de calidad de datos.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Selector de campos
+
+El selector de campos es la segunda etapa del asistente del Builder. Muestra todos los campos disponibles en el objeto seleccionado en una tabla paginada.
+
+![Selector de campos mostrando todos los campos del objeto Opportunity con búsqueda, filtro de tipo y casillas de selección](../../../../assets/screenshots/def-builder-step2-scope.png)
+
+## Funcionalidades
+
+### Búsqueda y filtro
+
+- **Búsqueda** — Filtrar campos por etiqueta o nombre de API
+- **Filtro por tipo de campo** — Mostrar solo tipos de campo específicos (Text, Number, Picklist, etc.)
+- **Columnas ordenables** — Ordenar por etiqueta de campo, nombre de API o tipo de campo
+
+![Vista de campos filtrada mostrando resultados de búsqueda después de escribir una consulta — solo se muestran los campos coincidentes](../../../../assets/screenshots/def-builder-step2-scope-filtered.png)
+
+### Información de campos
+
+Para cada campo, el selector muestra:
+
+| Columna | Descripción |
+|---------|-------------|
+| **Label** | El nombre de visualización del campo |
+| **API Name** | El nombre del desarrollador (por ejemplo, `BillingCity`) |
+| **Type** | Tipo de dato del campo (Text, Number, Date, Picklist, etc.) |
+| **Required** | Si el campo es obligatorio en el diseño |
+
+### Selección masiva
+
+Use el enlace **Select All** para agregar todos los campos disponibles a su alcance de una vez — el enlace muestra el conteo total de campos (por ejemplo, "Select All (71)"). Para eliminar todas las selecciones, haga clic en **Clear All**. La barra superior muestra contadores en vivo para campos **Selected** y **Available** para que siempre sepa cuántos campos están en el alcance.
+
+Las selecciones se mantienen entre páginas — puede seleccionar campos en la página 1, navegar a la página 2, y sus selecciones se conservan. El panel **Scope Stats** a la derecha resume su selección actual.
+
+![Enlace Select All en el encabezado del selector de campos para seleccionar masivamente todos los campos disponibles](../../../../assets/screenshots/select-all-fields.png)
+
+## Consideraciones sobre campos
+
+<Aside type="tip">
+No todos los tipos de campo son aplicables a todas las capacidades. Por ejemplo, Uniqueness puede no ser significativo para campos Boolean. DQS maneja automáticamente las combinaciones no aplicables.
+</Aside>
+
+### Campos recomendados
+
+Para un escaneo completo, incluya:
+- **Campos de identificación clave** — Name, Email, Phone
+- **Campos de dirección** — para Completeness y Validity
+- **Campos de fecha** — para Timeliness
+- **Campos de lista de selección** — para Validity y Consistency
+- **Campos de texto libre** — para Completeness y PII Detection
+
+### Campos a evitar
+
+- Campos generados por el sistema (Id, CreatedDate, LastModifiedDate) — siempre están rellenados
+- Campos de fórmula — sus valores son calculados, no ingresados por usuarios
+- Campos encriptados — pueden no ser legibles por el motor de escaneo
+
+## Vista de alcance
+
+La vista de alcance es el espacio de trabajo principal para seleccionar y revisar campos:
+
+1. **Paso de alcance** — Haga clic en el paso **Scope** en la barra lateral del asistente del Builder para cargar todos los campos del objeto objetivo. Aquí es donde define qué campos se incluirán en su escaneo de calidad de datos.
+
+2. **All Fields** — La vista predeterminada que muestra cada campo del objeto. Use esta pestaña para explorar la lista completa, marcar o desmarcar campos y ver la etiqueta, nombre de API, tipo y si es un campo estándar o personalizado. Los campos seleccionados se resaltan en la lista.
+
+3. **Filtro Selected** — Cambie a esta vista para ver solo los campos que ya ha agregado al alcance. El contador muestra cuántos campos están seleccionados (por ejemplo, "Selected: 2"). Úselo para revisar rápidamente sus elecciones y eliminar campos que ya no necesite.
+
+4. **Filtro Available** — Muestra solo los campos que aún no están en su alcance. El contador indica cuántos quedan (por ejemplo, "Available: 16"). Útil cuando desea explorar qué queda por agregar sin desplazarse por los campos ya seleccionados.
+
+5. **Filtro de tipo** — El menú desplegable **All Types** le permite restringir la lista de campos a un tipo de dato específico — Text, Number, Date, Picklist, Boolean, Lookup y más. Combínelo con los otros filtros para encontrar rápidamente los campos exactos que necesita (por ejemplo, mostrar solo campos Picklist disponibles).
+
+El panel **Scope Stats** a la derecha resume su selección con un conteo de campos y muestra un indicador **Ready to proceed** cuando al menos un campo está seleccionado.
+
+![Vista de alcance con lista de campos, búsqueda, filtro de tipo y contadores de selección](../../../../assets/screenshots/field-scope-view.png)

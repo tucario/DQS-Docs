@@ -1,0 +1,66 @@
+---
+title: 品質ケイパビリティ
+description: Data Quality Senseの6つのデータ品質ディメンションの概要。
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## データ品質の6つのディメンション
+
+Data Quality Senseは、**6つの異なる品質ディメンション**（ケイパビリティ）にわたってデータを評価します。各ディメンションはデータ品質の異なる側面に焦点を当て、全体的な品質評価にロールアップされる独立したスコアを生成します。
+
+<CardGrid>
+	<Card title="Completeness" icon="approve-check-circle">
+		項目に値が含まれているかを測定します。選択した項目全体でnull、空白、欠損データを検出します。
+		[詳細 →](/ja/capabilities/completeness/)
+	</Card>
+	<Card title="Validity" icon="approve-check-circle">
+		値が期待されるフォーマット、範囲、パターンに準拠しているかを確認します。選択リストバリデーションと正規表現マッチングをサポートします。
+		[詳細 →](/ja/capabilities/validity/)
+	</Card>
+	<Card title="Uniqueness" icon="approve-check-circle">
+		レコード間の重複値を識別します。一意の値が期待されるが重複が存在する項目をフラグします。
+		[詳細 →](/ja/capabilities/uniqueness/)
+	</Card>
+	<Card title="Timeliness" icon="approve-check-circle">
+		データが最新で最新の状態かを評価します。構成可能な時間ウィンドウに基づいて鮮度を測定します。
+		[詳細 →](/ja/capabilities/timeliness/)
+	</Card>
+	<Card title="Consistency" icon="approve-check-circle">
+		関連する項目間の論理的整合性を確認します。クローズ日がオープン日より前であるような矛盾を検出します。
+		[詳細 →](/ja/capabilities/consistency/)
+	</Card>
+	<Card title="PII Detection" icon="approve-check-circle">
+		自由テキスト項目で個人を特定できる情報をスキャンします。データプライバシーコンプライアンスに役立ちます。
+		[詳細 →](/ja/capabilities/pii-detection/)
+	</Card>
+</CardGrid>
+
+## スコアリングの仕組み
+
+各ケイパビリティは、スキャンされた各項目に対して**0から100のスコア**を生成します：
+
+- **100** — このディメンションで完全な品質
+- **75–99** — 良好、軽微な問題あり
+- **50–74** — 中程度の品質、注意が推奨されます
+- **0–49** — 低品質、対応が必要
+- **0** — 測定するデータがありません（例：すべての項目が空）
+
+スコアは集計されます：
+1. **項目スコア** — ケイパビリティごとの個別項目結果
+2. **ディメンションスコア** — 1つのケイパビリティに対するすべての項目の平均
+3. **定義スコア** — すべてのディメンションの加重平均
+
+## ケイパビリティの適用可能性
+
+すべてのケイパビリティがすべての項目タイプに適用されるわけではありません。DQSは適用されない組み合わせを自動的に処理します：
+
+| 項目タイプ | Completeness | Validity | Uniqueness | Timeliness | Consistency | PII Detection |
+|------------|:---:|:---:|:---:|:---:|:---:|:---:|
+| Text | ✓ | ✓ | ✓ | — | ✓ | ✓ |
+| Number | ✓ | ✓ | ✓ | — | ✓ | — |
+| Date | ✓ | ✓ | — | ✓ | ✓ | — |
+| Picklist | ✓ | ✓ | — | — | ✓ | — |
+| Boolean | ✓ | — | — | — | ✓ | — |
+| Email | ✓ | ✓ | ✓ | — | — | ✓ |
+| Phone | ✓ | ✓ | ✓ | — | — | ✓ |

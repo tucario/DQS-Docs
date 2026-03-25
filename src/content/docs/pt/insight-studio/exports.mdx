@@ -1,0 +1,57 @@
+---
+title: Exportacoes
+description: Exporte resultados de varredura e detalhes de violacoes para CSV.
+---
+
+## Exportacao CSV
+
+O Insight Studio suporta **exportacao CSV** de detalhes de violacoes para todas as dimensoes. Isso permite que voce tome acoes sobre problemas de qualidade de dados fora do Salesforce.
+
+## O que e Exportado
+
+Cada exportacao contem os registros especificos que falharam nas verificacoes de qualidade para uma determinada dimensao:
+
+| Dimensao | A Exportacao Contem |
+|----------|---------------------|
+| **Completeness** | Registros com campos em branco/nulos |
+| **Validity** | Registros com valores invalidos |
+| **Uniqueness** | Registros com valores duplicados |
+| **Timeliness** | Registros com datas desatualizadas |
+| **Consistency** | Registros com campos contraditorios |
+| **PII Detection** | Registros com PII detectado |
+
+## Colunas da Exportacao
+
+Cada CSV inclui:
+- **Record ID** — Identificador do registro Salesforce
+- **Record Name** — Nome de exibicao do registro
+- **Field** — O campo que falhou na verificacao
+- **Current Value** — O valor que acionou a violacao
+- **Violation Type** — Tipo especifico de problema de qualidade
+- **Score** — A pontuacao do campo para esta dimensao
+
+## Como Exportar
+
+1. Navegue ate a visualizacao de dimensao ou campo no Insight Studio
+2. Clique no botao **Export**
+3. A exportacao e executada como um processo em segundo plano — voce recebe uma **notificacao personalizada** no icone de sino quando ela e concluida. Cada notificacao mostra a dimensao, campo e numero de violacoes exportadas (por exemplo, "Validity — Status: 0 violations exported")
+4. Clique na notificacao para navegar ate a pagina **Field Result** no Salesforce, onde o CSV esta anexado no painel **Files**
+
+<video src="/videos/export-csv.mp4" controls muted loop style="width:100%;border-radius:0.5rem;border:1px solid var(--sl-color-hairline-light)">Seu navegador nao suporta a tag de video.</video>
+
+![Painel de notificacoes mostrando exportacoes CSV concluidas por dimensao e campo com timestamps](../../../../assets/screenshots/csv-export-complete.png)
+
+A pagina Field Result mostra o contexto completo — identidade do campo, dimensao, detalhes de pontuacao (pontuacao, limite, registros vazios/preenchidos) e uma secao **AI Insight**. O arquivo CSV exportado esta disponivel para download no painel **Files** a direita.
+
+![Pagina Field Result no Salesforce com detalhes de pontuacao, AI Insight e CSV exportado no painel Files](../../../../assets/screenshots/csv-field-results.png)
+
+Abaixo esta um exemplo do conteudo do arquivo CSV exportado:
+
+![Arquivo CSV exportado mostrando registros de violacao com colunas Record ID, Field Name, Value, Violation Type e Details](../../../../assets/screenshots/results-csv-export.png)
+
+## Casos de Uso
+
+- Compartilhar relatorios de qualidade de dados com stakeholders que nao tem acesso ao Salesforce
+- Importar listas de violacoes em ferramentas de limpeza de dados
+- Criar itens de acao em ferramentas de gerenciamento de projetos
+- Documentacao de conformidade e trilhas de auditoria

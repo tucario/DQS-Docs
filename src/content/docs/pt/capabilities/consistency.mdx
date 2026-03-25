@@ -1,0 +1,61 @@
+---
+title: Consistency
+description: Verifique a consistencia logica entre campos relacionados.
+---
+
+## O que e Consistency?
+
+Consistency mede se **campos relacionados contem valores logicamente compativeis**. Os dados podem estar completos e validos individualmente, mas ainda serem inconsistentes quando os campos se contradizem.
+
+## Como Funciona
+
+A estrategia de Consistency avalia relacionamentos entre pares ou grupos de campos:
+
+1. Identifica regras de consistencia configuradas (relacionamentos entre campos)
+2. Para cada registro, verifica se os campos relacionados satisfazem a regra
+3. Calcula a porcentagem de registros que passam em todas as verificacoes de consistencia
+
+## Configuracao
+
+### Configuracoes Globais
+
+A secao **Defaults** controla as opcoes globais de consistencia:
+
+| Configuracao | Descricao |
+|--------------|-----------|
+| **Default Allowed Values** | Nenhum padrao e definido globalmente — configure valores permitidos por campo para definir o que e considerado consistente. |
+| **Case-sensitive matching** | Quando habilitado, "Active" e "active" sao tratados como valores diferentes. Desabilitado por padrao. |
+| **Top N Values** | *(PRO)* Analise apenas os N valores mais frequentes para verificacoes de consistencia. |
+| **Minimum Frequency** | *(PRO)* Ignore valores que aparecem menos vezes que este limite. |
+
+A tabela **Field Overrides** lista cada campo com sua fonte de valores permitidos atual, configuracao de sensibilidade a maiusculas e status.
+
+![Configuracao de Consistency com Defaults (Allowed Values, Matching Options, Advanced Analysis) e tabela de Field Overrides](../../../../assets/screenshots/consistency-generic-view.png)
+
+### Substituicoes por Campo
+
+Clique em um campo na tabela Field Overrides para abrir seu modal de configuracao. Voce pode definir **valores permitidos** para aquele campo adicionando-os manualmente ou importando dos metadados do campo. Alterne **Case-sensitive matching** e configure as opcoes de **Advanced Analysis** (Top N Values, Min Frequency) independentemente dos padroes globais. Use o link **Revert to Global** para redefinir.
+
+![Modal de configuracao por campo para o campo Reason com Values Added, Matching Options e Advanced Analysis](../../../../assets/screenshots/consistency-field-override.png)
+
+### Importar do Campo
+
+Para campos de picklist, clique em **Import from Field** para carregar todos os valores existentes diretamente dos metadados do campo. O dialogo de importacao mostra cada valor com uma caixa de selecao e o numero de registros que o utilizam, para que voce possa selecionar quais valores tratar como validos. Clique em **Apply Selection** para confirmar.
+
+![Dialogo Import from Field mostrando valores de picklist com contagem de registros e caixas de selecao](../../../../assets/screenshots/consistency-picklist-override.png)
+
+## Pontuacao
+
+| Resultado | Pontuacao |
+|-----------|-----------|
+| Todos os registros consistentes | 100 |
+| Algumas inconsistencias | Proporcional a porcentagem de consistentes |
+| Todos os registros inconsistentes | 0 |
+| Sem dados | 0 |
+
+## Casos de Uso
+
+- Detectar oportunidades onde a Close Date e anterior a Created Date
+- Encontrar contas onde os enderecos de Billing e Shipping se contradizem
+- Identificar leads onde o Country nao corresponde ao formato do numero de telefone
+- Monitorar a qualidade de entrada de dados entre campos

@@ -1,0 +1,68 @@
+---
+title: Ciclo de vida de la definición
+description: Comprenda las etapas del ciclo de vida de una definición de escaneo.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Etapas del ciclo de vida
+
+Cada definición de escaneo progresa a través de una serie de etapas:
+
+```
+Draft  →  Ready  →  Active  →  Obsolete
+```
+
+### Draft
+
+El estado inicial cuando se crea una definición. En estado Draft:
+- La definición puede editarse libremente
+- Se pueden agregar o eliminar campos y capacidades
+- No se pueden ejecutar escaneos
+- La definición no es visible en Insight Studio
+
+### Ready
+
+Un estado de transición que indica que la definición ha sido revisada. En estado Ready:
+- Toda la configuración requerida está completa
+- La definición ha pasado la validación
+- Puede ser activada
+
+### Active
+
+El estado operativo. En estado Active:
+- Se pueden ejecutar escaneos contra la definición
+- Los resultados aparecen en Insight Studio
+- La definición puede programarse para escaneos recurrentes
+- La edición sigue siendo posible — los cambios toman efecto en el siguiente escaneo
+
+### Obsolete
+
+El estado retirado. En estado Obsolete:
+- No se pueden activar nuevos escaneos
+- Los resultados existentes permanecen visibles en Insight Studio para análisis histórico
+- La definición puede reactivarse si es necesario
+
+![Definición en estado Draft — editable, aún no escaneable](../../../../assets/screenshots/remove-definition-as-admin.png)
+
+## Validación de activación
+
+Antes de que una definición pueda ser activada, DQS valida:
+
+| Regla | Descripción |
+|-------|-------------|
+| **Campos seleccionados** | Al menos un campo debe estar seleccionado |
+| **Capacidades habilitadas** | Al menos una capacidad debe estar habilitada |
+| **Configuración completa** | Todos los ajustes requeridos de las capacidades deben estar completados |
+
+<Aside type="note">
+Cuando hace clic en **Activate**, la definición pasa directamente al estado Active. El estado Ready se usa internamente para la validación.
+</Aside>
+
+## Cambio de estado
+
+- **Draft → Active**: Haga clic en "Mark as Complete" en la pantalla de resumen — elija entre Complete Only, Complete & Schedule, o Complete & Run Scan
+- **Active → Obsolete**: Use la configuración de la definición para retirarla
+- **Obsolete → Active**: Reactive desde la configuración de la definición
+
+![Diálogo de completar definición — tres opciones de activación](../../../../assets/screenshots/def-builder-step5-review.png)

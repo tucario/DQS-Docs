@@ -1,0 +1,67 @@
+---
+title: Fehlermanagement
+description: Scan-Fehler mit der Error Management Console überwachen und beheben.
+---
+
+## Error Management Console (EMC)
+
+Die EMC ist eine **dedizierte Oberfläche** zur Überwachung und Behebung von Fehlern, die während der Scan-Verarbeitung auftreten. Sie bietet Einblick in Batch-Fehler, Strategy-Fehler und Plattformprobleme.
+
+## Layout
+
+Die EMC verwendet ein 3-Zonen-Layout:
+
+- **Seitenleiste** — Filter (nach Fehlertyp, Datumsbereich, Schweregrad) und Aufschlüsselungsoptionen
+- **Hauptbereich** — Fehlertabelle mit sortierbaren Spalten und Detail-Modal bei Zeilenklick
+- **Mentor-Panel** — Vorgeschlagene Aktionen und Aufbewahrungsinformationen
+
+{/* TODO: Screenshot — Error Management Console showing the full 3-zone layout: filters sidebar on left, error table with a few rows in center, mentor panel with actions on right. */}
+
+## Fehlertabelle
+
+| Spalte | Beschreibung |
+|--------|-------------|
+| **Timestamp** | Wann der Fehler aufgetreten ist |
+| **Error Type** | Kategorie (Batch, Strategy, Platform, Validation) |
+| **Message** | Kurze Fehlerbeschreibung |
+| **Definition** | Welche Scan-Definition den Fehler ausgelöst hat |
+| **Severity** | Schweregrad des Fehlers |
+
+### Zeilendetail-Modal
+
+Klicken Sie auf eine beliebige Fehlerzeile, um ein detailliertes Modal zu öffnen, das zeigt:
+- Vollständige Fehlermeldung und Stack-Trace
+- Betroffene Definition und Scan-Details
+- Vorgeschlagene Lösungsschritte
+
+{/* TODO: Screenshot — Error detail modal showing full error message, stack trace, affected definition, and suggested resolution. */}
+
+## Fehlerquellen
+
+| Quelle | Beispiele |
+|--------|----------|
+| **Batch Processing** | Governor Limit überschritten, Query-Timeout |
+| **Dimension Strategy** | Ungültiger Feldzugriff, Nullzeiger in Strategy-Logik |
+| **Platform Events** | Fehler bei Event-Veröffentlichung |
+| **Scheduling** | Probleme mit CRON-Ausdrücken, Berechtigungsfehler |
+
+## Platform Event-Integration
+
+DQS verwendet `DQS_Processing_Error__e` Platform Events, um Fehler in Echtzeit anzuzeigen. Wenn ein Fehler während der Batch-Verarbeitung auftritt:
+
+1. Der Fehler wird abgefangen und protokolliert
+2. Ein Platform Event wird veröffentlicht
+3. Die EMC empfängt das Event und zeigt es an
+
+Dies ersetzt stille `catch`-Blöcke durch sichtbare Fehlerberichterstattung.
+
+## Fehleraufbewahrung
+
+Fehlerprotokolle werden automatisch basierend auf der [Aufbewahrungsrichtlinie](/de/processing/data-retention/) bereinigt. Die Standardaufbewahrung beträgt **7 Tage**.
+
+## Best Practices
+
+- Prüfen Sie die EMC regelmäßig nach dem Einrichten neuer Scan-Definitionen
+- Überprüfen Sie Fehler nach Änderungen an Capability-Konfigurationen
+- Nutzen Sie Fehlermuster, um systematische Probleme zu identifizieren (z. B. Feldzugriffsberechtigungen)
+- Kontaktieren Sie den Support, wenn Plattformfehler über mehrere Scans hinweg bestehen bleiben

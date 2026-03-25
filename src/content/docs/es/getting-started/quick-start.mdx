@@ -1,0 +1,57 @@
+---
+title: Inicio rápido
+description: Cree y ejecute su primer escaneo de calidad de datos en 5 minutos.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Su primer escaneo en 5 minutos
+
+![Encontrando Data Quality Sense en el App Launcher de Salesforce](../../../../assets/screenshots/search-application.png)
+
+1. **Abrir DQS Builder**
+
+   Navegue a la aplicación **Data Quality Sense** en Salesforce. Si los permisos están configurados correctamente, la pestaña Builder se carga automáticamente.
+
+2. **Crear una nueva definición**
+
+   Haga clic en **New Definition**. Asígnele un nombre (por ejemplo, "Account Quality Check") y seleccione el objeto objetivo — por ejemplo, `Account`.
+
+   <video src="/videos/definition-creation.mp4" controls muted loop style="width:100%;border-radius:0.5rem;border:1px solid var(--sl-color-hairline-light)">Su navegador no soporta la etiqueta de video.</video>
+
+3. **Seleccionar campos**
+
+   El selector de campos muestra todos los campos disponibles en el objeto seleccionado. Elija los campos que desea monitorear. Puede usar la barra de búsqueda para filtrar y ordenar por tipo de campo o etiqueta.
+
+4. **Elegir capacidades**
+
+   Seleccione qué dimensiones de calidad evaluar:
+   - **Completeness** — ¿están los campos rellenados?
+   - **Validity** — ¿los valores coinciden con los formatos esperados?
+   - **Uniqueness** — ¿hay valores duplicados?
+
+   Comience con Completeness para la configuración más rápida.
+
+5. **Revisar y activar**
+
+   Revise su configuración en la pantalla de resumen. Haga clic en **Activate** para mover la definición del estado Draft a Active.
+
+6. **Ejecutar el escaneo**
+
+   Vaya a **Insight Studio** y active un escaneo manualmente, o configure una [programación](/es/processing/scheduling/).
+
+7. **Ver resultados**
+
+   Después de que se complete el escaneo, Insight Studio muestra sus puntuaciones de calidad de datos con desglose a nivel de campo.
+
+![Resultados del escaneo en Insight Studio con puntuaciones de calidad y desglose por dimensión](../../../../assets/screenshots/definition-results.png)
+
+<Aside type="tip">
+Siempre puede volver y agregar más capacidades o campos a su definición posteriormente. El Builder permite editar definiciones en estado Active.
+</Aside>
+
+## ¿Qué sigue?
+
+- Conozca las [6 capacidades de calidad](/es/capabilities/overview/)
+- Explore los [paneles de Insight Studio](/es/insight-studio/overview/)
+- Configure [programaciones de escaneo automatizadas](/es/processing/scheduling/)

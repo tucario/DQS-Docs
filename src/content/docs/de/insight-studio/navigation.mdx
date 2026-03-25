@@ -1,0 +1,80 @@
+---
+title: Navigation
+description: Wie Sie durch das mehrstufige Dashboard von Insight Studio navigieren.
+---
+
+## Navigationstiefe
+
+Insight Studio bietet eine **6-stufige Drill-Down**-Hierarchie:
+
+```
+Home → Object → Definition → Scan → Field → Dimension
+```
+
+### Ebene 1: Home
+
+Die oberste Ansicht, die alle gescannten Objekte mit ihren neuesten Qualitätsbewertungen zeigt. Verwenden Sie diese, um zu erkennen, welche Objekte Aufmerksamkeit benötigen.
+
+![DQS Home — Übersicht mit Definitionsanzahl, Scans, aktiven Zeitplänen und Tabelle der letzten Aktivitäten](../../../../assets/screenshots/dqs-home.png)
+
+### Ebene 2: Object
+
+Zeigt alle Definitionen für ein ausgewähltes Objekt mit der Gesamtqualitätsbewertung, dem letzten Scan-Datum, dem Status und Definitionskarten. Vergleichen Sie verschiedene Scan-Konfigurationen und deren Ergebnisse nebeneinander.
+
+![Objektansicht für Case — Gesamtbewertung 64,7 %, 2 Definitionen mit Einzelbewertungen und Scan-Anzahlen](../../../../assets/screenshots/object-with-definitions.png)
+
+### Ebene 3: Definition
+
+Das Hauptdashboard für eine einzelne Definition. Es hat vier Tabs:
+
+- **Overview** — Gesamtqualitätsbewertung, Dimensionsbewertungsbalken, Score-Trend-Diagramm und Record Scores-Panel
+- **Fields** — Field Health Matrix mit feldbezogenen Bewertungen über Dimensionen
+- **Scans** — Vollständiger Scan-Verlauf mit Ergebnissen pro Durchlauf
+- **Exports** — Verstoßdetails als CSV pro Dimension und Feld herunterladen, oder Maßnahmen über Create Tasks und Post Chatter ergreifen
+
+![Definitions-Dashboard — 85,8 % Gesamtbewertung, Dimensionsaufschlüsselung, Score-Trend-Diagramm und Record Scores](../../../../assets/screenshots/object-with-latest-scans.png)
+
+Der Tab **Fields** zeigt die Bewertung jedes Feldes pro Dimension in einer farbcodierten Matrix — rot für schlecht, grün für gut. Verwenden Sie ihn, um schnell die schwächsten Felder zu erkennen.
+
+![Tab Fields — Field Health Matrix mit Bewertungen pro Dimension, farbcodiert nach Note](../../../../assets/screenshots/object-fields-section.png)
+
+Der Tab **Exports** listet verfügbare Exporte pro Dimension und Feld mit Download-Schaltflächen und Export-Verlauf auf.
+
+![Tab Exports — Export-Verlauf und feldbezogene Export-Schaltflächen für jede Dimension](../../../../assets/screenshots/object-exports-tab.png)
+
+Klicken Sie im Tab Overview auf **Compare** im Score-Trend-Diagramm, um zwei Scans nebeneinander zu vergleichen — sehen Sie Dimensions- und Feld-Deltas zwischen einem Basis- und einem Vergleichsscan.
+
+![Modal Ergebnisse vergleichen — Basis vs. Vergleich mit Dimensionsänderungen und Top-Feld-Deltas](../../../../assets/screenshots/object-compare-results.png)
+
+### Ebene 4: Scan
+
+Detaillierte Ergebnisse für eine bestimmte Scan-Ausführung. Der Tab **Scans** zeigt den vollständigen Scan-Verlauf mit Statusindikatoren, Bewertungen und dimensionsbezogenen Aufschlüsselungen für jeden Durchlauf.
+
+![Tab Scans mit Scan-Verlauf, Daten, Bewertungen, Status und dimensionsbezogenen Ergebnissen](../../../../assets/screenshots/object-scans-tab.png)
+
+### Ebene 5: Field
+
+Ergebnisse für ein einzelnes Feld über alle Dimensionen. Nützlich, um zu verstehen, warum ein bestimmtes Feld schlecht bewertet wird.
+
+### Ebene 6: Dimension
+
+Die tiefste Ebene — einzelne Metrik-Ergebnisse für ein Feld in einer Dimension. Zeigt die rohen Bewertungsdaten.
+
+## Seitenleisten-Panel
+
+Die rechte Seitenleiste zeigt Kontext und Aktionen für die aktuelle Definition:
+
+- **Header** — Definitionsname, Gesamtbewertung mit Note, Scan-Anzahl und eine Aktualisierungsschaltfläche
+- **Run Scan** — Scan manuell auslösen, mit dem letzten Scan-Datum darunter
+- **Analyze** — **Actions**-Dropdown-Menü mit **Export Report**, **Create Tasks** und **Post Chatter** ([Details](/de/insight-studio/actions/))
+- **Configure** — **Manage Schedule** mit Countdown bis zum nächsten geplanten Durchlauf (z. B. „Next in 8h 28m")
+- **Navigate** — **Open in Salesforce** (externer Link zum Definitionsdatensatz) und **View Records** (gescannte Datensätze durchsuchen)
+- **Quick Fix** — Hebt das am schlechtesten bewertete Feld mit seiner Bewertung hervor (z. B. „Description at 9.6% — worst field") und einen direkten **Investigate**-Link zum Drill-Down
+
+![Seitenleisten-Panel mit Run Scan, Analyze, Configure, Navigate und Quick Fix-Abschnitten](../../../../assets/screenshots/sidebar-panel.png)
+
+## Breadcrumb-Navigation
+
+Eine Breadcrumb-Leiste am oberen Rand des Stage-Bereichs zeigt Ihre aktuelle Position in der Hierarchie. Klicken Sie auf ein beliebiges Breadcrumb-Segment, um zu dieser Ebene zurückzunavigieren.
+
+![Breadcrumb-Leiste: Home → Case → Case SLA Compliance Check → DQR-0007 → Case Number](../../../../assets/screenshots/insight-studio-breadcumbs.png)

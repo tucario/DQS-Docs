@@ -1,0 +1,61 @@
+---
+title: Consistency
+description: Logische Konsistenz zwischen zusammenhängenden Feldern prüfen.
+---
+
+## Was ist Consistency?
+
+Consistency misst, ob **zusammenhängende Felder logisch kompatible Werte enthalten**. Daten können einzeln vollständig und gültig sein, aber dennoch inkonsistent sein, wenn sich Felder gegenseitig widersprechen.
+
+## Funktionsweise
+
+Die Consistency-Strategie bewertet Beziehungen zwischen Paaren oder Gruppen von Feldern:
+
+1. Identifiziert konfigurierte Konsistenzregeln (Feldbeziehungen)
+2. Prüft für jeden Datensatz, ob die zusammenhängenden Felder die Regel erfüllen
+3. Berechnet den Prozentsatz der Datensätze, die alle Konsistenzprüfungen bestehen
+
+## Konfiguration
+
+### Globale Einstellungen
+
+Der Abschnitt **Defaults** steuert globale Consistency-Optionen:
+
+| Einstellung | Beschreibung |
+|-------------|-------------|
+| **Default Allowed Values** | Global sind keine Standards festgelegt — konfigurieren Sie erlaubte Werte pro Feld, um festzulegen, was als konsistent gilt. |
+| **Case-sensitive matching** | Wenn aktiviert, werden „Active" und „active" als verschiedene Werte behandelt. Standardmäßig deaktiviert. |
+| **Top N Values** | *(PRO)* Nur die Top-N häufigsten Werte für Konsistenzprüfungen analysieren. |
+| **Minimum Frequency** | *(PRO)* Werte ignorieren, die seltener als dieser Schwellenwert vorkommen. |
+
+Die Tabelle **Field Overrides** listet jedes Feld mit seiner aktuellen Quelle für erlaubte Werte, Groß-/Kleinschreibungs-Einstellung und Status auf.
+
+![Consistency-Konfiguration mit Defaults (Allowed Values, Matching Options, Advanced Analysis) und Feld-Überschreibungstabelle](../../../../assets/screenshots/consistency-generic-view.png)
+
+### Feldspezifische Überschreibungen
+
+Klicken Sie auf ein Feld in der Field Overrides-Tabelle, um dessen Konfigurationsmodal zu öffnen. Sie können **erlaubte Werte** für dieses Feld definieren, indem Sie sie manuell hinzufügen oder aus Feldmetadaten importieren. Schalten Sie **Case-sensitive matching** um und konfigurieren Sie **Advanced Analysis**-Einstellungen (Top N Values, Min Frequency) unabhängig von den globalen Standards. Verwenden Sie den Link **Revert to Global** zum Zurücksetzen.
+
+![Feldspezifisches Konfigurationsmodal für das Feld Reason mit Values Added, Matching Options und Advanced Analysis](../../../../assets/screenshots/consistency-field-override.png)
+
+### Import aus Feld
+
+Für Picklist-Felder klicken Sie auf **Import from Field**, um alle vorhandenen Werte direkt aus den Feldmetadaten zu laden. Der Import-Dialog zeigt jeden Wert mit einem Kontrollkästchen und der Anzahl der Datensätze, die ihn verwenden, damit Sie auswählen können, welche Werte als gültig behandelt werden sollen. Klicken Sie auf **Apply Selection** zur Bestätigung.
+
+![Import from Field-Dialog mit Picklist-Werten, Datensatzanzahlen und Kontrollkästchen](../../../../assets/screenshots/consistency-picklist-override.png)
+
+## Bewertung
+
+| Ergebnis | Bewertung |
+|----------|-----------|
+| Alle Datensätze konsistent | 100 |
+| Einige Inkonsistenzen | Proportional zum Prozentsatz konsistenter Datensätze |
+| Alle Datensätze inkonsistent | 0 |
+| Keine Daten | 0 |
+
+## Anwendungsfälle
+
+- Opportunities erkennen, bei denen das Abschlussdatum vor dem Erstellungsdatum liegt
+- Accounts finden, bei denen Rechnungs- und Lieferadressen sich widersprechen
+- Leads identifizieren, bei denen das Land nicht zum Telefonnummernformat passt
+- Feldübergreifende Dateneingabequalität überwachen

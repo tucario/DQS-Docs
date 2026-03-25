@@ -1,0 +1,95 @@
+---
+title: Programación
+description: Configure escaneos recurrentes automatizados con opciones de programación flexibles.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Programación de escaneos
+
+DQS soporta **escaneos recurrentes automatizados** mediante programación basada en CRON. Una vez configurados, los escaneos se ejecutan automáticamente sin intervención manual.
+
+## Crear una programación
+
+1. Navegue a la definición en **Insight Studio**
+2. Abra el modal **Scan Schedules** desde la barra lateral
+3. Haga clic en **Create Schedule**
+
+![Modal de Scan Schedules — sin programaciones configuradas aún](../../../../assets/screenshots/scan-schedule.png)
+
+4. Configure la programación — establezca la frecuencia, hora y opcionalmente un nombre:
+
+![Formulario de nueva programación con configuración de frecuencia y hora](../../../../assets/screenshots/screate-schedule2.png)
+
+5. Revise y haga clic en **Save** para guardar la programación:
+
+![Formulario de programación completado con el nombre "Case SLA Daily Check"](../../../../assets/screenshots/scan-schedule3.png)
+
+<video src="/videos/manage-schedule.mp4" controls muted loop style="width:100%;border-radius:0.5rem;border:1px solid var(--sl-color-hairline-light)">Su navegador no soporta la etiqueta de video.</video>
+
+## Ajustes de programación
+
+| Ajuste | Descripción | Ejemplo |
+|--------|-------------|---------|
+| **Name** | Nombre de visualización de la programación | Case SLA Daily Check |
+| **Frequency** | Con qué frecuencia se ejecuta el escaneo | Daily, Weekly, Monthly |
+| **Time** | A qué hora del día ejecutar | 06:30 |
+| **Day of Week** | Para programaciones semanales | Monday |
+| **Day of Month** | Para programaciones mensuales | 1st |
+
+## Expresiones CRON
+
+Internamente, las programaciones usan expresiones CRON de Salesforce. DQS proporciona una **interfaz amigable** que genera la expresión CRON por usted, pero los usuarios avanzados también pueden establecer expresiones personalizadas.
+
+### Programaciones comunes
+
+| Programación | Expresión CRON |
+|--------------|----------------|
+| Diariamente a las 2 AM | `0 0 2 * * ?` |
+| Semanalmente los lunes a las 6 AM | `0 0 6 ? * MON` |
+| Mensualmente el 1ro a medianoche | `0 0 0 1 * ?` |
+| Cada día laborable a las 5 AM | `0 0 5 ? * MON-FRI` |
+
+## Gestión de programaciones
+
+### Ver programaciones
+
+El modal de Scan Schedules muestra todas las programaciones configuradas con su estado, frecuencia y próxima hora de ejecución. El contador muestra cuántos trabajos programados se usan del límite de Salesforce (por ejemplo, 2/100).
+
+![Opción de Manage Schedule en la barra lateral de Insight Studio](../../../../assets/screenshots/scan-schedule5.png)
+
+### Editar programaciones
+
+Haga clic en el icono de editar para modificar los ajustes de la programación. La programación existente se reemplaza con la nueva configuración.
+
+![Editar programación — haga clic en el icono de lápiz](../../../../assets/screenshots/schedule-edit.png)
+
+### Activar / Desactivar
+
+Use el interruptor **Active** para pausar temporalmente una programación sin eliminarla.
+
+![Desactivar programación — haga clic en el interruptor Active](../../../../assets/screenshots/schedule-deactivate.png)
+
+### Eliminar programaciones
+
+Haga clic en el icono de eliminar para remover una programación. Los escaneos manuales siguen disponibles.
+
+![Eliminar programación — haga clic en el icono de papelera](../../../../assets/screenshots/schedule-remove.png)
+
+<Aside type="note">
+Los horarios de las programaciones usan la zona horaria de su organización de Salesforce. La visualización de cuenta regresiva muestra la hora local correcta.
+</Aside>
+
+## Registro de auditoría
+
+Cada escaneo registra quién lo activó:
+- **Escaneos manuales** — Registra el usuario que hizo clic en "Run Scan"
+- **Escaneos programados** — Registra "Scheduled" como la fuente de activación
+- **Marca de tiempo** — Cuándo comenzó y se completó el escaneo
+
+## Consideraciones
+
+- Solo las definiciones en estado **Active** pueden programarse
+- Los escaneos en ejecución consumen governor limits de Salesforce (batch Apex)
+- Programe los escaneos durante horas de baja actividad para minimizar el impacto
+- Múltiples definiciones pueden programarse en diferentes horarios

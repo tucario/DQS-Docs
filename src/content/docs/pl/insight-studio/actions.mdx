@@ -1,0 +1,109 @@
+---
+title: Akcje
+description: Podejmij działania na rekordach z problemami — twórz zadania, publikuj wiadomości Chatter lub eksportuj wyniki.
+---
+
+## Menu akcji
+
+Menu **Actions** w panelu Mentor udostępnia ujednolicone rozwijane menu do podejmowania działań na rekordach, które nie przeszły kontroli jakości. Zastępuje samodzielny przycisk Export rozszerzalnym menu oferującym obecnie trzy akcje:
+
+| Akcja | Co robi |
+|-------|---------|
+| **Export Report** | Pobierz szczegóły naruszeń jako CSV ([szczegóły](/pl/insight-studio/exports/)) |
+| **Create Tasks** | Utwórz zadania Salesforce dla właścicieli rekordów w celu naprawy problemów |
+| **Post Chatter** | Opublikuj wiadomości Chatter na rekordach z problemami, aby powiadomić interesariuszy |
+
+{/* TODO: Screenshot — Actions dropdown menu open in Mentor panel showing Export Report, Create Tasks, and Post Chatter options */}
+
+Wszystkie akcje korzystają z tego samego modelu zakresu — wybierasz, na których **polach** i **wymiarach** chcesz działać, a system przetwarza naruszenia dla każdej kombinacji jako oddzielne zadanie w tle.
+
+## Wybór zakresu
+
+Po otwarciu dowolnego modalnego okna akcji najpierw wybierasz zakres:
+
+1. **Fields** — Wybierz „All fields" lub konkretne pola z definicji
+2. **Dimensions** — Wybierz wymiary jakości do uwzględnienia (Completeness, Validity, Uniqueness itp.)
+
+System ponownie ocenia naruszenia w momencie wykonania akcji, więc wyniki odzwierciedlają **bieżący stan** danych — nie zbuforowany snapshot z ostatniego skanu.
+
+Każda kombinacja pole-wymiar uruchamia się jako oddzielne zadanie wsadowe. Na przykład wybranie 3 pól i 2 wymiarów generuje 6 zadań wykonywanych sekwencyjnie.
+
+## Create Tasks
+
+Tworzy rekordy zadań Salesforce powiązane z każdym rekordem z problemami. Zadania są domyślnie przypisywane do właścicieli rekordów i pojawiają się na ich standardowej liście zadań Salesforce.
+
+### Konfiguracja zadań
+
+| Ustawienie | Domyślnie | Opis |
+|------------|-----------|------|
+| **Subject** | `Data Quality: {dimension} — {recordName}` | Temat zadania. Obsługuje zmienne `{dimension}`, `{recordName}` i `{fieldName}` |
+| **Description** | Opisuje problem jakościowy i prosi o przegląd | Treść zadania w formacie tekstowym |
+| **Due Date** | 7 dni od dziś | Termin realizacji zadania |
+| **Priority** | Normal | High, Normal lub Low |
+| **Assign To** | Record Owner | Wprowadź konkretny User ID, aby nadpisać. Pozostaw puste, aby przypisać do właściciela każdego rekordu |
+
+{/* TODO: Screenshot — Create Tasks modal in configure mode showing field/dimension selection and Task Settings form */}
+
+### Zapobieganie duplikatom
+
+Przed utworzeniem zadań system sprawdza **istniejące otwarte zadania** na każdym rekordzie z pasującym prefiksem tematu. Rekordy, które już mają pasujące otwarte zadanie, są pomijane — zapobiega to tworzeniu duplikatów przy wielokrotnym uruchamianiu akcji.
+
+Liczba pominięć jest raportowana w podsumowaniu (np. „Created 45 tasks. 12 skipped (existing tasks). 0 errors.").
+
+### Jak to działa
+
+1. Otwórz menu **Actions** w panelu Mentor i wybierz **Create Tasks**
+2. Wybierz pola i wymiary do uwzględnienia
+3. Skonfiguruj ustawienia zadania (temat, opis, termin, priorytet, wykonawca)
+4. Kliknij **Create Tasks** — modalne okno przełączy się do trybu postępu
+5. Każde zadanie pole-wymiar pokazuje swój status (oczekujące, w toku, ukończone lub zakończone błędem)
+6. Po zakończeniu wszystkich zadań otrzymasz **niestandardowe powiadomienie** z podsumowaniem
+7. Kliknij **Done**, aby zamknąć modalne okno
+
+{/* TODO: Screenshot — Create Tasks modal in progress mode showing job list with status indicators */}
+
+## Post Chatter
+
+Publikuje wiadomość Chatter na każdym rekordzie z problemami. Opcjonalnie @wspomina właściciela rekordu, aby wywołać powiadomienie Salesforce.
+
+### Konfiguracja Chatter
+
+| Ustawienie | Domyślnie | Opis |
+|------------|-----------|------|
+| **Message** | Opisuje problem jakościowy i wymiar | Treść wiadomości w formacie tekstowym. Obsługuje zmienne `{dimension}`, `{recordName}` i `{fieldName}` |
+| **Mention Record Owner** | Zaznaczone | Gdy włączone, post @wspomina właściciela rekordu, wywołując powiadomienie Salesforce |
+
+{/* TODO: Screenshot — Post Chatter modal in configure mode showing message template and Mention Record Owner checkbox */}
+
+### Zapobieganie duplikatom
+
+Chatter korzysta z **24-godzinnego okna deduplikacji** — jeśli bieżący użytkownik opublikował już pasującą wiadomość jakościową na rekordzie w ciągu ostatnich 24 godzin, rekord jest pomijany. Zapobiega to zalewaniu wątków Chatter przy wielokrotnym uruchamianiu akcji.
+
+### Jak to działa
+
+1. Otwórz menu **Actions** i wybierz **Post Chatter**
+2. Wybierz pola i wymiary do uwzględnienia
+3. Edytuj szablon wiadomości i zdecyduj, czy @wspominać właścicieli
+4. Kliknij **Post Messages** — modalne okno przełączy się do trybu postępu
+5. Po zakończeniu podsumowanie pokazuje liczbę opublikowanych/pominiętych/błędnych
+6. Kliknij **Done**, aby zamknąć modalne okno
+
+:::note
+Post Chatter wymaga włączenia Chatter w organizacji Salesforce. Jeśli Chatter nie jest dostępny, akcja zgłosi błąd z jasnym komunikatem.
+:::
+
+## Szczegóły przetwarzania
+
+Wszystkie akcje są uruchamiane jako **zadania wsadowe Apex** w tle. Kluczowe szczegóły:
+
+- **Rozmiar partii:** 500 rekordów na fragment (mniejszy niż eksport, aby umożliwić operacje DML na fragment)
+- **Powiadomienia:** Niestandardowe powiadomienie Salesforce jest wysyłane po zakończeniu partii, pokazujące liczbę utworzonych/pominiętych/błędnych
+- **Częściowy sukces:** Jeśli niektóre rekordy zawiodą (np. reguły walidacji, bezpieczeństwo na poziomie pól), pomyślnie przetworzone rekordy są zachowywane. Liczba i szczegóły błędów są zawarte w podsumowaniu
+- **Kolejka partii:** Salesforce pozwala na maksymalnie 5 równoczesnych zadań wsadowych na organizację. Jeśli kolejka jest pełna, otrzymasz informację zwrotną przed rozpoczęciem akcji
+
+## Przypadki użycia
+
+- **Tworzenie zadań dla administratorów danych** — Automatyczne przypisywanie zadań porządkowych właścicielom rekordów po wykryciu problemów jakościowych
+- **Powiadamianie interesariuszy przez Chatter** — Informowanie właścicieli rekordów o problemach jakościowych bezpośrednio na ich rekordach
+- **Przepływy naprawcze** — Połączenie z automatyzacją Salesforce (Flow, Process Builder) w celu kierowania zadań do konkretnych zespołów
+- **Ślady audytowe** — Utworzone zadania i posty Chatter służą jako zapis problemów jakościowych i momentu ich oznaczenia

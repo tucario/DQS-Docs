@@ -1,0 +1,66 @@
+---
+title: Créer une définition
+description: Comment créer une nouvelle définition de scan dans le DQS Builder.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Qu'est-ce qu'une définition ?
+
+Une **définition** est l'unité de configuration principale dans DQS. Elle spécifie :
+- Quel objet Salesforce scanner
+- Quels champs évaluer
+- Quelles dimensions de qualité (capacités) mesurer
+- Des surcharges optionnelles de seuils par champ
+
+## Créer une nouvelle définition
+
+1. **Cliquer sur « New Definition »**
+
+   Dans l'onglet Builder, cliquez sur le bouton **New Definition** en haut à gauche. Un dialogue de création s'ouvre avec une recherche d'objets, les définitions récentes et des objets suggérés.
+
+2. **Sélectionner l'objet cible**
+
+   Choisissez le SObject que vous souhaitez scanner. Vous pouvez rechercher parmi tous les objets de votre organisation, choisir parmi les **Recent Definitions** (objets pour lesquels vous avez déjà créé des définitions), ou sélectionner dans la liste **Suggested** (Account, Opportunity, Contact, Case, Lead). Le dialogue affiche le nombre d'enregistrements et de définitions existantes pour chaque objet.
+
+3. **Saisir un nom de définition**
+
+   Une fois l'objet sélectionné, le panneau de droite affiche un champ de nom avec des **suggestions** générées automatiquement basées sur l'objet (par exemple, « Opportunity Quality Profile », « Opportunity Completeness Audit »). Choisissez une suggestion ou saisissez votre propre nom.
+
+4. **Cliquer sur « + Create »**
+
+   La définition est créée avec le statut **Draft** et s'ouvre dans l'assistant Builder.
+
+![Dialogue New Definition — sélectionner un objet, nommer votre définition et cliquer sur Create](../../../../assets/screenshots/def-builder-start-new.png)
+
+<Aside type="note">
+Les objets techniques (ceux dont les noms API commencent par des préfixes internes courants) sont filtrés par défaut pour garder la liste des objets gérable.
+</Aside>
+
+## Paramètres de la définition
+
+Après la création, vous pouvez configurer :
+
+| Paramètre | Description |
+|-----------|-------------|
+| **Name** | Nom affiché dans les listes et dans Insight Studio |
+| **Object** | Le SObject cible (ne peut pas être modifié après la création) |
+| **Description** | Notes optionnelles sur l'objectif du scan |
+| **Status** | Étape actuelle du cycle de vie (Draft, Ready, Active, Obsolete) |
+
+## Modifier des définitions existantes
+
+Ouvrez n'importe quelle définition depuis le tableau d'activité récente de l'onglet **Home**, ou depuis l'arborescence de navigation du Builder. Les définitions actives peuvent être modifiées — les changements prennent effet au prochain scan.
+
+## Supprimer des définitions
+
+Le bouton de suppression (icône corbeille) n'est disponible que lorsque **les deux** conditions sont remplies :
+
+- La définition est en statut **Draft**
+- Vous avez le Permission Set **DQS Admin** attribué
+
+Les définitions actives ou terminées ne peuvent pas être supprimées — retirez-les au statut Obsolete à la place.
+
+![Bouton de suppression sur une définition Draft — visible uniquement par les administrateurs](../../../../assets/screenshots/remove-definition-as-admin.png)
+
+La suppression d'une définition retire tous les détails de définition associés, mais préserve les résultats de scan historiques à des fins d'audit.

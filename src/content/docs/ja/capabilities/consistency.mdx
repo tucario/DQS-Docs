@@ -1,0 +1,61 @@
+---
+title: Consistency
+description: 関連する項目間の論理的整合性を確認します。
+---
+
+## Consistencyとは
+
+Consistencyは、**関連する項目に論理的に整合する値が含まれているか**を測定します。データが個別にはCompleteでValidであっても、項目間で矛盾がある場合には整合性に問題があります。
+
+## 仕組み
+
+Consistencyストラテジーは、項目のペアまたはグループ間の関係を評価します：
+
+1. 構成されたConsistencyルール（項目間の関係）を識別
+2. 各レコードについて、関連する項目がルールを満たしているかを確認
+3. すべてのConsistencyチェックに合格したレコードの割合を計算
+
+## 構成
+
+### グローバル設定
+
+**Defaults**セクションでは、グローバルなConsistencyオプションを制御します：
+
+| 設定 | 説明 |
+|---------|-------------|
+| **デフォルト許容値** | グローバルにはデフォルトが設定されていません — 項目ごとに許容値を構成して整合性の基準を定義します。 |
+| **大文字・小文字を区別するマッチング** | 有効にすると、「Active」と「active」は異なる値として扱われます。デフォルトでは無効です。 |
+| **上位N値** | *(PRO)* Consistencyチェックで最も頻度の高い上位N値のみを分析します。 |
+| **最小頻度** | *(PRO)* このしきい値より出現回数が少ない値を無視します。 |
+
+**Field Overrides**テーブルには、各項目の現在の許容値ソース、大文字・小文字区別設定、およびステータスがリストされます。
+
+![Consistencyの構成 — Defaults（Allowed Values、Matching Options、Advanced Analysis）とField Overridesテーブル](../../../../assets/screenshots/consistency-generic-view.png)
+
+### 項目ごとのオーバーライド
+
+Field Overridesテーブルで項目をクリックすると、構成モーダルが開きます。手動で追加するか項目メタデータからインポートして、その項目の**許容値**を定義できます。グローバルデフォルトとは独立して**大文字・小文字を区別するマッチング**を切り替え、**Advanced Analysis**設定（上位N値、最小頻度）を構成できます。**Revert to Global**リンクを使用してリセットできます。
+
+![Reason項目の項目ごとの構成モーダル — Values Added、Matching Options、Advanced Analysis](../../../../assets/screenshots/consistency-field-override.png)
+
+### 項目からインポート
+
+選択リスト項目の場合、**Import from Field**をクリックして項目メタデータから既存のすべての値を直接読み込めます。インポートダイアログには、各値のチェックボックスとそれを使用しているレコード数が表示されるため、有効として扱う値を選択できます。**Apply Selection**をクリックして確認します。
+
+![Import from Fieldダイアログ — 選択リスト値のレコード数とチェックボックス](../../../../assets/screenshots/consistency-picklist-override.png)
+
+## スコアリング
+
+| 結果 | スコア |
+|--------|-------|
+| すべてのレコードが整合 | 100 |
+| 一部に不整合あり | 整合している割合に比例 |
+| すべてのレコードが不整合 | 0 |
+| データなし | 0 |
+
+## ユースケース
+
+- Close DateがCreated Dateより前のOpportunityを検出
+- BillingアドレスとShippingアドレスが矛盾するAccountを発見
+- Countryが電話番号フォーマットと一致しないLeadを特定
+- クロスフィールドのデータ入力品質を監視

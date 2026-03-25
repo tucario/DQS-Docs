@@ -1,0 +1,67 @@
+---
+title: エラー管理
+description: Error Management Consoleを使用してスキャンエラーを監視・解決します。
+---
+
+## Error Management Console（EMC）
+
+EMCは、スキャン処理中に発生するエラーを監視・解決するための**専用インターフェース**です。バッチの失敗、ストラテジーエラー、プラットフォームの問題を可視化します。
+
+## レイアウト
+
+EMCは3ゾーンレイアウトを使用します：
+
+- **サイドバー** — フィルター（エラータイプ、日付範囲、重大度別）と内訳オプション
+- **メインエリア** — ソート可能な列と行クリックの詳細モーダルを持つエラーテーブル
+- **メンターパネル** — 推奨アクションと保持情報
+
+{/* TODO: Screenshot — Error Management Console showing the full 3-zone layout: filters sidebar on left, error table with a few rows in center, mentor panel with actions on right. */}
+
+## エラーテーブル
+
+| 列 | 説明 |
+|--------|-------------|
+| **Timestamp** | エラーが発生した日時 |
+| **Error Type** | カテゴリ（Batch、Strategy、Platform、Validation） |
+| **Message** | エラーの短い説明 |
+| **Definition** | エラーをトリガーしたスキャン定義 |
+| **Severity** | エラーの重大度レベル |
+
+### 行詳細モーダル
+
+任意のエラー行をクリックすると、以下を表示する詳細モーダルが開きます：
+- 完全なエラーメッセージとスタックトレース
+- 影響を受けた定義とスキャンの詳細
+- 推奨される解決手順
+
+{/* TODO: Screenshot — Error detail modal showing full error message, stack trace, affected definition, and suggested resolution. */}
+
+## エラーソース
+
+| ソース | 例 |
+|--------|---------|
+| **バッチ処理** | ガバナーリミット超過、クエリタイムアウト |
+| **ディメンションストラテジー** | 無効な項目アクセス、ストラテジーロジック内のnullポインター |
+| **Platform Events** | イベント発行の失敗 |
+| **スケジューリング** | CRON式の問題、権限エラー |
+
+## Platform Events統合
+
+DQSは`DQS_Processing_Error__e` Platform Eventsを使用して、リアルタイムでエラーを表示します。バッチ処理中にエラーが発生すると：
+
+1. エラーがキャッチされてログに記録
+2. Platform Eventが発行
+3. EMCがイベントを受信して表示
+
+これにより、サイレントな`catch`ブロックが可視化されたエラーレポートに置き換えられます。
+
+## エラー保持
+
+エラーログは[保持ポリシー](/ja/processing/data-retention/)に基づいて自動的にパージされます。デフォルトの保持期間は**7日**です。
+
+## ベストプラクティス
+
+- 新しいスキャン定義を設定した後はEMCを定期的に確認
+- ケイパビリティ構成を変更した後にエラーをレビュー
+- エラーパターンを使用してシステム的な問題を特定（例：項目アクセス権限）
+- 複数のスキャンにわたってプラットフォームエラーが続く場合はサポートに連絡

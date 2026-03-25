@@ -1,0 +1,65 @@
+---
+title: Probador de Regex
+description: Pruebe expresiones regulares compatibles con Java utilizadas en las capacidades de Validity y PII Detection de DQS.
+---
+
+import RegexTester from '../../../../components/RegexTester.astro';
+
+## Probador de Regex Java
+
+DQS usa **expresiones regulares compatibles con Java** (`java.util.regex.Pattern`) para verificaciones de Validity y patrones de PII Detection. Use este probador para validar sus patrones antes de configurarlos en el Builder.
+
+<RegexTester />
+
+## Patrones útiles para DQS
+
+### Patrones de Validity
+
+| Nombre del patrón | Regex | Descripción |
+|---|---|---|
+| **Email** | `^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$` | Formato de email estándar |
+| **Phone (Internacional)** | `^\+?[1-9]\d{1,14}$` | Formato de teléfono internacional E.164 |
+| **Phone (US)** | `^\(?[2-9]\d{2}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}$` | Teléfono US con formato opcional |
+| **URL** | `^https?://[^\s/$.?#].[^\s]*$` | URL HTTP/HTTPS |
+| **ZIP Code (US)** | `^\d{5}(-\d{4})?$` | Código postal US (5 o 9 dígitos) |
+| **Postal Code (UK)** | `^[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}$` | Código postal del Reino Unido |
+| **Postal Code (DE)** | `^\d{5}$` | Código postal alemán |
+| **ISO Date** | `^\d{4}-\d{2}-\d{2}$` | Formato AAAA-MM-DD |
+| **ISO DateTime** | `^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}` | Fecha y hora ISO 8601 |
+| **Currency (USD)** | `^\$?\d{1,3}(,\d{3})*(\.\d{2})?$` | Formato de dólar estadounidense |
+| **Percentage** | `^\d{1,3}(\.\d{1,2})?%?$` | Valor porcentual (0-100) |
+| **Alphanumeric** | `^[a-zA-Z0-9]+$` | Solo letras y dígitos |
+| **No Special Chars** | `^[a-zA-Z0-9\s.\-,]+$` | Letras, dígitos, espacios, puntuación básica |
+| **Salesforce ID (15)** | `^[a-zA-Z0-9]{15}$` | ID de Salesforce de 15 caracteres |
+| **Salesforce ID (18)** | `^[a-zA-Z0-9]{18}$` | ID de Salesforce de 18 caracteres |
+| **Domain Name** | `^([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,}$` | Nombre de dominio válido |
+| **IPv4 Address** | `^(\d{1,3}\.){3}\d{1,3}$` | Formato de dirección IPv4 |
+| **Hex Color** | `^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$` | Código de color hexadecimal CSS |
+
+### Patrones de PII Detection
+
+| Nombre del patrón | Regex | Descripción |
+|---|---|---|
+| **SSN (US)** | `\b\d{3}-\d{2}-\d{4}\b` | Social Security Number |
+| **SSN (sin formato)** | `\b\d{9}\b` | 9 dígitos consecutivos (posible SSN) |
+| **Credit Card (Visa)** | `\b4\d{3}[\s\-]?\d{4}[\s\-]?\d{4}[\s\-]?\d{4}\b` | Número de tarjeta Visa |
+| **Credit Card (MC)** | `\b5[1-5]\d{2}[\s\-]?\d{4}[\s\-]?\d{4}[\s\-]?\d{4}\b` | Número de Mastercard |
+| **Credit Card (Amex)** | `\b3[47]\d{2}[\s\-]?\d{6}[\s\-]?\d{5}\b` | Número de American Express |
+| **Credit Card (Genérico)** | `\b\d{4}[\s\-]?\d{4}[\s\-]?\d{4}[\s\-]?\d{4}\b` | Cualquier patrón de tarjeta de 16 dígitos |
+| **IBAN** | `\b[A-Z]{2}\d{2}[A-Z0-9]{4}\d{7}([A-Z0-9]?){0,16}\b` | Número de cuenta bancaria internacional |
+| **Passport (US)** | `\b[A-Z]\d{8}\b` | Número de pasaporte estadounidense |
+| **PESEL (PL)** | `\b\d{11}\b` | Identificación nacional polaca (11 dígitos) |
+| **NIP (PL)** | `\b\d{3}-?\d{3}-?\d{2}-?\d{2}\b` | Identificación fiscal polaca |
+| **REGON (PL)** | `\b\d{9}\b` | Número de registro empresarial polaco |
+| **Date of Birth** | `\b(0[1-9]|1[0-2])/(0[1-9]|[12]\d|3[01])/\d{4}\b` | Formato MM/DD/AAAA |
+| **Email en texto** | `[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}` | Email en cualquier parte del texto (sin anclas) |
+| **Phone en texto** | `\b(\+?\d{1,3}[\s\-]?)?\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{4}\b` | Número de teléfono en texto libre |
+| **IP Address** | `\b(\d{1,3}\.){3}\d{1,3}\b` | Dirección IPv4 en texto |
+| **Driver License (US)** | `\b[A-Z]\d{3,8}\b` | Licencia de conducir US (varía por estado) |
+
+### Consejos
+
+- **Patrones anclados** (`^...$`) validan el valor completo del campo — úselos para verificaciones de Validity
+- **Patrones sin ancla** (sin `^` / `$`) encuentran coincidencias dentro del texto — úselos para PII Detection
+- La regex de Apex es **sensible a mayúsculas** por defecto. Use `(?i)` al inicio para coincidencia insensible a mayúsculas
+- Pruebe casos límite: cadenas vacías, valores de solo espacios y caracteres Unicode

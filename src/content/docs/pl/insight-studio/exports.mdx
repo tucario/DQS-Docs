@@ -1,0 +1,57 @@
+---
+title: Eksporty
+description: Eksportuj wyniki skanów i szczegóły naruszeń do CSV.
+---
+
+## Eksport CSV
+
+Insight Studio obsługuje **eksport CSV** szczegółów naruszeń dla wszystkich wymiarów. Pozwala to na podjęcie działań w zakresie jakości danych poza Salesforce.
+
+## Co jest eksportowane
+
+Każdy eksport zawiera konkretne rekordy, które nie przeszły kontroli jakości dla danego wymiaru:
+
+| Wymiar | Eksport zawiera |
+|--------|-----------------|
+| **Completeness** | Rekordy z pustymi/null polami |
+| **Validity** | Rekordy z nieprawidłowymi wartościami |
+| **Uniqueness** | Rekordy ze zduplikowanymi wartościami |
+| **Timeliness** | Rekordy z przeterminowanymi datami |
+| **Consistency** | Rekordy ze sprzecznymi polami |
+| **PII Detection** | Rekordy z wykrytymi danymi osobowymi |
+
+## Kolumny eksportu
+
+Każdy CSV zawiera:
+- **Record ID** — Identyfikator rekordu Salesforce
+- **Record Name** — Wyświetlana nazwa rekordu
+- **Field** — Pole, które nie przeszło kontroli
+- **Current Value** — Wartość, która spowodowała naruszenie
+- **Violation Type** — Konkretny typ problemu jakościowego
+- **Score** — Wynik pola dla tego wymiaru
+
+## Jak eksportować
+
+1. Przejdź do widoku wymiaru lub pola w Insight Studio
+2. Kliknij przycisk **Export**
+3. Eksport uruchamia się jako proces w tle — po zakończeniu otrzymasz **niestandardowe powiadomienie** w ikonie dzwonka. Każde powiadomienie pokazuje wymiar, pole i liczbę wyeksportowanych naruszeń (np. „Validity — Status: 0 violations exported")
+4. Kliknij powiadomienie, aby przejść do strony **Field Result** w Salesforce, gdzie CSV jest załączony w panelu **Files**
+
+<video src="/videos/export-csv.mp4" controls muted loop style="width:100%;border-radius:0.5rem;border:1px solid var(--sl-color-hairline-light)">Twoja przeglądarka nie obsługuje znacznika video.</video>
+
+![Panel powiadomień pokazujący ukończone eksporty CSV per wymiar i pole ze znacznikami czasu](../../../../assets/screenshots/csv-export-complete.png)
+
+Strona Field Result pokazuje pełny kontekst — tożsamość pola, wymiar, szczegóły punktacji (wynik, próg, rekordy puste/wypełnione) oraz sekcję **AI Insight**. Wyeksportowany plik CSV jest dostępny do pobrania w panelu **Files** po prawej stronie.
+
+![Strona Field Result w Salesforce ze szczegółami punktacji, AI Insight i wyeksportowanym CSV w panelu Files](../../../../assets/screenshots/csv-field-results.png)
+
+Poniżej przykład zawartości wyeksportowanego pliku CSV:
+
+![Wyeksportowany plik CSV pokazujący rekordy naruszeń z kolumnami Record ID, Field Name, Value, Violation Type i Details](../../../../assets/screenshots/results-csv-export.png)
+
+## Przypadki użycia
+
+- Udostępnianie raportów jakości danych interesariuszom bez dostępu do Salesforce
+- Import list naruszeń do narzędzi oczyszczania danych
+- Tworzenie zadań w narzędziach do zarządzania projektami
+- Dokumentacja zgodności i ślady audytowe

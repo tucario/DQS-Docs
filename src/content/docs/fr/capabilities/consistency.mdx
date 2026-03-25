@@ -1,0 +1,61 @@
+---
+title: Consistency
+description: Vérifier la cohérence logique entre les champs liés.
+---
+
+## Qu'est-ce que Consistency ?
+
+Consistency mesure si les **champs liés contiennent des valeurs logiquement compatibles**. Les données peuvent être complètes et valides individuellement, mais rester incohérentes lorsque les champs se contredisent.
+
+## Fonctionnement
+
+La stratégie Consistency évalue les relations entre des paires ou des groupes de champs :
+
+1. Identifie les règles de cohérence configurées (relations entre champs)
+2. Pour chaque enregistrement, vérifie si les champs liés satisfont la règle
+3. Calcule le pourcentage d'enregistrements passant tous les contrôles de cohérence
+
+## Configuration
+
+### Paramètres globaux
+
+La section **Defaults** contrôle les options globales de cohérence :
+
+| Paramètre | Description |
+|-----------|-------------|
+| **Default Allowed Values** | Aucune valeur par défaut n'est définie globalement — configurez les valeurs autorisées par champ pour définir ce qui est considéré comme cohérent. |
+| **Case-sensitive matching** | Lorsqu'activé, « Active » et « active » sont traités comme des valeurs différentes. Désactivé par défaut. |
+| **Top N Values** | *(PRO)* Analyser uniquement les N valeurs les plus fréquentes pour les contrôles de cohérence. |
+| **Minimum Frequency** | *(PRO)* Ignorer les valeurs apparaissant moins de fois que ce seuil. |
+
+Le tableau **Field Overrides** liste chaque champ avec sa source de valeurs autorisées actuelle, son paramètre de sensibilité à la casse et son statut.
+
+![Configuration de Consistency avec Defaults (Allowed Values, Matching Options, Advanced Analysis) et tableau des Field Overrides](../../../../assets/screenshots/consistency-generic-view.png)
+
+### Surcharges par champ
+
+Cliquez sur un champ dans le tableau Field Overrides pour ouvrir sa modale de configuration. Vous pouvez définir des **valeurs autorisées** pour ce champ en les ajoutant manuellement ou en les important depuis les métadonnées du champ. Activez/désactivez **Case-sensitive matching** et configurez les paramètres **Advanced Analysis** (Top N Values, Min Frequency) indépendamment des paramètres globaux. Utilisez le lien **Revert to Global** pour réinitialiser.
+
+![Modale de configuration par champ pour le champ Reason avec Values Added, Matching Options et Advanced Analysis](../../../../assets/screenshots/consistency-field-override.png)
+
+### Import from Field
+
+Pour les champs Picklist, cliquez sur **Import from Field** pour charger toutes les valeurs existantes directement depuis les métadonnées du champ. Le dialogue d'import affiche chaque valeur avec une case à cocher et le nombre d'enregistrements l'utilisant, afin que vous puissiez sélectionner quelles valeurs traiter comme valides. Cliquez sur **Apply Selection** pour confirmer.
+
+![Dialogue Import from Field montrant les valeurs de picklist avec les comptages d'enregistrements et les cases à cocher](../../../../assets/screenshots/consistency-picklist-override.png)
+
+## Scoring
+
+| Résultat | Score |
+|----------|-------|
+| Tous les enregistrements cohérents | 100 |
+| Quelques incohérences | Proportionnel au pourcentage de cohérence |
+| Tous les enregistrements incohérents | 0 |
+| Aucune donnée | 0 |
+
+## Cas d'utilisation
+
+- Détecter les opportunités où la Close Date est antérieure à la Created Date
+- Trouver les comptes où les adresses de facturation et de livraison se contredisent
+- Identifier les leads dont le pays ne correspond pas au format du numéro de téléphone
+- Surveiller la qualité de la saisie de données entre champs liés

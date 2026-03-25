@@ -1,0 +1,63 @@
+---
+title: Configurando Capacidades
+description: Como habilitar e configurar dimensoes de qualidade no DQS Builder.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Configuracao de Capacidades
+
+A terceira etapa do assistente do Builder permite habilitar dimensoes de qualidade e configurar suas opcoes. Cada capacidade avalia um aspecto diferente da qualidade dos seus dados.
+
+## Capacidades Disponiveis
+
+| Capacidade | O que Mede |
+|------------|------------|
+| [Completeness](/pt/capabilities/completeness/) | Os campos estao preenchidos? |
+| [Validity](/pt/capabilities/validity/) | Os valores correspondem aos formatos esperados? |
+| [Uniqueness](/pt/capabilities/uniqueness/) | Existem valores duplicados? |
+| [Timeliness](/pt/capabilities/timeliness/) | Os dados estao atualizados? |
+| [Consistency](/pt/capabilities/consistency/) | Os campos relacionados sao logicamente consistentes? |
+| [PII Detection](/pt/capabilities/pii-detection/) | Os dados pessoais estao sendo tratados adequadamente? |
+
+![Selecao de capacidades mostrando dimensoes de qualidade — Completeness, Validity, Uniqueness, Timeliness, Consistency e PII Safety](../../../../assets/screenshots/def-builder-step1-capabilities.png)
+
+## Habilitando uma Capacidade
+
+Selecione uma capacidade da lista para habilita-la. Cada capacidade possui:
+
+- **Configuracao global** — Configuracoes padrao aplicadas a todos os campos
+- **Substituicoes por campo** — Configuracoes personalizadas para campos individuais que diferem dos padroes globais
+
+## Configuracao Global vs. Por Campo
+
+A maioria das capacidades permite definir limites globais e depois substitui-los para campos especificos. Por exemplo:
+
+- **Completeness**: Defina uma "taxa de preenchimento esperada" global de 90%, mas exija 100% para campos de Email
+- **Validity**: Defina regras de formato globais, mas configure padroes regex personalizados para campos de texto especificos
+- **Timeliness**: Defina uma janela de atualizacao global de 30 dias, mas use 7 dias para campos de data criticos
+
+A secao **Defaults** no topo controla as configuracoes globais da capacidade (por exemplo, Blank Handling e Placeholder Detection para Completeness). Estas se aplicam a todos os campos, a menos que sejam substituidas. A tabela **Field Overrides** abaixo lista cada campo no escopo com seu status atual — "Default" significa que o campo usa as configuracoes globais.
+
+![Padroes de capacidade e tabela de substituicoes por campo — todos os campos usando configuracoes globais](../../../../assets/screenshots/field-default-settings-override.png)
+
+Para substituir um campo especifico, clique nele na tabela Field Overrides. Seu status muda para indicar uma configuracao personalizada. A seta vermelha abaixo aponta para o campo Reason apos aplicar uma substituicao por campo.
+
+![Substituicao de campo aplicada ao campo Reason — status alterado de Default para personalizado](../../../../assets/screenshots/field-settings-override.png)
+
+## Fluxo de Configuracao
+
+1. **Habilite a capacidade** — Ative-a na lista de capacidades
+2. **Defina as configuracoes globais** — Configure padroes que se aplicam a todos os campos selecionados
+3. **Adicione substituicoes por campo** (opcional) — Clique em campos individuais para personalizar suas configuracoes
+4. **Revise** — O resumo mostra quais campos possuem substituicoes
+
+<Aside type="tip">
+Voce pode usar a **configuracao em massa** para capacidades como Completeness para definir rapidamente a mesma substituicao em multiplos campos de uma vez.
+</Aside>
+
+![Modal de configuracao por campo para o campo Description com configuracoes de Blank Handling e Placeholder Detection](../../../../assets/screenshots/completeness-config-field-override.png)
+
+## Removendo uma Capacidade
+
+Clique no botao de remocao em qualquer capacidade habilitada para desativa-la. Isso limpa todas as configuracoes globais e por campo dessa capacidade. A acao requer confirmacao.

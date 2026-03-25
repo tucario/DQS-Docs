@@ -1,0 +1,95 @@
+---
+title: Planification
+description: Configurer des scans récurrents automatisés avec des options de planification flexibles.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Planification des scans
+
+DQS prend en charge les **scans récurrents automatisés** via une planification basée sur CRON. Une fois configurés, les scans s'exécutent automatiquement sans intervention manuelle.
+
+## Créer une planification
+
+1. Accédez à la définition dans **Insight Studio**
+2. Ouvrez la modale **Scan Schedules** depuis la barre latérale
+3. Cliquez sur **Create Schedule**
+
+![Modale Scan Schedules — aucune planification configurée](../../../../assets/screenshots/scan-schedule.png)
+
+4. Configurez la planification — définissez la fréquence, l'heure et optionnellement un nom :
+
+![Formulaire New Schedule avec la configuration de fréquence et d'heure](../../../../assets/screenshots/screate-schedule2.png)
+
+5. Vérifiez et **enregistrez** la planification :
+
+![Formulaire de planification complété avec le nom « Case SLA Daily Check »](../../../../assets/screenshots/scan-schedule3.png)
+
+<video src="/videos/manage-schedule.mp4" controls muted loop style="width:100%;border-radius:0.5rem;border:1px solid var(--sl-color-hairline-light)">Votre navigateur ne prend pas en charge la balise vidéo.</video>
+
+## Paramètres de planification
+
+| Paramètre | Description | Exemple |
+|-----------|-------------|---------|
+| **Name** | Nom d'affichage de la planification | Case SLA Daily Check |
+| **Frequency** | Fréquence d'exécution du scan | Daily, Weekly, Monthly |
+| **Time** | Heure d'exécution | 06:30 |
+| **Day of Week** | Pour les planifications hebdomadaires | Monday |
+| **Day of Month** | Pour les planifications mensuelles | 1st |
+
+## Expressions CRON
+
+En interne, les planifications utilisent des expressions CRON Salesforce. DQS fournit une **interface conviviale** qui génère l'expression CRON pour vous, mais les utilisateurs avancés peuvent également définir des expressions personnalisées.
+
+### Planifications courantes
+
+| Planification | Expression CRON |
+|---------------|-----------------|
+| Quotidien à 2h | `0 0 2 * * ?` |
+| Hebdomadaire le lundi à 6h | `0 0 6 ? * MON` |
+| Mensuel le 1er à minuit | `0 0 0 1 * ?` |
+| Chaque jour ouvré à 5h | `0 0 5 ? * MON-FRI` |
+
+## Gestion des planifications
+
+### Consulter les planifications
+
+La modale Scan Schedules affiche toutes les planifications configurées avec leur statut, fréquence et prochaine exécution. Le compteur indique combien de tâches planifiées sont utilisées par rapport à la limite Salesforce (par exemple, 2/100).
+
+![Option Manage Schedule dans la barre latérale d'Insight Studio](../../../../assets/screenshots/scan-schedule5.png)
+
+### Modifier les planifications
+
+Cliquez sur l'icône de modification pour modifier les paramètres de planification. La planification existante est remplacée par la nouvelle configuration.
+
+![Modifier la planification — cliquez sur l'icône crayon](../../../../assets/screenshots/schedule-edit.png)
+
+### Activer / Désactiver
+
+Utilisez le bouton **Active** pour mettre temporairement en pause une planification sans la supprimer.
+
+![Désactiver la planification — cliquez sur le bouton Active](../../../../assets/screenshots/schedule-deactivate.png)
+
+### Supprimer des planifications
+
+Cliquez sur l'icône de suppression pour retirer une planification. Les scans manuels restent disponibles.
+
+![Supprimer la planification — cliquez sur l'icône corbeille](../../../../assets/screenshots/schedule-remove.png)
+
+<Aside type="note">
+Les heures de planification utilisent le fuseau horaire de votre organisation Salesforce. L'affichage du compte à rebours indique l'heure locale correcte.
+</Aside>
+
+## Piste d'audit
+
+Chaque scan enregistre qui l'a déclenché :
+- **Scans manuels** — Enregistre l'utilisateur qui a cliqué sur « Run Scan »
+- **Scans planifiés** — Enregistre « Scheduled » comme source de déclenchement
+- **Horodatage** — Quand le scan a commencé et s'est terminé
+
+## Considérations
+
+- Seules les définitions **Active** peuvent être planifiées
+- L'exécution de scans consomme des governor limits Salesforce (batch Apex)
+- Planifiez les scans pendant les heures creuses pour minimiser l'impact
+- Plusieurs définitions peuvent être planifiées à des heures différentes

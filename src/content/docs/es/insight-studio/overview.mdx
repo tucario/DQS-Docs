@@ -1,0 +1,53 @@
+---
+title: Descripción general de Insight Studio
+description: Explore los resultados de calidad de datos con paneles interactivos y analíticas.
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## ¿Qué es Insight Studio?
+
+Insight Studio (DIS) es la **capa de visualización y analítica** de Data Quality Sense. Consume los resultados de escaneo y los presenta como paneles interactivos, gráficos y recomendaciones.
+
+## Diseño del espacio de trabajo
+
+Insight Studio utiliza un **diseño de 3 zonas**:
+
+- **Barra lateral** — Navegación de objetos/definiciones, filtros y opciones de desglose
+- **Escenario** — Área de contenido principal con puntuaciones, gráficos y tablas de datos
+- **Panel Mentor** — Recomendaciones impulsadas por IA y acciones contextuales
+
+<CardGrid>
+	<Card title="Resumen de puntuaciones" icon="open-book">
+		Puntuaciones de calidad de un vistazo para cada dimensión, con calificaciones generales e indicadores de grado.
+	</Card>
+	<Card title="Análisis de tendencias" icon="open-book">
+		Minigráficos y gráficos de tendencias que muestran cómo cambia la calidad de datos a lo largo del tiempo entre escaneos.
+	</Card>
+	<Card title="Salud de campos" icon="open-book">
+		Vista de matriz de la puntuación de calidad de cada campo por dimensión. Identifique rápidamente los campos más débiles.
+	</Card>
+	<Card title="AI Mentor" icon="open-book">
+		Recomendaciones contextuales basadas en los resultados del escaneo. Sugiere acciones para mejorar la calidad de datos.
+	</Card>
+</CardGrid>
+
+![Inicio de Insight Studio — objetos con puntuaciones de calidad, definiciones y escaneos recientes](../../../../assets/screenshots/insight-studio.png)
+
+## Funcionalidades clave
+
+| Funcionalidad | Descripción |
+|---------------|-------------|
+| **Navegación multinivel** | Profundice desde Home → Object → Definition → Scan → Field → Dimension |
+| **Comparación de puntuaciones** | Compare resultados entre dos escaneos para ver mejora o regresión |
+| **Menú de acciones** | Crear Tasks, publicar en Chatter o exportar CSV para registros afectados |
+| **Activación de escaneo** | Active manualmente un escaneo desde el panel |
+| **Gestión de programación** | Cree y administre programaciones de escaneo |
+
+## Más información
+
+- [Navegación](/es/insight-studio/navigation/)
+- [Puntuaciones y tendencias](/es/insight-studio/scores-trends/)
+- [Salud de campos](/es/insight-studio/field-health/)
+- [Acciones](/es/insight-studio/actions/)
+- [Exportaciones](/es/insight-studio/exports/)

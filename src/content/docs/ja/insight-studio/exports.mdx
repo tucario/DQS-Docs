@@ -1,0 +1,57 @@
+---
+title: エクスポート
+description: スキャン結果と違反の詳細をCSVにエクスポートします。
+---
+
+## CSVエクスポート
+
+Insight Studioは、すべてのディメンションの違反詳細の**CSVエクスポート**をサポートしています。これにより、Salesforce外でデータ品質の問題に対処できます。
+
+## エクスポートされる内容
+
+各エクスポートには、特定のディメンションの品質チェックに失敗した具体的なレコードが含まれます：
+
+| ディメンション | エクスポート内容 |
+|-----------|----------------|
+| **Completeness** | 空白/nullの項目を持つレコード |
+| **Validity** | 無効な値を持つレコード |
+| **Uniqueness** | 重複値を持つレコード |
+| **Timeliness** | 陳腐化した日付を持つレコード |
+| **Consistency** | 矛盾する項目を持つレコード |
+| **PII Detection** | PIIが検出されたレコード |
+
+## エクスポート列
+
+各CSVには以下が含まれます：
+- **Record ID** — SalesforceレコードID
+- **Record Name** — レコードの表示名
+- **Field** — チェックに失敗した項目
+- **Current Value** — 違反をトリガーした値
+- **Violation Type** — 品質問題の具体的なタイプ
+- **Score** — このディメンションに対する項目のスコア
+
+## エクスポート方法
+
+1. Insight Studioのディメンションまたは項目ビューに移動
+2. **Export**ボタンをクリック
+3. エクスポートはバックグラウンドプロセスとして実行されます。完了すると、ベルアイコンに**カスタム通知**が届きます。各通知にはディメンション、項目、エクスポートされた違反数が表示されます（例：「Validity — Status: 0 violations exported」）
+4. 通知をクリックすると、Salesforceの**Field Result**ページに移動し、**Files**パネルにCSVが添付されています
+
+<video src="/videos/export-csv.mp4" controls muted loop style="width:100%;border-radius:0.5rem;border:1px solid var(--sl-color-hairline-light)">お使いのブラウザはvideoタグをサポートしていません。</video>
+
+![通知パネル — ディメンションと項目ごとのCSVエクスポート完了とタイムスタンプ](../../../../assets/screenshots/csv-export-complete.png)
+
+Field Resultページには完全なコンテキストが表示されます — 項目の識別情報、ディメンション、スコアリング詳細（スコア、しきい値、空のレコード数/入力済みレコード数）、**AI Insight**セクション。エクスポートされたCSVファイルは右側の**Files**パネルからダウンロードできます。
+
+![SalesforceのField Resultページ — スコアリング詳細、AI Insight、FilesパネルのエクスポートCSV](../../../../assets/screenshots/csv-field-results.png)
+
+以下はエクスポートされたCSVファイルの内容例です：
+
+![エクスポートCSVファイル — Record ID、Field Name、Value、Violation Type、Details列の違反レコード](../../../../assets/screenshots/results-csv-export.png)
+
+## ユースケース
+
+- Salesforceにアクセスできないステークホルダーとデータ品質レポートを共有
+- 違反リストをデータクレンジングツールにインポート
+- プロジェクト管理ツールでアクションアイテムを作成
+- コンプライアンスドキュメントと監査証跡

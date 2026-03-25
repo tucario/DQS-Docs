@@ -1,0 +1,65 @@
+---
+title: データモデル
+description: カスタムオブジェクト、Custom Metadata Types、およびそれらの関係。
+---
+
+## カスタムオブジェクト
+
+DQSは、定義、結果、スケジューリングデータを保存するためのカスタムオブジェクトセットを使用します。すべてのオブジェクトは`dqssens`ネームスペースプレフィックスを使用します。
+
+### 定義オブジェクト
+
+| オブジェクト | 目的 | 主な項目 |
+|--------|---------|------------|
+| `DQS_Definition__c` | スキャン構成 | Name、Object API Name、Status、Description |
+| `DQS_Definition_Detail__c` | 項目レベルの構成 | Definition（lookup）、Field API Name、Overrides |
+
+### 結果オブジェクト
+
+| オブジェクト | 目的 | リレーション |
+|--------|---------|-------------|
+| `DQS_Dimension_Result__c` | ディメンションごとのスキャン結果 | Definition（lookup） |
+| `DQS_Field_Result__c` | ディメンション内の項目ごとの結果 | Dimension Result（master-detail） |
+| `DQS_Metric_Result__c` | 項目ごとの詳細メトリクス | Field Result（master-detail） |
+
+### スケジューリングオブジェクト
+
+| オブジェクト | 目的 |
+|--------|---------|
+| `DQS_Batch_Schedule__c` | 定義ごとのスケジュール構成を保存 |
+
+## オブジェクトリレーション
+
+```
+DQS_Definition__c
+  ├── DQS_Definition_Detail__c (1:N)
+  ├── DQS_Batch_Schedule__c (1:1)
+  └── DQS_Dimension_Result__c (1:N per scan)
+       └── DQS_Field_Result__c (1:N, master-detail)
+            └── DQS_Metric_Result__c (1:N, master-detail)
+```
+
+## Custom Metadata Types
+
+CMTはケイパビリティとその評価ロジックの構成を駆動します。パッケージで制御されており、特に記載がない限りサブスクライバーは編集できません。
+
+| CMT | 目的 | レコード |
+|-----|---------|---------|
+| `DQS_Capability__mdt` | 利用可能な品質ディメンションを定義 | 7（ケイパビリティごとに1つ） |
+| `DQS_Dimension__mdt` | ディメンション表示構成 | 7 |
+| `DQS_Metric__mdt` | ケイパビリティごとのメトリクス定義 | ディメンションごとに複数 |
+| `DQS_Input_Configuration__mdt` | 入力コンフィギュレーター設定 | ケイパビリティごとの構成項目 |
+| `DQS_Configuration__mdt` | 一般アプリ設定 | 保持、機能フラグ |
+
+## Platform Events
+
+| イベント | 目的 |
+|-------|---------|
+| `Calculation_Complete__e` | スキャンの処理完了時に発火 |
+| `DQS_Processing_Error__e` | バッチ処理中にエラーが発生した時に発火 |
+
+## Feature Parameters
+
+| パラメーター | 目的 |
+|-----------|---------|
+| `DQS_AppEnabled` | 有効化ゲートを制御 — アプリがライセンスされてアクティブかどうか |

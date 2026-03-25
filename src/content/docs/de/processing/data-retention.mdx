@@ -1,0 +1,62 @@
+---
+title: Datenaufbewahrung
+description: Automatische Bereinigung von Scan-Ergebnissen und Fehlerprotokollen konfigurieren.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Aufbewahrungsrichtlinien
+
+DQS enthält eine **automatische Datenbereinigung**, um unbegrenztes Wachstum von Scan-Ergebnissen und Fehlerprotokollen zu verhindern. Aufbewahrungsrichtlinien werden über Custom Metadata Types konfiguriert und können von Administratoren angepasst werden.
+
+## Konfiguration
+
+Alle Aufbewahrungseinstellungen werden in `DQS_Configuration__mdt` (Kategorie: „Retention") gespeichert:
+
+| Einstellung | Standard | Beschreibung |
+|-------------|----------|-------------|
+| **Error Log Retention** | 7 Tage | Tage bevor Fehlerprotokolle gelöscht werden |
+| **Scan Result Retention** | 30 Tage | Tage bevor Dimensionsergebnisse bereinigt werden |
+| **Purge Batch Size** | 2.000 | Datensätze pro Batch-Chunk verarbeitet |
+| **Purge CRON Expression** | `0 0 2 * * ?` | Wann der Bereinigungsjob läuft (Standard: täglich um 2 Uhr) |
+
+<Aside type="tip">
+Diese Einstellungen sind Subscriber Controlled — Administratoren können Standardwerte nach der Paketinstallation überschreiben.
+</Aside>
+
+## Funktionsweise der Bereinigung
+
+Der Bereinigungsprozess läuft als **verketteter Batch-Job**:
+
+```
+DQS_DataPurgeScheduler (CRON trigger)
+  └── DQS_ErrorLogPurgeBatch
+       (deletes error logs where Expires_At <= NOW)
+       └── DQS_ResultPurgeBatch
+            (deletes dimension results older than retention window)
+            └── Cascade: Field Results + Metric Results
+                 (deleted automatically via master-detail relationship)
+```
+
+### Kaskadenlöschung
+
+Wenn ein `DQS_Dimension_Result__c`-Datensatz gelöscht wird:
+- Alle untergeordneten `DQS_Field_Result__c`-Datensätze werden automatisch gelöscht
+- Alle untergeordneten `DQS_Metric_Result__c`-Datensätze werden automatisch gelöscht
+
+Dies geschieht über Salesforces Master-Detail-Kaskade — keine zusätzliche Batch-Verarbeitung ist erforderlich.
+
+## Aufbewahrung anpassen
+
+So ändern Sie Aufbewahrungszeiträume:
+
+1. Navigieren Sie zu **Setup → Custom Metadata Types → DQS Configuration**
+2. Finden Sie den relevanten Datensatz (z. B. `Scan_Result_Retention_Days`)
+3. Bearbeiten Sie den Wert
+4. Änderungen werden beim nächsten Bereinigungslauf wirksam
+
+## Überwachung
+
+- Prüfen Sie die **Error Management Console** auf Fehler beim Bereinigungsjob
+- Überprüfen Sie `DQS_DataPurgeScheduler` unter **Setup → Scheduled Jobs**, um sicherzustellen, dass die Bereinigung läuft
+- Verwenden Sie Salesforce-Berichte, um das Ergebnisvolumen über die Zeit zu überwachen
