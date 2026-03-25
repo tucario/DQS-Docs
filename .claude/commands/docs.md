@@ -24,6 +24,10 @@ You are editing a Starlight documentation site for **Data Quality Sense** — a 
 
 Check `screenshots-todo.md` in repo root for the full screenshot plan with priorities and status.
 
+## Source code reference
+
+The DQS source code (Apex, LWC, metadata) is at `git@bitbucket.org:tucario/data-quality-sense.git`. Always check the latest `release/*` branch for current implementation details when you need to verify features, limits, or behavior described in the docs.
+
 ## User request
 
 $ARGUMENTS
