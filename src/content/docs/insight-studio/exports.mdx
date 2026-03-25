@@ -30,17 +30,22 @@ Each CSV includes:
 - **Violation Type** — Specific type of quality issue
 - **Score** — The field's score for this dimension
 
-<video src="/videos/export-results.mp4" controls muted loop style="width:100%;border-radius:0.5rem;border:1px solid var(--sl-color-hairline-light)">Your browser does not support the video tag.</video>
-
 ## How to Export
 
 1. Navigate to the dimension or field view in Insight Studio
 2. Click the **Export** button
-3. The CSV file downloads to your browser
+3. The export runs as a background process — you receive a **custom notification** in the bell icon when it completes. Each notification shows the dimension, field, and number of violations exported (e.g., "Validity — Status: 0 violations exported")
+4. Click the notification to navigate to the **Field Result** page in Salesforce, where the CSV is attached in the **Files** panel
 
-## Completion Notification
+<video src="/videos/export-csv.mp4" controls muted loop style="width:100%;border-radius:0.5rem;border:1px solid var(--sl-color-hairline-light)">Your browser does not support the video tag.</video>
 
-For large datasets, the export runs as a background process. You receive a **notification** when the export is ready for download.
+![Notifications panel showing completed CSV exports per dimension and field with timestamps](../../../assets/screenshots/csv-export-complete.png)
+
+The Field Result page shows the full context — field identity, dimension, scoring details (score, threshold, records empty/populated), and an **AI Insight** section. The exported CSV file is available for download in the **Files** panel on the right.
+
+![Field Result page in Salesforce with scoring details, AI Insight, and exported CSV in the Files panel](../../../assets/screenshots/csv-field-results.png)
+
+Below is an example of the exported CSV file contents:
 
 ![Exported CSV file showing violation records with Record ID, Field Name, Value, Violation Type, and Details columns](../../../assets/screenshots/results-csv-export.png)
 
