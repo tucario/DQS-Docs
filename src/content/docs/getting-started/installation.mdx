@@ -24,11 +24,21 @@ import { Aside } from '@astrojs/starlight/components';
    - **Install for All Users** — if all users need immediate access
    - **Install for Specific Profiles** — for granular control
 
+   ![Install Data Quality Sense — choose installation scope](../../../assets/screenshots/installation-appexchange.png)
+
 3. **Approve third-party access**
 
    The package does not require any external callouts. All processing happens within your Salesforce org.
 
-4. **Verify installation**
+4. **Wait for installation to complete**
+
+   The installer will show progress. For larger orgs, installation may take a few minutes — you will receive an email once it completes.
+
+   ![Installation in progress](../../../assets/screenshots/installation-in-progress.png)
+
+   ![Installation taking longer — email notification will follow](../../../assets/screenshots/installation-taking-longer.png)
+
+5. **Verify installation**
 
    Navigate to **Setup → Installed Packages** and confirm `Data Quality Sense` appears with namespace `dqssens`.
 
@@ -36,6 +46,22 @@ import { Aside } from '@astrojs/starlight/components';
 
 <Aside type="tip">
 After installation, proceed to [Permissions](/getting-started/permissions/) to configure user access.
+</Aside>
+
+## Activate the App
+
+After installation, Data Quality Sense is **not yet active**. When you open the app for the first time, you will see a lock screen indicating that activation is required.
+
+![Data Quality Sense is not activated — lock screen with Contact Us to Activate button](../../../assets/screenshots/installation-not-activated.png)
+
+Click **Contact Us to Activate** to open a pre-filled email with your Org ID and details. You can also email us directly at [hello@tucario.com](mailto:hello@tucario.com).
+
+![Pre-filled activation request email with Org ID](../../../assets/screenshots/send-email-to-activate.png)
+
+We will enable the app remotely — no additional installation steps are needed on your side. Once activated, the lock screen disappears and the app is ready to use with **20 scans** included.
+
+<Aside type="note">
+Activation is tied to your Salesforce org. If you install the package on a new org (e.g., a sandbox), it needs to be activated separately.
 </Aside>
 
 ## Post-Installation
