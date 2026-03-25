@@ -6,6 +6,86 @@ import Default from '@astrojs/starlight/components/Head.astro';
 <Default {...Astro.props}><slot /></Default>
 
 <script>
+	// --- Skeleton page loader ---
+	function createSkeleton() {
+		let overlay = document.getElementById('page-skeleton');
+		if (overlay) return;
+
+		overlay = document.createElement('div');
+		overlay.id = 'page-skeleton';
+		overlay.innerHTML = `
+			<div class="sk-header">
+				<div class="sk-block sk-title"></div>
+				<div class="sk-block sk-subtitle"></div>
+			</div>
+			<div class="sk-body">
+				<div class="sk-block sk-line" style="width:90%"></div>
+				<div class="sk-block sk-line" style="width:75%"></div>
+				<div class="sk-block sk-line" style="width:85%"></div>
+				<div class="sk-block sk-line" style="width:60%"></div>
+				<div class="sk-block sk-gap"></div>
+				<div class="sk-block sk-line" style="width:88%"></div>
+				<div class="sk-block sk-line" style="width:70%"></div>
+				<div class="sk-block sk-line" style="width:80%"></div>
+				<div class="sk-block sk-gap"></div>
+				<div class="sk-block sk-image"></div>
+				<div class="sk-block sk-gap"></div>
+				<div class="sk-block sk-line" style="width:92%"></div>
+				<div class="sk-block sk-line" style="width:65%"></div>
+			</div>
+		`;
+		document.body.appendChild(overlay);
+	}
+
+	function showSkeleton() {
+		const overlay = document.getElementById('page-skeleton');
+		if (overlay) overlay.classList.add('sk-visible');
+	}
+
+	function hideSkeleton() {
+		const overlay = document.getElementById('page-skeleton');
+		if (overlay) overlay.classList.remove('sk-visible');
+	}
+
+	createSkeleton();
+
+	// Show on navigation start
+	document.addEventListener('astro:before-preparation', showSkeleton);
+	// Hide once new page is ready
+	document.addEventListener('astro:page-load', hideSkeleton);
+
+	// --- Media fade-in ---
+	function initMediaFade() {
+		// Images
+		document.querySelectorAll('.sl-markdown-content img').forEach((img) => {
+			const el = img as HTMLImageElement;
+			if (el.dataset.fadeInit) return;
+			el.dataset.fadeInit = '1';
+
+			if (el.complete && el.naturalWidth > 0) {
+				el.classList.add('media-loaded');
+			} else {
+				el.addEventListener('load', () => el.classList.add('media-loaded'), { once: true });
+				el.addEventListener('error', () => el.classList.add('media-loaded'), { once: true });
+			}
+		});
+
+		// Videos
+		document.querySelectorAll('.sl-markdown-content video').forEach((video) => {
+			const el = video as HTMLVideoElement;
+			if (el.dataset.fadeInit) return;
+			el.dataset.fadeInit = '1';
+
+			if (el.readyState >= 2) {
+				el.classList.add('media-loaded');
+			} else {
+				el.addEventListener('loadeddata', () => el.classList.add('media-loaded'), { once: true });
+				el.addEventListener('error', () => el.classList.add('media-loaded'), { once: true });
+			}
+		});
+	}
+
+	// --- Lightbox ---
 	function initLightbox() {
 		// Create lightbox element
 		let lightbox = document.querySelector('.img-lightbox') as HTMLDivElement;
@@ -56,8 +136,12 @@ import Default from '@astrojs/starlight/components/Head.astro';
 	}
 
 	// Run on initial load
+	initMediaFade();
 	initLightbox();
 
 	// Re-run on Astro page transitions (View Transitions)
-	document.addEventListener('astro:page-load', initLightbox);
+	document.addEventListener('astro:page-load', () => {
+		initMediaFade();
+		initLightbox();
+	});
 </script>
