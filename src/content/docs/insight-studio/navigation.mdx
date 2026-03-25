@@ -19,23 +19,38 @@ The top-level view showing all scanned objects with their latest quality scores.
 
 ### Level 2: Object
 
-Shows all definitions for a selected object. Compare different scan configurations and their results side by side.
+Shows all definitions for a selected object with the overall quality score, last scan date, status, and definition cards. Compare different scan configurations and their results side by side.
+
+![Object view for Case — overall score 64.7%, 2 definitions with individual scores and scan counts](../../../assets/screenshots/object-with-definitions.png)
 
 ### Level 3: Definition
 
-The main dashboard for a single definition. Displays:
-- Overall quality score
-- Dimension breakdown (scores per capability)
-- Recent scan history
-- Trend sparklines
+The main dashboard for a single definition. It has four tabs:
+
+- **Overview** — Overall quality score, dimension score bars, Score Trend chart, and Record Scores panel
+- **Fields** — Field Health Matrix with per-field scores across dimensions
+- **Scans** — Full scan history with per-run results
+- **Exports** — Download violation details as CSV per dimension and field, or take action via Create Tasks and Post Chatter
+
+![Definition dashboard — 85.8% overall score, dimension breakdown, Score Trend chart, and Record Scores](../../../assets/screenshots/object-with-latest-scans.png)
+
+The **Fields** tab shows each field's score per dimension in a color-coded matrix — red for poor, green for good. Use it to quickly spot the weakest fields.
+
+![Fields tab — Field Health Matrix with scores per dimension, color-coded by grade](../../../assets/screenshots/object-fields-section.png)
+
+The **Exports** tab lists available exports per dimension and field, with download buttons and export history.
+
+![Exports tab — export history and per-field export buttons for each dimension](../../../assets/screenshots/object-exports-tab.png)
+
+From the Overview tab, click **Compare** on the Score Trend chart to compare two scans side by side — see dimension-level and field-level deltas between a baseline and comparison scan.
+
+![Compare Results modal — baseline vs comparison with dimension changes and top field deltas](../../../assets/screenshots/object-compare-results.png)
 
 ### Level 4: Scan
 
-Detailed results for a specific scan execution. Shows:
-- Timestamp and duration
-- Per-dimension scores
-- Comparison with previous scan
-- Field-level breakdown
+Detailed results for a specific scan execution. The **Scans** tab shows the full scan history with status indicators, scores, and per-dimension breakdowns for each run.
+
+![Scans tab showing scan history with dates, scores, status, and per-dimension results](../../../assets/screenshots/object-scans-tab.png)
 
 ### Level 5: Field
 
@@ -45,12 +60,18 @@ Results for a single field across all dimensions. Useful for understanding why a
 
 The deepest level — individual metric results for one field in one dimension. Shows the raw evaluation data.
 
-## Sidebar Navigation
+## Sidebar Panel
 
-The sidebar provides:
-- **Definition cards** — Click to navigate to a definition
-- **Filters** — Filter results by dimension, score range, or field type
-- **Breakdowns** — Group results by different criteria
+The right-hand sidebar shows context and actions for the current definition:
+
+- **Header** — Definition name, overall score with grade, scan count, and a refresh button
+- **Run Scan** — Trigger a scan manually, with last scan date displayed below
+- **Analyze** — **Actions** dropdown menu with **Export Report**, **Create Tasks**, and **Post Chatter** ([details](/insight-studio/actions/))
+- **Configure** — **Manage Schedule** with countdown to the next scheduled run (e.g., "Next in 8h 28m")
+- **Navigate** — **Open in Salesforce** (external link to the definition record) and **View Records** (browse scanned records)
+- **Quick Fix** — Highlights the worst-performing field with its score (e.g., "Description at 9.6% — worst field") and a direct **Investigate** link to drill into it
+
+![Sidebar panel with Run Scan, Analyze, Configure, Navigate, and Quick Fix sections](../../../assets/screenshots/sidebar-panel.png)
 
 ## Breadcrumb Navigation
 

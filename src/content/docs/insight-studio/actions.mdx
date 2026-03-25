@@ -1,0 +1,109 @@
+---
+title: Actions
+description: Take action on impacted records — create Tasks, post Chatter messages, or export results.
+---
+
+## Actions Menu
+
+The **Actions** menu in the Mentor panel provides a unified dropdown for taking action on records that failed quality checks. It replaces the standalone Export button with an extensible menu that currently offers three actions:
+
+| Action | What It Does |
+|--------|-------------|
+| **Export Report** | Download violation details as CSV ([details](/insight-studio/exports/)) |
+| **Create Tasks** | Create Salesforce Tasks for record owners to remediate issues |
+| **Post Chatter** | Post Chatter messages on impacted records to notify stakeholders |
+
+{/* TODO: Screenshot — Actions dropdown menu open in Mentor panel showing Export Report, Create Tasks, and Post Chatter options */}
+
+All actions share the same scope model — you choose which **fields** and **dimensions** to act on, and the system processes violations for each combination as a separate background job.
+
+## Scope Selection
+
+When you open any action modal, you first select the scope:
+
+1. **Fields** — Choose "All fields" or select specific fields from the definition
+2. **Dimensions** — Choose which quality dimensions to include (Completeness, Validity, Uniqueness, etc.)
+
+The system re-evaluates violations at the time of the action, so results reflect the **current state** of your data — not a cached snapshot from the last scan.
+
+Each field-dimension combination runs as a separate batch job. For example, selecting 3 fields and 2 dimensions produces 6 jobs that execute sequentially.
+
+## Create Tasks
+
+Creates Salesforce Task records linked to each impacted record. Tasks are assigned to record owners by default and appear in their standard Salesforce task list.
+
+### Task Configuration
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| **Subject** | `Data Quality: {dimension} — {recordName}` | Task subject line. Supports `{dimension}`, `{recordName}`, and `{fieldName}` placeholders |
+| **Description** | Describes the quality issue and asks for review | Free-text body of the task |
+| **Due Date** | 7 days from today | When the task should be completed |
+| **Priority** | Normal | High, Normal, or Low |
+| **Assign To** | Record Owner | Enter a specific User ID to override. Leave blank to assign to each record's owner |
+
+{/* TODO: Screenshot — Create Tasks modal in configure mode showing field/dimension selection and Task Settings form */}
+
+### Duplicate Prevention
+
+Before creating tasks, the system checks for **existing open tasks** on each record with a matching subject prefix. Records that already have a matching open task are skipped — this prevents duplicate tasks when you run the action multiple times.
+
+The skip count is reported in the completion summary (e.g., "Created 45 tasks. 12 skipped (existing tasks). 0 errors.").
+
+### How It Works
+
+1. Open the **Actions** menu in the Mentor panel and select **Create Tasks**
+2. Select the fields and dimensions to include
+3. Configure the task settings (subject, description, due date, priority, assignee)
+4. Click **Create Tasks** — the modal switches to progress mode
+5. Each field-dimension job shows its status (pending, running, complete, or failed)
+6. When all jobs finish, you receive a **custom notification** with a summary
+7. Click **Done** to close the modal
+
+{/* TODO: Screenshot — Create Tasks modal in progress mode showing job list with status indicators */}
+
+## Post Chatter
+
+Posts a Chatter feed message on each impacted record. Optionally @mentions the record owner to trigger a Salesforce notification.
+
+### Chatter Configuration
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| **Message** | Describes the quality issue and dimension | Free-text message body. Supports `{dimension}`, `{recordName}`, and `{fieldName}` placeholders |
+| **Mention Record Owner** | Checked | When enabled, the post @mentions the record's owner, triggering a Salesforce notification |
+
+{/* TODO: Screenshot — Post Chatter modal in configure mode showing message template and Mention Record Owner checkbox */}
+
+### Duplicate Prevention
+
+Chatter uses a **24-hour dedup window** — if the current user already posted a matching quality message on a record within the last 24 hours, that record is skipped. This prevents flooding Chatter feeds when running the action repeatedly.
+
+### How It Works
+
+1. Open the **Actions** menu and select **Post Chatter**
+2. Select the fields and dimensions to include
+3. Edit the message template and choose whether to @mention owners
+4. Click **Post Messages** — the modal switches to progress mode
+5. When complete, the summary shows posted/skipped/error counts
+6. Click **Done** to close the modal
+
+:::note
+Post Chatter requires Chatter to be enabled in your Salesforce org. If Chatter is not available, the action will report an error with a clear message.
+:::
+
+## Processing Details
+
+All actions run as **Apex batch jobs** in the background. Key details:
+
+- **Batch size:** 500 records per chunk (smaller than export to allow for DML operations per chunk)
+- **Notifications:** A Salesforce custom notification is sent when the batch completes, showing created/skipped/error counts
+- **Partial success:** If some records fail (e.g., validation rules, field-level security), successfully processed records are preserved. The error count and details are included in the summary
+- **Batch queue:** Salesforce allows up to 5 concurrent batch jobs per org. If the queue is full, you will receive feedback before the action starts
+
+## Use Cases
+
+- **Task creation for data stewards** — Automatically assign cleanup tasks to record owners when quality issues are detected
+- **Stakeholder notification via Chatter** — Alert record owners about data quality problems directly on their records
+- **Remediation workflows** — Combine with Salesforce automation (Flow, Process Builder) to route tasks to specific teams
+- **Audit trails** — Created tasks and Chatter posts serve as a record of quality issues and when they were flagged

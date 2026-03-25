@@ -99,6 +99,7 @@ export default defineConfig({
 						{ label: 'Navigation', slug: 'insight-studio/navigation' },
 						{ label: 'Scores & Trends', slug: 'insight-studio/scores-trends' },
 						{ label: 'Field Health', slug: 'insight-studio/field-health' },
+						{ label: 'Actions', slug: 'insight-studio/actions' },
 						{ label: 'Exports', slug: 'insight-studio/exports' },
 					],
 				},
