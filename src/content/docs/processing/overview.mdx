@@ -7,42 +7,6 @@ description: How Data Quality Sense executes scans using Salesforce batch proces
 
 The Processing engine is the **execution layer** of Data Quality Sense. It reads scan definitions created in the Builder, queries live Salesforce data, and produces quality scores visible in Insight Studio.
 
-## Architecture
-
-```
-Definition + Details
-       │
-       ▼
-  Batch Job Start
-       │
-       ▼
-  Query target SObject (dynamic SOQL)
-       │
-       ▼
-  For each enabled dimension:
-    Strategy.processChunk(context)
-       │
-       ▼
-  Aggregate partial results
-       │
-       ▼
-  Store: Dimension Results → Field Results → Metric Results
-       │
-       ▼
-  Fire platform event: Calculation Complete
-```
-
-## Key Concepts
-
-| Concept | Description |
-|---------|-------------|
-| **Scan** | A single execution of a definition against live data |
-| **Dimension Strategy** | One strategy class per capability (e.g., CompletenessStrategy) |
-| **Chunk Processing** | Records are processed in batches via `Database.Batchable` |
-| **Metric Calculation** | Per-field metrics computed within each strategy |
-| **Result Storage** | Hierarchical: Dimension → Field → Metric results |
-| **Platform Events** | `Calculation_Complete__e` fires when a scan finishes |
-
 ![Run Scan confirmation dialog with estimated time and Run Scan button](../../../assets/screenshots/running-scans2.png)
 
 ## Triggering a Scan
@@ -51,15 +15,7 @@ Scans can be triggered in three ways:
 
 1. **Manual** — Click "Run Scan" in Insight Studio
 2. **Scheduled** — Via CRON-based [scheduling](/processing/scheduling/)
-3. **Programmatic** — Via Apex API (for custom integrations)
-
-## Result Hierarchy
-
-```
-DQS_Dimension_Result__c  (one per dimension per scan)
-  └── DQS_Field_Result__c  (one per field per dimension)
-       └── DQS_Metric_Result__c  (detailed metrics per field)
-```
+3. **Programmatic** — Via Apex (for custom integrations)
 
 ## Learn More
 

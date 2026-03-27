@@ -7,42 +7,6 @@ description: Como o Data Quality Sense executa varreduras usando processamento e
 
 O motor de Processamento e a **camada de execucao** do Data Quality Sense. Ele le as definicoes de varredura criadas no Builder, consulta dados em tempo real do Salesforce e produz pontuacoes de qualidade visiveis no Insight Studio.
 
-## Arquitetura
-
-```
-Definition + Details
-       │
-       ▼
-  Batch Job Start
-       │
-       ▼
-  Query target SObject (dynamic SOQL)
-       │
-       ▼
-  For each enabled dimension:
-    Strategy.processChunk(context)
-       │
-       ▼
-  Aggregate partial results
-       │
-       ▼
-  Store: Dimension Results → Field Results → Metric Results
-       │
-       ▼
-  Fire platform event: Calculation Complete
-```
-
-## Conceitos Principais
-
-| Conceito | Descricao |
-|----------|-----------|
-| **Varredura** | Uma unica execucao de uma definicao contra dados em tempo real |
-| **Dimension Strategy** | Uma classe de estrategia por capacidade (por exemplo, CompletenessStrategy) |
-| **Processamento por Chunks** | Registros sao processados em lotes via `Database.Batchable` |
-| **Calculo de Metricas** | Metricas por campo calculadas dentro de cada estrategia |
-| **Armazenamento de Resultados** | Hierarquico: Dimension → Field → Metric results |
-| **Platform Events** | `Calculation_Complete__e` e disparado quando uma varredura termina |
-
 ![Dialogo de confirmacao Run Scan com tempo estimado e botao Run Scan](../../../../assets/screenshots/running-scans2.png)
 
 ## Acionando uma Varredura
@@ -52,14 +16,6 @@ As varreduras podem ser acionadas de tres formas:
 1. **Manual** — Clique em "Run Scan" no Insight Studio
 2. **Agendada** — Via [agendamento](/pt/processing/scheduling/) baseado em CRON
 3. **Programatica** — Via API Apex (para integracoes personalizadas)
-
-## Hierarquia de Resultados
-
-```
-DQS_Dimension_Result__c  (um por dimensao por varredura)
-  └── DQS_Field_Result__c  (um por campo por dimensao)
-       └── DQS_Metric_Result__c  (metricas detalhadas por campo)
-```
 
 ## Saiba Mais
 

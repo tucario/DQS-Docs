@@ -1,0 +1,84 @@
+---
+title: Bekannte Probleme
+description: Transparente Liste bekannter Einschränkungen in Data Quality Sense.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<Aside type="note">
+Dies sind dokumentierte Plattform-Einschränkungen oder akzeptierte Kompromisse, keine Fehler. Wir aktualisieren diese Liste, sobald Probleme behoben oder neue identifiziert werden.
+</Aside>
+
+## Aktionen für betroffene Datensätze
+
+### Aufgaben können für Datensätze erstellt werden, deren Besitzer inaktiv ist
+
+Wenn „Create Tasks" ausgeführt wird und der Besitzer eines Datensatzes ein inaktiver Benutzer ist, schlägt die Aufgabenerstellung für diesen Datensatz fehl. Andere Aufgaben im selben Batch bleiben erhalten — nur der betroffene Datensatz wird übersprungen. Die Abschlussübersicht meldet dies als Fehler.
+
+**Workaround:** Übertragen Sie die Eigentümerschaft von Datensätzen mit inaktiven Besitzern, bevor Sie Create Tasks ausführen, oder verwenden Sie das Feld „Assign To" im Aufgabendialog, um alle Aufgaben einem bestimmten aktiven Benutzer zuzuweisen.
+
+---
+
+### Chatter-Posting erfordert Feed Tracking für das Zielobjekt
+
+Die Aktion „Post Chatter" erfordert, dass Chatter in der Org aktiviert ist UND Feed Tracking für das gescannte Objekt aktiviert ist. Wenn Chatter nicht aktiviert ist, gibt die Aktion eine klare Fehlermeldung zurück. Wenn Feed Tracking für das Objekt deaktiviert ist, schlagen die Posts pro Datensatz fehl und die Abschlussübersicht meldet Fehler.
+
+**Workaround:** Aktivieren Sie Feed Tracking für das Zielobjekt unter **Setup > Chatter > Feed Tracking**, bevor Sie Post Chatter ausführen.
+
+---
+
+### Erwähnung von Datensatzbesitzern in Chatter-Posts ist bei großen Datenmengen langsamer
+
+Wenn „Mention Record Owner" aktiviert ist, wird jeder Chatter-Post einzeln erstellt statt in Bulk. Bei großen Mengen betroffener Datensätze (500+) kann die Verarbeitungszeit merklich länger sein.
+
+**Workaround:** Deaktivieren Sie bei großen Datenmengen „Mention Record Owner" für schnellere Verarbeitung und benachrichtigen Sie Besitzer bei Bedarf manuell.
+
+---
+
+### Aktionen bewerten aktuelle Daten, nicht den letzten Scan-Snapshot
+
+Alle Aktionen (Export, Create Tasks, Post Chatter) bewerten Verstöße anhand des aktuellen Datenstands — nicht anhand der in der UI angezeigten Scan-Ergebnisse. Wenn Datensätze seit dem letzten Scan aktualisiert wurden, kann die Aktion andere Verstöße finden als auf dem Bildschirm angezeigt.
+
+**Workaround:** Führen Sie einen neuen Scan durch, bevor Sie Aktionen ausführen, wenn Datenaktualität wichtig ist.
+
+---
+
+### Ein Datensatz kann mehrere Aufgaben oder Posts über Feld-/Dimensionskombinationen erhalten
+
+Wenn eine Aktion über mehrere Felder und Dimensionen ausgeführt wird, erhält ein Datensatz mit Verstößen in mehreren Kombinationen eine Aufgabe oder einen Chatter-Post pro Kombination. Die Duplikatvermeidung arbeitet nur innerhalb eines einzelnen Feld+Dimension-Bereichs.
+
+**Beispiel:** Ein Datensatz mit Verstößen bei Email (Validity) und Phone (Completeness) erhält zwei separate Aufgaben mit unterschiedlichen Betreffs.
+
+---
+
+### Gleichzeitige Benutzer können doppelte Aktionen erstellen
+
+Wenn zwei Benutzer dieselbe Aktion für dieselbe Definition gleichzeitig ausführen, bestehen beide Duplikatprüfungen und es können doppelte Aufgaben oder Chatter-Posts erstellt werden.
+
+**Workaround:** Koordinieren Sie mit Teammitgliedern, um die gleichzeitige Ausführung derselben Aktion für dieselbe Definition zu vermeiden.
+
+---
+
+### Verstöße bei Formel- oder Rollup-Feldern erzeugen nicht umsetzbare Aufgaben
+
+Scans bewerten alle überwachten Felder, einschließlich Formel- und Rollup-Summary-Felder. Wenn Verstöße bei diesen schreibgeschützten Feldern gefunden werden, werden trotzdem Aufgaben oder Chatter-Posts erstellt — der Datensatzbesitzer kann den Wert jedoch nicht direkt korrigieren, da er berechnet wird.
+
+**Workaround:** Erwägen Sie beim Konfigurieren der Scan-Definition, Formel- und Rollup-Felder von Dimensionen auszuschließen, bei denen Verstöße nicht vom Datensatzbesitzer behoben werden können.
+
+---
+
+## Export-Panel
+
+### Export-Verlauf ist auf 100 Dateien pro Definition begrenzt
+
+Definitionen mit intensiver Exportnutzung zeigen möglicherweise nicht alle exportierten Dateien im Export-Verlaufspanel — die ältesten Dateien werden ausgelassen. Die Dateien existieren weiterhin als Salesforce Files und können über den Reiter „Files" gefunden werden.
+
+**Workaround:** Löschen Sie alte Exporte, um Platz für neuere im Panel zu schaffen.
+
+---
+
+### Massendownload kann von Browser-Einstellungen blockiert werden
+
+Die Aktion „Download All" löst mehrere Dateidownloads nacheinander aus. Einige Browser-Sicherheitseinstellungen oder Erweiterungen können mehrere gleichzeitige Downloads blockieren oder warnen.
+
+**Workaround:** Erlauben Sie mehrere Downloads für die Salesforce-Domain in Ihren Browser-Einstellungen oder laden Sie Dateien einzeln herunter.

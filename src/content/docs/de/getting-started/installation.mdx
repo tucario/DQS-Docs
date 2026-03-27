@@ -5,6 +5,12 @@ description: So installieren Sie Data Quality Sense in Ihrer Salesforce-Organisa
 
 import { Aside } from '@astrojs/starlight/components';
 
+<Aside type="tip" title="Beta testen">
+Data Quality Sense ist noch nicht auf AppExchange gelistet. Sie können die aktuelle Beta-Version direkt installieren:
+
+[Beta-Paket installieren](https://login.salesforce.com/packaging/installPackage.apexp?p0=04tWV0000005BinYAE)
+</Aside>
+
 ## Voraussetzungen
 
 - Salesforce-Organisation (Enterprise, Unlimited oder Developer Edition)
@@ -66,13 +72,12 @@ Die Aktivierung ist an Ihre Salesforce-Organisation gebunden. Wenn Sie das Paket
 
 ## Nach der Installation
 
-Das Paket installiert:
-- Benutzerdefinierte Objekte für Definitionen, Ergebnisse und Zeitplanung
-- Custom Metadata Types für Capabilities, Metriken und Konfiguration
-- Lightning Web Components für Builder und Insight Studio
-- Apex-Klassen für Batch-Verarbeitung und API-Controller
-- Permission Sets für rollenbasierte Zugriffskontrolle
+Das Paket installiert alle erforderlichen Komponenten — Custom Objects, Lightning-Komponenten und Permission Sets. Keine zusätzliche Konfiguration dieser Komponenten ist erforderlich.
 
 ## Paket aktualisieren
 
-Um auf eine neuere Version zu aktualisieren, verwenden Sie denselben Installationslink — Salesforce erkennt das vorhandene Paket und bietet einen Upgrade-Pfad an. Ihre Scan-Definitionen und Ergebnisse bleiben bei Upgrades erhalten.
+Um auf eine neuere Version zu aktualisieren, verwenden Sie denselben Installationslink — Salesforce erkennt das vorhandene Paket und bietet einen Upgrade-Pfad an. Das Installationsprogramm zeigt Ihre aktuell installierte Version und die verfügbare neue Version an. Wählen Sie denselben Installationsumfang wie zuvor (oder ändern Sie ihn bei Bedarf) und klicken Sie auf **Upgrade**.
+
+![Upgrade von Data Quality Sense — Salesforce erkennt das vorhandene Paket und bietet einen Upgrade-Pfad an](../../../../assets/screenshots/upgrade-package.png)
+
+Ihre Scan-Definitionen, Ergebnisse und Konfigurationen bleiben bei Upgrades erhalten — es gehen keine Daten verloren.

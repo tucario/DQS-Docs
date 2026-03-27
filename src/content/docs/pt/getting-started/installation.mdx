@@ -5,6 +5,12 @@ description: Como instalar o Data Quality Sense na sua org Salesforce.
 
 import { Aside } from '@astrojs/starlight/components';
 
+<Aside type="tip" title="Experimentar o Beta">
+O Data Quality Sense ainda não está disponível no AppExchange. Você pode instalar a versão beta atual diretamente:
+
+[Instalar pacote beta](https://login.salesforce.com/packaging/installPackage.apexp?p0=04tWV0000005BinYAE)
+</Aside>
+
 ## Pre-requisitos
 
 - Org Salesforce (Enterprise, Unlimited ou Developer Edition)
@@ -66,13 +72,12 @@ A ativacao esta vinculada a sua org Salesforce. Se voce instalar o pacote em uma
 
 ## Pos-Instalacao
 
-O pacote instala:
-- Objetos personalizados para definicoes, resultados e agendamento
-- Custom Metadata Types para capacidades, metricas e configuracao
-- Lightning Web Components para o Builder e o Insight Studio
-- Classes Apex para processamento em lote e controladores de API
-- Permission sets para acesso baseado em funcoes
+O pacote instala todos os componentes necessários — objetos personalizados, componentes Lightning e conjuntos de permissões. Nenhuma configuração adicional desses componentes é necessária.
 
 ## Atualizando o Pacote
 
-Para atualizar para uma versao mais recente, use o mesmo link de instalacao — o Salesforce detectara o pacote existente e oferecera um caminho de atualizacao. Suas definicoes de varredura e resultados sao preservados durante as atualizacoes.
+Para atualizar para uma versão mais recente, use o mesmo link de instalação — o Salesforce detectará o pacote existente e oferecerá um caminho de atualização. O instalador mostra sua versão atualmente instalada e a nova versão disponível. Escolha o mesmo escopo de instalação de antes (ou altere-o se necessário) e clique em **Upgrade**.
+
+![Atualização do Data Quality Sense — o Salesforce detecta o pacote existente e oferece um caminho de atualização](../../../../assets/screenshots/upgrade-package.png)
+
+Suas definições de varredura, resultados e configurações são preservados durante as atualizações — nenhum dado é perdido.

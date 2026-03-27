@@ -1,0 +1,84 @@
+---
+title: Znane problemy
+description: Przejrzysta lista znanych ograniczeń w Data Quality Sense.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<Aside type="note">
+Są to udokumentowane ograniczenia platformy lub zaakceptowane kompromisy, nie błędy. Aktualizujemy tę listę w miarę rozwiązywania problemów lub identyfikowania nowych.
+</Aside>
+
+## Akcje na dotkniętych rekordach
+
+### Zadania mogą być tworzone dla rekordów, których właściciel jest nieaktywny
+
+Gdy uruchomiono „Create Tasks", a właściciel rekordu jest nieaktywnym użytkownikiem, tworzenie zadania dla tego rekordu kończy się niepowodzeniem. Pozostałe zadania w tej samej partii są zachowywane — pomijany jest tylko dotknięty rekord. Podsumowanie zakończenia zgłasza to jako błąd.
+
+**Obejście:** Przed uruchomieniem Create Tasks przypisz ponownie własność rekordów z nieaktywnymi właścicielami lub użyj pola „Assign To" w oknie dialogowym zadania, aby przypisać wszystkie zadania do konkretnego aktywnego użytkownika.
+
+---
+
+### Publikowanie w Chatter wymaga Feed Tracking na obiekcie docelowym
+
+Akcja „Post Chatter" wymaga, aby Chatter był włączony w organizacji ORAZ aby Feed Tracking był włączony na konkretnym skanowanym obiekcie. Jeśli Chatter nie jest włączony, akcja zwraca jasny komunikat o błędzie. Jeśli Feed Tracking jest wyłączony dla obiektu, posty kończą się niepowodzeniem per rekord, a podsumowanie zakończenia zgłasza błędy.
+
+**Obejście:** Przed uruchomieniem Post Chatter włącz Feed Tracking dla obiektu docelowego w **Setup > Chatter > Feed Tracking**.
+
+---
+
+### Wzmiankowanie właścicieli rekordów w postach Chatter jest wolniejsze dla dużych zbiorów danych
+
+Gdy zaznaczono „Mention Record Owner", każdy post Chatter jest tworzony indywidualnie, a nie masowo. Dla dużych zbiorów naruszeń (500+ rekordów) czas przetwarzania może być zauważalnie dłuższy.
+
+**Obejście:** Dla dużych zbiorów danych rozważ odznaczenie „Mention Record Owner" w celu szybszego przetwarzania, a następnie ręcznie powiadom właścicieli w razie potrzeby.
+
+---
+
+### Akcje oceniają bieżące dane, nie ostatnią migawkę skanu
+
+Wszystkie akcje (Export, Create Tasks, Post Chatter) ponownie oceniają naruszenia względem bieżącego stanu danych — nie wyników skanu wyświetlanych w interfejsie. Jeśli rekordy zostały zaktualizowane od ostatniego skanu, akcja może znaleźć inne naruszenia niż te wyświetlane na ekranie.
+
+**Obejście:** Uruchom nowy skan przed wykonaniem akcji, jeśli aktualność danych jest krytyczna.
+
+---
+
+### Rekord może otrzymać wiele zadań lub postów w kombinacjach pole/wymiar
+
+Gdy akcja jest uruchamiana na wielu polach i wymiarach, rekord z naruszeniami w wielu kombinacjach otrzyma jedno zadanie lub post Chatter na kombinację. Zapobieganie duplikatom działa tylko w zakresie pojedynczego pola+wymiaru.
+
+**Przykład:** Rekord z naruszeniami na Email (Validity) i Phone (Completeness) otrzyma dwa oddzielne zadania z różnymi tematami.
+
+---
+
+### Jednoczesni użytkownicy mogą tworzyć zduplikowane akcje
+
+Jeśli dwóch użytkowników uruchomi tę samą akcję na tej samej definicji w tym samym czasie, oba sprawdzenia duplikatów przechodzą pomyślnie i mogą zostać utworzone zduplikowane zadania lub posty Chatter.
+
+**Obejście:** Koordynuj z członkami zespołu, aby unikać jednoczesnego uruchamiania tej samej akcji na tej samej definicji.
+
+---
+
+### Naruszenia na polach formuł lub rollup generują niewykonalne zadania
+
+Skany oceniają wszystkie monitorowane pola, w tym pola formuł i pola podsumowań rollup. Jeśli naruszenia zostaną znalezione na tych polach tylko do odczytu, zadania lub posty Chatter są tworzone mimo to — ale właściciel rekordu nie może bezpośrednio poprawić wartości, ponieważ jest ona obliczana.
+
+**Obejście:** Podczas konfigurowania definicji skanu rozważ wykluczenie pól formuł i rollup z wymiarów, w których naruszenia nie mogą być naprawione przez właściciela rekordu.
+
+---
+
+## Panel eksportu
+
+### Historia eksportu jest ograniczona do 100 plików na definicję
+
+Definicje z intensywnym użyciem eksportu mogą nie wyświetlać wszystkich wyeksportowanych plików w panelu historii eksportu — najstarsze pliki są pomijane. Pliki nadal istnieją jako Salesforce Files i można je znaleźć na karcie Files.
+
+**Obejście:** Usuń stare eksporty, aby zrobić miejsce dla nowszych w panelu.
+
+---
+
+### Masowe pobieranie może być blokowane przez ustawienia przeglądarki
+
+Akcja „Download All" uruchamia sekwencyjne pobieranie wielu plików. Niektóre ustawienia bezpieczeństwa przeglądarki lub rozszerzenia mogą blokować lub ostrzegać o wielu jednoczesnych pobieraniach.
+
+**Obejście:** Zezwól na wiele pobrań dla domeny Salesforce w ustawieniach przeglądarki lub pobieraj pliki pojedynczo.

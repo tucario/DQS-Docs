@@ -7,42 +7,6 @@ description: Comment Data Quality Sense exécute les scans en utilisant le trait
 
 Le moteur de traitement est la **couche d'exécution** de Data Quality Sense. Il lit les définitions de scan créées dans le Builder, interroge les données Salesforce en temps réel et produit des scores de qualité visibles dans Insight Studio.
 
-## Architecture
-
-```
-Definition + Details
-       │
-       ▼
-  Batch Job Start
-       │
-       ▼
-  Query target SObject (dynamic SOQL)
-       │
-       ▼
-  For each enabled dimension:
-    Strategy.processChunk(context)
-       │
-       ▼
-  Aggregate partial results
-       │
-       ▼
-  Store: Dimension Results → Field Results → Metric Results
-       │
-       ▼
-  Fire platform event: Calculation Complete
-```
-
-## Concepts clés
-
-| Concept | Description |
-|---------|-------------|
-| **Scan** | Une exécution unique d'une définition sur les données en temps réel |
-| **Dimension Strategy** | Une classe de stratégie par capacité (par exemple, CompletenessStrategy) |
-| **Chunk Processing** | Les enregistrements sont traités par lots via `Database.Batchable` |
-| **Metric Calculation** | Métriques par champ calculées au sein de chaque stratégie |
-| **Result Storage** | Hiérarchique : résultats Dimension → Field → Metric |
-| **Platform Events** | `Calculation_Complete__e` est déclenché lorsqu'un scan se termine |
-
 ![Dialogue de confirmation Run Scan avec le temps estimé et le bouton Run Scan](../../../../assets/screenshots/running-scans2.png)
 
 ## Déclenchement d'un scan
@@ -52,14 +16,6 @@ Les scans peuvent être déclenchés de trois manières :
 1. **Manuel** — Cliquez sur « Run Scan » dans Insight Studio
 2. **Planifié** — Via une [planification](/fr/processing/scheduling/) basée sur CRON
 3. **Programmatique** — Via l'API Apex (pour les intégrations personnalisées)
-
-## Hiérarchie des résultats
-
-```
-DQS_Dimension_Result__c  (un par dimension par scan)
-  └── DQS_Field_Result__c  (un par champ par dimension)
-       └── DQS_Metric_Result__c  (métriques détaillées par champ)
-```
 
 ## En savoir plus
 

@@ -145,6 +145,7 @@ export default defineConfig({
 						{ slug: 'reference/regex-tester' },
 						{ slug: 'reference/data-model' },
 						{ slug: 'reference/limits' },
+						{ slug: 'reference/known-issues' },
 						{ slug: 'reference/faq' },
 					],
 				},

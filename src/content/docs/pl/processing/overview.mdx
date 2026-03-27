@@ -7,42 +7,6 @@ description: Jak Data Quality Sense wykonuje skany przy użyciu przetwarzania ws
 
 Silnik przetwarzania to **warstwa wykonawcza** Data Quality Sense. Odczytuje definicje skanów utworzone w Builder, odpytuje bieżące dane Salesforce i generuje wyniki jakości widoczne w Insight Studio.
 
-## Architektura
-
-```
-Definition + Details
-       │
-       ▼
-  Batch Job Start
-       │
-       ▼
-  Query target SObject (dynamic SOQL)
-       │
-       ▼
-  For each enabled dimension:
-    Strategy.processChunk(context)
-       │
-       ▼
-  Aggregate partial results
-       │
-       ▼
-  Store: Dimension Results → Field Results → Metric Results
-       │
-       ▼
-  Fire platform event: Calculation Complete
-```
-
-## Kluczowe pojęcia
-
-| Pojęcie | Opis |
-|---------|------|
-| **Skan** | Pojedyncze uruchomienie definicji na bieżących danych |
-| **Strategia wymiaru** | Jedna klasa strategii na zdolność (np. CompletenessStrategy) |
-| **Przetwarzanie fragmentów** | Rekordy przetwarzane wsadowo za pomocą `Database.Batchable` |
-| **Obliczanie metryk** | Metryki per pole obliczane w ramach każdej strategii |
-| **Przechowywanie wyników** | Hierarchiczne: Dimension → Field → Metric results |
-| **Platform Events** | `Calculation_Complete__e` uruchamiany po zakończeniu skanu |
-
 ![Okno dialogowe potwierdzenia Run Scan z szacowanym czasem i przyciskiem Run Scan](../../../../assets/screenshots/running-scans2.png)
 
 ## Wyzwalanie skanu
@@ -52,14 +16,6 @@ Skany mogą być wyzwalane na trzy sposoby:
 1. **Ręcznie** — Kliknij „Run Scan" w Insight Studio
 2. **Zaplanowane** — Przez [harmonogramowanie](/pl/processing/scheduling/) oparte na CRON
 3. **Programowo** — Przez Apex API (do niestandardowych integracji)
-
-## Hierarchia wyników
-
-```
-DQS_Dimension_Result__c  (jeden per wymiar per skan)
-  └── DQS_Field_Result__c  (jeden per pole per wymiar)
-       └── DQS_Metric_Result__c  (szczegółowe metryki per pole)
-```
 
 ## Dowiedz się więcej
 

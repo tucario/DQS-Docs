@@ -17,15 +17,17 @@
 	cursor: pointer;
 	border-radius: 0.5rem;
 	border: 1px solid var(--sl-color-hairline-light);
-	/* fade-in on load */
+	/* materialize on load */
 	opacity: 0;
-	transform: translateY(6px);
-	transition: opacity 0.35s ease, transform 0.35s ease;
+	transform: scale(0.97);
+	filter: blur(6px);
+	transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease;
 }
 
 .sl-markdown-content img.media-loaded {
 	opacity: 1;
-	transform: translateY(0);
+	transform: scale(1);
+	filter: blur(0);
 }
 
 .sl-markdown-content img.media-loaded:hover {
@@ -35,15 +37,17 @@
 /* Video fade-in */
 .sl-markdown-content video {
 	opacity: 0;
-	transform: translateY(6px);
-	transition: opacity 0.35s ease, transform 0.35s ease;
+	transform: scale(0.97);
+	filter: blur(6px);
+	transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease;
 	border-radius: 0.5rem;
 	border: 1px solid var(--sl-color-hairline-light);
 }
 
 .sl-markdown-content video.media-loaded {
 	opacity: 1;
-	transform: translateY(0);
+	transform: scale(1);
+	filter: blur(0);
 }
 
 .img-caption {

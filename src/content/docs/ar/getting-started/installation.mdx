@@ -5,6 +5,12 @@ description: كيفية تثبيت Data Quality Sense على بيئة Salesforce
 
 import { Aside } from '@astrojs/starlight/components';
 
+<Aside type="tip" title="جرّب النسخة التجريبية">
+Data Quality Sense غير متوفر بعد على AppExchange. يمكنك تثبيت النسخة التجريبية الحالية مباشرة:
+
+[تثبيت الحزمة التجريبية](https://login.salesforce.com/packaging/installPackage.apexp?p0=04tWV0000005BinYAE)
+</Aside>
+
 ## المتطلبات الأساسية
 
 - بيئة Salesforce (إصدار Enterprise أو Unlimited أو Developer)
@@ -66,13 +72,12 @@ import { Aside } from '@astrojs/starlight/components';
 
 ## ما بعد التثبيت
 
-تقوم الحزمة بتثبيت:
-- كائنات مخصصة للتعريفات والنتائج والجدولة
-- Custom Metadata Types للقدرات والمقاييس والتكوين
-- Lightning Web Components لـ Builder و Insight Studio
-- فئات Apex للمعالجة الدُفعية ووحدات تحكم API
-- مجموعات صلاحيات للوصول المبني على الأدوار
+يقوم الحزمة بتثبيت جميع المكونات المطلوبة — الكائنات المخصصة ومكونات Lightning ومجموعات الأذونات. لا يلزم إجراء تكوين إضافي لهذه المكونات.
 
 ## تحديث الحزمة
 
-للترقية إلى إصدار أحدث، استخدم نفس رابط التثبيت — ستكتشف Salesforce الحزمة الموجودة وتعرض مسار الترقية. يتم الحفاظ على تعريفات الفحص والنتائج أثناء الترقيات.
+للترقية إلى إصدار أحدث، استخدم نفس رابط التثبيت — ستكتشف Salesforce الحزمة الموجودة وتعرض مسار الترقية. يعرض المثبّت الإصدار المثبّت حاليًا والإصدار الجديد المتاح. اختر نفس نطاق التثبيت كما في السابق (أو قم بتغييره إذا لزم الأمر) وانقر على **Upgrade**.
+
+![ترقية Data Quality Sense — تكتشف Salesforce الحزمة الموجودة وتعرض مسار الترقية](../../../../assets/screenshots/upgrade-package.png)
+
+يتم الحفاظ على تعريفات الفحص والنتائج والتكوين أثناء الترقيات — لا تُفقد أي بيانات.
