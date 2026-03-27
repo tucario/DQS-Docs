@@ -1,0 +1,84 @@
+---
+title: Problemas Conhecidos
+description: Lista transparente de limitações conhecidas no Data Quality Sense.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<Aside type="note">
+Estas são restrições documentadas da plataforma ou compromissos aceitos, não bugs. Atualizamos esta lista à medida que problemas são resolvidos ou novos são identificados.
+</Aside>
+
+## Ações em registros impactados
+
+### Tarefas podem ser criadas para registros cujo proprietário está inativo
+
+Quando "Create Tasks" é executado e o proprietário de um registro é um usuário inativo, a criação da tarefa para esse registro falha. Outras tarefas no mesmo lote são preservadas — apenas o registro afetado é ignorado. O resumo de conclusão reporta como erro.
+
+**Solução:** Reatribua a propriedade dos registros com proprietários inativos antes de executar Create Tasks, ou use o campo "Assign To" no diálogo de tarefas para atribuir todas as tarefas a um usuário ativo específico.
+
+---
+
+### Publicação no Chatter requer Feed Tracking no objeto de destino
+
+A ação "Post Chatter" requer que o Chatter esteja habilitado na org E que o Feed Tracking esteja habilitado no objeto específico sendo escaneado. Se o Chatter não estiver habilitado, a ação retorna uma mensagem de erro clara. Se o Feed Tracking estiver desabilitado para o objeto, as publicações falham por registro e o resumo de conclusão reporta erros.
+
+**Solução:** Habilite o Feed Tracking para o objeto de destino em **Setup > Chatter > Feed Tracking** antes de executar Post Chatter.
+
+---
+
+### Mencionar proprietários de registros em posts do Chatter é mais lento para grandes conjuntos de dados
+
+Quando "Mention Record Owner" está marcado, cada post do Chatter é criado individualmente em vez de em massa. Para grandes conjuntos de violações (500+ registros), o tempo de processamento pode ser notavelmente maior.
+
+**Solução:** Para grandes conjuntos de dados, considere desmarcar "Mention Record Owner" para processamento mais rápido e notifique manualmente os proprietários se necessário.
+
+---
+
+### Ações avaliam dados atuais, não o último snapshot do scan
+
+Todas as ações (Export, Create Tasks, Post Chatter) reavaliam violações contra o estado atual dos dados — não os resultados do scan exibidos na interface. Se registros foram atualizados desde o último scan, a ação pode encontrar violações diferentes das mostradas na tela.
+
+**Solução:** Execute um novo scan antes de realizar ações se a atualidade dos dados for crítica.
+
+---
+
+### Um registro pode receber múltiplas tarefas ou posts em combinações de campo/dimensão
+
+Quando uma ação é executada em múltiplos campos e dimensões, um registro com violações em múltiplas combinações receberá uma tarefa ou post do Chatter por combinação. A prevenção de duplicatas opera apenas dentro de um único escopo campo+dimensão.
+
+**Exemplo:** Um registro com violações em Email (Validity) e Phone (Completeness) receberá duas tarefas separadas com assuntos diferentes.
+
+---
+
+### Usuários simultâneos podem criar ações duplicadas
+
+Se dois usuários executarem a mesma ação na mesma definição ao mesmo tempo, ambas as verificações de duplicatas passam e tarefas ou posts do Chatter duplicados podem ser criados.
+
+**Solução:** Coordene com os membros da equipe para evitar executar a mesma ação na mesma definição simultaneamente.
+
+---
+
+### Violações em campos de fórmula ou rollup geram tarefas não acionáveis
+
+Os scans avaliam todos os campos monitorados, incluindo campos de fórmula e rollup. Se violações forem encontradas nesses campos somente leitura, tarefas ou posts do Chatter são criados mesmo assim — mas o proprietário do registro não pode corrigir diretamente o valor, pois é calculado.
+
+**Solução:** Ao configurar a definição do scan, considere excluir campos de fórmula e rollup das dimensões onde as violações não são remediáveis pelo proprietário do registro.
+
+---
+
+## Painel de exportação
+
+### Histórico de exportação é limitado a 100 arquivos por definição
+
+Definições com uso intensivo de exportação podem não mostrar todos os arquivos exportados no painel de histórico — os arquivos mais antigos são excluídos. Os arquivos continuam existindo como Salesforce Files e podem ser encontrados pela aba Files.
+
+**Solução:** Exclua exportações antigas para abrir espaço para as mais recentes no painel.
+
+---
+
+### Download em massa pode ser bloqueado pelas configurações do navegador
+
+A ação "Download All" aciona múltiplos downloads de arquivos em sequência. Algumas configurações de segurança do navegador ou extensões podem bloquear ou alertar sobre múltiplos downloads simultâneos.
+
+**Solução:** Permita múltiplos downloads para o domínio do Salesforce nas configurações do seu navegador, ou baixe os arquivos individualmente.

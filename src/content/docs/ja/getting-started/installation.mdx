@@ -5,6 +5,12 @@ description: Salesforce組織にData Quality Senseをインストールする方
 
 import { Aside } from '@astrojs/starlight/components';
 
+<Aside type="tip" title="ベータ版を試す">
+Data Quality Senseはまだ AppExchange に掲載されていません。現在のベータ版を直接インストールできます：
+
+[ベータパッケージをインストール](https://login.salesforce.com/packaging/installPackage.apexp?p0=04tWV0000005BinYAE)
+</Aside>
+
 ## 前提条件
 
 - Salesforce組織（Enterprise、Unlimited、またはDeveloper Edition）
@@ -66,12 +72,7 @@ import { Aside } from '@astrojs/starlight/components';
 
 ## インストール後の内容
 
-パッケージには以下がインストールされます：
-- 定義、結果、スケジューリング用のカスタムオブジェクト
-- ケイパビリティ、メトリクス、設定用のCustom Metadata Types
-- BuilderとInsight Studio用のLightning Web Components
-- バッチ処理とAPIコントローラー用のApexクラス
-- ロールベースアクセス用のPermission Sets
+パッケージは必要なすべてのコンポーネント（カスタムオブジェクト、Lightningコンポーネント、権限セット）をインストールします。これらのコンポーネントの追加設定は不要です。
 
 ## パッケージの更新
 

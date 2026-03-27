@@ -7,42 +7,6 @@ description: Data Quality SenseがSalesforceバッチ処理を使用してスキ
 
 処理エンジンは、Data Quality Senseの**実行レイヤー**です。Builderで作成されたスキャン定義を読み取り、ライブのSalesforceデータをクエリし、Insight Studioで表示される品質スコアを生成します。
 
-## アーキテクチャ
-
-```
-Definition + Details
-       │
-       ▼
-  Batch Job Start
-       │
-       ▼
-  Query target SObject (dynamic SOQL)
-       │
-       ▼
-  For each enabled dimension:
-    Strategy.processChunk(context)
-       │
-       ▼
-  Aggregate partial results
-       │
-       ▼
-  Store: Dimension Results → Field Results → Metric Results
-       │
-       ▼
-  Fire platform event: Calculation Complete
-```
-
-## 主要な概念
-
-| 概念 | 説明 |
-|---------|-------------|
-| **スキャン** | ライブデータに対する定義の単一実行 |
-| **ディメンションストラテジー** | ケイパビリティごとに1つのストラテジークラス（例：CompletenessStrategy） |
-| **チャンク処理** | `Database.Batchable`経由でレコードをバッチ処理 |
-| **メトリクス計算** | 各ストラテジー内で項目ごとのメトリクスを計算 |
-| **結果の保存** | 階層構造：Dimension → Field → Metric結果 |
-| **Platform Events** | スキャン完了時に`Calculation_Complete__e`が発火 |
-
 ![Run Scan確認ダイアログ — 推定時間とRun Scanボタン](../../../../assets/screenshots/running-scans2.png)
 
 ## スキャンのトリガー
@@ -52,14 +16,6 @@ Definition + Details
 1. **手動** — Insight Studioで「Run Scan」をクリック
 2. **スケジュール** — CRONベースの[スケジューリング](/ja/processing/scheduling/)
 3. **プログラマティック** — Apex API経由（カスタム統合用）
-
-## 結果の階層
-
-```
-DQS_Dimension_Result__c  (スキャンごとのディメンションごとに1つ)
-  └── DQS_Field_Result__c  (ディメンションごとの項目ごとに1つ)
-       └── DQS_Metric_Result__c  (項目ごとの詳細メトリクス)
-```
 
 ## 詳細
 

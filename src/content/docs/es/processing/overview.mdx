@@ -7,42 +7,6 @@ description: Cómo Data Quality Sense ejecuta escaneos usando el procesamiento p
 
 El motor de procesamiento es la **capa de ejecución** de Data Quality Sense. Lee las definiciones de escaneo creadas en el Builder, consulta datos en vivo de Salesforce y produce puntuaciones de calidad visibles en Insight Studio.
 
-## Arquitectura
-
-```
-Definition + Details
-       │
-       ▼
-  Batch Job Start
-       │
-       ▼
-  Query target SObject (dynamic SOQL)
-       │
-       ▼
-  For each enabled dimension:
-    Strategy.processChunk(context)
-       │
-       ▼
-  Aggregate partial results
-       │
-       ▼
-  Store: Dimension Results → Field Results → Metric Results
-       │
-       ▼
-  Fire platform event: Calculation Complete
-```
-
-## Conceptos clave
-
-| Concepto | Descripción |
-|----------|-------------|
-| **Escaneo** | Una ejecución única de una definición contra datos en vivo |
-| **Estrategia de dimensión** | Una clase de estrategia por capacidad (por ejemplo, CompletenessStrategy) |
-| **Procesamiento por fragmentos** | Los registros se procesan en lotes mediante `Database.Batchable` |
-| **Cálculo de métricas** | Métricas por campo calculadas dentro de cada estrategia |
-| **Almacenamiento de resultados** | Jerárquico: Dimension → Field → Metric results |
-| **Platform Events** | `Calculation_Complete__e` se dispara cuando un escaneo finaliza |
-
 ![Diálogo de confirmación de Run Scan con tiempo estimado y botón Run Scan](../../../../assets/screenshots/running-scans2.png)
 
 ## Activación de un escaneo
@@ -52,14 +16,6 @@ Los escaneos pueden activarse de tres maneras:
 1. **Manual** — Haga clic en "Run Scan" en Insight Studio
 2. **Programado** — Mediante [programación](/es/processing/scheduling/) basada en CRON
 3. **Programático** — Mediante API de Apex (para integraciones personalizadas)
-
-## Jerarquía de resultados
-
-```
-DQS_Dimension_Result__c  (uno por dimensión por escaneo)
-  └── DQS_Field_Result__c  (uno por campo por dimensión)
-       └── DQS_Metric_Result__c  (métricas detalladas por campo)
-```
 
 ## Más información
 

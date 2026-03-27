@@ -1,0 +1,84 @@
+---
+title: Problèmes connus
+description: Liste transparente des limitations connues dans Data Quality Sense.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<Aside type="note">
+Il s'agit de contraintes documentées de la plateforme ou de compromis acceptés, pas de bugs. Nous mettons à jour cette liste au fur et à mesure que les problèmes sont résolus ou que de nouveaux sont identifiés.
+</Aside>
+
+## Actions sur les enregistrements impactés
+
+### Des tâches peuvent être créées pour des enregistrements dont le propriétaire est inactif
+
+Lorsque « Create Tasks » est exécuté et que le propriétaire d'un enregistrement est un utilisateur inactif, la création de la tâche pour cet enregistrement échoue. Les autres tâches du même lot sont préservées — seul l'enregistrement concerné est ignoré. Le résumé de complétion le signale comme une erreur.
+
+**Solution :** Réattribuez la propriété des enregistrements avec des propriétaires inactifs avant d'exécuter Create Tasks, ou utilisez le champ « Assign To » dans le dialogue de tâche pour attribuer toutes les tâches à un utilisateur actif spécifique.
+
+---
+
+### La publication Chatter nécessite le Feed Tracking sur l'objet cible
+
+L'action « Post Chatter » nécessite que Chatter soit activé sur l'org ET que le Feed Tracking soit activé sur l'objet spécifique scanné. Si Chatter n'est pas activé, l'action renvoie un message d'erreur clair. Si le Feed Tracking est désactivé pour l'objet, les publications échouent par enregistrement et le résumé de complétion signale des erreurs.
+
+**Solution :** Activez le Feed Tracking pour l'objet cible dans **Setup > Chatter > Feed Tracking** avant d'exécuter Post Chatter.
+
+---
+
+### La mention des propriétaires dans les posts Chatter est plus lente pour les grands ensembles de données
+
+Lorsque « Mention Record Owner » est coché, chaque post Chatter est créé individuellement plutôt qu'en masse. Pour les grands ensembles de violations (500+ enregistrements), le temps de traitement peut être sensiblement plus long.
+
+**Solution :** Pour les grands ensembles de données, envisagez de décocher « Mention Record Owner » pour un traitement plus rapide, puis notifiez manuellement les propriétaires si nécessaire.
+
+---
+
+### Les actions évaluent les données actuelles, pas le dernier instantané de scan
+
+Toutes les actions (Export, Create Tasks, Post Chatter) réévaluent les violations par rapport à l'état actuel des données — et non les résultats de scan affichés dans l'interface. Si des enregistrements ont été mis à jour depuis le dernier scan, l'action peut trouver des violations différentes de celles affichées à l'écran.
+
+**Solution :** Exécutez un nouveau scan avant de lancer des actions si la fraîcheur des données est critique.
+
+---
+
+### Un enregistrement peut recevoir plusieurs tâches ou posts selon les combinaisons champ/dimension
+
+Lorsqu'une action est exécutée sur plusieurs champs et dimensions, un enregistrement en violation dans plusieurs combinaisons recevra une tâche ou un post Chatter par combinaison. La prévention des doublons n'opère que dans le cadre d'un seul champ+dimension.
+
+**Exemple :** Un enregistrement avec des violations sur Email (Validity) et Phone (Completeness) recevra deux tâches distinctes avec des sujets différents.
+
+---
+
+### Les utilisateurs simultanés peuvent créer des actions en double
+
+Si deux utilisateurs exécutent la même action sur la même définition en même temps, les deux vérifications de doublons passent et des tâches ou posts Chatter en double peuvent être créés.
+
+**Solution :** Coordonnez-vous avec les membres de l'équipe pour éviter d'exécuter la même action sur la même définition simultanément.
+
+---
+
+### Les violations sur les champs de formule ou rollup génèrent des tâches non exploitables
+
+Les scans évaluent tous les champs surveillés, y compris les champs de formule et de rollup. Si des violations sont trouvées sur ces champs en lecture seule, des tâches ou des posts Chatter sont quand même créés — mais le propriétaire de l'enregistrement ne peut pas corriger directement la valeur car elle est calculée.
+
+**Solution :** Lors de la configuration de la définition de scan, envisagez d'exclure les champs de formule et de rollup des dimensions où les violations ne sont pas remédiables par le propriétaire de l'enregistrement.
+
+---
+
+## Panneau d'export
+
+### L'historique d'export est limité à 100 fichiers par définition
+
+Les définitions avec une utilisation intensive de l'export peuvent ne pas afficher tous les fichiers exportés dans le panneau d'historique d'export — les fichiers les plus anciens sont exclus. Les fichiers existent toujours en tant que Salesforce Files et peuvent être trouvés via l'onglet Files.
+
+**Solution :** Supprimez les anciens exports pour faire de la place aux plus récents dans le panneau.
+
+---
+
+### Le téléchargement en masse peut être bloqué par les paramètres du navigateur
+
+L'action « Download All » déclenche plusieurs téléchargements de fichiers en séquence. Certains paramètres de sécurité du navigateur ou extensions peuvent bloquer ou avertir des téléchargements multiples simultanés.
+
+**Solution :** Autorisez les téléchargements multiples pour le domaine Salesforce dans les paramètres de votre navigateur, ou téléchargez les fichiers individuellement.

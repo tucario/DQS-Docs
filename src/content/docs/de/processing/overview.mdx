@@ -7,42 +7,6 @@ description: Wie Data Quality Sense Scans mit Salesforce-Batch-Verarbeitung ausf
 
 Die Verarbeitungs-Engine ist die **Ausführungsschicht** von Data Quality Sense. Sie liest im Builder erstellte Scan-Definitionen, fragt Live-Salesforce-Daten ab und erzeugt Qualitätsbewertungen, die in Insight Studio sichtbar sind.
 
-## Architektur
-
-```
-Definition + Details
-       │
-       ▼
-  Batch Job Start
-       │
-       ▼
-  Query target SObject (dynamic SOQL)
-       │
-       ▼
-  For each enabled dimension:
-    Strategy.processChunk(context)
-       │
-       ▼
-  Aggregate partial results
-       │
-       ▼
-  Store: Dimension Results → Field Results → Metric Results
-       │
-       ▼
-  Fire platform event: Calculation Complete
-```
-
-## Schlüsselkonzepte
-
-| Konzept | Beschreibung |
-|---------|-------------|
-| **Scan** | Eine einzelne Ausführung einer Definition gegen Live-Daten |
-| **Dimension Strategy** | Eine Strategy-Klasse pro Capability (z. B. CompletenessStrategy) |
-| **Chunk Processing** | Datensätze werden in Batches über `Database.Batchable` verarbeitet |
-| **Metric Calculation** | Feldbezogene Metriken, die innerhalb jeder Strategy berechnet werden |
-| **Result Storage** | Hierarchisch: Dimension → Field → Metric Results |
-| **Platform Events** | `Calculation_Complete__e` wird ausgelöst, wenn ein Scan abgeschlossen ist |
-
 ![Scan-Bestätigungsdialog mit geschätzter Zeit und Run Scan-Schaltfläche](../../../../assets/screenshots/running-scans2.png)
 
 ## Scan auslösen
@@ -52,14 +16,6 @@ Scans können auf drei Arten ausgelöst werden:
 1. **Manuell** — Klicken Sie auf „Run Scan" in Insight Studio
 2. **Geplant** — Über CRON-basierte [Zeitplanung](/de/processing/scheduling/)
 3. **Programmatisch** — Über Apex API (für benutzerdefinierte Integrationen)
-
-## Ergebnis-Hierarchie
-
-```
-DQS_Dimension_Result__c  (eines pro Dimension pro Scan)
-  └── DQS_Field_Result__c  (eines pro Feld pro Dimension)
-       └── DQS_Metric_Result__c  (detaillierte Metriken pro Feld)
-```
 
 ## Mehr erfahren
 

@@ -1,0 +1,84 @@
+---
+title: Known Issues
+description: Transparent list of known limitations in Data Quality Sense.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<Aside type="note">
+These are documented platform constraints or accepted trade-offs, not bugs. We update this list as issues are resolved or new ones are identified.
+</Aside>
+
+## Actions on Impacted Records
+
+### Tasks may be created for records whose owner is inactive
+
+When "Create Tasks" is run and a record's owner is an inactive user, the task for that record fails. Other tasks in the same batch are preserved — only the affected record is skipped. The completion summary reports it as an error.
+
+**Workaround:** Reassign ownership of records with inactive owners before running Create Tasks, or use the "Assign To" field in the Task modal to assign all tasks to a specific active user.
+
+---
+
+### Chatter posting requires Feed Tracking on the target object
+
+The "Post Chatter" action requires Chatter to be enabled on the org and Feed Tracking to be enabled on the specific object being scanned. If Chatter is not enabled, the action returns a clear error message. If Feed Tracking is disabled for the object, the posts fail per-record and the completion summary reports errors.
+
+**Workaround:** Enable Feed Tracking for the target object in **Setup > Chatter > Feed Tracking** before running Post Chatter.
+
+---
+
+### Mentioning record owners in Chatter posts is slower for large datasets
+
+When "Mention Record Owner" is checked, each Chatter post is created individually rather than in bulk. For large violation sets (500+ records), processing time may be noticeably longer.
+
+**Workaround:** For large datasets, consider unchecking "Mention Record Owner" for faster processing, then manually notifying owners if needed.
+
+---
+
+### Actions evaluate current data, not the last scan snapshot
+
+All actions (Export, Create Tasks, Post Chatter) re-evaluate violations against the current state of the data — not the scan results displayed in the UI. If records have been updated since the last scan, the action may find different violations than what is shown on screen.
+
+**Workaround:** Run a fresh scan before taking actions if data freshness is critical.
+
+---
+
+### A record may receive multiple tasks or posts across field/dimension combinations
+
+When an action is run across multiple fields and dimensions, a record that violates in multiple combinations will receive one task or Chatter post per combination. Duplicate prevention only operates within a single field+dimension scope.
+
+**Example:** A record with violations on both Email (Validity) and Phone (Completeness) will receive two separate tasks with different subjects.
+
+---
+
+### Concurrent users may create duplicate actions
+
+If two users run the same action on the same definition at the same time, both deduplication checks pass and duplicate tasks or Chatter posts may be created.
+
+**Workaround:** Coordinate with team members to avoid running the same action on the same definition simultaneously.
+
+---
+
+### Violations on formula or rollup fields generate non-actionable tasks
+
+Scans evaluate all monitored fields, including formula and rollup summary fields. If violations are found on these read-only fields, tasks or Chatter posts are still created — but the record owner cannot directly fix the value since it is calculated.
+
+**Workaround:** When configuring the scan definition, consider excluding formula and rollup fields from dimensions where violations are not remediable by the record owner.
+
+---
+
+## Export Panel
+
+### Export history is limited to 100 files per definition
+
+Definitions with heavy export usage may not show all exported files in the Export History panel — the oldest files are excluded. The files still exist as Salesforce Files and can be found via the Files tab.
+
+**Workaround:** Delete old exports to make room for newer ones in the panel.
+
+---
+
+### Bulk download may be blocked by browser settings
+
+The "Download All" action triggers multiple file downloads in sequence. Some browser security settings or extensions may block or warn about multiple simultaneous downloads.
+
+**Workaround:** Allow multiple downloads for the Salesforce domain in your browser settings, or download files individually.

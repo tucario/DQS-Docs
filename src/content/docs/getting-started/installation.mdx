@@ -5,6 +5,12 @@ description: How to install Data Quality Sense on your Salesforce org.
 
 import { Aside } from '@astrojs/starlight/components';
 
+<Aside type="tip" title="Try the Beta">
+Data Quality Sense is not yet listed on AppExchange. You can install the current beta version directly:
+
+[Install Beta Package](https://login.salesforce.com/packaging/installPackage.apexp?p0=04tWV0000005BinYAE)
+</Aside>
+
 ## Prerequisites
 
 - Salesforce org (Enterprise, Unlimited, or Developer Edition)
@@ -66,12 +72,7 @@ Activation is tied to your Salesforce org. If you install the package on a new o
 
 ## Post-Installation
 
-The package installs:
-- Custom objects for definitions, results, and scheduling
-- Custom Metadata Types for capabilities, metrics, and configuration
-- Lightning Web Components for Builder and Insight Studio
-- Apex classes for batch processing and API controllers
-- Permission sets for role-based access
+The package installs all required components — custom objects, Lightning components, and permission sets. No additional configuration of these components is needed.
 
 ## Updating the Package
 

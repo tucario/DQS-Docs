@@ -5,6 +5,12 @@ description: Cómo instalar Data Quality Sense en su organización de Salesforce
 
 import { Aside } from '@astrojs/starlight/components';
 
+<Aside type="tip" title="Probar la beta">
+Data Quality Sense aún no está disponible en AppExchange. Puede instalar la versión beta actual directamente:
+
+[Instalar paquete beta](https://login.salesforce.com/packaging/installPackage.apexp?p0=04tWV0000005BinYAE)
+</Aside>
+
 ## Requisitos previos
 
 - Organización de Salesforce (edición Enterprise, Unlimited o Developer)
@@ -66,12 +72,7 @@ La activación está vinculada a su organización de Salesforce. Si instala el p
 
 ## Post-instalación
 
-El paquete instala:
-- Objetos personalizados para definiciones, resultados y programación
-- Custom Metadata Types para capacidades, métricas y configuración
-- Lightning Web Components para Builder e Insight Studio
-- Clases Apex para procesamiento por lotes y controladores de API
-- Permission Sets para acceso basado en roles
+El paquete instala todos los componentes necesarios — objetos personalizados, componentes Lightning y conjuntos de permisos. No se necesita configuración adicional de estos componentes.
 
 ## Actualización del paquete
 
