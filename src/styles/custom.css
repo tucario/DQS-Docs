@@ -68,7 +68,7 @@
 
 /* Lightbox modal */
 .img-lightbox {
-	display: none;
+	display: flex;
 	position: fixed;
 	inset: 0;
 	z-index: 100;
@@ -77,10 +77,14 @@
 	align-items: center;
 	justify-content: center;
 	padding: 2rem;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .img-lightbox.active {
-	display: flex;
+	opacity: 1;
+	visibility: visible;
 }
 
 .img-lightbox img {
@@ -89,6 +93,12 @@
 	object-fit: contain;
 	border-radius: 0.5rem;
 	box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+	transform: scale(0.92);
+	transition: transform 0.3s ease;
+}
+
+.img-lightbox.active img {
+	transform: scale(1);
 }
 
 /* Skeleton page loader */
