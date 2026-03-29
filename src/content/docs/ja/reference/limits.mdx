@@ -5,6 +5,32 @@ description: DQSに関するSalesforceガバナーリミットとパフォーマ
 
 import { Aside } from '@astrojs/starlight/components';
 
+## スキャンリミット
+
+Data Quality Senseの各アクティベーションには、固定数のスキャン（デフォルトで20回）が含まれます。手動またはスケジュールされたすべてのスキャン実行がこのクォータにカウントされます。
+
+### 使用状況の追跡
+
+Insight Studioの定義カードには、使用済みスキャン数を示すプログレスバーが表示されます。リミットに近づくと、バーが赤くなり、**Scan limit reached**の警告が表示されます。
+
+![スキャンリミット到達を示す定義カード — 赤いプログレスバーとスキャン数](../../../../assets/screenshots/scan-limit.png)
+
+### リミット到達時の動作
+
+すべてのスキャンが使用されると、新しいスキャンを実行しようとするとエラーダイアログが表示され、スキャンリミットに達したことが通知されます。
+
+![Insight Studioのエラーダイアログ — スキャンリミット到達を表示](../../../../assets/screenshots/scan-limit-reached.png)
+
+### 追加スキャンのリクエスト
+
+エラーダイアログの**Upgrade**ボタンをクリックすると、追加スキャンをリクエストする事前入力済みメールが開きます。メールは[hello@tucario.com](mailto:hello@tucario.com)宛てで、Org IDが自動的に含まれます。
+
+![スキャンリミットアップグレードリクエストの事前入力済みメール — Org ID付き](../../../../assets/screenshots/cta-limit-reached.png)
+
+<Aside type="tip">
+スケジュールされたスキャンもリミットにカウントされます。スキャンが残り少なくなった場合は、重要度の低い定義のスケジュールを一時停止することを検討してください。
+</Aside>
+
 ## Salesforceガバナーリミット
 
 DQSはSalesforce内で完全に実行され、標準のガバナーリミットに従います。処理エンジンはこれらの制約内で動作するように設計されています。

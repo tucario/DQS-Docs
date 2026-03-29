@@ -5,6 +5,32 @@ description: Governor limits Salesforce et considérations de performance pour D
 
 import { Aside } from '@astrojs/starlight/components';
 
+## Limites de scans
+
+Chaque activation de Data Quality Sense comprend un nombre fixe de scans (20 par défaut). Chaque exécution de scan — manuelle ou planifiée — est décomptée de ce quota.
+
+### Suivi de l'utilisation
+
+La carte de définition dans Insight Studio affiche une barre de progression indiquant le nombre de scans utilisés. Lorsque la limite approche, la barre devient rouge et affiche un avertissement **Scan limit reached**.
+
+![Carte de définition montrant la limite de scans atteinte avec barre de progression rouge et nombre de scans](../../../../assets/screenshots/scan-limit.png)
+
+### Que se passe-t-il lorsque la limite est atteinte
+
+Une fois tous les scans utilisés, toute tentative de lancer un nouveau scan déclenche un dialogue d'erreur vous informant que la limite de scans a été atteinte.
+
+![Dialogue d'erreur dans Insight Studio indiquant que la limite de scans a été atteinte](../../../../assets/screenshots/scan-limit-reached.png)
+
+### Demander plus de scans
+
+Cliquez sur le bouton **Upgrade** dans le dialogue d'erreur pour ouvrir un e-mail pré-rempli demandant des scans supplémentaires. L'e-mail est adressé à [hello@tucario.com](mailto:hello@tucario.com) et inclut automatiquement votre Org ID.
+
+![E-mail pré-rempli demandant une mise à niveau de la limite de scans avec Org ID](../../../../assets/screenshots/cta-limit-reached.png)
+
+<Aside type="tip">
+Les scans planifiés comptent également dans votre limite. Si vos scans diminuent, envisagez de suspendre les planifications pour les définitions moins critiques.
+</Aside>
+
 ## Governor Limits Salesforce
 
 DQS s'exécute entièrement dans Salesforce et est soumis aux governor limits standard. Le moteur de traitement est conçu pour fonctionner dans ces contraintes.

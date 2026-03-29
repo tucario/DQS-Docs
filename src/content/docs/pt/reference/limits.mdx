@@ -5,6 +5,32 @@ description: Governor limits do Salesforce e consideracoes de desempenho para o 
 
 import { Aside } from '@astrojs/starlight/components';
 
+## Limites de varreduras
+
+Cada ativacao do Data Quality Sense inclui um numero fixo de varreduras (20 por padrao). Cada execucao de varredura — manual ou agendada — e descontada desta cota.
+
+### Acompanhamento do uso
+
+O cartao de definicao no Insight Studio exibe uma barra de progresso mostrando quantas varreduras foram utilizadas. Quando o limite esta se aproximando, a barra fica vermelha e mostra um aviso **Scan limit reached**.
+
+![Cartao de definicao mostrando limite de varreduras alcancado com barra de progresso vermelha e contagem de varreduras](../../../../assets/screenshots/scan-limit.png)
+
+### O que acontece quando o limite e alcancado
+
+Quando todas as varreduras sao utilizadas, tentar executar uma nova varredura aciona um dialogo de erro informando que o limite de varreduras foi alcancado.
+
+![Dialogo de erro no Insight Studio indicando que o limite de varreduras foi alcancado](../../../../assets/screenshots/scan-limit-reached.png)
+
+### Solicitar mais varreduras
+
+Clique no botao **Upgrade** no dialogo de erro para abrir um e-mail pre-preenchido solicitando varreduras adicionais. O e-mail e enderecado a [hello@tucario.com](mailto:hello@tucario.com) e inclui automaticamente seu Org ID.
+
+![E-mail pre-preenchido solicitando upgrade do limite de varreduras com Org ID](../../../../assets/screenshots/cta-limit-reached.png)
+
+<Aside type="tip">
+Varreduras agendadas tambem contam para o seu limite. Se estiver ficando sem varreduras, considere pausar agendamentos de definicoes menos criticas.
+</Aside>
+
 ## Governor Limits do Salesforce
 
 O DQS e executado inteiramente dentro do Salesforce e esta sujeito aos governor limits padrao. O motor de processamento foi projetado para funcionar dentro dessas restricoes.
