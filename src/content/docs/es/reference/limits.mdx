@@ -5,6 +5,32 @@ description: Governor limits de Salesforce y consideraciones de rendimiento para
 
 import { Aside } from '@astrojs/starlight/components';
 
+## Límites de escaneos
+
+Cada activación de Data Quality Sense incluye un número fijo de escaneos (20 por defecto). Cada ejecución de escaneo — manual o programada — se descuenta de esta cuota.
+
+### Seguimiento del uso
+
+La tarjeta de definición en Insight Studio muestra una barra de progreso con la cantidad de escaneos utilizados. Cuando el límite se acerca, la barra se vuelve roja y muestra una advertencia **Scan limit reached**.
+
+![Tarjeta de definición mostrando límite de escaneos alcanzado con barra de progreso roja y conteo de escaneos](../../../../assets/screenshots/scan-limit.png)
+
+### Qué sucede cuando se alcanza el límite
+
+Una vez que se han utilizado todos los escaneos, intentar ejecutar uno nuevo muestra un diálogo de error informando que se ha alcanzado el límite de escaneos.
+
+![Diálogo de error en Insight Studio indicando que se ha alcanzado el límite de escaneos](../../../../assets/screenshots/scan-limit-reached.png)
+
+### Solicitar más escaneos
+
+Haga clic en el botón **Upgrade** en el diálogo de error para abrir un correo electrónico prellenado solicitando escaneos adicionales. El correo está dirigido a [hello@tucario.com](mailto:hello@tucario.com) e incluye automáticamente su Org ID.
+
+![Correo electrónico prellenado solicitando actualización del límite de escaneos con Org ID](../../../../assets/screenshots/cta-limit-reached.png)
+
+<Aside type="tip">
+Los escaneos programados también cuentan para su límite. Si está quedándose sin escaneos, considere pausar las programaciones de las definiciones menos críticas.
+</Aside>
+
 ## Governor Limits de Salesforce
 
 DQS se ejecuta completamente dentro de Salesforce y está sujeto a los governor limits estándar. El motor de procesamiento está diseñado para funcionar dentro de estas restricciones.

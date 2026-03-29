@@ -5,6 +5,32 @@ description: Limity gubernatorskie Salesforce i uwagi dotyczące wydajności DQS
 
 import { Aside } from '@astrojs/starlight/components';
 
+## Limity skanow
+
+Kazda aktywacja Data Quality Sense obejmuje stala liczbe skanow (domyslnie 20). Kazde wykonanie skanu — reczne lub zaplanowane — jest odliczane od tego limitu.
+
+### Sledzenie zuzycia
+
+Karta definicji w Insight Studio wyswietla pasek postepu pokazujacy, ile skanow zostalo wykorzystanych. Gdy limit sie zbliza, pasek zmienia kolor na czerwony i wyswietla ostrzezenie **Scan limit reached**.
+
+![Karta definicji pokazujaca osiagniety limit skanow z czerwonym paskiem postepu i liczba skanow](../../../../assets/screenshots/scan-limit.png)
+
+### Co sie dzieje po osiagnieciu limitu
+
+Gdy wszystkie skany zostana wykorzystane, proba uruchomienia nowego skanu wyswietla okno dialogowe bledu informujace o osiagnieciu limitu skanow.
+
+![Okno dialogowe bledu w Insight Studio informujace o osiagnieciu limitu skanow](../../../../assets/screenshots/scan-limit-reached.png)
+
+### Zamowienie dodatkowych skanow
+
+Kliknij przycisk **Upgrade** w oknie dialogowym bledu, aby otworzyc wstepnie wypelniony e-mail z prosba o dodatkowe skany. E-mail jest adresowany do [hello@tucario.com](mailto:hello@tucario.com) i automatycznie zawiera Twoje Org ID.
+
+![Wstepnie wypelniony e-mail z prosba o rozszerzenie limitu skanow z Org ID](../../../../assets/screenshots/cta-limit-reached.png)
+
+<Aside type="tip">
+Zaplanowane skany rowniez sa wliczane do limitu. Jesli konczy Ci sie limit skanow, rozważ wstrzymanie harmonogramow dla mniej krytycznych definicji.
+</Aside>
+
 ## Limity gubernatorskie Salesforce
 
 DQS działa całkowicie w ramach Salesforce i podlega standardowym limitom gubernatorskim. Silnik przetwarzania jest zaprojektowany tak, aby działać w tych ograniczeniach.
