@@ -48,7 +48,11 @@ DQS_DataPurgeScheduler (CRON trigger)
 
 ## 保持期間の調整
 
-保持期間を変更するには：
+保持期間を変更するには、DQS Homeページの**Configuration**パネルから直接値を編集します：
+
+![DQS HomeのConfigurationパネル — 保持とパージ設定の編集可能なデフォルトパラメータ](../../../../assets/screenshots/configuration-editable.png)
+
+または、Salesforce Setupから更新することもできます：
 
 1. **Setup → Custom Metadata Types → DQS Configuration**に移動
 2. 該当するレコード（例：`Scan_Result_Retention_Days`）を見つけます
