@@ -29,6 +29,12 @@ Select a capability from the list to enable it. Each capability has:
 - **Global configuration** — Default settings applied to all fields
 - **Per-field overrides** — Custom settings for individual fields that differ from the global defaults
 
+## Field Compatibility
+
+Some capabilities require specific field types. For example, Timeliness only works with Date and DateTime fields. If none of the fields in your definition match, the capability displays a "Not Applicable" message and cannot be configured until you go back to scope and add compatible fields.
+
+![Capability showing Not Applicable status when no compatible Date or DateTime fields are in scope](../../../assets/screenshots/fields-not-aplicable-for-capability.png)
+
 ## Global vs. Per-Field Configuration
 
 Most capabilities allow you to set global thresholds and then override them for specific fields. For example:
