@@ -29,6 +29,12 @@ Wybierz zdolność z listy, aby ją włączyć. Każda zdolność posiada:
 - **Konfiguracja globalna** — Domyślne ustawienia stosowane do wszystkich pól
 - **Nadpisania per pole** — Niestandardowe ustawienia dla poszczególnych pól, różniące się od domyślnych globalnych
 
+## Kompatybilność pól
+
+Niektóre zdolności wymagają określonych typów pól. Na przykład Timeliness działa tylko z polami Date i DateTime. Jeśli żadne z pól w definicji nie jest kompatybilne, zdolność wyświetla komunikat „Not Applicable" i nie może zostać skonfigurowana, dopóki nie wrócisz do scope i nie dodasz kompatybilnych pól.
+
+![Zdolność wyświetlająca status Not Applicable, gdy w zakresie nie ma kompatybilnych pól Date lub DateTime](../../../../assets/screenshots/fields-not-aplicable-for-capability.png)
+
 ## Konfiguracja globalna vs. per pole
 
 Większość zdolności pozwala ustawić globalne progi, a następnie nadpisać je dla konkretnych pól. Na przykład:

@@ -29,6 +29,12 @@ Sélectionnez une capacité dans la liste pour l'activer. Chaque capacité dispo
 - **Configuration globale** — Paramètres par défaut appliqués à tous les champs
 - **Surcharges par champ** — Paramètres personnalisés pour des champs individuels qui diffèrent des valeurs globales par défaut
 
+## Compatibilité des champs
+
+Certaines capacités nécessitent des types de champs spécifiques. Par exemple, Timeliness ne fonctionne qu'avec les champs Date et DateTime. Si aucun des champs de votre définition n'est compatible, la capacité affiche le message « Not Applicable » et ne peut pas être configurée tant que vous ne revenez pas au scope pour ajouter des champs compatibles.
+
+![Capacité affichant le statut Not Applicable lorsqu'aucun champ Date ou DateTime compatible n'est dans le périmètre](../../../../assets/screenshots/fields-not-aplicable-for-capability.png)
+
 ## Configuration globale vs. par champ
 
 La plupart des capacités vous permettent de définir des seuils globaux puis de les surcharger pour des champs spécifiques. Par exemple :

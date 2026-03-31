@@ -29,6 +29,12 @@ Selecione uma capacidade da lista para habilita-la. Cada capacidade possui:
 - **Configuracao global** — Configuracoes padrao aplicadas a todos os campos
 - **Substituicoes por campo** — Configuracoes personalizadas para campos individuais que diferem dos padroes globais
 
+## Compatibilidade de Campos
+
+Algumas capacidades requerem tipos de campos especificos. Por exemplo, Timeliness funciona apenas com campos Date e DateTime. Se nenhum dos campos em sua definicao for compativel, a capacidade exibe a mensagem "Not Applicable" e nao pode ser configurada ate que voce volte ao scope e adicione campos compativeis.
+
+![Capacidade mostrando o status Not Applicable quando nenhum campo Date ou DateTime compativel esta no escopo](../../../../assets/screenshots/fields-not-aplicable-for-capability.png)
+
 ## Configuracao Global vs. Por Campo
 
 A maioria das capacidades permite definir limites globais e depois substitui-los para campos especificos. Por exemplo:

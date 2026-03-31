@@ -29,6 +29,12 @@ Wählen Sie eine Capability aus der Liste, um sie zu aktivieren. Jede Capability
 - **Globale Konfiguration** — Standardeinstellungen, die auf alle Felder angewendet werden
 - **Feldspezifische Überschreibungen** — Benutzerdefinierte Einstellungen für einzelne Felder, die von den globalen Standards abweichen
 
+## Feldkompatibilität
+
+Einige Capabilities erfordern bestimmte Feldtypen. Zum Beispiel funktioniert Timeliness nur mit Date- und DateTime-Feldern. Wenn keines der Felder in Ihrer Definition kompatibel ist, zeigt die Capability die Meldung „Not Applicable" an und kann nicht konfiguriert werden, bis Sie zum Scope zurückkehren und kompatible Felder hinzufügen.
+
+![Capability zeigt den Status „Not Applicable" an, wenn keine kompatiblen Date- oder DateTime-Felder im Scope sind](../../../../assets/screenshots/fields-not-aplicable-for-capability.png)
+
 ## Globale vs. feldspezifische Konfiguration
 
 Die meisten Capabilities ermöglichen es Ihnen, globale Schwellenwerte festzulegen und diese dann für bestimmte Felder zu überschreiben. Zum Beispiel:
