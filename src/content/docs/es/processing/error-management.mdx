@@ -3,43 +3,56 @@ title: Gestión de errores
 description: Monitoree y resuelva errores de escaneo usando la Consola de Gestión de Errores.
 ---
 
+import errorMonitor from '../../../../assets/screenshots/error-monitor.png';
+import errorMonitorLogDetail from '../../../../assets/screenshots/error-monitor-log-detail.png';
+import errorMonitorRetentionDays from '../../../../assets/screenshots/error-monitor-retention-days.png';
+
 ## Consola de Gestión de Errores (EMC)
 
-La EMC es una **interfaz dedicada** para monitorear y resolver errores que ocurren durante el procesamiento de escaneos. Proporciona visibilidad sobre fallos de lotes, errores de estrategia y problemas de la plataforma.
+La pestaña **Error Monitor** en la aplicación DQS proporciona una interfaz dedicada para monitorear y resolver errores que ocurren durante el procesamiento de escaneos. Ofrece visibilidad completa sobre fallos de lotes, errores de estrategia y problemas de la plataforma — todo en un solo lugar.
 
 ## Diseño
 
-La EMC utiliza un diseño de 3 zonas:
+La Consola de Gestión de Errores utiliza un diseño de 3 zonas:
 
-- **Barra lateral** — Filtros (por tipo de error, rango de fechas, severidad) y opciones de desglose
-- **Área principal** — Tabla de errores con columnas ordenables y modal de detalle al hacer clic en una fila
-- **Panel Mentor** — Acciones sugeridas e información de retención
+- **Barra lateral de filtros** (izquierda) — Filtra errores por tipo de error, clase fuente, mensaje de error, rango de tiempo (Desde/Hasta) y dirección IP. Una sección **Desgloses** agrupa los errores por tipo, fuente u otros criterios, mostrando conteos junto a cada categoría para una clasificación rápida.
+- **Tabla de registro de errores** (centro) — Tabla ordenable que lista todos los errores con columnas de resumen. Muestra el total de conteos de errores en tres ventanas de tiempo: Últimas 24 horas, Últimos 7 días y Próximos a expirar. Haga clic en cualquier fila para ver los detalles completos.
+- **Panel de acciones** (derecha) — Actualiza el registro, crea una exportación CSV descargable, elimina entradas seleccionadas y configura el período de retención.
 
-{/* TODO: Screenshot — Error Management Console showing the full 3-zone layout: filters sidebar on left, error table with a few rows in center, mentor panel with actions on right. */}
+![Consola de Gestión de Errores que muestra los filtros a la izquierda, la tabla de registro de errores en el centro y el panel de acciones a la derecha](../../../../assets/screenshots/error-monitor.png)
 
-## Tabla de errores
+## Tabla de registro de errores
+
+Cada fila de error en la tabla muestra las siguientes columnas:
 
 | Columna | Descripción |
 |---------|-------------|
-| **Timestamp** | Cuándo ocurrió el error |
-| **Error Type** | Categoría (Batch, Strategy, Platform, Validation) |
-| **Message** | Descripción breve del error |
-| **Definition** | Qué definición de escaneo generó el error |
-| **Severity** | Nivel de severidad del error |
+| **Error ID** | Identificador único para la entrada del registro de errores |
+| **Type** | Categoría del error (p. ej., `DML_FAILED`, `QUERY_FAILED`, `FIELD_INSERT_FAILED`, `BATCH_EXECUTE_FAILED`) |
+| **Message** | Descripción breve del error (truncada — haga clic en la fila para ver el mensaje completo) |
+| **Source** | La clase Apex que generó el error (p. ej., `DQS_ExportFileService`, `DQS_DynamicQueryBuilder01`) |
+| **Event Time** | Marca de tiempo de cuándo ocurrió el error |
+
+La parte superior de la tabla muestra contadores agregados — **Total Errors**, **Last 24 Hours**, **Last 7 Days** y **Expiring Soon** — proporcionando una vista general del estado de un vistazo.
 
 ### Modal de detalle de fila
 
-Haga clic en cualquier fila de error para abrir un modal detallado que muestra:
-- Mensaje de error completo y stack trace
-- Definición afectada y detalles del escaneo
-- Pasos de resolución sugeridos
+Haga clic en cualquier fila de error para abrir un modal de detalle con el contexto completo:
 
-{/* TODO: Screenshot — Error detail modal showing full error message, stack trace, affected definition, and suggested resolution. */}
+- **Error ID** y **Type** (resaltado en rojo para identificación rápida)
+- **Source** — la clase Apex de origen
+- **uniqueIdentifier_01** — el registro relacionado o identificador del lote
+- **Insert Type** — si la operación fue una inserción, actualización u otro tipo de DML
+- **Event Time** y **First Event Time** — marcas de tiempo de la ocurrencia del error
+- **Message** — mensaje de error completo incluyendo el tipo de excepción de Salesforce (p. ej., `System.AsyncException`, `System.DmlException`)
+- **Stack Trace** — stack trace completo de Apex para depuración
+
+![Modal de detalle de error que muestra el ID de error, tipo, fuente, marcas de tiempo, mensaje completo y stack trace](../../../../assets/screenshots/error-monitor-log-detail.png)
 
 ## Fuentes de errores
 
 | Fuente | Ejemplos |
-|--------|----------|
+|--------|---------|
 | **Procesamiento por lotes** | Governor limit excedido, timeout de consulta |
 | **Estrategia de dimensión** | Acceso inválido a campo, puntero nulo en la lógica de estrategia |
 | **Platform Events** | Fallo en la publicación de eventos |
@@ -57,11 +70,17 @@ Esto reemplaza los bloques `catch` silenciosos con reportes de errores visibles.
 
 ## Retención de errores
 
-Los registros de errores se purgan automáticamente según la [política de retención](/es/processing/data-retention/). La retención predeterminada es de **7 días**.
+Los registros de errores se purgan automáticamente según el período de retención configurado. La retención predeterminada es de **7 días**.
+
+Para cambiar el período de retención, use la sección **Retention Configuration** en el panel de acciones en el lado derecho de la consola. Ingrese el número de días deseado en el campo **Error Log Retention (days)** y haga clic en **Save**. Los registros de errores más antiguos que el período especificado serán purgados automáticamente. Los cambios se implementan a través de la Metadata API y pueden tardar un momento en surtir efecto.
+
+![Panel de configuración de retención que muestra el campo Error Log Retention (days) configurado en 6 días](../../../../assets/screenshots/error-monitor-retention-days.png)
 
 ## Mejores prácticas
 
 - Revise la EMC regularmente después de configurar nuevas definiciones de escaneo
 - Revise los errores después de cambiar las configuraciones de capacidades
-- Use los patrones de errores para identificar problemas sistemáticos (por ejemplo, permisos de acceso a campos)
+- Use los patrones de errores para identificar problemas sistemáticos (p. ej., permisos de acceso a campos)
+- Use el contador **Expiring Soon** para revisar errores antes de que sean purgados automáticamente
+- Exporte los registros de errores a CSV antes de que expiren si necesita conservarlos para un análisis más prolongado
 - Contacte al soporte si los errores de plataforma persisten entre múltiples escaneos

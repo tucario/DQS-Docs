@@ -3,43 +3,56 @@ title: Fehlermanagement
 description: Scan-Fehler mit der Error Management Console überwachen und beheben.
 ---
 
+import errorMonitor from '../../../../assets/screenshots/error-monitor.png';
+import errorMonitorLogDetail from '../../../../assets/screenshots/error-monitor-log-detail.png';
+import errorMonitorRetentionDays from '../../../../assets/screenshots/error-monitor-retention-days.png';
+
 ## Error Management Console (EMC)
 
-Die EMC ist eine **dedizierte Oberfläche** zur Überwachung und Behebung von Fehlern, die während der Scan-Verarbeitung auftreten. Sie bietet Einblick in Batch-Fehler, Strategy-Fehler und Plattformprobleme.
+Der Tab **Error Monitor** in der DQS-Anwendung bietet eine dedizierte Oberfläche zur Überwachung und Behebung von Fehlern, die während der Scan-Verarbeitung auftreten. Er ermöglicht vollständige Einblicke in Batch-Fehler, Strategy-Fehler und Plattformprobleme — alles an einem Ort.
 
 ## Layout
 
-Die EMC verwendet ein 3-Zonen-Layout:
+Die Error Management Console verwendet ein 3-Zonen-Layout:
 
-- **Seitenleiste** — Filter (nach Fehlertyp, Datumsbereich, Schweregrad) und Aufschlüsselungsoptionen
-- **Hauptbereich** — Fehlertabelle mit sortierbaren Spalten und Detail-Modal bei Zeilenklick
-- **Mentor-Panel** — Vorgeschlagene Aktionen und Aufbewahrungsinformationen
+- **Filterleiste** (links) — Fehler nach Fehlertyp, Quellklasse, Fehlermeldung, Zeitbereich (Von/Bis) und IP-Adresse filtern. Ein Bereich **Aufschlüsselungen** gruppiert Fehler nach Typ, Quelle oder anderen Kriterien und zeigt Anzahlen neben jeder Kategorie für eine schnelle Triage an.
+- **Fehlerprotokoll-Tabelle** (Mitte) — Sortierbare Tabelle mit allen Fehlern und Übersichtsspalten. Zeigt Gesamtfehlerzahlen über drei Zeitfenster: Letzte 24 Stunden, Letzte 7 Tage und Läuft bald ab. Klicken Sie auf eine Zeile, um alle Details anzuzeigen.
+- **Aktionsfeld** (rechts) — Protokoll aktualisieren, CSV-Export erstellen, ausgewählte Einträge löschen und den Aufbewahrungszeitraum konfigurieren.
 
-{/* TODO: Screenshot — Error Management Console showing the full 3-zone layout: filters sidebar on left, error table with a few rows in center, mentor panel with actions on right. */}
+![Error Management Console mit Filtern links, Fehlerprotokoll-Tabelle in der Mitte und Aktionsfeld rechts](../../../../assets/screenshots/error-monitor.png)
 
-## Fehlertabelle
+## Fehlerprotokoll-Tabelle
+
+Jede Fehlerzeile in der Tabelle enthält die folgenden Spalten:
 
 | Spalte | Beschreibung |
 |--------|-------------|
-| **Timestamp** | Wann der Fehler aufgetreten ist |
-| **Error Type** | Kategorie (Batch, Strategy, Platform, Validation) |
-| **Message** | Kurze Fehlerbeschreibung |
-| **Definition** | Welche Scan-Definition den Fehler ausgelöst hat |
-| **Severity** | Schweregrad des Fehlers |
+| **Error ID** | Eindeutige Kennung für den Fehlerprotokolleintrag |
+| **Type** | Fehlerkategorie (z. B. `DML_FAILED`, `QUERY_FAILED`, `FIELD_INSERT_FAILED`, `BATCH_EXECUTE_FAILED`) |
+| **Message** | Kurze Fehlerbeschreibung (gekürzt — klicken Sie auf die Zeile, um die vollständige Meldung anzuzeigen) |
+| **Source** | Die Apex-Klasse, die den Fehler erzeugt hat (z. B. `DQS_ExportFileService`, `DQS_DynamicQueryBuilder01`) |
+| **Event Time** | Zeitstempel des Fehlerauftretens |
+
+Oben in der Tabelle werden Gesamtzähler angezeigt — **Total Errors**, **Last 24 Hours**, **Last 7 Days** und **Expiring Soon** — für einen schnellen Gesundheitsüberblick.
 
 ### Zeilendetail-Modal
 
-Klicken Sie auf eine beliebige Fehlerzeile, um ein detailliertes Modal zu öffnen, das zeigt:
-- Vollständige Fehlermeldung und Stack-Trace
-- Betroffene Definition und Scan-Details
-- Vorgeschlagene Lösungsschritte
+Klicken Sie auf eine beliebige Fehlerzeile, um ein Detail-Modal mit dem vollständigen Kontext zu öffnen:
 
-{/* TODO: Screenshot — Error detail modal showing full error message, stack trace, affected definition, and suggested resolution. */}
+- **Error ID** und **Type** (rot hervorgehoben zur schnellen Erkennung)
+- **Source** — die ursprüngliche Apex-Klasse
+- **uniqueIdentifier_01** — der zugehörige Datensatz oder Batch-Bezeichner
+- **Insert Type** — ob der Vorgang ein Insert, Update oder ein anderer DML-Typ war
+- **Event Time** und **First Event Time** — Zeitstempel des Fehlerauftretens
+- **Message** — vollständige Fehlermeldung einschließlich des Salesforce-Ausnahmetyps (z. B. `System.AsyncException`, `System.DmlException`)
+- **Stack Trace** — vollständiger Apex-Stack-Trace zur Fehlersuche
+
+![Fehlerdetail-Modal mit Fehler-ID, Typ, Quelle, Zeitstempeln, vollständiger Meldung und Stack Trace](../../../../assets/screenshots/error-monitor-log-detail.png)
 
 ## Fehlerquellen
 
 | Quelle | Beispiele |
-|--------|----------|
+|--------|---------|
 | **Batch Processing** | Governor Limit überschritten, Query-Timeout |
 | **Dimension Strategy** | Ungültiger Feldzugriff, Nullzeiger in Strategy-Logik |
 | **Platform Events** | Fehler bei Event-Veröffentlichung |
@@ -57,11 +70,17 @@ Dies ersetzt stille `catch`-Blöcke durch sichtbare Fehlerberichterstattung.
 
 ## Fehleraufbewahrung
 
-Fehlerprotokolle werden automatisch basierend auf der [Aufbewahrungsrichtlinie](/de/processing/data-retention/) bereinigt. Die Standardaufbewahrung beträgt **7 Tage**.
+Fehlerprotokolle werden automatisch basierend auf dem konfigurierten Aufbewahrungszeitraum bereinigt. Die Standardaufbewahrung beträgt **7 Tage**.
+
+Um den Aufbewahrungszeitraum zu ändern, verwenden Sie den Bereich **Retention Configuration** im Aktionsfeld auf der rechten Seite der Konsole. Geben Sie die gewünschte Anzahl von Tagen in das Feld **Error Log Retention (days)** ein und klicken Sie auf **Save**. Fehlerprotokolle, die älter als der angegebene Zeitraum sind, werden automatisch bereinigt. Änderungen werden über die Metadata API bereitgestellt und können einen Moment in Anspruch nehmen.
+
+![Bereich „Retention Configuration" mit dem Feld „Error Log Retention (days)", das auf 6 Tage eingestellt ist](../../../../assets/screenshots/error-monitor-retention-days.png)
 
 ## Best Practices
 
 - Prüfen Sie die EMC regelmäßig nach dem Einrichten neuer Scan-Definitionen
 - Überprüfen Sie Fehler nach Änderungen an Capability-Konfigurationen
 - Nutzen Sie Fehlermuster, um systematische Probleme zu identifizieren (z. B. Feldzugriffsberechtigungen)
+- Verwenden Sie den Zähler **Expiring Soon**, um Fehler zu prüfen, bevor sie automatisch bereinigt werden
+- Exportieren Sie Fehlerprotokolle als CSV, bevor sie ablaufen, wenn Sie sie für längere Analysen benötigen
 - Kontaktieren Sie den Support, wenn Plattformfehler über mehrere Scans hinweg bestehen bleiben

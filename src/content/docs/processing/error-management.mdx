@@ -3,38 +3,51 @@ title: Error Management
 description: Monitor and resolve scan errors using the Error Management Console.
 ---
 
+import errorMonitor from '../../../assets/screenshots/error-monitor.png';
+import errorMonitorLogDetail from '../../../assets/screenshots/error-monitor-log-detail.png';
+import errorMonitorRetentionDays from '../../../assets/screenshots/error-monitor-retention-days.png';
+
 ## Error Management Console (EMC)
 
-The EMC is a **dedicated interface** for monitoring and resolving errors that occur during scan processing. It provides visibility into batch failures, strategy errors, and platform issues.
+The **Error Monitor** tab in the DQS application provides a dedicated interface for monitoring and resolving errors that occur during scan processing. It gives full visibility into batch failures, strategy errors, and platform issues — all in one place.
 
 ## Layout
 
-The EMC uses a 3-zone layout:
+The Error Management Console uses a 3-zone layout:
 
-- **Sidebar** — Filters (by error type, date range, severity) and breakdown options
-- **Main Area** — Error table with sortable columns and row-click detail modal
-- **Mentor Panel** — Suggested actions and retention information
+- **Filters sidebar** (left) — Filter errors by Error Type, Source Class, Error Message, time range (From/To), and IP address. A **Breakdowns** section groups errors by type, source, or other criteria, showing counts next to each category for quick triage.
+- **Error log table** (center) — Sortable table listing all errors with summary columns. Displays total error counts across three time windows: Last 24 Hours, Last 7 Days, and Expiring Soon. Click any row to view full details.
+- **Actions panel** (right) — Refresh the log, create a downloadable CSV export, delete selected entries, and configure the retention period.
 
-{/* TODO: Screenshot — Error Management Console showing the full 3-zone layout: filters sidebar on left, error table with a few rows in center, mentor panel with actions on right. */}
+![Error Management Console showing filters on the left, error log table in the center, and actions panel on the right](../../../assets/screenshots/error-monitor.png)
 
-## Error Table
+## Error Log Table
+
+Each error row in the table shows the following columns:
 
 | Column | Description |
 |--------|-------------|
-| **Timestamp** | When the error occurred |
-| **Error Type** | Category (Batch, Strategy, Platform, Validation) |
-| **Message** | Short error description |
-| **Definition** | Which scan definition triggered the error |
-| **Severity** | Error severity level |
+| **Error ID** | Unique identifier for the error log entry |
+| **Type** | Error category (e.g., `DML_FAILED`, `QUERY_FAILED`, `FIELD_INSERT_FAILED`, `BATCH_EXECUTE_FAILED`) |
+| **Message** | Short error description (truncated — click the row to see the full message) |
+| **Source** | The Apex class that generated the error (e.g., `DQS_ExportFileService`, `DQS_DynamicQueryBuilder01`) |
+| **Event Time** | Timestamp of when the error occurred |
+
+The top of the table shows aggregate counters — **Total Errors**, **Last 24 Hours**, **Last 7 Days**, and **Expiring Soon** — giving you an at-a-glance health overview.
 
 ### Row Detail Modal
 
-Click any error row to open a detailed modal showing:
-- Full error message and stack trace
-- Affected definition and scan details
-- Suggested resolution steps
+Click any error row to open a detail modal with the full context:
 
-{/* TODO: Screenshot — Error detail modal showing full error message, stack trace, affected definition, and suggested resolution. */}
+- **Error ID** and **Type** (highlighted in red for quick identification)
+- **Source** — the originating Apex class
+- **uniqueIdentifier_01** — the related record or batch identifier
+- **Insert Type** — whether the operation was an insert, update, or other DML type
+- **Event Time** and **First Event Time** — timestamps for the error occurrence
+- **Message** — full error message including the Salesforce exception type (e.g., `System.AsyncException`, `System.DmlException`)
+- **Stack Trace** — complete Apex stack trace for debugging
+
+![Error detail modal showing error ID, type, source, timestamps, full message, and stack trace](../../../assets/screenshots/error-monitor-log-detail.png)
 
 ## Error Sources
 
@@ -57,11 +70,17 @@ This replaces silent `catch` blocks with visible error reporting.
 
 ## Error Retention
 
-Error logs are automatically purged based on the [retention policy](/processing/data-retention/). Default retention is **7 days**.
+Error logs are automatically purged based on the configured retention period. The default retention is **7 days**.
+
+To change the retention period, use the **Retention Configuration** section in the Actions panel on the right side of the console. Enter the desired number of days in the **Error Log Retention (days)** field and click **Save**. Error logs older than the specified period will be automatically purged. Changes are deployed via the Metadata API and may take a moment to take effect.
+
+![Retention Configuration panel showing the Error Log Retention (days) field set to 6 days](../../../assets/screenshots/error-monitor-retention-days.png)
 
 ## Best Practices
 
 - Check the EMC regularly after setting up new scan definitions
 - Review errors after changing capability configurations
 - Use error patterns to identify systematic issues (e.g., field access permissions)
+- Use the **Expiring Soon** counter to review errors before they are automatically purged
+- Export error logs to CSV before they expire if you need to keep them for longer analysis
 - Contact support if platform errors persist across multiple scans

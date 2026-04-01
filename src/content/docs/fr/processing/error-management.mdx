@@ -1,45 +1,58 @@
 ---
 title: Gestion des erreurs
-description: Surveiller et résoudre les erreurs de scan à l'aide de la console de gestion des erreurs.
+description: Surveiller et résoudre les erreurs de scan à l'aide de la Console de gestion des erreurs.
 ---
+
+import errorMonitor from '../../../../assets/screenshots/error-monitor.png';
+import errorMonitorLogDetail from '../../../../assets/screenshots/error-monitor-log-detail.png';
+import errorMonitorRetentionDays from '../../../../assets/screenshots/error-monitor-retention-days.png';
 
 ## Console de gestion des erreurs (EMC)
 
-L'EMC est une **interface dédiée** pour surveiller et résoudre les erreurs qui surviennent lors du traitement des scans. Elle offre une visibilité sur les échecs de lots, les erreurs de stratégie et les problèmes de plateforme.
+L'onglet **Error Monitor** de l'application DQS fournit une interface dédiée pour surveiller et résoudre les erreurs qui surviennent lors du traitement des scans. Il offre une visibilité complète sur les échecs de lots, les erreurs de stratégie et les problèmes de plateforme — le tout en un seul endroit.
 
 ## Disposition
 
-L'EMC utilise une disposition en 3 zones :
+La Console de gestion des erreurs utilise une disposition en 3 zones :
 
-- **Barre latérale** — Filtres (par type d'erreur, plage de dates, sévérité) et options de répartition
-- **Zone principale** — Tableau des erreurs avec des colonnes triables et une modale de détail au clic
-- **Panneau Mentor** — Actions suggérées et informations de rétention
+- **Barre latérale de filtres** (gauche) — Filtrez les erreurs par Type d'erreur, Classe source, Message d'erreur, plage horaire (De/À) et adresse IP. Une section **Répartitions** regroupe les erreurs par type, source ou autres critères, affichant des compteurs à côté de chaque catégorie pour un triage rapide.
+- **Tableau des journaux d'erreurs** (centre) — Tableau triable répertoriant toutes les erreurs avec des colonnes récapitulatives. Affiche le nombre total d'erreurs sur trois fenêtres temporelles : Dernières 24 heures, Derniers 7 jours et Expirant bientôt. Cliquez sur n'importe quelle ligne pour afficher les détails complets.
+- **Panneau d'actions** (droite) — Actualisez le journal, créez un export CSV téléchargeable, supprimez les entrées sélectionnées et configurez la période de rétention.
 
-{/* TODO: Screenshot — Error Management Console showing the full 3-zone layout: filters sidebar on left, error table with a few rows in center, mentor panel with actions on right. */}
+![Console de gestion des erreurs affichant les filtres à gauche, le tableau des journaux d'erreurs au centre et le panneau d'actions à droite](../../../../assets/screenshots/error-monitor.png)
 
-## Tableau des erreurs
+## Tableau des journaux d'erreurs
+
+Chaque ligne d'erreur dans le tableau affiche les colonnes suivantes :
 
 | Colonne | Description |
 |---------|-------------|
-| **Timestamp** | Quand l'erreur s'est produite |
-| **Error Type** | Catégorie (Batch, Strategy, Platform, Validation) |
-| **Message** | Description courte de l'erreur |
-| **Definition** | Quelle définition de scan a déclenché l'erreur |
-| **Severity** | Niveau de sévérité de l'erreur |
+| **Error ID** | Identifiant unique de l'entrée du journal d'erreurs |
+| **Type** | Catégorie d'erreur (p. ex., `DML_FAILED`, `QUERY_FAILED`, `FIELD_INSERT_FAILED`, `BATCH_EXECUTE_FAILED`) |
+| **Message** | Description courte de l'erreur (tronquée — cliquez sur la ligne pour voir le message complet) |
+| **Source** | La classe Apex qui a généré l'erreur (p. ex., `DQS_ExportFileService`, `DQS_DynamicQueryBuilder01`) |
+| **Event Time** | Horodatage de l'occurrence de l'erreur |
 
-### Modale de détail
+Le haut du tableau affiche des compteurs agrégés — **Total Errors**, **Last 24 Hours**, **Last 7 Days** et **Expiring Soon** — offrant une vue d'ensemble de l'état de santé en un coup d'œil.
 
-Cliquez sur n'importe quelle ligne d'erreur pour ouvrir une modale détaillée affichant :
-- Le message d'erreur complet et la trace de la pile
-- La définition et les détails du scan affectés
-- Les étapes de résolution suggérées
+### Modale de détail de ligne
 
-{/* TODO: Screenshot — Error detail modal showing full error message, stack trace, affected definition, and suggested resolution. */}
+Cliquez sur n'importe quelle ligne d'erreur pour ouvrir une modale de détail avec le contexte complet :
+
+- **Error ID** et **Type** (mis en évidence en rouge pour une identification rapide)
+- **Source** — la classe Apex d'origine
+- **uniqueIdentifier_01** — l'enregistrement ou l'identifiant de lot associé
+- **Insert Type** — si l'opération était une insertion, une mise à jour ou un autre type DML
+- **Event Time** et **First Event Time** — horodatages de l'occurrence de l'erreur
+- **Message** — message d'erreur complet incluant le type d'exception Salesforce (p. ex., `System.AsyncException`, `System.DmlException`)
+- **Stack Trace** — trace de pile Apex complète pour le débogage
+
+![Modale de détail d'erreur affichant l'ID d'erreur, le type, la source, les horodatages, le message complet et la trace de pile](../../../../assets/screenshots/error-monitor-log-detail.png)
 
 ## Sources d'erreurs
 
 | Source | Exemples |
-|--------|----------|
+|--------|---------|
 | **Batch Processing** | Limite de governor dépassée, timeout de requête |
 | **Dimension Strategy** | Accès à un champ invalide, pointeur nul dans la logique de stratégie |
 | **Platform Events** | Échec de publication d'événement |
@@ -57,11 +70,17 @@ Cela remplace les blocs `catch` silencieux par un reporting d'erreurs visible.
 
 ## Rétention des erreurs
 
-Les journaux d'erreurs sont automatiquement purgés selon la [politique de rétention](/fr/processing/data-retention/). La rétention par défaut est de **7 jours**.
+Les journaux d'erreurs sont automatiquement purgés selon la période de rétention configurée. La rétention par défaut est de **7 jours**.
+
+Pour modifier la période de rétention, utilisez la section **Retention Configuration** dans le panneau d'actions à droite de la console. Saisissez le nombre de jours souhaité dans le champ **Error Log Retention (days)** et cliquez sur **Save**. Les journaux d'erreurs plus anciens que la période spécifiée seront automatiquement purgés. Les modifications sont déployées via l'API Metadata et peuvent prendre un moment pour prendre effet.
+
+![Panneau Retention Configuration affichant le champ Error Log Retention (days) défini à 6 jours](../../../../assets/screenshots/error-monitor-retention-days.png)
 
 ## Bonnes pratiques
 
 - Consultez l'EMC régulièrement après la mise en place de nouvelles définitions de scan
 - Vérifiez les erreurs après avoir modifié les configurations de capacités
-- Utilisez les motifs d'erreurs pour identifier les problèmes systématiques (par exemple, les permissions d'accès aux champs)
+- Utilisez les motifs d'erreurs pour identifier les problèmes systématiques (p. ex., les permissions d'accès aux champs)
+- Utilisez le compteur **Expiring Soon** pour examiner les erreurs avant qu'elles soient automatiquement purgées
+- Exportez les journaux d'erreurs en CSV avant leur expiration si vous avez besoin de les conserver pour une analyse plus longue
 - Contactez le support si les erreurs de plateforme persistent sur plusieurs scans
