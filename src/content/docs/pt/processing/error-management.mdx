@@ -3,65 +3,84 @@ title: Gerenciamento de Erros
 description: Monitore e resolva erros de varredura usando o Console de Gerenciamento de Erros.
 ---
 
+import errorMonitor from '../../../../assets/screenshots/error-monitor.png';
+import errorMonitorLogDetail from '../../../../assets/screenshots/error-monitor-log-detail.png';
+import errorMonitorRetentionDays from '../../../../assets/screenshots/error-monitor-retention-days.png';
+
 ## Console de Gerenciamento de Erros (EMC)
 
-O EMC e uma **interface dedicada** para monitorar e resolver erros que ocorrem durante o processamento de varreduras. Ele fornece visibilidade sobre falhas de lote, erros de estrategia e problemas de plataforma.
+A aba **Error Monitor** no aplicativo DQS fornece uma interface dedicada para monitorar e resolver erros que ocorrem durante o processamento de varreduras. Ela oferece visibilidade completa sobre falhas de lote, erros de estratégia e problemas de plataforma — tudo em um só lugar.
 
 ## Layout
 
-O EMC utiliza um layout de 3 zonas:
+O Console de Gerenciamento de Erros usa um layout de 3 zonas:
 
-- **Barra lateral** — Filtros (por tipo de erro, intervalo de datas, severidade) e opcoes de detalhamento
-- **Area Principal** — Tabela de erros com colunas ordenaveis e modal de detalhes ao clicar na linha
-- **Painel Mentor** — Acoes sugeridas e informacoes de retencao
+- **Barra lateral de filtros** (esquerda) — Filtre erros por Tipo de Erro, Classe de Origem, Mensagem de Erro, intervalo de tempo (De/Até) e endereço IP. Uma seção de **Detalhamentos** agrupa os erros por tipo, origem ou outros critérios, exibindo contagens ao lado de cada categoria para triagem rápida.
+- **Tabela de log de erros** (centro) — Tabela ordenável listando todos os erros com colunas de resumo. Exibe contagens totais de erros em três janelas de tempo: Últimas 24 Horas, Últimos 7 Dias e Expirando em Breve. Clique em qualquer linha para ver os detalhes completos.
+- **Painel de ações** (direita) — Atualize o log, crie uma exportação CSV para download, exclua entradas selecionadas e configure o período de retenção.
 
-{/* TODO: Screenshot — Error Management Console showing the full 3-zone layout: filters sidebar on left, error table with a few rows in center, mentor panel with actions on right. */}
+![Console de Gerenciamento de Erros mostrando filtros à esquerda, tabela de log de erros no centro e painel de ações à direita](../../../../assets/screenshots/error-monitor.png)
 
-## Tabela de Erros
+## Tabela de Log de Erros
 
-| Coluna | Descricao |
+Cada linha de erro na tabela exibe as seguintes colunas:
+
+| Coluna | Descrição |
 |--------|-----------|
-| **Timestamp** | Quando o erro ocorreu |
-| **Error Type** | Categoria (Batch, Strategy, Platform, Validation) |
-| **Message** | Descricao curta do erro |
-| **Definition** | Qual definicao de varredura causou o erro |
-| **Severity** | Nivel de severidade do erro |
+| **Error ID** | Identificador único para a entrada do log de erros |
+| **Type** | Categoria do erro (por exemplo, `DML_FAILED`, `QUERY_FAILED`, `FIELD_INSERT_FAILED`, `BATCH_EXECUTE_FAILED`) |
+| **Message** | Descrição curta do erro (truncada — clique na linha para ver a mensagem completa) |
+| **Source** | A classe Apex que gerou o erro (por exemplo, `DQS_ExportFileService`, `DQS_DynamicQueryBuilder01`) |
+| **Event Time** | Timestamp de quando o erro ocorreu |
+
+No topo da tabela são exibidos contadores agregados — **Total Errors**, **Last 24 Hours**, **Last 7 Days** e **Expiring Soon** — oferecendo uma visão geral rápida da saúde do sistema.
 
 ### Modal de Detalhes da Linha
 
-Clique em qualquer linha de erro para abrir um modal detalhado mostrando:
-- Mensagem de erro completa e stack trace
-- Definicao afetada e detalhes da varredura
-- Passos de resolucao sugeridos
+Clique em qualquer linha de erro para abrir um modal de detalhes com o contexto completo:
 
-{/* TODO: Screenshot — Error detail modal showing full error message, stack trace, affected definition, and suggested resolution. */}
+- **Error ID** e **Type** (destacados em vermelho para identificação rápida)
+- **Source** — a classe Apex de origem
+- **uniqueIdentifier_01** — o registro relacionado ou identificador do lote
+- **Insert Type** — se a operação foi uma inserção, atualização ou outro tipo de DML
+- **Event Time** e **First Event Time** — timestamps da ocorrência do erro
+- **Message** — mensagem de erro completa incluindo o tipo de exceção do Salesforce (por exemplo, `System.AsyncException`, `System.DmlException`)
+- **Stack Trace** — stack trace completo do Apex para depuração
+
+![Modal de detalhes do erro mostrando ID do erro, tipo, origem, timestamps, mensagem completa e stack trace](../../../../assets/screenshots/error-monitor-log-detail.png)
 
 ## Fontes de Erros
 
 | Fonte | Exemplos |
 |-------|---------|
 | **Processamento em Lote** | Governor limit excedido, timeout de consulta |
-| **Dimension Strategy** | Acesso invalido a campo, null pointer na logica da estrategia |
-| **Platform Events** | Falha na publicacao de evento |
-| **Agendamento** | Problemas com expressao CRON, erros de permissao |
+| **Dimension Strategy** | Acesso inválido a campo, null pointer na lógica da estratégia |
+| **Platform Events** | Falha na publicação de evento |
+| **Agendamento** | Problemas com expressão CRON, erros de permissão |
 
-## Integracao com Platform Events
+## Integração com Platform Events
 
 O DQS usa platform events `DQS_Processing_Error__e` para exibir erros em tempo real. Quando um erro ocorre durante o processamento em lote:
 
-1. O erro e capturado e registrado
-2. Um platform event e publicado
+1. O erro é capturado e registrado
+2. Um platform event é publicado
 3. O EMC recebe o evento e o exibe
 
-Isso substitui blocos `catch` silenciosos por reporte de erros visivel.
+Isso substitui blocos `catch` silenciosos por reporte de erros visível.
 
-## Retencao de Erros
+## Retenção de Erros
 
-Os logs de erros sao automaticamente purgados com base na [politica de retencao](/pt/processing/data-retention/). A retencao padrao e de **7 dias**.
+Os logs de erros são automaticamente purgados com base no período de retenção configurado. A retenção padrão é de **7 dias**.
 
-## Melhores Praticas
+Para alterar o período de retenção, use a seção **Retention Configuration** no painel de ações no lado direito do console. Insira o número de dias desejado no campo **Error Log Retention (days)** e clique em **Save**. Os logs de erros mais antigos que o período especificado serão automaticamente purgados. As alterações são implantadas via Metadata API e podem levar um momento para entrar em vigor.
 
-- Verifique o EMC regularmente apos configurar novas definicoes de varredura
-- Revise os erros apos alterar configuracoes de capacidades
-- Use padroes de erros para identificar problemas sistematicos (por exemplo, permissoes de acesso a campos)
-- Entre em contato com o suporte se erros de plataforma persistirem em multiplas varreduras
+![Painel de Configuração de Retenção mostrando o campo Error Log Retention (days) definido como 6 dias](../../../../assets/screenshots/error-monitor-retention-days.png)
+
+## Melhores Práticas
+
+- Verifique o EMC regularmente após configurar novas definições de varredura
+- Revise os erros após alterar configurações de capacidades
+- Use padrões de erros para identificar problemas sistemáticos (por exemplo, permissões de acesso a campos)
+- Use o contador **Expiring Soon** para revisar erros antes que sejam automaticamente purgados
+- Exporte logs de erros para CSV antes que expirem caso precise mantê-los para análises mais longas
+- Entre em contato com o suporte se erros de plataforma persistirem em múltiplas varreduras

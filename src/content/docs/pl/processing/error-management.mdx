@@ -3,38 +3,51 @@ title: Zarządzanie błędami
 description: Monitoruj i rozwiązuj błędy skanów za pomocą konsoli zarządzania błędami.
 ---
 
+import errorMonitor from '../../../../assets/screenshots/error-monitor.png';
+import errorMonitorLogDetail from '../../../../assets/screenshots/error-monitor-log-detail.png';
+import errorMonitorRetentionDays from '../../../../assets/screenshots/error-monitor-retention-days.png';
+
 ## Konsola zarządzania błędami (EMC)
 
-EMC to **dedykowany interfejs** do monitorowania i rozwiązywania błędów występujących podczas przetwarzania skanów. Zapewnia wgląd w awarie wsadowe, błędy strategii i problemy platformy.
+Zakładka **Error Monitor** w aplikacji DQS zapewnia dedykowany interfejs do monitorowania i rozwiązywania błędów występujących podczas przetwarzania skanów. Daje pełny wgląd w awarie wsadowe, błędy strategii i problemy platformy — wszystko w jednym miejscu.
 
 ## Układ
 
-EMC wykorzystuje układ 3-strefowy:
+Konsola zarządzania błędami (EMC) wykorzystuje układ 3-strefowy:
 
-- **Sidebar** — Filtry (według typu błędu, zakresu dat, ważności) i opcje podziału
-- **Główny obszar** — Tabela błędów z sortowalnymi kolumnami i modalnym oknem szczegółów po kliknięciu wiersza
-- **Mentor Panel** — Sugerowane akcje i informacje o retencji
+- **Sidebar filtrów** (po lewej) — Filtrowanie błędów według typu błędu, klasy źródłowej, komunikatu błędu, zakresu czasu (Od/Do) oraz adresu IP. Sekcja **Breakdowns** grupuje błędy według typu, źródła lub innych kryteriów, pokazując liczbę obok każdej kategorii w celu szybkiej selekcji.
+- **Tabela dziennika błędów** (pośrodku) — Sortowalna tabela zawierająca wszystkie błędy z kolumnami podsumowującymi. Wyświetla łączną liczbę błędów w trzech przedziałach czasowych: Ostatnie 24 godziny, Ostatnie 7 dni i Wkrótce wygasające. Kliknij dowolny wiersz, aby wyświetlić pełne szczegóły.
+- **Panel akcji** (po prawej) — Odśwież dziennik, utwórz eksport CSV do pobrania, usuń wybrane wpisy i skonfiguruj okres retencji.
 
-{/* TODO: Screenshot — Error Management Console showing the full 3-zone layout: filters sidebar on left, error table with a few rows in center, mentor panel with actions on right. */}
+![Konsola zarządzania błędami pokazująca filtry po lewej stronie, tabelę dziennika błędów pośrodku i panel akcji po prawej stronie](../../../../assets/screenshots/error-monitor.png)
 
-## Tabela błędów
+## Tabela dziennika błędów
+
+Każdy wiersz błędu w tabeli zawiera następujące kolumny:
 
 | Kolumna | Opis |
 |---------|------|
-| **Timestamp** | Kiedy wystąpił błąd |
-| **Error Type** | Kategoria (Batch, Strategy, Platform, Validation) |
-| **Message** | Krótki opis błędu |
-| **Definition** | Która definicja skanu wywołała błąd |
-| **Severity** | Poziom ważności błędu |
+| **Error ID** | Unikalny identyfikator wpisu w dzienniku błędów |
+| **Type** | Kategoria błędu (np. `DML_FAILED`, `QUERY_FAILED`, `FIELD_INSERT_FAILED`, `BATCH_EXECUTE_FAILED`) |
+| **Message** | Krótki opis błędu (skrócony — kliknij wiersz, aby zobaczyć pełny komunikat) |
+| **Source** | Klasa Apex, która wygenerowała błąd (np. `DQS_ExportFileService`, `DQS_DynamicQueryBuilder01`) |
+| **Event Time** | Znacznik czasu wystąpienia błędu |
+
+Na górze tabeli wyświetlane są liczniki agregowane — **Total Errors**, **Last 24 Hours**, **Last 7 Days** i **Expiring Soon** — dające ogólny przegląd kondycji systemu.
 
 ### Modalne okno szczegółów wiersza
 
-Kliknij dowolny wiersz błędu, aby otworzyć szczegółowe modalne okno pokazujące:
-- Pełny komunikat błędu i ślad stosu
-- Szczegóły dotkniętej definicji i skanu
-- Sugerowane kroki rozwiązania
+Kliknij dowolny wiersz błędu, aby otworzyć modalne okno szczegółów z pełnym kontekstem:
 
-{/* TODO: Screenshot — Error detail modal showing full error message, stack trace, affected definition, and suggested resolution. */}
+- **Error ID** i **Type** (wyróżnione na czerwono dla szybkiej identyfikacji)
+- **Source** — źródłowa klasa Apex
+- **uniqueIdentifier_01** — powiązany rekord lub identyfikator wsadu
+- **Insert Type** — czy operacja była insertem, aktualizacją lub innym typem DML
+- **Event Time** i **First Event Time** — znaczniki czasu wystąpienia błędu
+- **Message** — pełny komunikat błędu zawierający typ wyjątku Salesforce (np. `System.AsyncException`, `System.DmlException`)
+- **Stack Trace** — kompletny ślad stosu Apex do debugowania
+
+![Modalne okno szczegółów błędu pokazujące ID błędu, typ, źródło, znaczniki czasu, pełny komunikat i ślad stosu](../../../../assets/screenshots/error-monitor-log-detail.png)
 
 ## Źródła błędów
 
@@ -57,11 +70,17 @@ Zastępuje to ciche bloki `catch` widocznym raportowaniem błędów.
 
 ## Retencja błędów
 
-Logi błędów są automatycznie usuwane zgodnie z [polityką retencji](/pl/processing/data-retention/). Domyślna retencja wynosi **7 dni**.
+Logi błędów są automatycznie usuwane zgodnie ze skonfigurowanym okresem retencji. Domyślna retencja wynosi **7 dni**.
+
+Aby zmienić okres retencji, użyj sekcji **Retention Configuration** w panelu akcji po prawej stronie konsoli. Wprowadź żądaną liczbę dni w polu **Error Log Retention (days)** i kliknij **Save**. Logi błędów starsze niż określony okres będą automatycznie usuwane. Zmiany są wdrażane za pośrednictwem Metadata API i mogą chwilę potrwać.
+
+![Panel konfiguracji retencji pokazujący pole Error Log Retention (days) ustawione na 6 dni](../../../../assets/screenshots/error-monitor-retention-days.png)
 
 ## Najlepsze praktyki
 
 - Regularnie sprawdzaj EMC po skonfigurowaniu nowych definicji skanów
 - Przeglądaj błędy po zmianie konfiguracji zdolności
 - Wykorzystuj wzorce błędów do identyfikacji systematycznych problemów (np. uprawnienia dostępu do pól)
+- Używaj licznika **Expiring Soon**, aby przeglądać błędy przed ich automatycznym usunięciem
+- Eksportuj logi błędów do CSV przed ich wygaśnięciem, jeśli potrzebujesz zachować je do dłuższej analizy
 - Skontaktuj się z pomocą techniczną, jeśli błędy platformy powtarzają się w wielu skanach
