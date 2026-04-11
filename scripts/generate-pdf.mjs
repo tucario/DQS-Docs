@@ -125,6 +125,27 @@ async function generatePdf() {
 		});
 		console.log(`Images: ${imgCount.loaded}/${imgCount.total} loaded`);
 
+		// Downscale images via canvas to reduce PDF size
+		console.log('Compressing images...');
+		await page.evaluate(async () => {
+			const MAX_W = 1200;
+			const imgs = Array.from(document.querySelectorAll('img'));
+			for (const img of imgs) {
+				if (!img.complete || img.naturalWidth === 0) continue;
+				if (img.naturalWidth <= MAX_W) continue;
+				const scale = MAX_W / img.naturalWidth;
+				const w = MAX_W;
+				const h = Math.round(img.naturalHeight * scale);
+				const canvas = document.createElement('canvas');
+				canvas.width = w;
+				canvas.height = h;
+				const ctx = canvas.getContext('2d');
+				ctx.drawImage(img, 0, 0, w, h);
+				const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+				img.src = dataUrl;
+			}
+		});
+
 		console.log('Generating PDF...');
 		await page.pdf({
 			path: outputPath,
