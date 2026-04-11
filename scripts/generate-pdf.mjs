@@ -154,6 +154,7 @@ async function generatePdf() {
 	}
 
 	console.log('Done.');
+	process.exit(0);
 }
 
 generatePdf().catch((err) => {
