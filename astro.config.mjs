@@ -21,6 +21,7 @@ export default defineConfig({
 			},
 			social: [
 				{ icon: 'external', label: 'dataqualitysense.com', href: 'https://dataqualitysense.com' },
+				{ icon: 'download', label: 'Download PDF', href: '/data-quality-sense-documentation.pdf' },
 			],
 			defaultLocale: 'root',
 			locales: {

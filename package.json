@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/generate-pdf.mjs",
+    "build:site": "astro build",
+    "build:pdf": "node scripts/generate-pdf.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -13,5 +15,8 @@
     "@astrojs/starlight": "^0.38.2",
     "astro": "^6.0.1",
     "sharp": "^0.34.2"
+  },
+  "devDependencies": {
+    "puppeteer": "^24.40.0"
   }
 }
