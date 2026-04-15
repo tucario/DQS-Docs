@@ -4,7 +4,7 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://dqs-docs.pages.dev',
+	site: 'https://tucario.github.io',
 	outDir: './public',
 	publicDir: './static',
 	integrations: [

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Documentation site for **Data Quality Sense** (dataqualitysense.com) — a Salesforce-native managed package for data quality management. Built with [Astro Starlight](https://starlight.astro.build/) and deployed via GitLab Pages.
+Documentation site for **Data Quality Sense** (dataqualitysense.com) — a Salesforce-native managed package for data quality management. Built with [Astro Starlight](https://starlight.astro.build/) and deployed via GitHub Pages.
 
 ## Commands
 
@@ -14,7 +14,7 @@ npm run build        # Production build → ./public/
 npm run preview      # Preview production build locally
 ```
 
-Build output goes to `./public/` (required by GitLab Pages). Static assets (favicon, videos) live in `./static/` (Astro's publicDir).
+Build output goes to `./public/`. Static assets (favicon, videos) live in `./static/` (Astro's publicDir).
 
 ## Architecture
 
@@ -64,7 +64,7 @@ All docs are MDX files in `src/content/docs/`. English is the root locale (no pr
 
 ### Deployment
 
-GitLab CI (`.gitlab-ci.yml`) runs `npm ci && npm run build` on pushes to `main`. Output artifact is `public/`. Site URL: `https://dqs-documentation-f8780a.gitlab.io/`
+GitHub Actions (`.github/workflows/deploy.yml`) runs `npm ci && npm run build` on pushes to `main` and publishes `public/` to GitHub Pages. Repo: `git@github.com:tucario/DQS-Docs.git`. Site URL: `https://tucario.github.io/DQS-Docs/`
 
 ## Key Conventions
 
