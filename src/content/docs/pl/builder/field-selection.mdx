@@ -9,9 +9,24 @@ import { Aside } from '@astrojs/starlight/components';
 
 Selektor pól to drugi etap kreatora Builder. Wyświetla wszystkie dostępne pola wybranego obiektu w paginowanej tabeli.
 
-![Selektor pól pokazujący wszystkie pola obiektu Opportunity z wyszukiwaniem, filtrem typów i polami wyboru](../../../../assets/screenshots/def-builder-step2-scope.png)
-
 ## Funkcje
+
+### Pobieranie pól z layoutu
+
+W edytowalnym kroku **Scope** kliknij **Load from Layout**, aby otworzyć **Load Fields from Layout**. Obiekt jest ustalony na podstawie definicji.
+
+1. Wybierz **Record Type** (lub **Master**), aby pobrać jego pełny układ strony.
+2. Sprawdź listę i liczbę wybranych pól. Usuń niepotrzebne pola przyciskiem **×** na ich etykietach; pozostaw przynajmniej jedno.
+3. Kliknij **Load Fields**. Dostępne pola pasujące do importu zostaną dodane do bieżącego wyboru. Wcześniejsze zaznaczenia pozostają, a duplikaty nie są dodawane.
+4. Sprawdź wynikowy Scope i kliknij **Save** przed przejściem dalej.
+
+Zmiana Record Type ponownie wczytuje wybór z layoutu i resetuje pola usunięte w oknie. Import jest punktem wyjścia: później możesz nadal dodawać i usuwać pola w Scope.
+
+<Aside type="note">
+Record Type w tym oknie wybiera layout do odczytu. Nie ogranicza skanowanych rekordów — ustaw to osobno w **Filter**. Import pól do Scope nie włącza również Field Usage ani nie dodaje ich do wcześniej zapisanego wyboru Field Usage.
+</Aside>
+
+![Load Fields from Layout z typem Master i 23 wybranymi polami](../../../../assets/screenshots/layout-load-fields.png)
 
 ### Wyszukiwanie i filtrowanie
 
@@ -77,4 +92,4 @@ Widok zakresu to główna przestrzeń robocza do wyboru i przeglądania pól:
 
 Panel **Scope Stats** po prawej stronie podsumowuje wybór z liczbą pól i wskaźnikiem **Ready to proceed**, gdy zaznaczono co najmniej jedno pole.
 
-![Widok zakresu z listą pól, wyszukiwaniem, filtrem typów i licznikami zaznaczenia](../../../../assets/screenshots/field-scope-view.png)
+![Scope dla Contact z Load from Layout, wyszukiwarką i wyborem pól](../../../../assets/screenshots/field-scope-view.png)

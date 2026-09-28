@@ -13,11 +13,11 @@ Der DQS Builder ist ein **mehrstufiger Konfigurationsassistent**, mit dem Sie ge
 
 Der Builder verwendet ein **3-Zonen-Layout**:
 
-- **Seitenleiste** (orange) — Navigationsbaum mit Ihren Definitionen und deren Konfigurationsstufen (Capabilities, Scope, Fields, Configure, Review)
-- **Stage** (grün) — Hauptinhaltsbereich, in dem Sie jeden Schritt der Definition konfigurieren
-- **Guidance-Panel** (rot) — Kontexthilfe und Anleitung, die sich an Ihren aktuellen Schritt anpasst
+- **Seitenleiste** — Navigationsbaum mit Ihren Definitionen und deren Konfigurationsstufen (Capabilities, Scope, Filter, Configure, Field Usage, Review)
+- **Stage** — Hauptinhaltsbereich, in dem Sie jeden Schritt der Definition konfigurieren
+- **Guidance-Panel** — Kontexthilfe und Anleitung, die sich an Ihren aktuellen Schritt anpasst
 
-![Builder-Arbeitsbereich-Layout mit farbcodierten Zonen](../../../../assets/screenshots/builder-workspace.png)
+![Builder mit optionalem Field-Usage-Schritt, Konfigurationsbereich und Hilfepanel](../../../../assets/screenshots/builder-workspace.png)
 
 ## Schlüsselkonzepte
 
@@ -38,12 +38,14 @@ Der Builder verwendet ein **3-Zonen-Layout**:
 
 ## Builder-Stufen
 
-1. **Erste Schritte** — Ziel-Salesforce-Objekt auswählen
-2. **Feldauswahl** — Felder für den Scan auswählen
-3. **Capability-Konfiguration** — Qualitätsdimensionen aktivieren und konfigurieren
-4. **Zusammenfassung** — Vollständige Definition vor der Aktivierung überprüfen
+1. **Capabilities** — Qualitätsdimensionen auswählen.
+2. **Scope** — Die zu bewertenden Felder speichern.
+3. **Filter** — Datensatzfilter festlegen oder bestätigen, dass kein Filter benötigt wird.
+4. **Configure** — Capabilities konfigurieren und ihre Einstellungen mit **Confirm Configuration** bestätigen.
+5. **Field Usage (optional)** — Optional Metadaten-Nutzungsberichte aktivieren und die Feldauswahl speichern.
+6. **Review** — Die Definition prüfen und abschließen.
 
-Jede Stufe validiert Ihre Eingaben, bevor Sie zum nächsten Schritt übergehen können.
+Vor dem Abschluss muss die erforderliche Konfiguration vollständig sein. Field Usage ist optional und standardmäßig deaktiviert; Qualitätsscans bleiben davon unabhängig. Nach Configure öffnet **Continue** Field Usage. Speichern Sie Änderungen vor dem Fortfahren oder vor **Mark as Complete**, das in Field Usage und Review verfügbar ist.
 
 ## Mehr erfahren
 
@@ -51,3 +53,4 @@ Jede Stufe validiert Ihre Eingaben, bevor Sie zum nächsten Schritt übergehen k
 - [Feldauswahl](/de/builder/field-selection/)
 - [Capabilities konfigurieren](/de/builder/capabilities/)
 - [Definitions-Lebenszyklus](/de/builder/lifecycle/)
+- [Field Usage](/de/insight-studio/field-usage/)

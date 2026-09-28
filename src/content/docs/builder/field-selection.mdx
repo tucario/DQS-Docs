@@ -9,9 +9,24 @@ import { Aside } from '@astrojs/starlight/components';
 
 The field picker is the second stage of the Builder wizard. It displays all available fields on your selected object in a paginated table.
 
-![Field picker showing all fields on the Opportunity object with search, type filter, and selection checkboxes](../../../assets/screenshots/def-builder-step2-scope.png)
-
 ## Features
+
+### Load fields from a layout
+
+Use **Load from Layout** in an editable **Scope** step to open **Load Fields from Layout**. The object is fixed to the definition's target object.
+
+1. Choose **Record Type** (or **Master**) to load its full page layout.
+2. Review the field list and selected count. Remove unwanted fields with the **×** on their chips; keep at least one selected.
+3. Click **Load Fields**. Matching available fields are added to the current selection. Existing selections remain, and duplicates are not added.
+4. Review the resulting Scope and click **Save** before continuing.
+
+Changing Record Type reloads the layout selection and resets the fields removed in the dialog. The import is a starting point: you can still add or remove fields in Scope afterward.
+
+<Aside type="note">
+Record Type in this dialog selects the layout to read. It does not restrict the records scanned; configure that separately in **Filter**. Importing Scope fields also does not enable Field Usage or add them to an already saved Field Usage selection.
+</Aside>
+
+![Load Fields from Layout with Master record type and 23 selected fields](../../../assets/screenshots/layout-load-fields.png)
 
 ### Search and Filter
 
@@ -77,4 +92,4 @@ The Scope view is the main workspace for selecting and reviewing fields:
 
 The **Scope Stats** panel on the right summarizes your selection with a field count and shows a **Ready to proceed** indicator when at least one field is selected.
 
-![Scope view with field list, search, type filter, and selection counters](../../../assets/screenshots/field-scope-view.png)
+![Scope for Contact with Load from Layout, search, and field selection](../../../assets/screenshots/field-scope-view.png)

@@ -9,9 +9,24 @@ import { Aside } from '@astrojs/starlight/components';
 
 O seletor de campos e a segunda etapa do assistente do Builder. Ele exibe todos os campos disponiveis no objeto selecionado em uma tabela paginada.
 
-![Seletor de campos mostrando todos os campos no objeto Opportunity com pesquisa, filtro de tipo e caixas de selecao](../../../../assets/screenshots/def-builder-step2-scope.png)
-
 ## Recursos
+
+### Carregar campos de um layout
+
+Na etapa **Scope** editável, clique em **Load from Layout** para abrir **Load Fields from Layout**. O objeto é definido pela definição.
+
+1. Escolha **Record Type** (ou **Master**) para carregar seu layout de página completo.
+2. Confira os campos e o contador. Remova os campos desnecessários com **×**; mantenha pelo menos um selecionado.
+3. Clique em **Load Fields**. Os campos disponíveis correspondentes são adicionados à seleção atual. As seleções existentes são preservadas e não são adicionadas duplicatas.
+4. Confira Scope e clique em **Save** antes de continuar.
+
+Alterar Record Type recarrega a seleção e restaura os campos removidos no diálogo. Depois, você pode continuar adicionando ou removendo campos em Scope.
+
+<Aside type="note">
+Record Type escolhe o layout a ler; não restringe os registros analisados. Configure essa restrição separadamente em **Filter**. Importar campos para Scope não habilita Field Usage nem amplia uma seleção de Field Usage já salva.
+</Aside>
+
+![Load Fields from Layout com o tipo Master e 23 campos selecionados](../../../../assets/screenshots/layout-load-fields.png)
 
 ### Pesquisa e Filtro
 
@@ -77,4 +92,4 @@ A visualizacao de Escopo e o espaco de trabalho principal para selecionar e revi
 
 O painel **Scope Stats** a direita resume sua selecao com uma contagem de campos e mostra um indicador **Ready to proceed** quando pelo menos um campo esta selecionado.
 
-![Visualizacao de escopo com lista de campos, pesquisa, filtro de tipo e contadores de selecao](../../../../assets/screenshots/field-scope-view.png)
+![Scope para Contact com Load from Layout, pesquisa e seleção de campos](../../../../assets/screenshots/field-scope-view.png)

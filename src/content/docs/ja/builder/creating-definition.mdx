@@ -37,6 +37,19 @@ import { Aside } from '@astrojs/starlight/components';
 技術的なオブジェクト（一般的な内部プレフィックスで始まるAPI名を持つもの）は、オブジェクトリストを管理しやすくするためにデフォルトでフィルタリングされます。
 </Aside>
 
+## レイアウトから定義を作成する
+
+**Home** で **Import from Layout** をクリックします。初期設定時には **Getting Started** の定義ステップにも **Create from Layout** が表示されます。
+
+1. **Create Definition from Layout** で **Object** と **Record Type** を選択します。
+2. **Definition Name** を入力し、読み込まれた項目を確認します。不要な項目は **×** で削除し、少なくとも1項目を残します。
+3. **Go To Builder** をクリックして、その項目を含む **Draft** 定義を作成し、Builderで開きます。
+4. ケイパビリティを選択し、Scopeを確認して残りの設定を完了します。アクセスできない項目、存在しない項目、未対応の項目は対象から除外されます。
+
+既存の定義には[Scopeでのインポート](/ja/builder/field-selection/)を使用します。このダイアログのRecord Type選択ではレコードフィルターは作成されません。
+
+{/* TODO: Screenshot — layout-create-definition.png: Object、Record Type、Definition Name、選択項目、Go To Builderが見えるダイアログ。 */}
+
 ## 定義の設定
 
 作成後、以下を構成できます：

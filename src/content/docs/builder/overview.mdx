@@ -13,11 +13,11 @@ The DQS Builder is a **multi-step configuration wizard** that lets you define ex
 
 The Builder uses a **3-zone layout**:
 
-- **Sidebar** (orange) — Navigation tree showing your definitions and their configuration stages (Capabilities, Scope, Fields, Configure, Review)
-- **Stage** (green) — Main content area where you configure each step of the definition
-- **Guidance Panel** (red) — Contextual help and guidance that adapts to your current step
+- **Sidebar** — Navigation tree showing your definitions and their configuration stages (Capabilities, Scope, Filter, Configure, Field Usage, Review)
+- **Stage** — Main content area where you configure each step of the definition
+- **Guidance Panel** — Contextual help and guidance that adapts to your current step
 
-![Builder workspace layout with color-coded zones](../../../assets/screenshots/builder-workspace.png)
+![Builder workspace with the optional Field Usage step, configuration area, and guidance panel](../../../assets/screenshots/builder-workspace.png)
 
 ## Key Concepts
 
@@ -38,12 +38,14 @@ The Builder uses a **3-zone layout**:
 
 ## Builder Stages
 
-1. **Getting Started** — Select the target Salesforce object
-2. **Field Selection** — Pick which fields to include in the scan
-3. **Capability Configuration** — Enable and configure quality dimensions
-4. **Summary** — Review the complete definition before activation
+1. **Capabilities** — Select quality dimensions.
+2. **Scope** — Save the fields to evaluate.
+3. **Filter** — Set record filters or confirm that no filter is needed.
+4. **Configure** — Configure capabilities and use **Confirm Configuration** to confirm their settings.
+5. **Field Usage (optional)** — Optionally enable metadata usage reports and save the field selection.
+6. **Review** — Review the definition and complete it.
 
-Each stage validates your input before allowing you to proceed to the next step.
+Required configuration must be complete before finishing the definition. Field Usage is optional and disabled by default; it does not affect quality scans. After Configure, **Continue** opens Field Usage. Save any Field Usage edits before continuing or using **Mark as Complete**, which is available in Field Usage and Review.
 
 ## Learn More
 
@@ -51,3 +53,4 @@ Each stage validates your input before allowing you to proceed to the next step.
 - [Field Selection](/builder/field-selection/)
 - [Configuring Capabilities](/builder/capabilities/)
 - [Definition Lifecycle](/builder/lifecycle/)
+- [Field Usage](/insight-studio/field-usage/)

@@ -109,6 +109,7 @@ export default defineConfig({
 						{ slug: 'insight-studio/navigation' },
 						{ slug: 'insight-studio/scores-trends' },
 						{ slug: 'insight-studio/field-health' },
+						{ slug: 'insight-studio/field-usage' },
 						{ slug: 'insight-studio/actions' },
 						{ slug: 'insight-studio/exports' },
 					],

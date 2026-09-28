@@ -9,9 +9,24 @@ import { Aside } from '@astrojs/starlight/components';
 
 El selector de campos es la segunda etapa del asistente del Builder. Muestra todos los campos disponibles en el objeto seleccionado en una tabla paginada.
 
-![Selector de campos mostrando todos los campos del objeto Opportunity con búsqueda, filtro de tipo y casillas de selección](../../../../assets/screenshots/def-builder-step2-scope.png)
-
 ## Funcionalidades
+
+### Cargar campos desde un diseño
+
+En el paso **Scope** editable, pulse **Load from Layout** para abrir **Load Fields from Layout**. El objeto está fijado por la definición.
+
+1. Elija **Record Type** (o **Master**) para cargar su diseño de página completo.
+2. Revise los campos y el contador. Quite los campos innecesarios con **×**; deje al menos uno seleccionado.
+3. Pulse **Load Fields**. Los campos disponibles coincidentes se añaden a la selección actual. Se conservan las selecciones existentes y no se añaden duplicados.
+4. Revise Scope y pulse **Save** antes de continuar.
+
+Cambiar Record Type vuelve a cargar la selección y restablece los campos retirados en el diálogo. Después puede seguir añadiendo o quitando campos en Scope.
+
+<Aside type="note">
+Record Type selecciona aquí el diseño que se leerá; no limita los registros analizados. Configure esa restricción por separado en **Filter**. Importar campos a Scope no activa Field Usage ni amplía una selección de Field Usage ya guardada.
+</Aside>
+
+![Load Fields from Layout con el tipo Master y 23 campos seleccionados](../../../../assets/screenshots/layout-load-fields.png)
 
 ### Búsqueda y filtro
 
@@ -77,4 +92,4 @@ La vista de alcance es el espacio de trabajo principal para seleccionar y revisa
 
 El panel **Scope Stats** a la derecha resume su selección con un conteo de campos y muestra un indicador **Ready to proceed** cuando al menos un campo está seleccionado.
 
-![Vista de alcance con lista de campos, búsqueda, filtro de tipo y contadores de selección](../../../../assets/screenshots/field-scope-view.png)
+![Scope para Contact con Load from Layout, búsqueda y selección de campos](../../../../assets/screenshots/field-scope-view.png)

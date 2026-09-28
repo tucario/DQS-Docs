@@ -1,5 +1,40 @@
 # DQS Documentation — Sugerowane zrzuty ekranu
 
+## Aktualizacja DQS-84 i import z layoutu — 2026-09-28
+
+Zakres: commit `dbd639a`, raporty Field Usage z `d8fb542` oraz import pól z layoutu. Oceniono wszystkie **8 zrzutów** z `C:/Users/micha/Desktop/screenshots-dqs` i wykorzystano każdy z nich. Oryginały pozostawiono bez zmian; kopie są w `src/assets/screenshots/`. Obrazy i przetłumaczone opisy alternatywne są wpięte we wszystkich ośmiu językach.
+
+### Wstawione obrazy
+
+| Zrzut źródłowy (godzina) | Plik w dokumentacji | Gdzie użyty | Status |
+|-------------------------|---------------------|-------------|--------|
+| 14-53-31 Insight Studio | `field-usage-history.png` | Field Usage → Saved reports / Zapisane raporty: zapisany raport Opportunity i komunikat o wyłączeniu raportowania | DONE |
+| 14-54-07 Builder | `builder-workspace.png` | Builder → Overview: aktualna nawigacja z Field Usage (optional); zastępuje stary obraz. Opis nie odwołuje się już do kolorowych ramek. | DONE |
+| 14-54-26 Builder | `field-scope-view.png` | Builder → Field Selection → Scope View: Contact, Load from Layout i nowa nawigacja; zastępuje stary widok. Usunięto wcześniejszy duplikujący zrzut ogólnego selektora z początku artykułu. | DONE |
+| 14-55-01 Builder | `field-usage-disabled.png` | Builder → Definition Lifecycle → Changing Status: dostępne Mark as Complete przy wyłączonym Field Usage. Zastępuje w artykule nieaktualny zrzut modala otwartego z Configure. | DONE |
+| 14-55-12 Builder | `field-usage-builder-setup.png` | Field Usage → Enable reports in Builder: włączona opcja, 25/25 pól i aktywne Save przed zapisaniem zmian | DONE |
+| 14-56-15 Insight Studio | `field-usage-running.png` | Field Usage → Run a report: analiza w toku, Stop i częściowo zbierane wyniki | DONE |
+| 14-56-37 Insight Studio | `field-usage-report.png` | Field Usage → Read the results: zapisany raport Case ze statusem Partial, liczniki, macierz i początek Details | DONE |
+| 14-57-42 Builder | `layout-load-fields.png` | Builder → Field Selection → Load fields from a layout: Master, 23 pola, usuwanie etykietami × i Load Fields | DONE |
+
+Uwagi do dostarczonych zrzutów:
+
+- Konfiguracja Field Usage pokazuje **Select all matching fields**. Aktualny commit używa etykiety **Select all** i wybiera cały Scope. Instrukcja wyjaśnia różnicę nazwy przycisku widocznej na obrazie.
+- Raport Case pokazuje **Partial** oraz różnicę między zerem a kreską. To właściwy przykład niepełnego pokrycia, a nie raport z pełnym sprawdzeniem wszystkich źródeł. Dolna część Details i rozwinięte Source coverage nie mieszczą się w kadrze.
+- Scope pokazuje akcję **Load from Layout**, więc instrukcja używa już jej dokładnej nazwy. Prawy koniec paska akcji jest częściowo przycięty przez obszar roboczy; główna akcja importu pozostaje czytelna.
+- Żaden z obrazów nie pokazuje tworzenia nowej definicji z layoutu. Okna **Load Fields from Layout** nie użyto jako ilustracji **Create Definition from Layout**.
+
+### Nadal do uzupełnienia
+
+| Priorytet | Plik | Gdzie | Co pokazać | Status |
+|-----------|------|-------|-------------|--------|
+| P0 | `def-builder-step5-review.png` | Definition Lifecycle → Changing Status | Aktualny modal Complete Definition otwarty z Field Usage lub Review, z trzema opcjami ukończenia. Stary obraz nie jest już wyświetlany w tym artykule; miejsce na nowy modal oznaczono TODO. | TODO |
+| P1 | `layout-create-definition.png` | Creating a Definition → Create a definition from a layout | Object, Record Type, Definition Name, pola oraz Go To Builder | TODO |
+| P1 | `object-with-latest-scans.png` | Insight Studio → Navigation → Level 3: Definition | Pulpit konkretnej definicji na Overview z zakładką Field Usage. Dostarczone obrazy Insight Studio są na poziomie obiektu i nie zastępują tego widoku. | TODO |
+| P2 | `field-usage-report-details.png` | Field Usage → Read the results | Opcjonalne uzupełnienie: kliknięte pole/licznik, przefiltrowane Details i rozwinięte Source coverage | TODO |
+
+W drugiej kolejności warto odświeżyć pozostałe starsze zrzuty z boczną nawigacją Buildera oraz film `definition-creation.mp4`, jeśli pokazują pięć kroków lub ukończenie definicji z Configure. Poniższa starsza lista jest osobnym zestawieniem i nie obejmuje powyższej aktualizacji.
+
 ## Legenda
 
 - **P0** — Krytyczne, user bez tego jest zagubiony

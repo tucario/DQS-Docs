@@ -37,6 +37,19 @@ import { Aside } from '@astrojs/starlight/components';
 يتم تصفية الكائنات التقنية (تلك التي تبدأ أسماء API الخاصة بها ببادئات داخلية شائعة) افتراضيًا للحفاظ على قائمة الكائنات قابلة للإدارة.
 </Aside>
 
+## إنشاء تعريف من تخطيط
+
+في **Home**، انقر على **Import from Layout**. أثناء الإعداد الأولي، توفر خطوة التعريف في **Getting Started** أيضًا **Create from Layout**.
+
+1. في **Create Definition from Layout**، اختر **Object** و**Record Type**.
+2. أدخل **Definition Name** وراجع الحقول المحملة. أزل غير المطلوب باستخدام **×**، مع إبقاء حقل واحد على الأقل.
+3. انقر على **Go To Builder** لإنشاء تعريف **Draft** بهذه الحقول وفتحه في Builder.
+4. اختر القدرات وراجع Scope وأكمل التكوين المتبقي. تُستبعد الحقول غير المتاحة أو غير الموجودة أو غير المدعومة عند إنشاء النطاق.
+
+للتعريفات الموجودة، استخدم [الاستيراد في Scope](/ar/builder/field-selection/). لا يؤدي اختيار Record Type في حوار الاستيراد إلى إنشاء مرشح للسجلات.
+
+{/* TODO: Screenshot — layout-create-definition.png: حوار يعرض Object وRecord Type وDefinition Name والحقول المحددة وGo To Builder. */}
+
 ## إعدادات التعريف
 
 بعد الإنشاء، يمكنك تكوين:

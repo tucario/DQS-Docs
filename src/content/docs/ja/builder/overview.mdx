@@ -13,11 +13,11 @@ DQS Builderは、データ品質の測定方法を正確に定義できる**マ�
 
 Builderは**3ゾーンレイアウト**を使用します：
 
-- **サイドバー**（オレンジ）— 定義と構成ステージ（Capabilities、Scope、Fields、Configure、Review）を表示するナビゲーションツリー
-- **ステージ**（緑）— 定義の各ステップを構成するメインコンテンツエリア
-- **Guidanceパネル**（赤）— 現在のステップに適応するコンテキストヘルプとガイダンス
+- **サイドバー**— 定義と構成ステージ（Capabilities、Scope、Filter、Configure、Field Usage、Review）を表示するナビゲーションツリー
+- **ステージ**— 定義の各ステップを構成するメインコンテンツエリア
+- **Guidanceパネル**— 現在のステップに適応するコンテキストヘルプとガイダンス
 
-![色分けされたゾーンを持つBuilderワークスペースのレイアウト](../../../../assets/screenshots/builder-workspace.png)
+![任意のField Usageステップ、設定領域、ガイダンスパネルを備えたBuilder](../../../../assets/screenshots/builder-workspace.png)
 
 ## 主要な概念
 
@@ -38,12 +38,14 @@ Builderは**3ゾーンレイアウト**を使用します：
 
 ## Builderのステージ
 
-1. **Getting Started** — 対象のSalesforceオブジェクトを選択
-2. **項目選択** — スキャンに含める項目を選択
-3. **ケイパビリティ構成** — 品質ディメンションを有効化して構成
-4. **サマリー** — 有効化前に定義全体をレビュー
+1. **Capabilities** — 品質ディメンションを選択します。
+2. **Scope** — 評価する項目を保存します。
+3. **Filter** — レコードフィルターを設定するか、不要であることを確認します。
+4. **Configure** — ケイパビリティを設定し、**Confirm Configuration** で設定を確定します。
+5. **Field Usage (optional)** — 必要に応じてメタデータ使用状況レポートを有効にし、項目の選択を保存します。
+6. **Review** — 定義を確認して完了します。
 
-各ステージは、次のステップに進む前に入力を検証します。
+定義を完了するには必須設定を終える必要があります。Field Usageは任意で、初期状態では無効です。品質スキャンには影響しません。Configureの後に **Continue** をクリックするとField Usageが開きます。次に進む前、またはField UsageとReviewで使用できる **Mark as Complete** をクリックする前に、Field Usageの変更を保存してください。
 
 ## 詳細
 
@@ -51,3 +53,4 @@ Builderは**3ゾーンレイアウト**を使用します：
 - [項目選択](/ja/builder/field-selection/)
 - [ケイパビリティの構成](/ja/builder/capabilities/)
 - [定義のライフサイクル](/ja/builder/lifecycle/)
+- [Field Usage](/ja/insight-studio/field-usage/)

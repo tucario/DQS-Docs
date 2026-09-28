@@ -1,0 +1,51 @@
+---
+title: Field Usage
+description: Configurer l’analyse facultative d’utilisation des champs, lancer des rapports et consulter les références enregistrées.
+---
+
+## Que montre Field Usage ?
+
+Field Usage recherche les références aux champs sélectionnés dans les métadonnées Salesforce : dépendances, classes et déclencheurs Apex, mises en page et rapports. Les autorisations **Access grants** sont présentées séparément. Utilisez cette fonction pour examiner les références à un champ avant de modifier sa configuration.
+
+La configuration, la génération et la consultation des rapports enregistrés nécessitent un accès **DQS Administrator**. Cette analyse facultative fonctionne indépendamment des scans de qualité et ne modifie ni les scores ni les planifications des scans.
+
+## Activer les rapports dans Builder
+
+1. Ouvrez la définition dans [Builder](/fr/builder/overview/) et enregistrez les champs dans **Scope**.
+2. Après **Configure**, ouvrez **Field Usage (optional)**, avant **Review**.
+3. Activez **Enable Field Usage reports**. La fonction est initialement désactivée pour les définitions nouvelles et existantes. L’activation sélectionne tous les champs accessibles du Scope enregistré ; désélectionnez ceux à exclure.
+4. Recherchez par libellé ou nom API. **Select all** (nommé **Select all matching fields** sur la capture) sélectionne tout le Scope disponible, y compris les champs hors de la recherche ou de la page actuelle. **Clear selection** efface la sélection. La liste affiche 25 champs par page.
+5. Gardez au moins un champ sélectionné et cliquez sur **Save** dans l’en-tête du Builder avant de continuer.
+
+La réouverture des paramètres activés conserve la sélection enregistrée. Les champs ajoutés ultérieurement au Scope ne sont pas sélectionnés automatiquement ; les champs supprimés ou inaccessibles sont exclus des nouveaux rapports. Si aucun champ n’est accessible, enregistrez d’abord des champs dans Scope ou laissez Field Usage désactivé.
+
+![Field Usage activé avec 25 champs sur 25 sélectionnés et des modifications à enregistrer](../../../../assets/screenshots/field-usage-builder-setup.png)
+
+Vous pouvez terminer la définition avec Field Usage désactivé. Dans Configure, **Confirm Configuration** confirme les paramètres des capacités ; **Continue** mène à Field Usage. **Mark as Complete** est disponible dans Field Usage et Review une fois la configuration obligatoire terminée et les modifications de Field Usage enregistrées.
+
+## Lancer un rapport
+
+1. Dans Insight Studio, ouvrez **Field Usage** au niveau d’un objet ou d’une définition. Dans la vue objet, choisissez d’abord une définition.
+2. Développez **Current definition scope** pour vérifier les champs du prochain rapport.
+3. Cliquez sur **Run Field Usage Report** (ou **Run Report Again** si un rapport est déjà ouvert). L’application vérifie les derniers paramètres enregistrés et analyse cette sélection. Ouvrir l’onglet ou lancer un scan de qualité ne génère pas de nouveau rapport d’utilisation.
+
+Les résultats apparaissent pendant la vérification des sources. **Stop** arrête l’analyse et enregistre les résultats recueillis avec le statut Stopped. Quitter la vue arrête l’analyse sans enregistrer automatiquement le rapport en cours.
+
+![Analyse Field Usage en cours avec Stop et couverture des sources](../../../../assets/screenshots/field-usage-running.png)
+
+## Lire les résultats
+
+- **Usage by field** affiche les compteurs Dependencies, Apex, Layouts, Reports et Access grants, avec huit champs par page. Cliquez sur un champ ou un compteur pour filtrer les détails.
+- **Details** présente Field, Source, Component et Evidence, avec recherche, filtres de source et 15 lignes par page. **All references** exclut les autorisations ; sélectionnez **Access grants** pour les consulter.
+- **0** indique une source vérifiée sans référence trouvée. **—** indique une couverture incomplète sans correspondance recueillie. Vérifiez la couverture même si un compteur est positif.
+- Les preuves Apex portent le libellé **Text match**. Une autorisation indique un accès au champ, pas son utilisation effective. Les sources partielles ou indisponibles ne permettent pas de conclure à l’absence de références.
+
+![Rapport Field Usage enregistré pour Case avec compteurs de références, autorisations et détails](../../../../assets/screenshots/field-usage-report.png)
+
+## Rapports enregistrés
+
+Les rapports terminés ou explicitement arrêtés sont enregistrés automatiquement. Le plus récent s’ouvre à votre retour ; **Saved reports** propose les 50 derniers rapports de la définition. Consulter l’historique ne relance pas l’analyse. Chaque rapport conserve ses champs d’origine et son horodatage, indépendamment du périmètre actuel.
+
+Désactiver Field Usage dans Builder empêche les nouveaux rapports mais conserve l’accès aux rapports enregistrés. En cas d’échec d’enregistrement, les résultats restent visibles et **Retry Save** réessaie sans nouvelle analyse. Au-delà de 500 000 caractères JSON, le rapport reste visible mais non enregistré ; sélectionnez moins de champs pour un nouveau rapport.
+
+![Le rapport Opportunity enregistré reste lisible lorsque Field Usage est désactivé](../../../../assets/screenshots/field-usage-history.png)

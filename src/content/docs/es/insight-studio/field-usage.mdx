@@ -1,0 +1,51 @@
+---
+title: Field Usage
+description: Configure el análisis opcional del uso de campos, genere informes y consulte referencias de metadatos guardadas.
+---
+
+## ¿Qué muestra Field Usage?
+
+Field Usage busca referencias a los campos seleccionados en los metadatos de Salesforce: dependencias, clases y desencadenadores Apex, diseños de página e informes. Los permisos **Access grants** se muestran por separado. Úselo para investigar las referencias a un campo antes de cambiar su configuración.
+
+La configuración, la generación y los informes guardados requieren acceso **DQS Administrator**. Este análisis opcional funciona independientemente de los escaneos de calidad y no cambia las puntuaciones ni sus programaciones.
+
+## Habilitar informes en Builder
+
+1. Abra la definición en [Builder](/es/builder/overview/) y guarde los campos en **Scope**.
+2. Después de **Configure**, abra **Field Usage (optional)**, antes de **Review**.
+3. Active **Enable Field Usage reports**. La función está inicialmente desactivada para las definiciones nuevas y existentes. Al activarla se seleccionan todos los campos accesibles del Scope guardado; desmarque los que quiera excluir.
+4. Busque por etiqueta o nombre API. **Select all** (denominado **Select all matching fields** en la captura) selecciona todo el Scope disponible, incluidos los campos fuera de la búsqueda o página actual. **Clear selection** elimina la selección. La lista muestra 25 campos por página.
+5. Mantenga al menos un campo seleccionado y pulse **Save** en la cabecera de Builder antes de continuar.
+
+Al volver a abrir la configuración habilitada se conserva la selección guardada. Los campos añadidos después a Scope no se seleccionan automáticamente; los eliminados o inaccesibles se excluyen de los informes nuevos. Si no hay campos accesibles, guárdelos primero en Scope o deje Field Usage desactivado.
+
+![Field Usage activado con 25 de 25 campos seleccionados y cambios pendientes de guardar](../../../../assets/screenshots/field-usage-builder-setup.png)
+
+Puede completar la definición con Field Usage desactivado. En Configure, **Confirm Configuration** confirma los ajustes de las capacidades; **Continue** avanza a Field Usage. **Mark as Complete** está disponible en Field Usage y Review cuando se completa la configuración obligatoria y se guardan los cambios de Field Usage.
+
+## Ejecutar un informe
+
+1. En Insight Studio, abra **Field Usage** en un objeto o definición. En la vista de objeto, elija primero una definición.
+2. Expanda **Current definition scope** para comprobar los campos del próximo informe.
+3. Pulse **Run Field Usage Report** (o **Run Report Again** si ya hay un informe abierto). La aplicación comprueba los últimos ajustes guardados y analiza esa selección. Abrir la pestaña o ejecutar un escaneo de calidad no genera un nuevo informe de uso.
+
+Los resultados aparecen mientras se comprueban las fuentes. **Stop** detiene el análisis y guarda los resultados obtenidos con el estado Stopped. Salir de la vista detiene el análisis sin guardar automáticamente el informe en curso.
+
+![Análisis Field Usage en curso con Stop y cobertura de fuentes](../../../../assets/screenshots/field-usage-running.png)
+
+## Leer los resultados
+
+- **Usage by field** muestra los contadores Dependencies, Apex, Layouts, Reports y Access grants, con ocho campos por página. Pulse un campo o contador para filtrar los detalles.
+- **Details** muestra Field, Source, Component y Evidence, con búsqueda, filtros de fuente y 15 filas por página. **All references** excluye los permisos; seleccione **Access grants** para consultarlos.
+- **0** significa que se comprobó la fuente sin encontrar referencias. **—** indica cobertura incompleta sin coincidencias recopiladas. Compruebe la cobertura incluso con un contador positivo.
+- Las evidencias de Apex llevan la etiqueta **Text match**. Un permiso indica acceso al campo, no demuestra su uso. Las fuentes parciales o no disponibles impiden concluir que un campo carece de referencias.
+
+![Informe Field Usage guardado para Case con contadores de referencias, permisos y detalles](../../../../assets/screenshots/field-usage-report.png)
+
+## Informes guardados
+
+Los informes completados o detenidos explícitamente se guardan automáticamente. Al volver se abre el último informe guardado; **Saved reports** ofrece los 50 más recientes de la definición. Abrir el historial no repite el análisis. Cada informe conserva sus campos originales y su fecha, por separado del alcance actual.
+
+Desactivar Field Usage en Builder impide crear informes nuevos, pero permite leer los guardados. Si falla el guardado, los resultados siguen visibles y **Retry Save** reintenta sin otro análisis. Los informes que superan los 500 000 caracteres JSON permanecen visibles, pero sin guardar; seleccione menos campos para un nuevo informe.
+
+![El informe Opportunity guardado sigue disponible con Field Usage desactivado](../../../../assets/screenshots/field-usage-history.png)

@@ -37,6 +37,19 @@ import { Aside } from '@astrojs/starlight/components';
 Obiekty techniczne (o nazwach API zaczynających się od typowych prefiksów wewnętrznych) są domyślnie filtrowane, aby lista obiektów była przejrzysta.
 </Aside>
 
+## Tworzenie definicji z layoutu
+
+Na **Home** kliknij **Import from Layout**. Podczas pierwszej konfiguracji krok definicji w **Getting Started** udostępnia też **Create from Layout**.
+
+1. W oknie **Create Definition from Layout** wybierz **Object** i **Record Type**.
+2. Wpisz **Definition Name** i sprawdź pola pobrane z layoutu. Usuń zbędne przyciskiem **×**; przynajmniej jedno musi pozostać wybrane.
+3. Kliknij **Go To Builder**, aby utworzyć definicję **Draft** z tymi polami i otworzyć ją w Builderze.
+4. Wybierz zdolności, sprawdź Scope i wykonaj pozostałą konfigurację przed ukończeniem definicji. Pola niedostępne dla użytkownika, nieistniejące lub nieobsługiwane są pomijane przy tworzeniu zakresu.
+
+Aby dodać pola z layoutu do istniejącej definicji, użyj [importu w Scope](/pl/builder/field-selection/). Wybór Record Type w oknie importu nie tworzy filtra rekordów.
+
+{/* TODO: Screenshot — layout-create-definition.png: okno Create Definition from Layout z Object, Record Type, Definition Name, wybranymi polami i Go To Builder. */}
+
 ## Ustawienia definicji
 
 Po utworzeniu można skonfigurować:

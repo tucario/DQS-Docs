@@ -9,9 +9,24 @@ import { Aside } from '@astrojs/starlight/components';
 
 Le sélecteur de champs est la deuxième étape de l'assistant Builder. Il affiche tous les champs disponibles de l'objet sélectionné dans un tableau paginé.
 
-![Sélecteur de champs montrant tous les champs de l'objet Opportunity avec recherche, filtre par type et cases à cocher de sélection](../../../../assets/screenshots/def-builder-step2-scope.png)
-
 ## Fonctionnalités
+
+### Charger les champs d’une mise en page
+
+Dans l’étape **Scope** modifiable, cliquez sur **Load from Layout** pour ouvrir **Load Fields from Layout**. L’objet est celui de la définition.
+
+1. Choisissez **Record Type** (ou **Master**) pour charger sa mise en page complète.
+2. Vérifiez les champs et leur nombre. Retirez les champs inutiles avec **×** ; gardez au moins un champ sélectionné.
+3. Cliquez sur **Load Fields**. Les champs disponibles correspondants sont ajoutés à la sélection actuelle. Les choix existants sont conservés, sans doublons.
+4. Vérifiez Scope et cliquez sur **Save** avant de continuer.
+
+Changer de Record Type recharge la sélection et réinitialise les champs retirés dans la boîte de dialogue. Vous pouvez ensuite ajouter ou retirer des champs dans Scope.
+
+<Aside type="note">
+Record Type choisit ici la mise en page à lire, sans limiter les enregistrements analysés. Configurez cette restriction séparément dans **Filter**. L’import dans Scope n’active pas Field Usage et ne complète pas une sélection Field Usage déjà enregistrée.
+</Aside>
+
+![Load Fields from Layout avec le type Master et 23 champs sélectionnés](../../../../assets/screenshots/layout-load-fields.png)
 
 ### Recherche et filtre
 
@@ -77,4 +92,4 @@ La vue du périmètre est l'espace de travail principal pour sélectionner et v�
 
 Le panneau **Scope Stats** sur la droite résume votre sélection avec un compteur de champs et affiche un indicateur **Ready to proceed** lorsqu'au moins un champ est sélectionné.
 
-![Vue du périmètre avec liste des champs, recherche, filtre par type et compteurs de sélection](../../../../assets/screenshots/field-scope-view.png)
+![Scope pour Contact avec Load from Layout, recherche et sélection des champs](../../../../assets/screenshots/field-scope-view.png)

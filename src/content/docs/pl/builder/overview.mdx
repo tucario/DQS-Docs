@@ -13,11 +13,11 @@ DQS Builder to **wieloetapowy kreator konfiguracji**, który pozwala precyzyjnie
 
 Builder wykorzystuje **układ 3-strefowy**:
 
-- **Sidebar** (pomarańczowy) — Drzewo nawigacji z definicjami i ich etapami konfiguracji (Capabilities, Scope, Fields, Configure, Review)
-- **Stage** (zielony) — Główny obszar roboczy, w którym konfigurujesz każdy krok definicji
-- **Guidance Panel** (czerwony) — Kontekstowa pomoc i wskazówki dostosowane do bieżącego kroku
+- **Sidebar** — Drzewo nawigacji z definicjami i ich etapami konfiguracji (Capabilities, Scope, Filter, Configure, Field Usage, Review)
+- **Stage** — Główny obszar roboczy, w którym konfigurujesz każdy krok definicji
+- **Guidance Panel** — Kontekstowa pomoc i wskazówki dostosowane do bieżącego kroku
 
-![Układ przestrzeni roboczej Buildera z kolorowymi strefami](../../../../assets/screenshots/builder-workspace.png)
+![Builder z opcjonalnym krokiem Field Usage, obszarem konfiguracji i panelem pomocy](../../../../assets/screenshots/builder-workspace.png)
 
 ## Kluczowe pojęcia
 
@@ -38,12 +38,14 @@ Builder wykorzystuje **układ 3-strefowy**:
 
 ## Etapy Builder
 
-1. **Getting Started** — Wybór docelowego obiektu Salesforce
-2. **Field Selection** — Wybór pól do uwzględnienia w skanie
-3. **Capability Configuration** — Włączanie i konfiguracja wymiarów jakości
-4. **Summary** — Przegląd kompletnej definicji przed aktywacją
+1. **Capabilities** — Wybierz wymiary jakości.
+2. **Scope** — Zapisz pola do oceny.
+3. **Filter** — Ustaw filtry rekordów albo potwierdź brak potrzeby filtrowania.
+4. **Configure** — Skonfiguruj zdolności i potwierdź ustawienia przyciskiem **Confirm Configuration**.
+5. **Field Usage (optional)** — Opcjonalnie włącz raporty użycia pól w metadanych i zapisz wybór pól.
+6. **Review** — Sprawdź i ukończ definicję.
 
-Każdy etap waliduje dane wejściowe przed przejściem do następnego kroku.
+Przed ukończeniem definicji należy zakończyć wymaganą konfigurację. Field Usage jest opcjonalne i domyślnie wyłączone; nie wpływa na skany jakości. Po Configure przycisk **Continue** otwiera Field Usage. Zapisz zmiany Field Usage przed przejściem dalej lub użyciem **Mark as Complete**, dostępnego w Field Usage i Review.
 
 ## Dowiedz się więcej
 
@@ -51,3 +53,4 @@ Każdy etap waliduje dane wejściowe przed przejściem do następnego kroku.
 - [Wybór pól](/pl/builder/field-selection/)
 - [Konfiguracja zdolności](/pl/builder/capabilities/)
 - [Cykl życia definicji](/pl/builder/lifecycle/)
+- [Field Usage](/pl/insight-studio/field-usage/)

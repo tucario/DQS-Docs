@@ -13,11 +13,11 @@ O DQS Builder e um **assistente de configuracao em multiplas etapas** que permit
 
 O Builder utiliza um **layout de 3 zonas**:
 
-- **Barra lateral** (laranja) — Arvore de navegacao mostrando suas definicoes e seus estagios de configuracao (Capabilities, Scope, Fields, Configure, Review)
-- **Palco** (verde) — Area de conteudo principal onde voce configura cada etapa da definicao
-- **Painel Guidance** (vermelho) — Ajuda contextual e orientacao que se adapta a sua etapa atual
+- **Barra lateral** — Arvore de navegacao mostrando suas definicoes e seus estagios de configuracao (Capabilities, Scope, Filter, Configure, Field Usage, Review)
+- **Palco** — Area de conteudo principal onde voce configura cada etapa da definicao
+- **Painel Guidance** — Ajuda contextual e orientacao que se adapta a sua etapa atual
 
-![Layout do espaco de trabalho do Builder com zonas codificadas por cor](../../../../assets/screenshots/builder-workspace.png)
+![Builder com a etapa opcional Field Usage, área de configuração e painel de ajuda](../../../../assets/screenshots/builder-workspace.png)
 
 ## Conceitos Principais
 
@@ -38,12 +38,14 @@ O Builder utiliza um **layout de 3 zonas**:
 
 ## Etapas do Builder
 
-1. **Getting Started** — Selecione o objeto Salesforce de destino
-2. **Selecao de Campos** — Escolha quais campos incluir na varredura
-3. **Configuracao de Capacidades** — Habilite e configure dimensoes de qualidade
-4. **Resumo** — Revise a definicao completa antes da ativacao
+1. **Capabilities** — Selecione as dimensões de qualidade.
+2. **Scope** — Salve os campos a avaliar.
+3. **Filter** — Defina filtros de registros ou confirme que nenhum filtro é necessário.
+4. **Configure** — Configure as capacidades e confirme os ajustes com **Confirm Configuration**.
+5. **Field Usage (optional)** — Opcionalmente habilite relatórios de uso de metadados e salve a seleção de campos.
+6. **Review** — Revise e conclua a definição.
 
-Cada etapa valida sua entrada antes de permitir que voce prossiga para o proximo passo.
+A configuração obrigatória deve estar concluída antes de finalizar a definição. Field Usage é opcional e vem desativado; não afeta as varreduras de qualidade. Após Configure, **Continue** abre Field Usage. Salve as alterações antes de continuar ou usar **Mark as Complete**, disponível em Field Usage e Review.
 
 ## Saiba Mais
 
@@ -51,3 +53,4 @@ Cada etapa valida sua entrada antes de permitir que voce prossiga para o proximo
 - [Selecao de Campos](/pt/builder/field-selection/)
 - [Configurando Capacidades](/pt/builder/capabilities/)
 - [Ciclo de Vida da Definicao](/pt/builder/lifecycle/)
+- [Field Usage](/pt/insight-studio/field-usage/)

@@ -9,9 +9,24 @@ import { Aside } from '@astrojs/starlight/components';
 
 項目ピッカーは、Builderウィザードの2番目のステージです。選択したオブジェクトの利用可能なすべての項目をページネーション付きのテーブルで表示します。
 
-![Opportunityオブジェクトのすべての項目を表示する項目ピッカー — 検索、タイプフィルター、選択チェックボックス](../../../../assets/screenshots/def-builder-step2-scope.png)
-
 ## 機能
+
+### レイアウトから項目を読み込む
+
+編集可能な **Scope** ステップで **Load from Layout** をクリックし、**Load Fields from Layout** を開きます。オブジェクトは定義の対象に固定されます。
+
+1. **Record Type**（または **Master**）を選択し、完全なページレイアウトを読み込みます。
+2. 項目一覧と選択数を確認します。不要な項目は **×** で削除し、少なくとも1項目を残します。
+3. **Load Fields** をクリックします。一致する利用可能な項目が現在の選択に追加されます。既存の選択は維持され、重複は追加されません。
+4. Scopeを確認し、次に進む前に **Save** をクリックします。
+
+Record Typeを変更すると選択が再読み込みされ、ダイアログで除外した項目もリセットされます。インポート後もScopeで項目を追加・削除できます。
+
+<Aside type="note">
+このRecord Typeは読み取るレイアウトの選択であり、スキャン対象レコードを制限しません。レコードの制限は **Filter** で別途設定してください。ScopeへのインポートはField Usageを有効にせず、保存済みのField Usageの選択にも項目を追加しません。
+</Aside>
+
+![Masterレコードタイプと23項目を選択したLoad Fields from Layout](../../../../assets/screenshots/layout-load-fields.png)
 
 ### 検索とフィルター
 
@@ -77,4 +92,4 @@ import { Aside } from '@astrojs/starlight/components';
 
 右側の**Scope Stats**パネルには、項目数を含む選択のサマリーと、少なくとも1つの項目が選択されている場合に**Ready to proceed**インジケーターが表示されます。
 
-![スコープビュー — 項目リスト、検索、タイプフィルター、選択カウンター](../../../../assets/screenshots/field-scope-view.png)
+![Load from Layout、検索、項目選択を表示するContactのScope](../../../../assets/screenshots/field-scope-view.png)

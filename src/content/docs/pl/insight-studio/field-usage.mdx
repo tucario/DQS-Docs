@@ -1,0 +1,51 @@
+---
+title: Field Usage
+description: Skonfiguruj opcjonalną analizę użycia pól, uruchamiaj raporty i przeglądaj zapisane odwołania w metadanych.
+---
+
+## Co pokazuje Field Usage?
+
+Field Usage wyszukuje odwołania do wybranych pól w metadanych Salesforce: zależnościach, klasach i wyzwalaczach Apex, układach stron oraz raportach. Uprawnienia **Access grants** prezentuje osobno. Użyj tej funkcji, aby sprawdzić odwołania do pola przed zmianą jego konfiguracji.
+
+Konfiguracja, generowanie i przeglądanie zapisanych raportów wymagają dostępu **DQS Administrator**. Ta opcjonalna analiza działa niezależnie od skanów jakości i nie zmienia wyników jakości ani harmonogramów skanowania.
+
+## Włącz raporty w Builderze
+
+1. Otwórz definicję w [Builderze](/pl/builder/overview/) i zapisz pola w **Scope**.
+2. Po **Configure** przejdź do **Field Usage (optional)**, przed **Review**.
+3. Włącz **Enable Field Usage reports**. Raportowanie jest początkowo wyłączone dla nowych i istniejących definicji. Włączenie przełącznika zaznacza wszystkie dostępne pola z zapisanego Scope; odznacz te, których nie chcesz analizować.
+4. Wyszukuj po etykiecie lub nazwie API pola. **Select all** (na zrzucie opisane jako **Select all matching fields**) zaznacza cały dostępny Scope, również pola poza bieżącym wyszukiwaniem i stroną. **Clear selection** usuwa zaznaczenie. Lista pokazuje 25 pól na stronie.
+5. Pozostaw przynajmniej jedno zaznaczone pole i kliknij **Save** w nagłówku Buildera przed przejściem dalej.
+
+Ponowne otwarcie włączonych ustawień zachowuje zapisany wybór. Pola dodane później do Scope nie są zaznaczane automatycznie; pola usunięte lub niedostępne są pomijane w nowych raportach. Jeśli Scope nie zawiera dostępnych pól, najpierw zapisz w nim pola albo pozostaw Field Usage wyłączone.
+
+![Włączone Field Usage z 25 z 25 zaznaczonych pól i zmianami oczekującymi na Save](../../../../assets/screenshots/field-usage-builder-setup.png)
+
+Możesz pozostawić Field Usage wyłączone i ukończyć definicję. W Configure przycisk **Confirm Configuration** potwierdza ustawienia zdolności; **Continue** prowadzi do Field Usage. **Mark as Complete** jest dostępne w Field Usage i Review po ukończeniu wymaganej konfiguracji i zapisaniu zmian Field Usage.
+
+## Uruchom raport
+
+1. W Insight Studio otwórz **Field Usage** na poziomie obiektu lub definicji. W widoku obiektu najpierw wybierz definicję.
+2. Rozwiń **Current definition scope**, aby sprawdzić pola wybrane do następnego raportu.
+3. Kliknij **Run Field Usage Report** (lub **Run Report Again**, gdy raport jest już otwarty). Aplikacja sprawdzi najnowsze zapisane ustawienia i przeanalizuje ten wybór. Otwarcie zakładki ani uruchomienie skanu jakości nie generuje nowego raportu użycia pól.
+
+Wyniki pojawiają się w trakcie sprawdzania źródeł. **Stop** kończy analizę i zapisuje zebrane wyniki ze statusem Stopped. Opuszczenie widoku zatrzymuje analizę bez automatycznego zapisu trwającego raportu.
+
+![Analiza Field Usage w trakcie, z przyciskiem Stop i pokryciem źródeł](../../../../assets/screenshots/field-usage-running.png)
+
+## Odczytaj wyniki
+
+- **Usage by field** pokazuje liczniki Dependencies, Apex, Layouts, Reports i Access grants, po osiem pól na stronie. Kliknij pole lub licznik, aby przefiltrować szczegóły.
+- **Details** zawiera kolumny Field, Source, Component i Evidence, wyszukiwarkę, filtry źródeł oraz 15 wierszy na stronie. **All references** pomija uprawnienia; wybierz **Access grants**, aby je przejrzeć.
+- **0** oznacza sprawdzone źródło bez znalezionych odwołań. **—** oznacza niepełne pokrycie i brak zebranych dopasowań. Sprawdź pokrycie źródeł również wtedy, gdy licznik jest dodatni.
+- Dowody z Apex mają etykietę **Text match**. Uprawnienie oznacza dostęp do pola, a nie dowód jego używania. Niepełne lub niedostępne źródła nie pozwalają stwierdzić, że pole nie ma odwołań.
+
+![Zapisany raport Field Usage dla Case z licznikami odwołań, uprawnień i szczegółami](../../../../assets/screenshots/field-usage-report.png)
+
+## Zapisane raporty
+
+Raporty ukończone i zatrzymane przyciskiem Stop zapisują się automatycznie. Po powrocie otwiera się najnowszy zapisany raport; **Saved reports** udostępnia 50 ostatnich raportów wybranej definicji. Otwarcie historii nie uruchamia analizy ponownie. Każdy raport zachowuje pierwotny zestaw pól i czas wygenerowania, niezależnie od bieżącego zakresu definicji.
+
+Wyłączenie Field Usage w Builderze blokuje nowe raporty, ale zachowuje dostęp do zapisanych. Przy błędzie zapisu wyniki pozostają widoczne, a **Retry Save** ponawia zapis bez kolejnej analizy. Raporty przekraczające limit 500 000 znaków JSON pozostają widoczne, lecz niezapisane; do nowego raportu wybierz mniej pól.
+
+![Zapisany raport Opportunity pozostaje dostępny po wyłączeniu Field Usage](../../../../assets/screenshots/field-usage-history.png)

@@ -9,9 +9,24 @@ import { Aside } from '@astrojs/starlight/components';
 
 Die Feldauswahl ist die zweite Stufe des Builder-Assistenten. Sie zeigt alle verfügbaren Felder des ausgewählten Objekts in einer paginierten Tabelle an.
 
-![Feldauswahl mit allen Feldern des Opportunity-Objekts mit Suche, Typfilter und Auswahlkontrollkästchen](../../../../assets/screenshots/def-builder-step2-scope.png)
-
 ## Funktionen
+
+### Felder aus einem Layout laden
+
+Klicken Sie im bearbeitbaren Schritt **Scope** auf **Load from Layout**, um **Load Fields from Layout** zu öffnen. Das Objekt ist durch die Definition vorgegeben.
+
+1. Wählen Sie **Record Type** (oder **Master**), um das vollständige Seitenlayout zu laden.
+2. Prüfen Sie Feldliste und Auswahlzähler. Entfernen Sie nicht benötigte Felder über **×**; mindestens ein Feld muss ausgewählt bleiben.
+3. Klicken Sie auf **Load Fields**. Passende verfügbare Felder werden zur bisherigen Auswahl hinzugefügt. Bestehende Auswahlen bleiben erhalten; Duplikate werden nicht ergänzt.
+4. Prüfen Sie Scope und klicken Sie vor dem Fortfahren auf **Save**.
+
+Ein Wechsel des Record Type lädt die Layout-Auswahl neu und setzt die im Dialog entfernten Felder zurück. Nach dem Import können Sie in Scope weiterhin Felder hinzufügen oder entfernen.
+
+<Aside type="note">
+Record Type wählt hier das zu lesende Layout, nicht die zu scannenden Datensätze. Konfigurieren Sie diese Einschränkung separat in **Filter**. Der Scope-Import aktiviert Field Usage nicht und ergänzt keine bereits gespeicherte Field-Usage-Auswahl.
+</Aside>
+
+![Load Fields from Layout mit Record Type Master und 23 ausgewählten Feldern](../../../../assets/screenshots/layout-load-fields.png)
 
 ### Suchen und Filtern
 
@@ -77,4 +92,4 @@ Die Scope-Ansicht ist der Hauptarbeitsbereich für die Auswahl und Überprüfung
 
 Das **Scope Stats**-Panel auf der rechten Seite fasst Ihre Auswahl mit einer Feldanzahl zusammen und zeigt einen **Ready to proceed**-Indikator an, wenn mindestens ein Feld ausgewählt ist.
 
-![Scope-Ansicht mit Feldliste, Suche, Typfilter und Auswahlzählern](../../../../assets/screenshots/field-scope-view.png)
+![Scope für Contact mit Load from Layout, Suche und Feldauswahl](../../../../assets/screenshots/field-scope-view.png)

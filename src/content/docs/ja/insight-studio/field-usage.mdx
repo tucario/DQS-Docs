@@ -1,0 +1,51 @@
+---
+title: Field Usage
+description: 任意の項目使用状況分析を設定し、レポートを実行して保存済みのメタデータ参照を確認します。
+---
+
+## Field Usageで確認できること
+
+Field Usageは、選択した項目への参照をSalesforceメタデータから検索します。対象は依存関係、Apexクラスとトリガー、レイアウト、レポートです。アクセス権を示す **Access grants** は別に表示されます。項目の設定を変更する前に、参照元を調べるために使用します。
+
+設定、レポート生成、保存済みレポートの閲覧には **DQS Administrator** アクセスが必要です。この任意の分析は品質スキャンとは独立して実行され、品質スコアやスキャンのスケジュールには影響しません。
+
+## Builderでレポートを有効にする
+
+1. [Builder](/ja/builder/overview/)で定義を開き、**Scope** の項目を保存します。
+2. **Configure** の後、**Review** の前にある **Field Usage (optional)** を開きます。
+3. **Enable Field Usage reports** をオンにします。新規・既存の定義ともに初期状態では無効です。オンにすると、保存済みScope内のアクセス可能な項目がすべて選択されます。分析しない項目の選択を解除してください。
+4. 項目ラベルまたはAPI名で検索できます。**Select all**（画像では **Select all matching fields** と表示） は現在の検索結果やページ以外も含め、利用可能なScope全体を選択します。**Clear selection** は選択を解除します。1ページに25項目が表示されます。
+5. 少なくとも1項目を選択し、次に進む前にBuilderのヘッダーで **Save** をクリックします。
+
+有効な設定を再度開くと、保存済みの選択が維持されます。後からScopeに追加した項目は自動選択されません。削除された項目やアクセスできない項目は新しいレポートから除外されます。アクセス可能な項目がない場合は、まずScopeに項目を保存するか、Field Usageを無効のままにします。
+
+![Field Usageを有効にし、25項目すべてを選択した保存前の状態](../../../../assets/screenshots/field-usage-builder-setup.png)
+
+Field Usageを無効にしたまま定義を完了できます。Configureの **Confirm Configuration** はケイパビリティ設定を確定し、**Continue** はField Usageへ進みます。必須設定が完了し、Field Usageの変更が保存されると、Field UsageとReviewで **Mark as Complete** が使用できます。
+
+## レポートを実行する
+
+1. Insight Studioでオブジェクトまたは定義の **Field Usage** を開きます。オブジェクトビューでは、先に定義を選択します。
+2. **Current definition scope** を展開し、次のレポートの対象項目を確認します。
+3. **Run Field Usage Report**（レポートが開いている場合は **Run Report Again**）をクリックします。アプリは最新の保存済み設定を確認し、その選択を分析します。タブを開いたり品質スキャンを実行したりしても、新しい使用状況レポートは生成されません。
+
+ソースの確認中に結果が順次表示されます。**Stop** は分析を終了し、それまでの結果をStoppedステータスで保存します。ビューを離れると分析は停止しますが、実行中のレポートは自動保存されません。
+
+![Stopとソースの確認状況を表示する実行中のField Usage分析](../../../../assets/screenshots/field-usage-running.png)
+
+## 結果を読む
+
+- **Usage by field** はDependencies、Apex、Layouts、Reports、Access grantsの件数を1ページ8項目で表示します。項目または件数をクリックすると詳細を絞り込めます。
+- **Details** はField、Source、Component、Evidenceを表示し、検索、ソースフィルター、1ページ15行のページ分割を備えています。**All references** はアクセス権を含みません。権限は **Access grants** で確認します。
+- **0** はソースを確認した結果、参照が見つからなかったことを示します。**—** は確認範囲が不完全で、まだ一致が収集されていないことを示します。件数が正でもソースの確認状況を確認してください。
+- Apexの証拠は **Text match** と表示されます。アクセス権は項目へのアクセスを示すもので、使用実績の証明ではありません。部分的な確認や利用できないソースがある場合、参照が存在しないとは判断できません。
+
+![参照数、アクセス権、詳細を表示するCaseの保存済みField Usageレポート](../../../../assets/screenshots/field-usage-report.png)
+
+## 保存済みレポート
+
+完了したレポートとStopで明示的に停止したレポートは自動保存されます。戻ると最新の保存済みレポートが開き、**Saved reports** から定義の最新50件を選択できます。履歴を開いても分析は再実行されません。各レポートは現在の定義の対象項目とは別に、元の項目と生成日時を保持します。
+
+BuilderでField Usageを無効にすると新規レポートは作成できなくなりますが、保存済みレポートは閲覧できます。保存に失敗しても結果は表示されたままで、**Retry Save** で分析を繰り返さずに再保存できます。JSONが500,000文字を超えるレポートは表示されますが保存されません。項目数を減らして新しいレポートを実行してください。
+
+![Field Usageを無効にしても閲覧できるOpportunityの保存済みレポート](../../../../assets/screenshots/field-usage-history.png)
