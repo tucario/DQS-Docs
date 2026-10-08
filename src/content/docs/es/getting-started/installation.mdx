@@ -6,9 +6,9 @@ description: Cómo instalar Data Quality Sense en su organización de Salesforce
 import { Aside } from '@astrojs/starlight/components';
 
 <Aside type="tip" title="Instalar ahora">
-Puede instalar el paquete directamente:
+Instale el paquete publicado **0.5.0.1** (publicado el 6 de octubre de 2026):
 
-[Instalar paquete](https://login.salesforce.com/packaging/installPackage.apexp?p0=04tP4000001OPKrIAO)
+[Instalar paquete](https://login.salesforce.com/packaging/installPackage.apexp?p0=04tP4000001l8uPIAQ)
 </Aside>
 
 ## Requisitos previos
@@ -21,7 +21,7 @@ Puede instalar el paquete directamente:
 
 1. **Obtener el enlace de instalación**
 
-   Contáctenos en [dataqualitysense.com](https://dataqualitysense.com) para recibir la URL de instalación del paquete administrado para su organización.
+   Use el enlace de la versión indicado arriba. Compruebe el nombre y la versión del paquete en el instalador Salesforce.
 
 2. **Elegir el alcance de la instalación**
 
@@ -32,9 +32,9 @@ Puede instalar el paquete directamente:
 
    ![Instalar Data Quality Sense — elegir el alcance de la instalación](../../../../assets/screenshots/installation-appexchange.png)
 
-3. **Aprobar el acceso de terceros**
+3. **Revisar el acceso del paquete**
 
-   El paquete no requiere llamadas externas. Todo el procesamiento ocurre dentro de su organización de Salesforce.
+   Field Usage lee metadatos mediante las API Salesforce dentro de su org. No envía código fuente a un servicio de análisis externo.
 
 4. **Esperar a que se complete la instalación**
 
@@ -76,7 +76,7 @@ El paquete instala todos los componentes necesarios — objetos personalizados, 
 
 ## Actualización del paquete
 
-Para actualizar a una versión más reciente, utilice el mismo enlace de instalación — Salesforce detectará el paquete existente y ofrecerá una ruta de actualización. El instalador muestra su versión actualmente instalada y la nueva versión disponible. Elija el mismo alcance de instalación que antes (o cámbielo si es necesario) y haga clic en **Upgrade**.
+Para actualizar, use el enlace de instalación de la versión de destino. Un enlace con un identificador de versión siempre selecciona esa versión; no selecciona automáticamente versiones futuras. Compruebe la versión instalada y la de destino en Salesforce y elija **Upgrade** si el instalador lo ofrece.
 
 ![Actualización de Data Quality Sense — Salesforce detecta el paquete existente y ofrece una ruta de actualización](../../../../assets/screenshots/upgrade-package.png)
 

@@ -5,10 +5,10 @@ description: Salesforce組織にData Quality Senseをインストールする方
 
 import { Aside } from '@astrojs/starlight/components';
 
-<Aside type="tip" title="ベータ版を試す">
-Data Quality Senseはまだ AppExchange に掲載されていません。現在のベータ版を直接インストールできます：
+<Aside type="tip" title="今すぐインストール">
+リリース済みパッケージ **0.5.0.1**（2026年10月6日リリース）をインストールできます：
 
-[ベータパッケージをインストール](https://login.salesforce.com/packaging/installPackage.apexp?p0=04tP4000001OPKrIAO)
+[パッケージをインストール](https://login.salesforce.com/packaging/installPackage.apexp?p0=04tP4000001l8uPIAQ)
 </Aside>
 
 ## 前提条件
@@ -21,7 +21,7 @@ Data Quality Senseはまだ AppExchange に掲載されていません。現在�
 
 1. **インストールリンクを取得する**
 
-   [dataqualitysense.com](https://dataqualitysense.com)にお問い合わせいただき、お使いの組織用のマネージドパッケージインストールURLを取得してください。
+   上記のバージョン固有のリンクを使用してください。Salesforceインストーラーでパッケージ名とバージョンを確認します。
 
 2. **インストール範囲を選択する**
 
@@ -32,9 +32,9 @@ Data Quality Senseはまだ AppExchange に掲載されていません。現在�
 
    ![Data Quality Senseのインストール — インストール範囲の選択](../../../../assets/screenshots/installation-appexchange.png)
 
-3. **サードパーティアクセスを承認する**
+3. **パッケージのアクセスを確認する**
 
-   このパッケージは外部コールアウトを必要としません。すべての処理はSalesforce組織内で行われます。
+   Field Usageは組織内のSalesforce APIでメタデータを読み取ります。ソースコードを外部の分析サービスへ送信しません。
 
 4. **インストールの完了を待つ**
 
@@ -76,7 +76,7 @@ Data Quality Senseはまだ AppExchange に掲載されていません。現在�
 
 ## パッケージの更新
 
-新しいバージョンにアップグレードするには、同じインストールリンクを使用してください。Salesforceが既存のパッケージを検出し、アップグレードパスを提供します。インストーラーには現在インストールされているバージョンと利用可能な新しいバージョンが表示されます。以前と同じインストール範囲を選択し（必要に応じて変更も可能）、**Upgrade** をクリックしてください。
+更新には対象バージョンのインストールリンクを使用してください。パッケージのバージョンIDを含むリンクは常にそのバージョンを選び、将来のリリースを自動選択しません。Salesforceで現在のバージョンと対象バージョンを確認し、インストーラーに表示される場合は **Upgrade** を選びます。
 
 ![Data Quality Sense のアップグレード — Salesforceが既存のパッケージを検出し、アップグレードパスを提供します](../../../../assets/screenshots/upgrade-package.png)
 

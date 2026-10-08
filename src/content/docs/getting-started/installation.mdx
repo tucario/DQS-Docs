@@ -6,9 +6,9 @@ description: How to install Data Quality Sense on your Salesforce org.
 import { Aside } from '@astrojs/starlight/components';
 
 <Aside type="tip" title="Install now">
-You can install the package directly:
+Install released package **0.5.0.1** (released on 6 October 2026):
 
-[Install Package](https://login.salesforce.com/packaging/installPackage.apexp?p0=04tP4000001OPKrIAO)
+[Install Package](https://login.salesforce.com/packaging/installPackage.apexp?p0=04tP4000001l8uPIAQ)
 </Aside>
 
 ## Prerequisites
@@ -21,7 +21,7 @@ You can install the package directly:
 
 1. **Get the installation link**
 
-   Contact us at [dataqualitysense.com](https://dataqualitysense.com) to receive the managed package installation URL for your org.
+   Use the version-specific installation link above. Check the package name and version in the Salesforce installer.
 
 2. **Choose installation scope**
 
@@ -32,9 +32,9 @@ You can install the package directly:
 
    ![Install Data Quality Sense — choose installation scope](../../../assets/screenshots/installation-appexchange.png)
 
-3. **Approve third-party access**
+3. **Review package access**
 
-   The package does not require any external callouts. All processing happens within your Salesforce org.
+   Field Usage reads metadata through Salesforce APIs within your org. It does not send source code to an external analysis service.
 
 4. **Wait for installation to complete**
 
@@ -76,7 +76,7 @@ The package installs all required components — custom objects, Lightning compo
 
 ## Updating the Package
 
-To upgrade to a newer version, use the same installation link — Salesforce will detect the existing package and offer an upgrade path. The installer shows your currently installed version and the new version available. Choose the same installation scope as before (or change it if needed) and click **Upgrade**.
+To upgrade, use the installation link for the target version. A link containing a package version ID always selects that version; it does not automatically select future releases. Confirm the installed and target versions in Salesforce, then choose **Upgrade** if the installer offers it.
 
 ![Upgrade Data Quality Sense — Salesforce detects the existing package and offers an upgrade path](../../../assets/screenshots/upgrade-package.png)
 

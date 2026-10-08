@@ -3,56 +3,27 @@ title: Permisos
 description: Configure los Permission Sets y el acceso de usuarios para Data Quality Sense.
 ---
 
-import { Aside } from '@astrojs/starlight/components';
+## Asignar un Permission Set Group
 
-## Permission Sets
+Asigne un grupo incluido en el paquete para cada rol:
 
-Data Quality Sense incluye Permission Sets que controlan el acceso a diferentes partes de la aplicación.
+| Rol | Grupo en Setup | Nombre API | Permission Sets incluidos |
+| --- | --- | --- | --- |
+| Usuario | **DQS User Access** | `DQS_User_Group` | `dqs_user` |
+| Administrador | **DQS Administrator Access** | `DQS_Admin_Group` | `dqs_user` + `dqs_admin` |
 
-### DQS Admin
+En **Setup → Permission Set Groups**, abra el grupo, seleccione **Manage Assignments → Add Assignments**, elija usuarios y complete la asignación. El grupo administrador incluye el acceso base; no necesita asignar ambos grupos.
 
-Acceso completo a todas las funcionalidades:
-- Crear, editar y eliminar definiciones de escaneo
-- Configurar capacidades y umbrales
-- Ejecutar y programar escaneos
-- Ver todos los resultados en Insight Studio
-- Acceder a la Consola de Gestión de Errores
-- Gestionar la configuración de retención de datos
+Las asignaciones directas existentes siguen siendo válidas y no se migran automáticamente. Con asignación directa, los administradores necesitan `dqs_user` y `dqs_admin`; `dqs_admin` por sí solo no proporciona el rol completo.
 
-### DQS User
+## Capacidades de cada rol
 
-Acceso de solo lectura a los resultados:
-- Ver resultados de escaneo en Insight Studio
-- Exportar datos a CSV
-- Ver programaciones de escaneo
+**DQS User Access no es de solo lectura.** Los usuarios pueden crear y editar definiciones Draft, configurar capacidades y ajustes por campo, importar campos de diseños, ejecutar escaneos y consultar resultados. El Permission Set base también permite crear, leer, editar y eliminar registros de los objetos principales DQS de definiciones, resultados, programaciones y errores. Las reglas de la aplicación añaden restricciones.
 
-## Asignación de Permission Sets
+**DQS Administrator Access** añade operaciones administrativas, incluida la eliminación de definiciones Draft y la configuración, generación, historial y exportación PDF de Field Usage. Ni siquiera un administrador DQS puede eliminar definiciones activas.
 
-1. Navegue a **Setup → Users → Permission Set Assignments** para el usuario objetivo
-2. Haga clic en **Edit Assignments**
-3. En la lista de **Available Permission Sets**, busque **DQS Admin** o **DQS User**
-4. Mueva el Permission Set deseado a **Enabled Permission Sets** usando el botón de flecha
-5. Haga clic en **Save**
+## Acceso a datos y activación
 
-![Asignación de Permission Sets en Salesforce Setup mostrando DQS Admin y DQS User en Enabled Permission Sets](../../../../assets/screenshots/permissionsets.png)
+Los permisos de objetos y campos siguen aplicándose a los datos Salesforce analizados. El acceso DQS no garantiza acceso a todos los objetos fuente, campos o metadatos. Los ajustes Field Usage y los informes guardados requieren acceso administrador y no forman parte del rol base.
 
-<Aside type="caution">
-Los usuarios sin ningún Permission Set de DQS asignado verán una puerta de activación al acceder a la aplicación. La pestaña Getting Started aparecerá automáticamente para guiar a los administradores a través del proceso de configuración.
-</Aside>
-
-## Permisos de objetos
-
-Los Permission Sets otorgan automáticamente acceso a los objetos personalizados de DQS:
-
-| Objeto | Admin | User |
-|--------|-------|------|
-| `DQS_Definition__c` | Read/Create/Edit/Delete | Read |
-| `DQS_Definition_Detail__c` | Read/Create/Edit/Delete | Read |
-| `DQS_Dimension_Result__c` | Read | Read |
-| `DQS_Field_Result__c` | Read | Read |
-| `DQS_Metric_Result__c` | Read | Read |
-| `DQS_Batch_Schedule__c` | Read/Create/Edit/Delete | Read |
-
-## Seguridad a nivel de campo
-
-Todos los campos de los objetos de DQS son visibles para ambos Permission Sets. Los resultados de métricas, puntuaciones y campos de configuración son de solo lectura para DQS User.
+Asignar un grupo no activa el paquete. Complete la [activación de la aplicación](/es/getting-started/installation/) por separado tras la instalación.

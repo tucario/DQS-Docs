@@ -3,56 +3,27 @@ title: 権限設定
 description: Data Quality SenseのPermission Setsとユーザーアクセスを構成します。
 ---
 
-import { Aside } from '@astrojs/starlight/components';
+## Permission Set Groupの割り当て
 
-## Permission Sets
+ロールごとにパッケージのグループを1つ割り当てます。
 
-Data Quality Senseには、アプリケーションの各部分へのアクセスを制御するPermission Setsが付属しています。
+| ロール | Setupのグループ名 | API名 | 含まれるPermission Sets |
+| --- | --- | --- | --- |
+| ユーザー | **DQS User Access** | `DQS_User_Group` | `dqs_user` |
+| 管理者 | **DQS Administrator Access** | `DQS_Admin_Group` | `dqs_user` + `dqs_admin` |
 
-### DQS Admin
+**Setup → Permission Set Groups** でグループを開き、**Manage Assignments → Add Assignments** からユーザーを選び、割り当てを完了します。管理者グループには基本アクセスが含まれるため、両方を割り当てる必要はありません。
 
-すべての機能へのフルアクセス：
-- スキャン定義の作成、編集、削除
-- ケイパビリティとしきい値の構成
-- スキャンの実行とスケジュール設定
-- Insight Studioですべての結果を表示
-- Error Management Consoleへのアクセス
-- データ保持設定の管理
+既存のPermission Setの直接割り当ては引き続き有効で、自動移行は行われません。直接割り当てる場合、管理者には `dqs_user` と `dqs_admin` が必要です。`dqs_admin` だけでは完全な管理者ロールになりません。
 
-### DQS User
+## ロールでできること
 
-結果への読み取り専用アクセス：
-- Insight Studioでスキャン結果を表示
-- CSVへのデータエクスポート
-- スキャンスケジュールの表示
+**DQS User Accessは読み取り専用ではありません。** ユーザーはDraft定義の作成・編集、機能と項目別設定の構成、レイアウト項目のインポート、スキャンの実行、結果の確認ができます。基本Permission Setは、定義、結果、スケジュール、エラーログの主要DQSオブジェクトに作成・読み取り・編集・削除権限も付与します。アプリケーションのルールが追加の制限を適用します。
 
-## Permission Setsの割り当て
+**DQS Administrator Access** はDraft定義の削除、Field Usageの設定、レポート生成、履歴閲覧、PDF出力などの管理操作を追加します。有効な定義はDQS管理者でも削除できません。
 
-1. 対象ユーザーの**Setup → Users → Permission Set Assignments**に移動します
-2. **Edit Assignments**をクリックします
-3. **Available Permission Sets**リストから**DQS Admin**または**DQS User**を見つけます
-4. 矢印ボタンを使用して、目的のPermission Setを**Enabled Permission Sets**に移動します
-5. **Save**をクリックします
+## データアクセスと有効化
 
-![Salesforce SetupのPermission Sets割り当て — DQS AdminとDQS UserがEnabled Permission Setsに表示されている](../../../../assets/screenshots/permissionsets.png)
+分析対象のSalesforceデータにはオブジェクトと項目の権限が引き続き適用されます。DQSアクセスはすべてのソースオブジェクト、項目、メタデータへのアクセスを保証しません。Field Usage設定と保存済みレポートには管理者アクセスが必要で、基本ロールには含まれません。
 
-<Aside type="caution">
-DQS Permission Setが割り当てられていないユーザーは、アプリケーションにアクセスする際に有効化ゲートが表示されます。管理者にはGetting Startedタブが自動的に表示され、セットアッププロセスをガイドします。
-</Aside>
-
-## オブジェクト権限
-
-Permission Setsは、DQSカスタムオブジェクトへのアクセスを自動的に付与します：
-
-| オブジェクト | Admin | User |
-|--------|-------|------|
-| `DQS_Definition__c` | Read/Create/Edit/Delete | Read |
-| `DQS_Definition_Detail__c` | Read/Create/Edit/Delete | Read |
-| `DQS_Dimension_Result__c` | Read | Read |
-| `DQS_Field_Result__c` | Read | Read |
-| `DQS_Metric_Result__c` | Read | Read |
-| `DQS_Batch_Schedule__c` | Read/Create/Edit/Delete | Read |
-
-## 項目レベルセキュリティ
-
-DQSオブジェクトのすべての項目は、両方のPermission Setsで表示可能です。メトリクス結果、スコア、設定項目は、DQS Userでは読み取り専用です。
+グループの割り当てでパッケージは有効化されません。インストール後に別途[アプリの有効化](/ja/getting-started/installation/)を完了してください。

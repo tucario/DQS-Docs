@@ -7,7 +7,7 @@ description: Configure optional field usage analysis, run reports, and review sa
 
 Field Usage finds references to selected fields in Salesforce metadata: dependencies, Apex classes and triggers, layouts, and reports. It lists **Access grants** separately. Use it to investigate where a field is referenced before changing its configuration.
 
-Setup, report generation, and saved reports require **DQS Administrator** access. This optional analysis runs independently of quality scans and does not change quality scores or scan schedules.
+Setup, report generation, saved reports, and PDF export require **DQS Administrator** access. This optional metadata analysis does not change quality scores or scan schedules.
 
 ## Enable reports in Builder
 
@@ -27,7 +27,7 @@ You can leave Field Usage disabled and still complete the definition. In Configu
 
 1. In Insight Studio, open **Field Usage** on an object or definition. In the object view, choose a definition first.
 2. Expand **Current definition scope** to check the fields selected for the next report.
-3. Click **Run Field Usage Report** (or **Run Report Again** when a report is already open). The app checks the latest saved settings and analyzes that selection. Opening the tab or running a quality scan does not start a new usage report.
+3. Click **Run Field Usage Report** (or **Run Report Again** when a report is already open). The app checks the latest saved settings and analyzes that selection. Opening this tab only loads saved reports.
 
 Results appear as sources are checked. **Stop** ends analysis and saves the results collected so far with a Stopped status. Leaving the view stops analysis without automatically saving an in-progress report.
 
@@ -35,10 +35,10 @@ Results appear as sources are checked. **Stop** ends analysis and saves the resu
 
 ## Read the results
 
-- **Usage by field** shows counts for Dependencies, Apex, Layouts, Reports, and Access grants, with eight fields per page. Click a field or count to filter the details.
-- **Details** shows Field, Source, Component, and Evidence, with search, source filters, and 15 rows per page. **All references** excludes access grants; select **Access grants** to inspect permissions.
+- **Usage by field** shows counts for Dependencies, Apex, Layouts, Reports, Needs review, and Access grants, with eight fields per page. Click a field or count to filter the details.
+- **Details** shows Field, Source, Component, and Evidence, with search, source filters, and 15 rows per page. **All references** contains unique confirmed component/field references. **Needs review** separates uncertain matches; **Access grants** lists permissions. Neither category contributes to confirmed-reference totals.
 - **0** means the source was checked without finding references. **—** means coverage is incomplete and no matches have been collected. Review source coverage even when a count is positive.
-- Apex evidence is labelled **Text match**. An access grant indicates permission to a field, not proof that the field is used. Partial or unavailable sources mean the report cannot establish that a field has no references.
+- Apex/SOQL analysis checks object and field context, excluding comments, label strings, and known references to other objects. Test-code references are hidden in the UI and excluded from totals. Older **Text match** evidence is treated as **Needs review**. A grant proves access, not actual use. Source counts can overlap when several sources confirm the same component; do not add them together.
 
 ![Saved Field Usage report for Case with reference counts, access grants, and details](../../../assets/screenshots/field-usage-report.png)
 
@@ -49,3 +49,21 @@ Completed and explicitly stopped reports save automatically. The latest saved re
 Disabling Field Usage in Builder prevents new reports while keeping saved reports readable. If saving fails, results stay visible and **Retry Save** retries without another analysis. Reports exceeding the save limit of 500,000 JSON characters remain visible but unsaved; select fewer fields for a new report.
 
 ![Saved Opportunity report remains readable while Field Usage is disabled](../../../assets/screenshots/field-usage-history.png)
+
+## Automatic reports after a manual scan
+
+When an administrator starts a scan from the DQS app (including **Complete & Run Scan**), a Field Usage dialog opens automatically after the quality scan is successfully queued, if reporting is enabled for that definition. Keep the dialog open until analysis finishes, or use **Stop** to save partial results. Quality scanning continues separately in the background. Scheduled quality scans do not generate Field Usage reports; metadata analysis needs the open browser session.
+
+## Open referenced components
+
+Click supported component names to open Apex classes/triggers, page layouts, Flow versions, permission sets, profiles, or reports in the same Salesforce org. Unsupported destinations stay as plain text, and Salesforce still checks your access. Older saved reports may need a fresh run to capture missing links, especially access-grant owners.
+
+## Download PDF
+
+Open a saved report and click **Download PDF** once saving and analysis have finished. The branded PDF is stored as a Salesforce File linked to the usage report and contains its saved scope, timestamp, coverage, counts, evidence, and supported links. It does not rerun analysis or export quality violations. Review and test evidence may appear in PDF details with explicit labels, but are excluded from confirmed-reference totals.
+
+## Coverage limits
+
+Field Usage is a metadata reference report, not a record of runtime activity or a guarantee that a field can be deleted. Standard-field uses in Flow and validation rules can be missed: dependency lookup currently relies on custom-field identifiers. Dynamic Apex/SOQL, unresolved types, inaccessible metadata, and unsupported syntax can also leave coverage partial. Check **Needs review** and source coverage before changing a field; zero confirmed references is not proof of no use.
+
+Screenshots on this page show an earlier report layout; the current report also includes **Needs review**, component links, and **Download PDF**.

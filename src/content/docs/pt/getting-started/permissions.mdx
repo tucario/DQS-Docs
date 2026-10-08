@@ -3,56 +3,27 @@ title: Permissoes
 description: Configure permission sets e acesso de usuarios para o Data Quality Sense.
 ---
 
-import { Aside } from '@astrojs/starlight/components';
+## Atribuir um Permission Set Group
 
-## Permission Sets
+Atribua um grupo do pacote para cada função:
 
-O Data Quality Sense inclui permission sets que controlam o acesso a diferentes partes do aplicativo.
+| Função | Grupo no Setup | Nome API | Permission Sets incluídos |
+| --- | --- | --- | --- |
+| Usuário | **DQS User Access** | `DQS_User_Group` | `dqs_user` |
+| Administrador | **DQS Administrator Access** | `DQS_Admin_Group` | `dqs_user` + `dqs_admin` |
 
-### DQS Admin
+Em **Setup → Permission Set Groups**, abra o grupo, selecione **Manage Assignments → Add Assignments**, escolha os usuários e conclua a atribuição. O grupo administrador já inclui acesso básico; não é necessário atribuir ambos.
 
-Acesso completo a todos os recursos:
-- Criar, editar e excluir definicoes de varredura
-- Configurar capacidades e limites
-- Executar e agendar varreduras
-- Visualizar todos os resultados no Insight Studio
-- Acessar o Console de Gerenciamento de Erros
-- Gerenciar configuracoes de retencao de dados
+As atribuições diretas existentes continuam válidas e não são migradas automaticamente. Na atribuição direta, administradores precisam de `dqs_user` e `dqs_admin`; apenas `dqs_admin` não fornece a função completa.
 
-### DQS User
+## Recursos de cada função
 
-Acesso somente leitura aos resultados:
-- Visualizar resultados de varredura no Insight Studio
-- Exportar dados para CSV
-- Visualizar agendamentos de varredura
+**DQS User Access não é somente leitura.** Usuários podem criar e editar definições Draft, configurar capacidades e substituições por campo, importar campos de layouts, executar varreduras e consultar resultados. O Permission Set básico também concede criação, leitura, edição e exclusão nos objetos principais DQS de definições, resultados, agendamentos e logs de erros. As regras do aplicativo impõem restrições adicionais.
 
-## Atribuindo Permission Sets
+**DQS Administrator Access** acrescenta operações administrativas, incluindo exclusão de definições Draft e configuração, geração, histórico e exportação PDF de Field Usage. Nem administradores DQS podem excluir definições ativas.
 
-1. Navegue ate **Setup → Users → Permission Set Assignments** para o usuario desejado
-2. Clique em **Edit Assignments**
-3. Na lista **Available Permission Sets**, encontre **DQS Admin** ou **DQS User**
-4. Mova o permission set desejado para **Enabled Permission Sets** usando o botao de seta
-5. Clique em **Save**
+## Acesso aos dados e ativação
 
-![Atribuicao de Permission Sets no Salesforce Setup mostrando DQS Admin e DQS User em Enabled Permission Sets](../../../../assets/screenshots/permissionsets.png)
+Permissões de objetos e campos continuam valendo para os dados Salesforce analisados. O acesso DQS não garante acesso a todos os objetos de origem, campos ou metadados. Configurações Field Usage e relatórios salvos exigem acesso administrador e não fazem parte da função básica.
 
-<Aside type="caution">
-Usuarios sem nenhum permission set DQS atribuido verao um portal de ativacao ao acessar o aplicativo. A aba Getting Started aparecera automaticamente para guiar os administradores pelo processo de configuracao.
-</Aside>
-
-## Permissoes de Objetos
-
-Os permission sets concedem automaticamente acesso aos objetos personalizados do DQS:
-
-| Objeto | Admin | User |
-|--------|-------|------|
-| `DQS_Definition__c` | Read/Create/Edit/Delete | Read |
-| `DQS_Definition_Detail__c` | Read/Create/Edit/Delete | Read |
-| `DQS_Dimension_Result__c` | Read | Read |
-| `DQS_Field_Result__c` | Read | Read |
-| `DQS_Metric_Result__c` | Read | Read |
-| `DQS_Batch_Schedule__c` | Read/Create/Edit/Delete | Read |
-
-## Seguranca em Nivel de Campo
-
-Todos os campos nos objetos DQS sao visiveis para ambos os permission sets. Resultados de metricas, pontuacoes e campos de configuracao sao somente leitura para DQS User.
+Atribuir um grupo não ativa o pacote. Conclua a [ativação do aplicativo](/pt/getting-started/installation/) separadamente após a instalação.

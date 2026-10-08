@@ -7,7 +7,7 @@ description: Optionale Feldnutzungsanalyse konfigurieren, Berichte ausführen un
 
 Field Usage findet Verweise auf ausgewählte Felder in Salesforce-Metadaten: Abhängigkeiten, Apex-Klassen und -Trigger, Seitenlayouts und Berichte. **Access grants** werden separat aufgeführt. Prüfen Sie damit Feldreferenzen, bevor Sie die Konfiguration ändern.
 
-Konfiguration, Berichtserstellung und gespeicherte Berichte erfordern **DQS Administrator**-Zugriff. Die optionale Analyse läuft unabhängig von Qualitätsscans und ändert weder Qualitätsbewertungen noch Scan-Zeitpläne.
+Konfiguration, Berichtserstellung, gespeicherte Berichte und PDF-Export erfordern **DQS Administrator**-Zugriff. Diese optionale Metadatenanalyse ändert weder Qualitätsbewertungen noch Scan-Zeitpläne.
 
 ## Berichte im Builder aktivieren
 
@@ -27,7 +27,7 @@ Sie können die Definition auch mit deaktiviertem Field Usage abschließen. In C
 
 1. Öffnen Sie in Insight Studio **Field Usage** auf Objekt- oder Definitionsebene. Wählen Sie in der Objektansicht zuerst eine Definition.
 2. Klappen Sie **Current definition scope** auf, um die Felder für den nächsten Bericht zu prüfen.
-3. Klicken Sie auf **Run Field Usage Report** (oder **Run Report Again**, wenn bereits ein Bericht geöffnet ist). Die App prüft die aktuellen gespeicherten Einstellungen und analysiert diese Auswahl. Das Öffnen des Tabs oder ein Qualitätsscan startet keinen neuen Nutzungsbericht.
+3. Klicken Sie auf **Run Field Usage Report** (oder **Run Report Again**, wenn bereits ein Bericht geöffnet ist). Die App prüft die aktuellen gespeicherten Einstellungen und analysiert diese Auswahl. Das Öffnen des Tabs lädt nur gespeicherte Berichte.
 
 Ergebnisse erscheinen während der Prüfung. **Stop** beendet die Analyse und speichert die bisherigen Ergebnisse mit dem Status Stopped. Beim Verlassen der Ansicht wird die Analyse ohne automatische Speicherung des laufenden Berichts beendet.
 
@@ -35,10 +35,10 @@ Ergebnisse erscheinen während der Prüfung. **Stop** beendet die Analyse und sp
 
 ## Ergebnisse lesen
 
-- **Usage by field** zeigt Zähler für Dependencies, Apex, Layouts, Reports und Access grants mit acht Feldern pro Seite. Ein Klick auf Feld oder Zähler filtert die Details.
-- **Details** zeigt Field, Source, Component und Evidence mit Suche, Quellenfiltern und 15 Zeilen pro Seite. **All references** enthält keine Zugriffsberechtigungen; wählen Sie dafür **Access grants**.
+- **Usage by field** zeigt Zähler für Dependencies, Apex, Layouts, Reports, Needs review und Access grants mit acht Feldern pro Seite. Ein Klick auf Feld oder Zähler filtert die Details.
+- **Details** zeigt Field, Source, Component und Evidence mit Suche, Quellenfiltern und 15 Zeilen pro Seite. **All references** enthält eindeutige bestätigte Komponenten-/Feldreferenzen. **Needs review** trennt unsichere Treffer; **Access grants** zeigt Berechtigungen. Beide Kategorien zählen nicht zu den bestätigten Referenzen.
 - **0** bedeutet, dass die Quelle ohne gefundene Verweise geprüft wurde. **—** bedeutet unvollständige Abdeckung ohne bisherige Treffer. Prüfen Sie die Quellenabdeckung auch bei positiven Zählern.
-- Apex-Nachweise tragen die Bezeichnung **Text match**. Eine Zugriffsberechtigung belegt Zugriff, keine tatsächliche Nutzung. Teilweise geprüfte oder nicht verfügbare Quellen erlauben keine Aussage, dass ein Feld keine Verweise hat.
+- Die Apex/SOQL-Analyse berücksichtigt Objekt- und Feldkontext und schließt Kommentare, Beschriftungstexte sowie erkannte Referenzen auf andere Objekte aus. Testreferenzen sind in der Oberfläche verborgen und werden nicht gezählt. Ältere **Text match**-Nachweise gelten als **Needs review**. Eine Berechtigung belegt Zugriff, nicht Nutzung. Quellenzähler können dieselbe Komponente enthalten und dürfen nicht addiert werden.
 
 ![Gespeicherter Field-Usage-Bericht für Case mit Referenzzählern, Berechtigungen und Details](../../../../assets/screenshots/field-usage-report.png)
 
@@ -49,3 +49,21 @@ Abgeschlossene und ausdrücklich gestoppte Berichte werden automatisch gespeiche
 Das Deaktivieren in Builder verhindert neue Berichte; gespeicherte bleiben lesbar. Bei einem Speicherfehler bleiben Ergebnisse sichtbar. **Retry Save** wiederholt das Speichern ohne erneute Analyse. Berichte über 500.000 JSON-Zeichen bleiben sichtbar, aber ungespeichert; wählen Sie für einen neuen Bericht weniger Felder.
 
 ![Gespeicherter Opportunity-Bericht bleibt bei deaktiviertem Field Usage lesbar](../../../../assets/screenshots/field-usage-history.png)
+
+## Automatische Berichte nach einem manuellen Scan
+
+Startet ein Administrator einen Scan in der DQS-App (auch über **Complete & Run Scan**), öffnet sich nach erfolgreicher Einreihung des Qualitätsscans automatisch der Field Usage-Dialog, sofern Berichte für die Definition aktiviert sind. Lassen Sie den Dialog bis zum Abschluss geöffnet oder speichern Sie Teilergebnisse mit **Stop**. Der Qualitätsscan läuft separat im Hintergrund. Geplante Scans erzeugen keine Field Usage-Berichte; die Metadatenanalyse benötigt eine offene Browsersitzung.
+
+## Referenzierte Komponenten öffnen
+
+Unterstützte Komponentennamen öffnen Apex-Klassen/Trigger, Seitenlayouts, Flow-Versionen, Permission Sets, Profile oder Berichte in derselben Salesforce-Org. Andere Ziele bleiben Text; Salesforce prüft weiterhin Ihren Zugriff. Bei älteren Berichten kann ein neuer Lauf fehlende Links ergänzen, besonders für Berechtigungen.
+
+## PDF herunterladen
+
+Öffnen Sie einen gespeicherten Bericht und klicken Sie nach Analyse und Speicherung auf **Download PDF**. Das PDF mit DQS-Branding wird als Salesforce File mit dem Nutzungsbericht verknüpft und enthält den gespeicherten Umfang, Zeitstempel, Quellenabdeckung, Zähler, Nachweise und unterstützte Links. Es startet keine neue Analyse und exportiert keine Qualitätsverstöße. Unsichere und Testnachweise können gekennzeichnet in den PDF-Details erscheinen, zählen aber nicht zu bestätigten Referenzen.
+
+## Grenzen der Abdeckung
+
+Field Usage zeigt Metadatenreferenzen, keine Laufzeitaktivität und keine Garantie für gefahrloses Löschen. Standardfelder in Flows und Validierungsregeln können fehlen, da die Abhängigkeitssuche derzeit IDs benutzerdefinierter Felder verwendet. Dynamisches Apex/SOQL, nicht aufgelöste Typen, unzugängliche Metadaten und nicht unterstützte Syntax können die Abdeckung ebenfalls einschränken. Prüfen Sie **Needs review** und die Quellenabdeckung vor Änderungen; null bestätigte Referenzen beweisen keine Nichtnutzung.
+
+Die Screenshots zeigen einen früheren Berichtsstand; aktuell sind auch **Needs review**, Komponentenlinks und **Download PDF** verfügbar.

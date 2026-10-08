@@ -3,56 +3,27 @@ title: Permissions
 description: Configure permission sets and user access for Data Quality Sense.
 ---
 
-import { Aside } from '@astrojs/starlight/components';
+## Assign a Permission Set Group
 
-## Permission Sets
+Assign one packaged group for each role:
 
-Data Quality Sense ships with permission sets that control access to different parts of the application.
+| Role | Group in Setup | API name | Included permission sets |
+| --- | --- | --- | --- |
+| User | **DQS User Access** | `DQS_User_Group` | `dqs_user` |
+| Administrator | **DQS Administrator Access** | `DQS_Admin_Group` | `dqs_user` + `dqs_admin` |
 
-### DQS Admin
+In **Setup → Permission Set Groups**, open the group, select **Manage Assignments → Add Assignments**, choose users, and complete the assignment. The administrator group already includes base access; assigning both groups is unnecessary.
 
-Full access to all features:
-- Create, edit, and delete scan definitions
-- Configure capabilities and thresholds
-- Run and schedule scans
-- View all results in Insight Studio
-- Access the Error Management Console
-- Manage data retention settings
+Existing direct permission set assignments remain valid and are not migrated automatically. For legacy direct assignment, administrators need both `dqs_user` and `dqs_admin`; `dqs_admin` alone is not the complete administrator role.
 
-### DQS User
+## What each role can do
 
-Read-only access to results:
-- View scan results in Insight Studio
-- Export data to CSV
-- View scan schedules
+**DQS User Access is not read-only.** Users can create and edit draft definitions, configure capabilities and field overrides, import layout fields, run scans, and review results. The base permission set also grants create, read, edit, and delete access to the core DQS definition, result, schedule, and error-log objects. Application rules impose additional restrictions.
 
-## Assigning Permission Sets
+**DQS Administrator Access** adds administrator operations, including deletion of draft definitions and Field Usage setup, report generation, history, and PDF export. Active definitions cannot be deleted, even by a DQS administrator.
 
-1. Navigate to **Setup → Users → Permission Set Assignments** for the target user
-2. Click **Edit Assignments**
-3. In the **Available Permission Sets** list, find **DQS Admin** or **DQS User**
-4. Move the desired permission set to **Enabled Permission Sets** using the arrow button
-5. Click **Save**
+## Data access and activation
 
-![Permission Sets assignment in Salesforce Setup showing DQS Admin and DQS User in Enabled Permission Sets](../../../assets/screenshots/permissionsets.png)
+Object and field permissions still apply to the Salesforce data being analyzed. DQS access does not guarantee access to every source object, field, or metadata component. Field Usage settings and saved reports require administrator access; they are not part of the base user role.
 
-<Aside type="caution">
-Users without any DQS permission set assigned will see an activation gate when accessing the application. The Getting Started tab will appear automatically to guide administrators through the setup process.
-</Aside>
-
-## Object Permissions
-
-The permission sets automatically grant access to DQS custom objects:
-
-| Object | Admin | User |
-|--------|-------|------|
-| `DQS_Definition__c` | Read/Create/Edit/Delete | Read |
-| `DQS_Definition_Detail__c` | Read/Create/Edit/Delete | Read |
-| `DQS_Dimension_Result__c` | Read | Read |
-| `DQS_Field_Result__c` | Read | Read |
-| `DQS_Metric_Result__c` | Read | Read |
-| `DQS_Batch_Schedule__c` | Read/Create/Edit/Delete | Read |
-
-## Field-Level Security
-
-All fields on DQS objects are visible to both permission sets. Metric results, scores, and configuration fields are read-only for DQS User.
+Assigning a group does not activate the package. Complete [app activation](/getting-started/installation/#activate-the-app) separately after installation.

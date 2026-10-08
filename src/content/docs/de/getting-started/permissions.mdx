@@ -3,56 +3,27 @@ title: Berechtigungen
 description: Permission Sets und Benutzerzugriff für Data Quality Sense konfigurieren.
 ---
 
-import { Aside } from '@astrojs/starlight/components';
+## Permission Set Group zuweisen
 
-## Permission Sets
+Weisen Sie pro Rolle eine mitgelieferte Gruppe zu:
 
-Data Quality Sense wird mit Permission Sets ausgeliefert, die den Zugriff auf verschiedene Teile der Anwendung steuern.
+| Rolle | Gruppe in Setup | API-Name | Enthaltene Permission Sets |
+| --- | --- | --- | --- |
+| Benutzer | **DQS User Access** | `DQS_User_Group` | `dqs_user` |
+| Administrator | **DQS Administrator Access** | `DQS_Admin_Group` | `dqs_user` + `dqs_admin` |
 
-### DQS Admin
+Öffnen Sie unter **Setup → Permission Set Groups** die Gruppe, wählen Sie **Manage Assignments → Add Assignments**, wählen Sie Benutzer aus und schließen Sie die Zuweisung ab. Die Administratorgruppe enthält den Basiszugriff; beide Gruppen sind nicht erforderlich.
 
-Vollzugriff auf alle Funktionen:
-- Scan-Definitionen erstellen, bearbeiten und löschen
-- Capabilities und Schwellenwerte konfigurieren
-- Scans ausführen und planen
-- Alle Ergebnisse in Insight Studio anzeigen
-- Zugriff auf die Error Management Console
-- Datenaufbewahrungseinstellungen verwalten
+Direkte Permission-Set-Zuweisungen bleiben gültig und werden nicht automatisch migriert. Bei direkter Zuweisung benötigen Administratoren `dqs_user` und `dqs_admin`; `dqs_admin` allein ist nicht die vollständige Administratorrolle.
 
-### DQS User
+## Möglichkeiten der Rollen
 
-Nur-Lese-Zugriff auf Ergebnisse:
-- Scan-Ergebnisse in Insight Studio anzeigen
-- Daten als CSV exportieren
-- Scan-Zeitpläne anzeigen
+**DQS User Access ist nicht schreibgeschützt.** Benutzer können Draft-Definitionen erstellen und bearbeiten, Fähigkeiten und Feldüberschreibungen konfigurieren, Layoutfelder importieren, Scans starten und Ergebnisse anzeigen. Das Basis-Permission-Set gewährt auch Erstellen, Lesen, Bearbeiten und Löschen für die zentralen DQS-Objekte für Definitionen, Ergebnisse, Zeitpläne und Fehlerprotokolle. Anwendungsregeln schränken einzelne Aktionen zusätzlich ein.
 
-## Permission Sets zuweisen
+**DQS Administrator Access** ergänzt Verwaltungsaktionen: Draft-Definitionen löschen sowie Field Usage konfigurieren, Berichte erstellen, den Verlauf lesen und PDFs exportieren. Aktive Definitionen können auch Administratoren nicht löschen.
 
-1. Navigieren Sie zu **Setup → Users → Permission Set Assignments** für den Zielbenutzer
-2. Klicken Sie auf **Edit Assignments**
-3. Suchen Sie in der Liste **Available Permission Sets** nach **DQS Admin** oder **DQS User**
-4. Verschieben Sie das gewünschte Permission Set mit der Pfeiltaste zu **Enabled Permission Sets**
-5. Klicken Sie auf **Save**
+## Datenzugriff und Aktivierung
 
-![Permission Set-Zuweisung in Salesforce Setup mit DQS Admin und DQS User in Enabled Permission Sets](../../../../assets/screenshots/permissionsets.png)
+Objekt- und Feldberechtigungen gelten weiterhin für die analysierten Salesforce-Daten. DQS-Zugriff garantiert keinen Zugriff auf alle Quellobjekte, Felder oder Metadaten. Field Usage-Einstellungen und gespeicherte Berichte erfordern Administratorzugriff und gehören nicht zur Basisrolle.
 
-<Aside type="caution">
-Benutzer ohne zugewiesenes DQS Permission Set sehen ein Aktivierungs-Gate beim Zugriff auf die Anwendung. Der Tab „Getting Started" wird automatisch angezeigt, um Administratoren durch den Einrichtungsprozess zu führen.
-</Aside>
-
-## Objektberechtigungen
-
-Die Permission Sets gewähren automatisch Zugriff auf benutzerdefinierte DQS-Objekte:
-
-| Objekt | Admin | User |
-|--------|-------|------|
-| `DQS_Definition__c` | Read/Create/Edit/Delete | Read |
-| `DQS_Definition_Detail__c` | Read/Create/Edit/Delete | Read |
-| `DQS_Dimension_Result__c` | Read | Read |
-| `DQS_Field_Result__c` | Read | Read |
-| `DQS_Metric_Result__c` | Read | Read |
-| `DQS_Batch_Schedule__c` | Read/Create/Edit/Delete | Read |
-
-## Field-Level Security
-
-Alle Felder auf DQS-Objekten sind für beide Permission Sets sichtbar. Metrik-Ergebnisse, Bewertungen und Konfigurationsfelder sind für DQS User schreibgeschützt.
+Eine Gruppenzuweisung aktiviert das Paket nicht. Führen Sie nach der Installation separat die [App-Aktivierung](/de/getting-started/installation/) durch.

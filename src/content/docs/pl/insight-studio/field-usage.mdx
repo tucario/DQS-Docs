@@ -7,7 +7,7 @@ description: Skonfiguruj opcjonalną analizę użycia pól, uruchamiaj raporty i
 
 Field Usage wyszukuje odwołania do wybranych pól w metadanych Salesforce: zależnościach, klasach i wyzwalaczach Apex, układach stron oraz raportach. Uprawnienia **Access grants** prezentuje osobno. Użyj tej funkcji, aby sprawdzić odwołania do pola przed zmianą jego konfiguracji.
 
-Konfiguracja, generowanie i przeglądanie zapisanych raportów wymagają dostępu **DQS Administrator**. Ta opcjonalna analiza działa niezależnie od skanów jakości i nie zmienia wyników jakości ani harmonogramów skanowania.
+Konfiguracja, generowanie i odczyt zapisanych raportów oraz eksport PDF wymagają dostępu **DQS Administrator**. Ta opcjonalna analiza metadanych nie zmienia wyników jakości ani harmonogramów skanowania.
 
 ## Włącz raporty w Builderze
 
@@ -27,7 +27,7 @@ Możesz pozostawić Field Usage wyłączone i ukończyć definicję. W Configure
 
 1. W Insight Studio otwórz **Field Usage** na poziomie obiektu lub definicji. W widoku obiektu najpierw wybierz definicję.
 2. Rozwiń **Current definition scope**, aby sprawdzić pola wybrane do następnego raportu.
-3. Kliknij **Run Field Usage Report** (lub **Run Report Again**, gdy raport jest już otwarty). Aplikacja sprawdzi najnowsze zapisane ustawienia i przeanalizuje ten wybór. Otwarcie zakładki ani uruchomienie skanu jakości nie generuje nowego raportu użycia pól.
+3. Kliknij **Run Field Usage Report** (lub **Run Report Again**, gdy raport jest już otwarty). Aplikacja sprawdzi najnowsze zapisane ustawienia i przeanalizuje ten wybór. Samo otwarcie zakładki wczytuje tylko zapisane raporty.
 
 Wyniki pojawiają się w trakcie sprawdzania źródeł. **Stop** kończy analizę i zapisuje zebrane wyniki ze statusem Stopped. Opuszczenie widoku zatrzymuje analizę bez automatycznego zapisu trwającego raportu.
 
@@ -35,10 +35,10 @@ Wyniki pojawiają się w trakcie sprawdzania źródeł. **Stop** kończy analiz�
 
 ## Odczytaj wyniki
 
-- **Usage by field** pokazuje liczniki Dependencies, Apex, Layouts, Reports i Access grants, po osiem pól na stronie. Kliknij pole lub licznik, aby przefiltrować szczegóły.
-- **Details** zawiera kolumny Field, Source, Component i Evidence, wyszukiwarkę, filtry źródeł oraz 15 wierszy na stronie. **All references** pomija uprawnienia; wybierz **Access grants**, aby je przejrzeć.
+- **Usage by field** pokazuje liczniki Dependencies, Apex, Layouts, Reports, Needs review i Access grants, po osiem pól na stronie. Kliknij pole lub licznik, aby przefiltrować szczegóły.
+- **Details** zawiera kolumny Field, Source, Component i Evidence, wyszukiwarkę, filtry źródeł oraz 15 wierszy na stronie. **All references** obejmuje unikalne, potwierdzone pary komponent–pole. **Needs review** oddziela niepewne trafienia, a **Access grants** pokazuje uprawnienia. Obie te kategorie są wyłączone z liczby potwierdzonych odwołań.
 - **0** oznacza sprawdzone źródło bez znalezionych odwołań. **—** oznacza niepełne pokrycie i brak zebranych dopasowań. Sprawdź pokrycie źródeł również wtedy, gdy licznik jest dodatni.
-- Dowody z Apex mają etykietę **Text match**. Uprawnienie oznacza dostęp do pola, a nie dowód jego używania. Niepełne lub niedostępne źródła nie pozwalają stwierdzić, że pole nie ma odwołań.
+- Analiza Apex/SOQL uwzględnia kontekst obiektu i pola, pomijając komentarze, teksty etykiet i rozpoznane odwołania do innych obiektów. Odwołania z kodu testowego są ukryte w interfejsie i wyłączone z liczników. Starsze dowody **Text match** trafiają do **Needs review**. Uprawnienie potwierdza dostęp, a nie użycie. Liczniki źródeł mogą obejmować ten sam komponent; nie należy ich sumować.
 
 ![Zapisany raport Field Usage dla Case z licznikami odwołań, uprawnień i szczegółami](../../../../assets/screenshots/field-usage-report.png)
 
@@ -49,3 +49,21 @@ Raporty ukończone i zatrzymane przyciskiem Stop zapisują się automatycznie. P
 Wyłączenie Field Usage w Builderze blokuje nowe raporty, ale zachowuje dostęp do zapisanych. Przy błędzie zapisu wyniki pozostają widoczne, a **Retry Save** ponawia zapis bez kolejnej analizy. Raporty przekraczające limit 500 000 znaków JSON pozostają widoczne, lecz niezapisane; do nowego raportu wybierz mniej pól.
 
 ![Zapisany raport Opportunity pozostaje dostępny po wyłączeniu Field Usage](../../../../assets/screenshots/field-usage-history.png)
+
+## Automatyczne raporty po skanie ręcznym
+
+Gdy administrator uruchamia skan z aplikacji DQS (także przez **Complete & Run Scan**), po pomyślnym zleceniu skanu jakości automatycznie otwiera się okno Field Usage, jeśli raportowanie jest włączone dla definicji. Pozostaw okno otwarte do końca analizy lub użyj **Stop**, aby zapisać częściowe wyniki. Skan jakości działa osobno w tle. Skany zaplanowane nie generują raportów Field Usage; analiza metadanych wymaga otwartej sesji przeglądarki.
+
+## Otwieranie komponentów
+
+Kliknij obsługiwaną nazwę komponentu, aby otworzyć klasę lub trigger Apex, układ strony, wersję Flow, permission set, profil lub raport w tej samej organizacji Salesforce. Nieobsługiwane odwołania pozostają zwykłym tekstem, a Salesforce nadal sprawdza uprawnienia. Starszy raport może wymagać ponownego uruchomienia, aby uzupełnić linki, zwłaszcza do właścicieli uprawnień.
+
+## Pobieranie PDF
+
+Otwórz zapisany raport i kliknij **Download PDF** po zakończeniu analizy i zapisu. PDF z identyfikacją wizualną DQS jest plikiem Salesforce powiązanym z raportem użycia pól. Zawiera zapisany zakres, datę, pokrycie źródeł, liczniki, dowody i obsługiwane linki. Nie uruchamia ponownej analizy ani nie eksportuje naruszeń jakości. Szczegóły PDF mogą zawierać oznaczone dowody niepewne i testowe, wyłączone z liczby potwierdzonych odwołań.
+
+## Ograniczenia analizy
+
+Field Usage pokazuje odwołania w metadanych, a nie aktywność użytkowników ani gwarancję bezpiecznego usunięcia pola. Użycia pól standardowych w Flow i regułach walidacji mogą zostać pominięte: wyszukiwanie zależności bazuje obecnie na identyfikatorach pól niestandardowych. Dynamiczny Apex/SOQL, nierozpoznane typy, niedostępne metadane i nieobsługiwana składnia również ograniczają pokrycie. Przed zmianą pola sprawdź **Needs review** i stan źródeł; zero potwierdzonych odwołań nie dowodzi braku użycia.
+
+Zrzuty na tej stronie pokazują wcześniejszy układ raportu; bieżący raport zawiera także **Needs review**, linki do komponentów i **Download PDF**.

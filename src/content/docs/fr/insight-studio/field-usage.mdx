@@ -7,7 +7,7 @@ description: Configurer l’analyse facultative d’utilisation des champs, lanc
 
 Field Usage recherche les références aux champs sélectionnés dans les métadonnées Salesforce : dépendances, classes et déclencheurs Apex, mises en page et rapports. Les autorisations **Access grants** sont présentées séparément. Utilisez cette fonction pour examiner les références à un champ avant de modifier sa configuration.
 
-La configuration, la génération et la consultation des rapports enregistrés nécessitent un accès **DQS Administrator**. Cette analyse facultative fonctionne indépendamment des scans de qualité et ne modifie ni les scores ni les planifications des scans.
+La configuration, la génération, les rapports enregistrés et l’export PDF nécessitent un accès **DQS Administrator**. Cette analyse facultative des métadonnées ne modifie ni les scores de qualité ni les planifications.
 
 ## Activer les rapports dans Builder
 
@@ -27,7 +27,7 @@ Vous pouvez terminer la définition avec Field Usage désactivé. Dans Configure
 
 1. Dans Insight Studio, ouvrez **Field Usage** au niveau d’un objet ou d’une définition. Dans la vue objet, choisissez d’abord une définition.
 2. Développez **Current definition scope** pour vérifier les champs du prochain rapport.
-3. Cliquez sur **Run Field Usage Report** (ou **Run Report Again** si un rapport est déjà ouvert). L’application vérifie les derniers paramètres enregistrés et analyse cette sélection. Ouvrir l’onglet ou lancer un scan de qualité ne génère pas de nouveau rapport d’utilisation.
+3. Cliquez sur **Run Field Usage Report** (ou **Run Report Again** si un rapport est déjà ouvert). L’application vérifie les derniers paramètres enregistrés et analyse cette sélection. Ouvrir l’onglet charge uniquement les rapports enregistrés.
 
 Les résultats apparaissent pendant la vérification des sources. **Stop** arrête l’analyse et enregistre les résultats recueillis avec le statut Stopped. Quitter la vue arrête l’analyse sans enregistrer automatiquement le rapport en cours.
 
@@ -35,10 +35,10 @@ Les résultats apparaissent pendant la vérification des sources. **Stop** arrê
 
 ## Lire les résultats
 
-- **Usage by field** affiche les compteurs Dependencies, Apex, Layouts, Reports et Access grants, avec huit champs par page. Cliquez sur un champ ou un compteur pour filtrer les détails.
-- **Details** présente Field, Source, Component et Evidence, avec recherche, filtres de source et 15 lignes par page. **All references** exclut les autorisations ; sélectionnez **Access grants** pour les consulter.
+- **Usage by field** affiche les compteurs Dependencies, Apex, Layouts, Reports, Needs review et Access grants, avec huit champs par page. Cliquez sur un champ ou un compteur pour filtrer les détails.
+- **Details** présente Field, Source, Component et Evidence, avec recherche, filtres de source et 15 lignes par page. **All references** contient les paires composant/champ confirmées et dédupliquées. **Needs review** sépare les correspondances incertaines ; **Access grants** affiche les autorisations. Ces deux catégories sont exclues du total des références confirmées.
 - **0** indique une source vérifiée sans référence trouvée. **—** indique une couverture incomplète sans correspondance recueillie. Vérifiez la couverture même si un compteur est positif.
-- Les preuves Apex portent le libellé **Text match**. Une autorisation indique un accès au champ, pas son utilisation effective. Les sources partielles ou indisponibles ne permettent pas de conclure à l’absence de références.
+- L’analyse Apex/SOQL tient compte du contexte objet/champ et exclut les commentaires, les textes de libellés et les références reconnues à d’autres objets. Les références de test sont masquées dans l’interface et exclues des totaux. Les anciennes preuves **Text match** sont classées **Needs review**. Une autorisation prouve l’accès, pas l’utilisation. Les compteurs de sources peuvent couvrir le même composant : ne les additionnez pas.
 
 ![Rapport Field Usage enregistré pour Case avec compteurs de références, autorisations et détails](../../../../assets/screenshots/field-usage-report.png)
 
@@ -49,3 +49,21 @@ Les rapports terminés ou explicitement arrêtés sont enregistrés automatiquem
 Désactiver Field Usage dans Builder empêche les nouveaux rapports mais conserve l’accès aux rapports enregistrés. En cas d’échec d’enregistrement, les résultats restent visibles et **Retry Save** réessaie sans nouvelle analyse. Au-delà de 500 000 caractères JSON, le rapport reste visible mais non enregistré ; sélectionnez moins de champs pour un nouveau rapport.
 
 ![Le rapport Opportunity enregistré reste lisible lorsque Field Usage est désactivé](../../../../assets/screenshots/field-usage-history.png)
+
+## Rapports automatiques après un scan manuel
+
+Lorsqu’un administrateur lance un scan depuis l’application DQS (y compris **Complete & Run Scan**), une fenêtre Field Usage s’ouvre après la mise en file réussie du scan de qualité, si les rapports sont activés pour la définition. Gardez cette fenêtre ouverte jusqu’à la fin ou utilisez **Stop** pour enregistrer les résultats partiels. Le scan de qualité continue séparément en arrière-plan. Les scans planifiés ne génèrent pas de rapports Field Usage ; l’analyse des métadonnées nécessite une session de navigateur ouverte.
+
+## Ouvrir les composants référencés
+
+Les noms pris en charge ouvrent les classes/triggers Apex, mises en page, versions de Flow, Permission Sets, profils ou rapports dans la même org Salesforce. Les autres destinations restent du texte ; Salesforce vérifie toujours vos droits. Un nouveau rapport peut être nécessaire pour compléter les liens absents des anciens rapports, notamment ceux des autorisations.
+
+## Télécharger un PDF
+
+Ouvrez un rapport enregistré et cliquez sur **Download PDF** après la fin de l’analyse et de l’enregistrement. Le PDF aux couleurs de DQS est un Salesforce File lié au rapport d’utilisation ; il contient le périmètre enregistré, la date, la couverture, les compteurs, les preuves et les liens pris en charge. Il ne relance pas l’analyse et n’exporte pas les violations de qualité. Les preuves incertaines et de test peuvent apparaître avec des libellés explicites dans le PDF, mais restent exclues du total confirmé.
+
+## Limites de couverture
+
+Field Usage décrit les références de métadonnées, pas l’activité à l’exécution ni la possibilité de supprimer un champ sans risque. Les usages de champs standard dans les Flows et règles de validation peuvent être manqués : la recherche de dépendances utilise actuellement les identifiants de champs personnalisés. Apex/SOQL dynamique, types non résolus, métadonnées inaccessibles et syntaxe non prise en charge limitent aussi la couverture. Vérifiez **Needs review** et la couverture avant toute modification ; zéro référence confirmée ne prouve pas l’absence d’utilisation.
+
+Les captures montrent une ancienne présentation ; le rapport actuel inclut aussi **Needs review**, les liens de composants et **Download PDF**.

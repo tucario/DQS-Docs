@@ -1,5 +1,17 @@
 # DQS Documentation — Sugerowane zrzuty ekranu
 
+## Aktualizacja do wydania 0.5.0.1 — 2026-10-08
+
+Treść Field Usage, uprawnień, instalacji, eksportu oraz importu layoutów została zsynchronizowana z wydaną wersją 0.5.0.1 we wszystkich ośmiu językach. Zrzuty Field Usage z 28 września pozostają ilustracjami starszego układu; artykuł informuje o tej różnicy. Obraz bezpośredniego przypisywania permission sets usunięto z instrukcji na rzecz aktualnej procedury przypisywania grup.
+
+Do wykonania w aktualnej organizacji Salesforce:
+
+- **Field Usage — wyniki:** potwierdzone referencje, Needs review, osobne Access grants, klikalne nazwy komponentów i Download PDF; bez dawnego przełącznika referencji testowych.
+- **Field Usage — skan ręczny:** okno raportu otwarte po Complete & Run Scan, z widocznym Stop.
+- **Field Usage — PDF:** przykład zapisanego raportu, zakresu, pokrycia źródeł i oznaczeń niepewnych/testowych dowodów.
+- **Uprawnienia:** Setup → Permission Set Groups z DQS User Access oraz DQS Administrator Access i przypisaniem jednej grupy do użytkownika.
+- **Instalacja:** ekran pakietu 0.5.0.1 z namespace dataqualitysens.
+
 ## Aktualizacja DQS-84 i import z layoutu — 2026-09-28
 
 Zakres: commit `dbd639a`, raporty Field Usage z `d8fb542` oraz import pól z layoutu. Oceniono wszystkie **8 zrzutów** z `C:/Users/micha/Desktop/screenshots-dqs` i wykorzystano każdy z nich. Oryginały pozostawiono bez zmian; kopie są w `src/assets/screenshots/`. Obrazy i przetłumaczone opisy alternatywne są wpięte we wszystkich ośmiu językach.

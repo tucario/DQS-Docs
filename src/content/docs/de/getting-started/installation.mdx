@@ -6,9 +6,9 @@ description: So installieren Sie Data Quality Sense in Ihrer Salesforce-Organisa
 import { Aside } from '@astrojs/starlight/components';
 
 <Aside type="tip" title="Jetzt installieren">
-Sie können das Paket direkt installieren:
+Installieren Sie das freigegebene Paket **0.5.0.1** (veröffentlicht am 6. Oktober 2026):
 
-[Paket installieren](https://login.salesforce.com/packaging/installPackage.apexp?p0=04tP4000001OPKrIAO)
+[Paket installieren](https://login.salesforce.com/packaging/installPackage.apexp?p0=04tP4000001l8uPIAQ)
 </Aside>
 
 ## Voraussetzungen
@@ -21,7 +21,7 @@ Sie können das Paket direkt installieren:
 
 1. **Installationslink erhalten**
 
-   Kontaktieren Sie uns unter [dataqualitysense.com](https://dataqualitysense.com), um die Installations-URL des Managed Package für Ihre Organisation zu erhalten.
+   Verwenden Sie den obigen versionsspezifischen Link. Prüfen Sie Paketname und Version im Salesforce-Installationsprogramm.
 
 2. **Installationsumfang wählen**
 
@@ -32,9 +32,9 @@ Sie können das Paket direkt installieren:
 
    ![Data Quality Sense installieren — Installationsumfang wählen](../../../../assets/screenshots/installation-appexchange.png)
 
-3. **Drittanbieter-Zugriff genehmigen**
+3. **Paketzugriff prüfen**
 
-   Das Paket erfordert keine externen Aufrufe. Die gesamte Verarbeitung findet innerhalb Ihrer Salesforce-Organisation statt.
+   Field Usage liest Metadaten über Salesforce-APIs innerhalb Ihrer Org. Quellcode wird nicht an einen externen Analysedienst gesendet.
 
 4. **Installation abwarten**
 
@@ -76,7 +76,7 @@ Das Paket installiert alle erforderlichen Komponenten — Custom Objects, Lightn
 
 ## Paket aktualisieren
 
-Um auf eine neuere Version zu aktualisieren, verwenden Sie denselben Installationslink — Salesforce erkennt das vorhandene Paket und bietet einen Upgrade-Pfad an. Das Installationsprogramm zeigt Ihre aktuell installierte Version und die verfügbare neue Version an. Wählen Sie denselben Installationsumfang wie zuvor (oder ändern Sie ihn bei Bedarf) und klicken Sie auf **Upgrade**.
+Verwenden Sie für ein Upgrade den Installationslink der Zielversion. Ein Link mit einer Paketversions-ID wählt immer diese Version und nicht automatisch künftige Veröffentlichungen. Prüfen Sie installierte und Zielversion in Salesforce und wählen Sie **Upgrade**, sofern angeboten.
 
 ![Upgrade von Data Quality Sense — Salesforce erkennt das vorhandene Paket und bietet einen Upgrade-Pfad an](../../../../assets/screenshots/upgrade-package.png)
 

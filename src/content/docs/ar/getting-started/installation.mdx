@@ -5,10 +5,10 @@ description: كيفية تثبيت Data Quality Sense على بيئة Salesforce
 
 import { Aside } from '@astrojs/starlight/components';
 
-<Aside type="tip" title="جرّب النسخة التجريبية">
-Data Quality Sense غير متوفر بعد على AppExchange. يمكنك تثبيت النسخة التجريبية الحالية مباشرة:
+<Aside type="tip" title="ثبّت الآن">
+ثبّت الحزمة المنشورة **0.5.0.1** (صدرت في 6 أكتوبر 2026):
 
-[تثبيت الحزمة التجريبية](https://login.salesforce.com/packaging/installPackage.apexp?p0=04tP4000001OPKrIAO)
+[تثبيت الحزمة](https://login.salesforce.com/packaging/installPackage.apexp?p0=04tP4000001l8uPIAQ)
 </Aside>
 
 ## المتطلبات الأساسية
@@ -21,7 +21,7 @@ Data Quality Sense غير متوفر بعد على AppExchange. يمكنك تث�
 
 1. **الحصول على رابط التثبيت**
 
-   تواصل معنا عبر [dataqualitysense.com](https://dataqualitysense.com) للحصول على رابط تثبيت الحزمة المُدارة لبيئتك.
+   استخدم رابط الإصدار أعلاه. تحقق من اسم الحزمة وإصدارها في مثبّت Salesforce.
 
 2. **اختيار نطاق التثبيت**
 
@@ -32,9 +32,9 @@ Data Quality Sense غير متوفر بعد على AppExchange. يمكنك تث�
 
    ![تثبيت Data Quality Sense — اختيار نطاق التثبيت](../../../../assets/screenshots/installation-appexchange.png)
 
-3. **الموافقة على وصول الطرف الثالث**
+3. **مراجعة وصول الحزمة**
 
-   لا تتطلب الحزمة أي اتصالات خارجية. تتم جميع عمليات المعالجة داخل بيئة Salesforce الخاصة بك.
+   يقرأ Field Usage البيانات الوصفية عبر واجهات Salesforce API داخل مؤسستك. ولا يرسل الكود المصدري إلى خدمة تحليل خارجية.
 
 4. **انتظار اكتمال التثبيت**
 
@@ -76,7 +76,7 @@ Data Quality Sense غير متوفر بعد على AppExchange. يمكنك تث�
 
 ## تحديث الحزمة
 
-للترقية إلى إصدار أحدث، استخدم نفس رابط التثبيت — ستكتشف Salesforce الحزمة الموجودة وتعرض مسار الترقية. يعرض المثبّت الإصدار المثبّت حاليًا والإصدار الجديد المتاح. اختر نفس نطاق التثبيت كما في السابق (أو قم بتغييره إذا لزم الأمر) وانقر على **Upgrade**.
+للترقية، استخدم رابط تثبيت الإصدار المستهدف. الرابط الذي يتضمن معرّف إصدار يحدد ذلك الإصدار دائمًا، ولا يختار الإصدارات المستقبلية تلقائيًا. تحقق من الإصدار المثبّت والمستهدف في Salesforce، ثم اختر **Upgrade** إذا عرض المثبّت هذا الخيار.
 
 ![ترقية Data Quality Sense — تكتشف Salesforce الحزمة الموجودة وتعرض مسار الترقية](../../../../assets/screenshots/upgrade-package.png)
 
